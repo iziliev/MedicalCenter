@@ -5,6 +5,10 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalCenter", "MedicalCenter\MedicalCenter.csproj", "{0E27DC16-E623-4F55-831C-1DFAEDA42E2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalCenter.Core", "MedicalCenter.Core\MedicalCenter.Core.csproj", "{1E52F0D0-BD39-4C75-A6E8-54375609E891}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalCenter.Infrastructure", "MedicalCenter.Infrastructure\MedicalCenter.Infrastructure.csproj", "{805F31E6-9E2E-4D2A-9993-E86548C87368}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{0E27DC16-E623-4F55-831C-1DFAEDA42E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E27DC16-E623-4F55-831C-1DFAEDA42E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E27DC16-E623-4F55-831C-1DFAEDA42E2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E52F0D0-BD39-4C75-A6E8-54375609E891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E52F0D0-BD39-4C75-A6E8-54375609E891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E52F0D0-BD39-4C75-A6E8-54375609E891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E52F0D0-BD39-4C75-A6E8-54375609E891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{805F31E6-9E2E-4D2A-9993-E86548C87368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{805F31E6-9E2E-4D2A-9993-E86548C87368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{805F31E6-9E2E-4D2A-9993-E86548C87368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{805F31E6-9E2E-4D2A-9993-E86548C87368}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
