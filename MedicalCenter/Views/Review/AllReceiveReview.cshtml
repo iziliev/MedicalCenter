@@ -1,0 +1,27 @@
+﻿@model IEnumerable<AllReceiveReviewViewModel>
+
+<h3 class="display-4 text-center">@ViewData["Title"]: @Model.Count()</h3>
+<hr />
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th class="text-center col-lg-3 col-sm-3">Пациент</th>
+            <th class="text-center col-lg-6 col-sm-6">Коментар</th>
+            <th class="text-center col-lg-1 col-sm-1">Оценка</th>
+            <th class="text-center col-lg-2 col-sm-2">Дата на оценяване</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var review in Model)
+        {
+            <tr>
+                <th scope="row" class="text-center">@review.UserFullName</th>
+                <th scope="row" class="text-center">
+                    <textarea class="col-12 " rows="5" readonly>@review.Content</textarea>
+                </th>
+                <th scope="row" class="text-center">@review.Rating</th>
+                <th scope="row" class="text-center">@review.CreatedOn</th>
+            </tr>
+        }
+    </tbody>
+</table>

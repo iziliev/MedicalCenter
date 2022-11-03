@@ -1,11 +1,9 @@
-﻿using MedicalCenter.Infrastructure.Data.Models;
-using MedicalCenter.Models.User;
+﻿using MedicalCenter.Core.Models.User;
+using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
-
 
 namespace MedicalCenter.Core.Contracts
 {
-
     public interface IUserService
     {
         Task<IdentityResult> Register(RegisterViewModel registerModel);

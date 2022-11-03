@@ -1,7 +1,7 @@
 ﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Core.Models.User;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
-using MedicalCenter.Models.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;

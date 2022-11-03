@@ -1,4 +1,4 @@
-﻿namespace MedicalCenter.Models.User
+﻿namespace MedicalCenter.Core.Models.User
 {
 
     public class UserExaminationViewModel

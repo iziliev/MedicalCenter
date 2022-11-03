@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
-namespace MedicalCenter.Models.User
+namespace MedicalCenter.Core.Models.User
 {
 
     public class LoginViewModel

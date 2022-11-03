@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MedicalCenter.Models.User
+namespace MedicalCenter.Core.Models.User
 {
 
     public class BookExaminationViewModel

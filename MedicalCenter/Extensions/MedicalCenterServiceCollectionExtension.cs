@@ -13,6 +13,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IAdministratorService, AdministratorService>();
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<IReviewService, ReviewService>();
 
             return services;
         }
