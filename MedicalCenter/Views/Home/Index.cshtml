@@ -1,8 +1,80 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model DashboardStatisticViewModel
+
+@{
+    ViewData["Title"] = "Добре дошли";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="5000">
+            <img src="~/images/1.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                    <h3>Световноизвестният Медицинският център</h3>
+                    <p>Броят на пациентите, посещаващи Медицинския център (MЦ), се увеличи значително.</p>
+            </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="5000">
+            <img src="~/images/2.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                
+                <h3>Наследяване на духа на споделяне на Медицинския център</h3>
+                    <p>Безплатни медицински услуги за хората в неравностойно положение в България.</p>
+                
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/3.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h3>История на предизвикателството</h3>
+                <p>Медицинският център (MЦ) е водещ център за медижински прегледи в България. </p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+<div class="row mt-5">
+    <div class=col-4>
+        <article class="info">
+        <figure class="icon"><img src="~/images/register.jpg" alt=""></figure>
+            <p class="text-center"><em>@Model.AllUserCount<br /> <span>Регистрирани пациента</span> </em></p>
+    </article>
+    </div>
+    <div class=col-4>
+    <article class="info">
+    <figure class="icon"><img src="~/images/examination.jpg" alt=""></figure>
+
+            <p class="text-center">
+                <em>
+                    @Model.BestExaminationCount<br />
+            <span>Извършени прегледа</span> </em>
+        </p>
+   
+    </article>
+    </div>
+    <div class=col-4>
+        <article class="info">
+    <figure class="icon"><img src="~/images/allexamination.jpg" alt=""></figure>
+    <p class="text-center"> <em>@Model.AllExamination</em> <br />
+        <em><span>Записани прегледа</span></em>
+    </p>
+    </article>
+    </div>
+</div>
+
+<p class="coopy">Съществуват много вариации на пасажа Lorem Ipsum, но повечето от тях са променени<br>
+                 по един или друг начин чрез добавяне на смешни думи или разбъркване на думите, което не изглежда много достоверно.<br>
+                            Ако искате да използвате пасаж от Lorem Ipsum, трябва да сте сигурни, че в него няма смущаващи или нецензурни думи. <br />
+                            Всички Lorem Ipsum генератори в Интернет използват предефинирани пасажи, който се повтарят, което прави този този генератор първия истински такъв.</p>

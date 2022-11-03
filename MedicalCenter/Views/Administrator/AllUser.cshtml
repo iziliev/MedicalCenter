@@ -1,0 +1,27 @@
+﻿@model ShowAllUserViewModel
+
+<h3 class="display-4 text-center">@ViewData["Title"]: @Model.CountUser</h3>
+<hr />
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Име на потребител</th>
+            <th scope="col" class="text-center">Потребителско име</th>
+            <th scope="col" class="text-center">Email</th>
+            <th scope="col" class="text-center">Телефон</th>
+            <th scope="col" class="text-center">Регистриран на</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.AllUsers)
+        {
+            <tr>
+                <th scope="col" class="text-center">@user.FirstName @user.LastName</th>
+                <th scope="col" class="text-center">@user.Username</th>
+                <th scope="col" class="text-center">@user.Email</th>
+                <th scope="col" class="text-center">@user.PhoneNumber</th>
+                <th scope="col" class="text-center">@user.JoinOnDate</th>
+            </tr>
+        }
+    </tbody>
+</table>

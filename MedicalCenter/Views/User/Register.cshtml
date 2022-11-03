@@ -1,0 +1,152 @@
+﻿@model RegisterViewModel
+
+@section Styles {
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+}
+<div class="container">
+        <div class="row">
+            <div class="register-box offset-lg-3 offset-sm-0 col-sm-12 col-lg-6">
+                <div class="card card-outline card-primary">
+                    <div class="card-header text-center">
+                        <h1><b>@ViewData["Title"]</b></h1>
+                    </div>
+                    <div class="card-body">
+                        <p class="login-box-msg">@ViewData["Title"] в системата</p>
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1">
+                                        <input asp-for="Username" class="form-control" autocomplete="username" placeholder="Потребителско име" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-user"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1">
+                                        <input asp-for="Email" class="form-control" autocomplete="email" placeholder="Email" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-envelope"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="Password" class="form-control" autocomplete="password" placeholder="Парола" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-lock"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="ConfirmPassword" class="form-control" autocomplete="confirmpassword" placeholder="Повтори парола" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-lock"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="FirstName" class="form-control" autocomplete="firstname" placeholder="Име" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-user"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="LastName" class="form-control" autocomplete="lastname" placeholder="Фамилия" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-user"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="PhoneNumber" class="form-control" autocomplete="phonenumber" placeholder="+359888888888" />
+
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-envelope"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <select asp-for="Gender" class="form-control">
+                                        @foreach (var gender in Model.Genders)
+                                        {
+                                            <option value="@gender.Id">@gender.Name</option>
+                                        }
+                                    </select>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-envelope"></span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-4 offset-4 mt-2">
+                                <button type="submit" class="btn btn-primary btn-block">Регистрация</button>
+                            </div>
+                        </div>
+                        </form>
+
+                        @*<div class="social-auth-links text-center">
+                        <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i>
+                        Sign up using Facebook
+                        </a>
+                        <a href="#" class="btn btn-block btn-danger">
+                        <i class="fab fa-google-plus mr-2"></i>
+                        Sign up using Google+
+                        </a>
+                        </div>*@
+
+                    <p class="text-center text-muted mt-3 mb-0">
+                        Вече имате регистрация?
+                        <a asp-controller="User" asp-action="Login" class="fw-bold text-body">
+                            <u>Вход</u>
+                        </a>
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

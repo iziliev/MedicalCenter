@@ -1,0 +1,118 @@
+﻿@model DashboardStatisticViewModel
+
+<h4 class="display-4 text-center">Администраторски панел:</h4>
+<hr />
+@section Styles {
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+}
+
+<div class="row">
+    <div class="col-lg-3 col-4">
+        <!-- small box -->
+        <div class="small-box bg-gradient-info">
+            <div class="inner">
+                <h3>Добави</h3>
+                <br />
+                <p>Добавяне доктор</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+                <a asp-controller="Administrator" asp-action="SearchDoctor" class="small-box-footer">Добави <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-2 col-4">
+        <!-- small box -->
+        <div class="small-box bg-gradient-success">
+            <div class="inner">
+                <h3>@Model.AllDoctorCount</h3>
+                <br />
+                <p>Доктори в базата</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-ios-folder"></i>
+            </div>
+                <a asp-controller="Administrator" asp-action="AllDoctor" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-2 col-4">
+        <!-- small box -->
+        <div class="small-box bg-gradient-warning">
+            <div class="inner">
+                <h3>@Model.AllDoctorOutCount</h3>
+                <br />
+                <p>Изтрити доктори</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-ios-close-outline"></i>
+            </div>
+                <a asp-controller="Administrator" asp-action="AllDoctorOut" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-2 col-4">
+        <!-- small box -->
+        <div class="small-box bg-gradient-danger">
+            <div class="inner">
+                <h3>@Model.AllUserCount</h3>
+                <br />
+                <p>Потребители</p>
+            </div>
+            <div class="icon">
+                    <i class="ion ion-android-contact"></i>
+            </div>
+                <a asp-controller="Administrator" asp-action="AllUser" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+        <div class="col-lg-3 col-4">
+            <!-- small box -->
+            <div class="small-box bg-gradient-secondary">
+                <div class="inner">
+                    <h3>@Model.AllReviews<sup style="font-size: 20px">/@Model.AllExamination</sup></h3>
+                    <br />
+                    <p>Отзиви за прегледи</p>
+                </div>
+                
+                <div class="icon">
+                    <i class="ion ion-android-contact"></i>
+                </div>
+                <a asp-controller="Review" asp-action="AllReview" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>       
+    <!-- ./col -->
+</div>
+
+
+<div class="row mt-2">
+    <div class=col-4>
+        <article class="info">
+            <figure class="icon"><img src="~/images/toprated.png" alt=""></figure>
+
+            <p class="text-center">
+                <em>
+                    <span>Най-добре оценен</span><br />
+                    @Model.BestRatingDoctorFullName - @Model.BestDoctorRating
+                </em>
+            </p>
+
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="info">
+            <figure class="icon"><img src="~/images/examination.jpg" alt=""></figure>
+
+            <p class="text-center">
+                <em>
+                    <span>Най-много прегледи от</span><br />
+                    @Model.BestExaminationDoctorFullName - @Model.BestExaminationCount
+                </em>
+            </p>
+
+        </article>
+    </div>
+</div>

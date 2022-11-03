@@ -1,26 +1,29 @@
-﻿using MedicalCenter.Models;
+﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace MedicalCenter.Controllers
 {
-    public class HomeController : Controller
+    [AllowAnonymous]
+    public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUserService userService;
+        private readonly IHomeService homeService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUserService _userService,
+            IHomeService _homeService)
         {
-            _logger = logger;
+            userService = _userService;
+            homeService = _homeService;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            var statisticModel = homeService.Statistics();
 
-        public IActionResult Privacy()
-        {
-            return View();
+            return View(statisticModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

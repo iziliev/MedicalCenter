@@ -1,0 +1,61 @@
+﻿@model IEnumerable<UserExaminationViewModel>
+
+<h3 class="display-4 text-center">@ViewData["Title"]: @Model.Count()</h3> 
+<hr />
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col" class="text-center">Дата</th>
+            <th scope="col" class="text-center">Час</th>
+            <th scope="col" class="text-center">Доктор</th>
+            <th scope="col" class="text-center">Специалност</th>
+            <th scope="col" class="text-center">Телефон</th>
+            <th scope="col" class="text-center">Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var examination in Model)
+        {
+            <tr>
+                <th scope="row" class="text-center">@examination.Date</th>
+                <th scope="row" class="text-center">@examination.Hour</th>
+                <th scope="row" class="text-center">@examination.DoctorFullName</th>
+                <th scope="row" class="text-center">@examination.Specialty</th>
+                <th scope="row" class="text-center">@examination.DoctorPhoneNumber</th>
+                <th scope="row" class="text-center">
+                    <form asp-controller="User" asp-action="CancelExamination" asp-route-id="@examination.ExaminationId" method="get">
+                        <input type="hidden" value="@examination.ExaminationId" name="examinationId" />
+                        <input type="submit" value="Отмяна" class="btn btn-outline-danger" onclick="myConfirm(event)" />
+                    </form>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function myConfirm(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Желаете ли да изтриете прегледа?',
+                text: "Действието не може да бъде върнато",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Да, изтрий!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Изтрит!',
+                        'Изтрихте преглед.',
+                        'success'
+                    ).then((resultDeleted) => {
+                        e.target.parentElement.submit();
+                    })
+                }
+            })
+        }
+    </script>
+}

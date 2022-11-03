@@ -16,3 +16,60 @@ html {
 body {
   margin-bottom: 60px;
 }
+.gradient-custom-4 {
+    /* fallback for old browsers */
+    background: #84fab0;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+}
+.register-page-form-subtitle-text {
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+    font-family: 'Lato',sans-serif;
+    margin: 24px 0;
+    color: #565656;
+    box-shadow: -3px -3px 9px #70dbdb,
+              3px 3px 7px rgba(189, 226, 230, 0.8)
+}
+.h1-font {
+    font-size: 24px;
+    line-height: 30px;
+    font-family: 'Montserrat-Medium',sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-weight: 500;
+    color: #565656;
+    font-weight: 600;
+}
+.card-img-top {
+    max-height: 180px;
+    min-height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+.filter-red {
+    filter: invert(18%) sepia(89%) saturate(3207%) hue-rotate(356deg) brightness(97%) contrast(109%);
+}
+.first {
+    border-bottom: 1px solid #ffffff;
+    text-align:right;
+}
+.second {
+    border-bottom: 1px solid #ffffff;
+    text-align: left;
+}
+.icon {
+    overflow: hidden;
+    margin: 0 auto;
+    height: 71px;
+    width: 92px;
+}
+.coopy {
+    color: #777;
+    line-height: 1.5em;
+    text-align: center;
+}
+

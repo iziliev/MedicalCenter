@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ExaminationForReviewViewModel>
+
+
+<div class="row">
+    <div class="col-lg-8 col-sm-8">
+        <h3 class="display-4 text-center">@ViewData["Title"]: @Model.Count()</h3>
+    </div>
+    <div class="col-lg-2 offset-lg-2 offset-sm-1 col-sm-2 mt-sm-3 mt-lg-4">
+        <form asp-controller="Review" asp-action="AllGiveReview" method="get">
+            <input type="submit" value="Вашите оценки" class="btn btn-outline-danger" />
+        </form>
+    </div>
+</div>
+
+<hr />
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col" class="text-center">Дата и час на прегледа</th>
+            <th scope="col" class="text-center">Доктор - Специалност</th>
+            <th scope="col" colspan="2" class="text-center">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var examination in Model)
+        {
+            <tr>
+                <th scope="row" class="text-center">@examination.DateAndHour</th>
+                <th scope="row" class="text-center">@examination.DoctorNameAndSpecialty</th>
+                @if (examination.IsReviewed)
+                {
+                    <th>
+                        <form asp-controller="Review" asp-action="CreateReview" method="get">
+                            <input type="hidden" value="@examination.ExaminationId" name="examinationId" />
+                            <input type="submit" value="Виж оценка" class="btn btn-outline-danger" />
+                        </form>
+                    </th>
+                }
+                else
+                {
+                    <th scope="row" class="text-center">
+                        <form asp-controller="Review" asp-action="CreateReview" method="get">
+                            <input type="hidden" value="@examination.ExaminationId" name="examinationId" />
+                            <input type="submit" value="Оцени" class="btn btn-outline-danger" />
+                        </form>
+                    </th>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
