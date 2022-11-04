@@ -33,7 +33,6 @@
             <th scope="col" class="text-center">Име на доктор</th>
             <th scope="col" class="text-center">Специалност</th>
             <th scope="col" class="text-center">Телефон</th>
-
             <th scope="col" class="text-center">Регистриран на</th>
             <th scope="col" colspan="2" class="text-center">Действия</th>
 
@@ -47,7 +46,6 @@
                 <td scope="col">д-р @doctor.FirstName @doctor.LastName</td>
                 <td scope="col">@doctor.SpecialityName</td>
                 <td scope="col" class="text-center">@doctor.PhoneNumber</td>
-
                 <td scope="col" class="text-center">@doctor.JoinOnDate</td>
                 <td scope="col" class="text-center">
                     <form asp-controller="Administrator" asp-action="EditDoctor" method="get">
