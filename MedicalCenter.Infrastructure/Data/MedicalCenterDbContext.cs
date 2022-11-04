@@ -26,41 +26,8 @@ namespace MedicalCenter.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Examination>()
-                .HasOne(e => e.User)
-                .WithMany(e => e.UserExaminations)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Examination>()
-                .HasOne(e => e.Doctor)
-                .WithMany(e => e.DoctorExaminations)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<WorkHour>()
-                .HasOne(e => e.Shedule)
-                .WithMany(e => e.WorkHours)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Doctor>()
-                .HasOne(e => e.Shedule)
-                .WithMany(e => e.Doctors)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Doctor>()
-                .HasOne(e => e.Specialty)
-                .WithMany(e => e.Doctors)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Review>()
-                .HasOne(u => u.User)
-                .WithMany(u => u.UserReviews)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Review>()
-                .HasOne(u => u.Doctor)
-                .WithMany(u => u.DoctorReviews)
-                .OnDelete(DeleteBehavior.Restrict);
-
+            builder.ApplyConfiguration(new ExaminationConfiguration());
+            builder.ApplyConfiguration(new ReviewConfiguration());
             builder.ApplyConfiguration(new SpecialityConfiguration());
             builder.ApplyConfiguration(new GenderConfiguration());
             builder.ApplyConfiguration(new AdministratorConfiguration());

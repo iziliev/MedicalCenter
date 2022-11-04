@@ -24,6 +24,5 @@ namespace MedicalCenter.Core.Models.User
 
         [Display(Name = "Телефон")]
         public string PhoneNumber { get; set; } = null!;
-
     }
 }

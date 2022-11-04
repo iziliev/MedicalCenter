@@ -3,7 +3,6 @@ using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Core.Models.User
 {
-
     public class LoginViewModel
     {
         [Required(ErrorMessage = ModelErrorConstants.RequiredLogin)]

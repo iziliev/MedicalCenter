@@ -1,11 +1,6 @@
 ﻿using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Infrastructure.Data.Configuration
@@ -14,6 +9,11 @@ namespace MedicalCenter.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<WorkHour> builder)
         {
+            builder
+                .HasOne(e => e.Shedule)
+                .WithMany(e => e.WorkHours)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasData(SeedWorkHourBase());
         }
 

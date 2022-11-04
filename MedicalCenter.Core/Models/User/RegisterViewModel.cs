@@ -47,7 +47,6 @@ namespace MedicalCenter.Core.Models.User
         [Display(Name = "Телефон")]
         public string PhoneNumber { get; set; } = null!;
 
-
         [Display(Name = "Пол")]
         public int Gender { get; set; }
 

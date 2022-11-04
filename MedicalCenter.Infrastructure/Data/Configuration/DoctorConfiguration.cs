@@ -16,6 +16,16 @@ namespace MedicalCenter.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Doctor> builder)
         {
+            builder
+                .HasOne(e => e.Shedule)
+                .WithMany(e => e.Doctors)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne(e => e.Specialty)
+                .WithMany(e => e.Doctors)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasData(SeedDoctorBase());
         }
 

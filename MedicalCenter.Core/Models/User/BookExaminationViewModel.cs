@@ -2,10 +2,8 @@
 
 namespace MedicalCenter.Core.Models.User
 {
-
     public class BookExaminationViewModel
     {
-        
         public string DoctorFullName { get; set; } = null!;
 
         [Required]
@@ -29,5 +27,4 @@ namespace MedicalCenter.Core.Models.User
 
         public IEnumerable<string> WorkHours { get; set; } = new List<string>();
     }
-
 }

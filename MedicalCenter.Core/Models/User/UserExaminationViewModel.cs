@@ -1,15 +1,12 @@
 ﻿namespace MedicalCenter.Core.Models.User
 {
-
     public class UserExaminationViewModel
     {
         public string ExaminationId { get; set; } = null!;
 
-
         public string Date { get; set; } = null!;
 
         public string Hour { get; set; } = null!;
-
 
         public string DoctorId { get; set; } = null!;
 
