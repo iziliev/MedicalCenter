@@ -19,7 +19,6 @@
             <div class="col-4" style="position:center;padding-top:15px;">
                 <div class="icon">
                     <i class="fa fa-user-doctor"></i>
-                @*<img src="~/images/man.svg">*@
                 </div>
             </div>
         </div>
@@ -40,7 +39,7 @@
 
         </tr>
     </thead>
-    <tbody>
+    <tbody> 
         @foreach (var doctor in Model.AllDoctors)
         {
             string date = @doctor.OutOnDate == null ? "Now" : @doctor.OutOnDate;
