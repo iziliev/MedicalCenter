@@ -1,9 +1,35 @@
 ﻿@model ShowAllUserViewModel
 
-<h3 class="display-4 text-center">@ViewData["Title"]: @Model.CountUser</h3>
-<hr />
-<table class="table table-striped table-dark">
-    <thead>
+@section Styles {
+<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+}
+
+<div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
+    <div class="small-box bg-danger" style="height:100px;">
+        <div class="row">
+            <div class="col-6">
+                <div class="inner">
+                    <h3 class="text-center" style="padding-top:10px;">@Model.CountUser</h3>
+                    <p class="text-center" style="font-weight:bold">@ViewData["Title"]</p>
+                </div>
+            </div>
+            <div class="col-6" style="position:center;padding-top:15px;">
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                @*<img src="~/images/man.svg">*@
+                </div>
+            </div>
+        </div>
+        
+       
+    </div>
+</div>
+
+<table class="table table table-bordered">
+    <thead style="background-color:#e6e6e6">
         <tr>
             <th scope="col" class="text-center">Име на потребител</th>
             <th scope="col" class="text-center">Потребителско име</th>
@@ -16,9 +42,9 @@
         @foreach (var user in Model.AllUsers)
         {
             <tr>
-                <th scope="col" class="text-center">@user.FirstName @user.LastName</th>
-                <th scope="col" class="text-center">@user.Username</th>
-                <th scope="col" class="text-center">@user.Email</th>
+                <th scope="col">@user.FirstName @user.LastName</th>
+                <th scope="col">@user.Username</th>
+                <th scope="col">@user.Email</th>
                 <th scope="col" class="text-center">@user.PhoneNumber</th>
                 <th scope="col" class="text-center">@user.JoinOnDate</th>
             </tr>

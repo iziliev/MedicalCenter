@@ -71,14 +71,14 @@ namespace MedicalCenter.Core.Services
                     SheduleId = d.SheduleId
                 }).FirstOrDefaultAsync();
 
-            return existDoctor;
+            return existDoctor = null!;
         }
 
         public async Task ReturnDoctorAsync(string id)
         {
-            var doctor = repository.All<Doctor>().Where(u => u.Id == id).FirstOrDefaultAsync().Result;
+            var doctor = await repository.All<Doctor>().Where(u => u.Id == id).FirstOrDefaultAsync();
 
-            doctor.IsOutOfCompany = false;
+            doctor.IsOutOfCompany = false ;
             doctor.OutOnDate = null;
 
             await repository.SaveChangesAsync();
@@ -159,7 +159,7 @@ namespace MedicalCenter.Core.Services
                     SheduleId = d.SheduleId,
                 }).FirstOrDefaultAsync();
 
-            return doctorById;
+            return doctorById = null!;
         }
 
         public async Task EditDoctorAsync(MainDoctorViewModel doctorModel, Doctor doctor)
@@ -192,7 +192,7 @@ namespace MedicalCenter.Core.Services
                 .Where(u => u.Id == id)
                 .FirstOrDefaultAsync();
 
-            return doctorById;
+            return doctorById = null!;
         }
 
         public async Task DeleteDoctorAsync(string id)

@@ -62,7 +62,7 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> AllReview()
         {
-            ViewData["Title"] = $"Всички оценки";
+            ViewData["Title"] = $"оценки";
             var reviews = await reviewService.GetAllReviews();
             return View(reviews);
         }

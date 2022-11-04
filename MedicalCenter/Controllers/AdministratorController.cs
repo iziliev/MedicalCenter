@@ -190,7 +190,7 @@ namespace MedicalCenter.Controllers
                 AllDoctors = await administratorService.GetAllCurrentDoctorsAsync()
             };
 
-            ViewData["Title"] = "Доктори в базата";
+            ViewData["Title"] = "доктори";
 
             return View(allDoctors);
         }
@@ -204,7 +204,7 @@ namespace MedicalCenter.Controllers
                 AllDoctors = await administratorService.GetAllLeftDoctorsAsync()
             };
 
-            ViewData["Title"] = "Изтрити доктори";
+            ViewData["Title"] = "изтрити";
 
             return View(doctors);
         }
@@ -218,7 +218,7 @@ namespace MedicalCenter.Controllers
                 AllUsers = await administratorService.GetAllRegisteredUsersAsync()
             };
 
-            ViewData["Title"] = "Потребители в базата";
+            ViewData["Title"] = "пациенти";
 
             return View(users);
         }

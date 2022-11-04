@@ -6,7 +6,7 @@ using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Controllers
 {
-    public class DoctorController : Controller
+    public class DoctorController : BaseController
     {
         private readonly IDoctorService doctorService;
 

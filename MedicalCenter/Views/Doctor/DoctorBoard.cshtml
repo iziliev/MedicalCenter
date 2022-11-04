@@ -14,7 +14,6 @@
                     <span>Извършени прегледа</span>
                     </em>
                 </p>
-            
         </article>
     </div>
     <div class=col-4>
@@ -28,7 +27,7 @@
     </div>
     <div class=col-4>
         <article class="info">
-            <figure class="icon"><a asp-controller="Review" asp-action="AllReceiveReview"><img src="~/images/rating.jpg" alt="Всички оценки"></a></figure>
+            <figure class="icon"><a asp-controller="Review" asp-action="AllReceiveReview"><img src="~/images/star.jpg" alt="Всички оценки" style="padding-left:15px"></a></figure>
             <p class="text-center">
                 <em>@Model.DoctorStatistics.Rating/@Model.DoctorStatistics.RatingUser</em> <br />
                 <em><span>Рейтинг</span></em>
@@ -37,9 +36,8 @@
     </div>
 </div>
 
-<hr />
-<table class="table table-hover">
-    <thead class="table-dark">
+<table class="table table table-bordered">
+    <thead style="background-color:#e6e6e6">
         <tr>
             <th scope="col" class="text-center">Дата</th>
             <th scope="col" class="text-center">Час</th>

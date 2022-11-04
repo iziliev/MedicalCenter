@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<AllDoctorUserViewModel>
 
+ @section Styles {
+<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+ }
+
 <div class="text-center row offset-lg-1">
     @foreach (var doctor in Model)
     {
@@ -15,7 +19,7 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td class="first">Телефон:</td>
+                                <td class="first"><i class="fa fa-phone"></i></td>
                                 <td class="second">@doctor.PhoneNumber</td>
                             </tr>
                         </tbody>
