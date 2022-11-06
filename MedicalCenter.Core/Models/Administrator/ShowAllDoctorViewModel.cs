@@ -2,8 +2,12 @@
 {
     public class ShowAllDoctorViewModel
     {
-        public IEnumerable<DashboardDoctorViewModel> AllDoctors { get; set; } = new HashSet<DashboardDoctorViewModel>();
+        public const int DoctorsPerPage = 5;
 
-        public int CountDoctor => this.AllDoctors.Count();
+        public int CurrentPage { get; set; } = 1;
+
+        public int TotalDoctorsCount { get; set; }
+
+        public IEnumerable<DashboardDoctorViewModel> Doctors { get; set; } = new List<DashboardDoctorViewModel>();
     }
 }

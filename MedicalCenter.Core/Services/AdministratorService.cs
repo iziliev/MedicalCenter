@@ -71,7 +71,7 @@ namespace MedicalCenter.Core.Services
                     SheduleId = d.SheduleId
                 }).FirstOrDefaultAsync();
 
-            return existDoctor = null!;
+            return existDoctor;
         }
 
         public async Task ReturnDoctorAsync(string id)
@@ -84,26 +84,38 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<DashboardDoctorViewModel>> GetAllCurrentDoctorsAsync()
+        public async Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(int currentPage = 1, int doctorsPerPage = 5)
         {
-            return await repository
-                .All<Doctor>()
+            var doctorsQuery = repository.All<Doctor>()
                 .Where(d => !d.IsOutOfCompany)
                 .Include(s => s.Specialty)
+                .OrderBy(x => x.Specialty.Id)
+                .ThenBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
+                .AsQueryable();
+
+            var doctors = await doctorsQuery
+                .Skip((currentPage - 1) * doctorsPerPage)
+                .Take(doctorsPerPage)
                 .Select(d => new DashboardDoctorViewModel
                 {
                     FirstName = d.FirstName,
                     Id = d.Id,
-                    LastName = d.LastName,
-                    PhoneNumber = d.PhoneNumber,
-                    SpecialityName = d.Specialty.Name,
-                    SpecialityId = d.SpecialtyId,
                     JoinOnDate = d.JoinOnDate,
+                    LastName = d.LastName,
+                    OutOnDate = d.OutOnDate,
+                    PhoneNumber = d.PhoneNumber,
+                    SpecialityId = d.SpecialtyId,
+                    SpecialityName = d.Specialty.Name,
+                    Egn = d.Egn
                 })
-                .OrderBy(x => x.SpecialityId)
-                .ThenBy(x => x.FirstName)
-                .ThenBy(x => x.LastName)
                 .ToListAsync();
+
+            return new ShowAllDoctorViewModel
+            {
+                Doctors = doctors,
+                TotalDoctorsCount = doctorsQuery.Count()
+            };
         }
 
         public async Task<Doctor> GetDoctorByEgnAsync(string egn)
@@ -116,19 +128,31 @@ namespace MedicalCenter.Core.Services
             await userManager.AddToRoleAsync(doctor, doctorRole);
         }
 
-        public async Task<IEnumerable<DashboardUserViewModel>> GetAllRegisteredUsersAsync()
+        public async Task<ShowAllUserViewModel> GetAllRegisteredUsersAsync(int currentPage = 1, int doctorsPerPage = 5)
         {
-            return await repository.All<User>()
+            var usersQuery = repository.All<User>()
                 .Where(x => x.Role == "User")
-                .Select(x => new DashboardUserViewModel
+                .AsQueryable();
+
+            var users = await usersQuery
+                .Skip((currentPage - 1) * doctorsPerPage)
+                .Take(doctorsPerPage)
+                .Select(d => new DashboardUserViewModel
                 {
-                    FirstName = x.FirstName,
-                    JoinOnDate = x.JoinOnDate,
-                    LastName = x.LastName,
-                    PhoneNumber = x.PhoneNumber,
-                    Username = x.UserName,
-                    Email = x.Email
-                }).ToListAsync();
+                    FirstName = d.FirstName,
+                    JoinOnDate = d.JoinOnDate,
+                    LastName = d.LastName,
+                    PhoneNumber = d.PhoneNumber,
+                    Email = d.Email,
+                    Username = d.UserName
+                })
+                .ToListAsync();
+
+            return new ShowAllUserViewModel
+            {
+                TotalUsersCount = usersQuery.Count(),
+                AllUsers = users
+            };
         }
 
         public async Task<MainDoctorViewModel> GetDoctorByIdToEditAsync(string doctorId)
@@ -159,7 +183,7 @@ namespace MedicalCenter.Core.Services
                     SheduleId = d.SheduleId,
                 }).FirstOrDefaultAsync();
 
-            return doctorById = null!;
+            return doctorById;
         }
 
         public async Task EditDoctorAsync(MainDoctorViewModel doctorModel, Doctor doctor)
@@ -192,7 +216,7 @@ namespace MedicalCenter.Core.Services
                 .Where(u => u.Id == id)
                 .FirstOrDefaultAsync();
 
-            return doctorById = null!;
+            return doctorById;
         }
 
         public async Task DeleteDoctorAsync(string id)
@@ -203,29 +227,38 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<DashboardDoctorViewModel>> GetAllLeftDoctorsAsync()
+        public async Task<ShowAllDoctorViewModel> GetAllLeftDoctorsAsync(int currentPage = 1, int doctorsPerPage = 5)
         {
-            return await repository
-                .All<Doctor>()
+            var doctorsQuery = repository.All<Doctor>()
                 .Where(d => d.IsOutOfCompany)
                 .Include(s => s.Specialty)
-                .Select(d => new DashboardDoctorViewModel
-                {
-
-                    FirstName = d.FirstName,
-                    Id = d.Id,
-                    LastName = d.LastName,
-                    PhoneNumber = d.PhoneNumber,
-                    SpecialityName = d.Specialty.Name,
-                    JoinOnDate = d.JoinOnDate,
-                    SpecialityId = d.SpecialtyId,
-                    OutOnDate = d.OutOnDate
-                })
-                .OrderBy(x => x.SpecialityId)
+                .OrderBy(x => x.Specialty.Id)
                 .ThenBy(x => x.FirstName)
                 .ThenBy(x => x.LastName)
-                .ThenBy(x => x.OutOnDate)
+                .AsQueryable();
+
+            var doctors = await doctorsQuery
+                .Skip((currentPage - 1) * doctorsPerPage)
+                .Take(doctorsPerPage)
+                .Select(d => new DashboardDoctorViewModel
+                {
+                    FirstName = d.FirstName,
+                    Id = d.Id,
+                    JoinOnDate = d.JoinOnDate,
+                    LastName = d.LastName,
+                    OutOnDate = d.OutOnDate,
+                    PhoneNumber = d.PhoneNumber,
+                    SpecialityId = d.SpecialtyId,
+                    SpecialityName = d.Specialty.Name,
+                    Egn = d.Egn
+                })
                 .ToListAsync();
+
+            return new ShowAllDoctorViewModel
+            {
+                Doctors = doctors,
+                TotalDoctorsCount = doctorsQuery.Count()
+            };
         }
 
         public async Task<DashboardStatisticViewModel> GetStatisticsAsync()

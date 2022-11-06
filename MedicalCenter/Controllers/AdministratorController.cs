@@ -3,6 +3,7 @@ using MedicalCenter.Core.Models.Administrator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MedicalCenter.Controllers
 {
@@ -183,44 +184,57 @@ namespace MedicalCenter.Controllers
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
-        public async Task<IActionResult> AllDoctor()
+        public async Task<IActionResult> AllDoctor(ShowAllDoctorViewModel query)
         {
-            var allDoctors = new ShowAllDoctorViewModel()
-            {
-                AllDoctors = await administratorService.GetAllCurrentDoctorsAsync()
-            };
+            var queryResult = await administratorService.GetAllCurrentDoctorsAsync(query.CurrentPage,
+                ShowAllDoctorViewModel.DoctorsPerPage);
 
-            ViewData["Title"] = "доктори";
+            ViewData["Title"] = "Всички доктори";
 
-            return View(allDoctors);
+            query.TotalDoctorsCount = queryResult.TotalDoctorsCount;
+            query.Doctors = queryResult.Doctors;
+
+            return View(query);
         }
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
-        public async Task<IActionResult> AllDoctorOut()
+        public async Task<IActionResult> AllDoctorOut(ShowAllDoctorViewModel query)
         {
-            var doctors = new ShowAllDoctorViewModel()
-            {
-                AllDoctors = await administratorService.GetAllLeftDoctorsAsync()
-            };
+            var queryResult = await administratorService.GetAllLeftDoctorsAsync(query.CurrentPage,
+                ShowAllDoctorViewModel.DoctorsPerPage);
 
-            ViewData["Title"] = "изтрити";
+            ViewData["Title"] = "Всички изтрити доктори";
 
-            return View(doctors);
+            query.TotalDoctorsCount = queryResult.TotalDoctorsCount;
+            query.Doctors = queryResult.Doctors;
+
+            return View(query);
         }
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
-        public async Task<IActionResult> AllUser()
+        public async Task<IActionResult> AllUser(ShowAllUserViewModel query)
         {
-            var users = new ShowAllUserViewModel()
-            {
-                AllUsers = await administratorService.GetAllRegisteredUsersAsync()
-            };
+            var queryResult = await administratorService.GetAllRegisteredUsersAsync(query.CurrentPage,
+                ShowAllUserViewModel.UsersPerPage);
 
-            ViewData["Title"] = "пациенти";
+            ViewData["Title"] = "Всички доктори";
 
-            return View(users);
+            query.TotalUsersCount = queryResult.TotalUsersCount;
+            query.AllUsers = queryResult.AllUsers;
+
+            return View(query);
+
+
+            //var users = new ShowAllUserViewModel()
+            //{
+            //    AllUsers = await administratorService.GetAllRegisteredUsersAsync()
+            //};
+
+            //ViewData["Title"] = "пациенти";
+
+            //return View(users);
         }
 
         [HttpGet]
@@ -232,5 +246,18 @@ namespace MedicalCenter.Controllers
             ViewData["Title"] = "Admin panel";
             return View(modelStatistic);
         }
+
+        //public async Task<IActionResult> AllDoctorPaging(ShowAllDoctorViewModel query)
+        //{
+        //    var queryResult = await administratorService.GetAllCurrentDoctorsAsync(query.CurrentPage,
+        //        ShowAllDoctorViewModel.DoctorsPerPage);
+
+        //    ViewData["Title"] = "Всички доктори";
+
+        //    query.TotalDoctorsCount = queryResult.Result.TotalDoctorsCount;
+        //    query.Doctors = queryResult.Result.Doctors;
+
+        //    return View(query);
+        //}
     }
 }

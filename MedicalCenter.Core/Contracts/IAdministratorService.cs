@@ -12,15 +12,9 @@ namespace MedicalCenter.Core.Contracts
 
         Task ReturnDoctorAsync(string id);
 
-        Task<IEnumerable<DashboardDoctorViewModel>> GetAllCurrentDoctorsAsync();
-
-        Task<IEnumerable<DashboardDoctorViewModel>> GetAllLeftDoctorsAsync();
-
         Task<Doctor> GetDoctorByEgnAsync(string egn);
 
         Task AddDoctorRoleAsync(Doctor doctor, string doctorRole);
-
-        Task<IEnumerable<DashboardUserViewModel>> GetAllRegisteredUsersAsync();
 
         Task<MainDoctorViewModel> GetDoctorByIdToEditAsync(string id);
 
@@ -31,5 +25,11 @@ namespace MedicalCenter.Core.Contracts
         Task DeleteDoctorAsync(string id);
 
         Task<DashboardStatisticViewModel> GetStatisticsAsync();
+
+        Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(int currentPage = 1, int doctorsPerPage = 6);
+
+        Task<ShowAllUserViewModel> GetAllRegisteredUsersAsync(int currentPage = 1, int doctorsPerPage = 6);
+
+        Task<ShowAllDoctorViewModel> GetAllLeftDoctorsAsync(int currentPage = 1, int doctorsPerPage = 6);
     }
 }

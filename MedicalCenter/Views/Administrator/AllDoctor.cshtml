@@ -1,91 +1,103 @@
 ﻿@model ShowAllDoctorViewModel
 
 @section Styles {
-<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
-<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
-<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
 }
 
-<div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
-    <div class="small-box bg-success" style="height:100px;">
-        <div class="row">
-            <div class="col-8">
-                <div class="inner">
-                    <h3 class="text-center" style="padding-top:10px;">@Model.CountDoctor</h3>
-                    <p class="text-center" style="font-weight:bold">@ViewData["Title"]</p>
+    <div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
+        <div class="small-box bg-success" style="height:100px;">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner">
+                        <h3 class="text-center" style="padding-top:10px;">@Model.TotalDoctorsCount</h3>
+                        <p class="text-center" style="font-weight:bold">@ViewData["Title"]</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-4" style="position:center;padding-top:15px;">
-                <div class="icon">
-                    <i class="fa fa-user-doctor"></i>
+                <div class="col-4" style="position:center;padding-top:15px;">
+                    <div class="icon">
+                        <i class="fa fa-user-doctor"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        
-       
     </div>
-</div>
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalDoctorsCount /
+        ShowAllDoctorViewModel.DoctorsPerPage);
+}
 
 <table class="table table table-bordered">
     <thead style="background-color:#e6e6e6">
         <tr>
             <th scope="col" class="text-center">Име на доктор</th>
+            <th scope="col" class="text-center">ЕГН</th>
             <th scope="col" class="text-center">Специалност</th>
             <th scope="col" class="text-center">Телефон</th>
             <th scope="col" class="text-center">Регистриран на</th>
             <th scope="col" colspan="2" class="text-center">Действия</th>
-
         </tr>
     </thead>
-    <tbody> 
-        @foreach (var doctor in Model.AllDoctors)
-        {
-            string date = @doctor.OutOnDate == null ? "Now" : @doctor.OutOnDate;
-            <tr>
-                <td scope="col">д-р @doctor.FirstName @doctor.LastName</td>
-                <td scope="col">@doctor.SpecialityName</td>
-                <td scope="col" class="text-center">@doctor.PhoneNumber</td>
-                <td scope="col" class="text-center">@doctor.JoinOnDate</td>
-                <td scope="col" class="text-center">
-                    <form asp-controller="Administrator" asp-action="EditDoctor" method="get">
-                        <input name="id" type="hidden" value="@doctor.Id">
-                        <button type="submit" class="btn btn-warning">Редакция</button>
-                    </form>
-                </td>
-                <td scope="col" class="text-center">
-                    <form asp-controller="Administrator" asp-action="DeleteDoctor" asp-route-id="@doctor.Id">
-                        <input type="submit" value="Изтриване" class="btn btn-danger" onclick="myConfirm(event)" />
-                    </form>
-                </td>
-            </tr>
-        }
+    <tbody>
+    @foreach (var doctor in Model.Doctors)
+    {
+        <partial name="_DoctorPartial" model="@doctor" />
+    }
     </tbody>
 </table>
 
+<div class="row mt-2 col-12">
+    <div class="col-lg-2 col-sm-2">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Administrator"
+           asp-action="AllDoctor"
+           asp-route-currentPage="@previousPage">Previous</a>
+    </div>
+        @{
+            var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+            !Model.Doctors.Any();
+        }
+        <div class="offset-lg-9 offset-sm-9 col-lg-1 col-sm-1">
+            <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+               asp-controller="Administrator"
+               asp-action="AllDoctor"
+               asp-route-currentPage="@(Model.CurrentPage+1)">Next</a>
+        </div>
+</div>
+
 @section Scripts {
-<script>
-    function myConfirm(e) {
-        e.preventDefault();
-        Swal.fire({
-            title: 'Желаете ли да изтриете доктор?',
-            text: "Действието може да бъде върнато",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Да, изтрий!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Изтрит!',
-                    'Изтрихте доктор.',
-                    'success'
-                ).then((resultDeleted) => {
-                    e.target.parentElement.submit();
-                })
-            }
-        })
-    }
-</script>
+    <script>
+        function myConfirm(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Желаете ли да изтриете доктор?',
+                text: "Действието може да бъде върнато",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Да, изтрий!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Изтрит!',
+                        'Изтрихте доктор.',
+                        'success'
+                    ).then((resultDeleted) => {
+                        e.target.parentElement.submit();
+                    })
+                }
+            })
+        }
+    </script>
 }
+

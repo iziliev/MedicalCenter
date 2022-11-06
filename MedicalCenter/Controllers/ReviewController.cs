@@ -1,7 +1,10 @@
 ﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Core.Models.Review;
+using MedicalCenter.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MedicalCenter.Controllers
 {
@@ -60,11 +63,18 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllReview()
+        public async Task<IActionResult> AllReview(ShowAllReviewViewModel query)
         {
-            ViewData["Title"] = $"оценки";
-            var reviews = await reviewService.GetAllReviews();
-            return View(reviews);
+            var queryResult = await reviewService.GetAllReviews(query.CurrentPage,
+                ShowAllReviewViewModel.ReviewPerPage);
+
+            ViewData["Title"] = "Всички оценки";
+
+            query.TotalReviewsCount = queryResult.TotalReviewsCount;
+            query.Reviews = queryResult.Reviews;
+
+            return View(query);
+
         }
     }
 }

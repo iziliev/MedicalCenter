@@ -14,6 +14,8 @@
 
         public string PhoneNumber { get; set; } = null!;
 
+        public string Egn { get; set; } = null!;
+
         public string? JoinOnDate { get; set; }
 
         public string? OutOnDate { get; set; }

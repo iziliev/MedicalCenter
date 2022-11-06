@@ -1,37 +1,47 @@
 ﻿@model ShowAllDoctorViewModel
 
-
 @section Styles {
-<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
-<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
-<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
 }
 
-<div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
-    <div class="small-box bg-warning" style="height:100px;">
-        <div class="row">
-            <div class="col-6">
-                <div class="inner">
-                    <h3 class="text-center" style="padding-top:10px;">@Model.CountDoctor</h3>
-                    <p class="text-center" style="font-weight:bold">@ViewData["Title"]</p>
+    <div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
+        <div class="small-box bg-success" style="height:100px;">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner">
+                        <h3 class="text-center" style="padding-top:10px;">@Model.TotalDoctorsCount</h3>
+                        <p class="text-center" style="font-weight:bold">@ViewData["Title"]</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-6" style="position:center;padding-top:15px;">
-                <div class="icon">
-                    <i class="fa fa-user-doctor"></i>
+                <div class="col-4" style="position:center;padding-top:15px;">
+                    <div class="icon">
+                        <i class="fa fa-user-doctor"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        
-       
     </div>
-</div>
+
+    @{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalDoctorsCount /
+        ShowAllDoctorViewModel.DoctorsPerPage);
+}
+
 
 <table class="table table table-bordered">
     <thead style="background-color:#e6e6e6">
         <tr>
             <th scope="col" class="text-center">Име на доктор</th>
+                <th scope="col" class="text-center">Егн</th>
             <th scope="col" class="text-center">Специалност</th>
             <th scope="col" class="text-center">Регистриран на</th>
             <th scope="col" class="text-center">Изтрит на</th>
@@ -40,24 +50,31 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var doctor in Model.AllDoctors)
+        @foreach (var doctor in Model.Doctors)
         {
-            string date = @doctor.OutOnDate == null ? "Now" : @doctor.OutOnDate;
-            <tr>
-                <th scope="col" class="text-center">д-р @doctor.FirstName @doctor.LastName</th>
-                <th scope="col" class="text-center">@doctor.SpecialityName</th>
-                <th scope="col">@doctor.JoinOnDate</th>
-                <th scope="col">@doctor.OutOnDate</th>
-               
-                <th scope="col" class="text-center">
-                    <form asp-controller="Administrator" asp-action="ReturnDoctor" asp-route-id="@doctor.Id">
-                        <input type="submit" value="Възтанови" class="btn btn-success" onclick="myConfirm(event)" />
-                    </form>
-                </th>
-            </tr>
+            <partial name="_DoctorOutPartial" model="@doctor" />
         }
     </tbody>
 </table>
+
+<div class="row mt-2 col-12">
+    <div class="col-lg-2 col-sm-2">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Administrator"
+           asp-action="AllDoctorOut"
+           asp-route-currentPage="@previousPage">Previous</a>
+    </div>
+    @{
+        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+        !Model.Doctors.Any();
+    }
+    <div class="offset-lg-9 offset-sm-9 col-lg-1 col-sm-1">
+        <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+           asp-controller="Administrator"
+           asp-action="AllDoctorOut"
+           asp-route-currentPage="@(Model.CurrentPage+1)">Next</a>
+    </div>
+</div>
 
 @section Scripts {
     <script>

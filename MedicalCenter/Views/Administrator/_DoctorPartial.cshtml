@@ -1,0 +1,26 @@
+﻿@model DashboardDoctorViewModel
+
+@{
+    string date = Model.OutOnDate == null ? "Now" : Model.OutOnDate;
+}
+
+<tr>
+    <td scope="col">д-р @Model.FirstName @Model.LastName</td>
+    <td scope="col">@Model.Egn</td>
+    <td scope="col">@Model.SpecialityName</td>
+    <td scope="col" class="text-center">@Model.PhoneNumber</td>
+    <td scope="col" class="text-center">@Model.JoinOnDate</td>
+    <td scope="col" class="text-center">
+        <form asp-controller="Administrator" asp-action="EditDoctor" method="get">
+            <input name="id" type="hidden" value="@Model.Id">
+            <button type="submit" class="btn btn-warning">Редакция</button>
+        </form>
+    </td>
+    <td scope="col" class="text-center">
+        <form asp-controller="Administrator" asp-action="DeleteDoctor" asp-route-id="@Model.Id">
+            <input name="id" type="hidden" value="@Model.Id">
+            <input type="submit" value="Изтриване" class="btn btn-danger" onclick="myConfirm(event)" />
+        </form>
+    </td>
+</tr>
+

@@ -1,4 +1,5 @@
-﻿using MedicalCenter.Core.Models.Review;
+﻿using MedicalCenter.Core.Models.Administrator;
+using MedicalCenter.Core.Models.Review;
 using MedicalCenter.Infrastructure.Data.Models;
 
 namespace MedicalCenter.Core.Contracts
@@ -17,6 +18,6 @@ namespace MedicalCenter.Core.Contracts
 
         Task<IEnumerable<AllReceiveReviewViewModel>> GetReceiveReviews(string doctorId);
 
-        Task<IEnumerable<AllReviewViewModel>> GetAllReviews();
+        Task<ShowAllReviewViewModel> GetAllReviews(int currentPage = 1, int doctorsPerPage = 6);
     }
 }

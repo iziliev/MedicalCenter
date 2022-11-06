@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Core.Models.Review;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
@@ -51,17 +52,29 @@ namespace MedicalCenter.Core.Services
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<AllReviewViewModel>> GetAllReviews()
+        public async Task<ShowAllReviewViewModel> GetAllReviews(int currentPage = 1, int reviewPerPage = 6)
         {
-            return await repository.All<Review>()
-                .Select(x => new AllReviewViewModel
+            var reviewsQuery = repository.All<Review>()
+                .AsQueryable();
+
+            var reviews = await reviewsQuery
+                .Skip((currentPage - 1) * reviewPerPage)
+                .Take(reviewPerPage)
+                .Select(d => new AllReviewViewModel
                 {
-                    DoctorFullName=$"Д-р {x.Doctor.FirstName} {x.Doctor.LastName}",
-                    UserFullName=$"{x.User.FirstName} {x.User.LastName}",
-                    Content = x.Content,
-                    Rating=x.Rating,
-                    CreatedOn = x.CreatedOn.ToString("dd.MM.yyyy")
-                }).ToListAsync();
+                    Content = d.Content,
+                    CreatedOn = d.CreatedOn.ToString("dd.MM.yyyy"),
+                    DoctorFullName = $"{d.Doctor.FirstName} {d.Doctor.LastName}",
+                    Rating = d.Rating,
+                    UserFullName = $"{d.User.FirstName} {d.User.LastName}"
+                })
+                .ToListAsync();
+
+            return new ShowAllReviewViewModel
+            {
+                Reviews = reviews,
+                TotalReviewsCount = reviewsQuery.Count()
+            };
         }
 
         public async Task<Doctor> GetDoctor(string doctorId)
