@@ -225,16 +225,6 @@ namespace MedicalCenter.Controllers
             query.AllUsers = queryResult.AllUsers;
 
             return View(query);
-
-
-            //var users = new ShowAllUserViewModel()
-            //{
-            //    AllUsers = await administratorService.GetAllRegisteredUsersAsync()
-            //};
-
-            //ViewData["Title"] = "пациенти";
-
-            //return View(users);
         }
 
         [HttpGet]

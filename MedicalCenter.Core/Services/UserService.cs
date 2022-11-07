@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Core.Models.User;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
@@ -70,24 +71,35 @@ namespace MedicalCenter.Core.Services
             return await repository.All<User>().FirstOrDefaultAsync(u => u.UserName == username);
         }
 
-        public async Task<IEnumerable<AllDoctorUserViewModel>> ShowDoctorOnUser()
+        public async Task<ShowAllDoctorUserViewModel> ShowDoctorOnUser(int currentPage = 1, int doctorsPerPage = 4)
         {
-            return await repository
-                .All<Doctor>()
+            var doctorsQuery = repository.All<Doctor>()
+                .Where(d => !d.IsOutOfCompany)
                 .Include(s => s.Specialty)
-                .Select(d => new AllDoctorUserViewModel
+                .OrderBy(x => x.Specialty.Name)
+                .AsQueryable();
+
+            var doctors = await doctorsQuery
+                .Skip((currentPage - 1) * doctorsPerPage)
+                .Take(doctorsPerPage)
+                .Select(d => new DashboardAllDoctorUserViewModel
                 {
-                    Email = d.Email,
                     FirstName = d.FirstName,
                     Id = d.Id,
                     LastName = d.LastName,
                     PhoneNumber = d.PhoneNumber,
+                    SpecialityName = d.Specialty.Name,
+                    Email = d.Email,
                     ProfileImageUrl = d.ProfileImageUrl,
                     SpecialtyId = d.SpecialtyId,
-                    SpecialityName = d.Specialty.Name,
                 })
-                .OrderBy(s=>s.SpecialityName)
                 .ToListAsync();
+
+            return new ShowAllDoctorUserViewModel
+            {
+                Doctors = doctors,
+                TotalDoctorsCount = doctorsQuery.Count()
+            };
         }
 
         public async Task<IEnumerable<string>> GetWorkHoursByDoctorId(string doctorId)

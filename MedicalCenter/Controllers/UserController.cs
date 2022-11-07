@@ -1,5 +1,7 @@
 ﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Core.Models.User;
+using MedicalCenter.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -247,11 +249,17 @@ namespace MedicalCenter.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> UserBoard()
+        public async Task<IActionResult> UserBoard(ShowAllDoctorUserViewModel query)
         {
-            var doctors = await userService.ShowDoctorOnUser();
+            var queryResult = await userService.ShowDoctorOnUser(query.CurrentPage,
+                ShowAllDoctorUserViewModel.DoctorsPerPage);
+
             ViewData["Title"] = "Запази час";
-            return View(doctors);
+
+            query.TotalDoctorsCount = queryResult.TotalDoctorsCount;
+            query.Doctors = queryResult.Doctors;
+
+            return View(query);
         }
 
         [HttpGet]

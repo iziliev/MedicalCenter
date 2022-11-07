@@ -2,7 +2,7 @@
 
 namespace MedicalCenter.Core.Models.User
 {
-    public class AllDoctorUserViewModel
+    public class DashboardAllDoctorUserViewModel
     {
         public string? Id { get; set; }
 

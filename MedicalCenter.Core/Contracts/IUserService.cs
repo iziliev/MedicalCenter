@@ -1,4 +1,5 @@
-﻿using MedicalCenter.Core.Models.User;
+﻿using MedicalCenter.Core.Models.Administrator;
+using MedicalCenter.Core.Models.User;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -18,7 +19,7 @@ namespace MedicalCenter.Core.Contracts
 
         Task<User> GetUserByUsername(string username);
 
-        Task<IEnumerable<AllDoctorUserViewModel>> ShowDoctorOnUser();
+        //Task<IEnumerable<DashboardAllDoctorUserViewModel>> ShowDoctorOnUser();
 
         Task<IEnumerable<string>> GetWorkHoursByDoctorId (string doctorId);
 
@@ -41,5 +42,7 @@ namespace MedicalCenter.Core.Contracts
         Task<IEnumerable<ExaminationForReviewViewModel>> GetAllExaminationForReview(string userId);
 
         Task<Examination> GetExaminationAsync(string userId, BookExaminationViewModel bookModel);
+
+        Task<ShowAllDoctorUserViewModel> ShowDoctorOnUser(int currentPage = 1, int doctorsPerPage = 4);
     }
 }
