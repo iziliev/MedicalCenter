@@ -265,7 +265,7 @@ namespace MedicalCenter.Core.Services
         {
             var bestRatingDoctor = await repository.All<Doctor>()
                 .Include(d => d.DoctorReviews)
-                .OrderBy(x => x.DoctorReviews.Average(x => x.Rating))
+                .OrderByDescending(x => x.DoctorReviews.Average(x => x.Rating))
                 .FirstOrDefaultAsync();
 
             var bestExaminationDoctor = await repository.All<Doctor>()

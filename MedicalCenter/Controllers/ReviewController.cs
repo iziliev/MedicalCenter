@@ -50,8 +50,6 @@ namespace MedicalCenter.Controllers
             var queryResult = await reviewService.GetAllGiveReviews(userId, query.CurrentPage,
                 ShowAllGiveReviewViewModel.ReviewPerPage);
 
-            ViewData["Title"] = $"Получени оценки";
-
             query.TotalReviewsCount = queryResult.TotalReviewsCount;
             query.Reviews = queryResult.Reviews;
 
