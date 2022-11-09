@@ -14,10 +14,14 @@ namespace MedicalCenter.Core.Contracts
 
         Task<Doctor> GetDoctor(string doctorId);
 
-        Task<IEnumerable<AllGiveReviewViewModel>> GetAllReviews(string userId);
+        //Task<IEnumerable<AllGiveReviewViewModel>> GetAllReviews(string userId);
 
-        Task<IEnumerable<AllReceiveReviewViewModel>> GetReceiveReviews(string doctorId);
+        //Task<IEnumerable<AllReceiveReviewViewModel>> GetReceiveReviews(string doctorId);
 
-        Task<ShowAllReviewViewModel> GetAllReviews(int currentPage = 1, int doctorsPerPage = 6);
+        Task<ShowAllReviewViewModel> GetAllReviews(int currentPage = 1, int reviewPerPage = 6);
+
+        Task<ShowAllReceiveReviewViewModel> GetReceiveReviews(string doctorId,int currentPage = 1, int reviewPerPage = 6);
+
+        Task<ShowAllGiveReviewViewModel> GetAllGiveReviews(string userId, int currentPage = 1, int reviewPerPage = 6);
     }
 }

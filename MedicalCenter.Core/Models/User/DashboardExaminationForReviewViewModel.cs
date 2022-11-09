@@ -1,6 +1,6 @@
 ﻿namespace MedicalCenter.Core.Models.User
 {
-    public class ExaminationForReviewViewModel
+    public class DashboardExaminationForReviewViewModel
     {
         public string ExaminationId { get; set; } = null!;
 

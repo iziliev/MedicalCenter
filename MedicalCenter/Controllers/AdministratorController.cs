@@ -204,7 +204,7 @@ namespace MedicalCenter.Controllers
             var queryResult = await administratorService.GetAllLeftDoctorsAsync(query.CurrentPage,
                 ShowAllDoctorViewModel.DoctorsPerPage);
 
-            ViewData["Title"] = "Всички изтрити доктори";
+            ViewData["Title"] = "Изтрити доктори";
 
             query.TotalDoctorsCount = queryResult.TotalDoctorsCount;
             query.Doctors = queryResult.Doctors;
@@ -219,7 +219,7 @@ namespace MedicalCenter.Controllers
             var queryResult = await administratorService.GetAllRegisteredUsersAsync(query.CurrentPage,
                 ShowAllUserViewModel.UsersPerPage);
 
-            ViewData["Title"] = "Всички доктори";
+            ViewData["Title"] = "Потребители";
 
             query.TotalUsersCount = queryResult.TotalUsersCount;
             query.AllUsers = queryResult.AllUsers;

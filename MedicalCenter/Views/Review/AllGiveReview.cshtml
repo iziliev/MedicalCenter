@@ -1,7 +1,41 @@
-﻿@model IEnumerable<AllGiveReviewViewModel>
+﻿@model ShowAllGiveReviewViewModel
 
-<h3 class="display-4 text-center">@ViewData["Title"]: @Model.Count()</h3>
-<hr />
+@section Styles {
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+}
+
+    <div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
+        <div class="small-box bg-warning" style="height:120px;">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner">
+                        <h3 class="text-center" style="padding-top:10px;">@Model.TotalReviewsCount</h3>
+                        <p class="text-center" style="font-weight:bold">@ViewData["Title"]</p>
+                    </div>
+                </div>
+                <div class="col-4" style="position:center;padding-top:15px;">
+                    <div class="icon">
+                        <i class="fa fa-comment"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalReviewsCount /
+        ShowAllGiveReviewViewModel.ReviewPerPage);
+}
+
 <table class="table table-hover">
     <thead class="table-dark">
         <tr>
@@ -12,16 +46,28 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var review in Model)
+        @foreach (var review in Model.Reviews)
         {
-            <tr>
-                <th scope="row" class="text-center">@review.DoctorFullName</th>
-                <th scope="row" class="text-center">
-                    <textarea class="col-12 " rows="5" readonly>@review.Content</textarea>
-                </th>
-                <th scope="row" class="text-center">@review.Rating</th>
-                <th scope="row" class="text-center">@review.CreatedOn</th>
-            </tr>
+            <partial name="_ReviewGiveAllPartial" model="@review" />
         }
     </tbody>
 </table>
+
+<div class="row mt-2 col-12">
+    <div class="col-lg-2 col-sm-2">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Review"
+           asp-action="AllGiveReview"
+           asp-route-currentPage="@previousPage">Previous</a>
+    </div>
+        @{
+            var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+            !Model.Reviews.Any();
+        }
+        <div class="offset-lg-9 offset-sm-9 col-lg-1 col-sm-1">
+            <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+               asp-controller="Review"
+               asp-action="AllGiveReview"
+               asp-route-currentPage="@(Model.CurrentPage+1)">Next</a>
+        </div>
+</div>

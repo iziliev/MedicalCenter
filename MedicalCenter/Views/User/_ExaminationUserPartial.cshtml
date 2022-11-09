@@ -1,0 +1,15 @@
+﻿@model DashboardUserExaminationViewModel
+
+<tr>
+    <th scope="row" class="text-center">@Model.Date</th>
+    <th scope="row" class="text-center">@Model.Hour</th>
+    <th scope="row" class="text-center">@Model.DoctorFullName</th>
+    <th scope="row" class="text-center">@Model.Specialty</th>
+    <th scope="row" class="text-center">@Model.DoctorPhoneNumber</th>
+    <th scope="row" class="text-center">
+        <form asp-controller="User" asp-action="CancelExamination" asp-route-id="@Model.ExaminationId" method="get">
+            <input type="hidden" value="@Model.ExaminationId" name="examinationId" />
+            <input type="submit" value="Отмяна" class="btn btn-outline-danger" onclick="myConfirm(event)" />
+        </form>
+    </th>
+</tr>

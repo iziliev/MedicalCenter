@@ -65,24 +65,24 @@
                     <input asp-for="@Model.DoctorId" value="@Model.DoctorId" class="form-control" hidden>
                     <input asp-for="@Model.DoctorId" value="@Model.DoctorId" class="form-control" hidden>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Специалист:</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-3 col-form-label">Специалист:</label>
+                        <div class="col-sm-9">
                             <div asp-for="@Model.DoctorFullName" class="form-control" hidden></div>
                             <input asp-for="@Model.DoctorFullName" value="@Model.DoctorFullName" class="form-control-plaintext" required readonly />
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Дата:</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-3 col-form-label">Дата:</label>
+                        <div class="col-sm-9">
                             <div id="selectedDate" asp-for="@Model.Date" class="form-control" hidden></div>
                             <input asp-for="@Model.Date" value="" class="form-control-plaintext" required readonly />
                             <span asp-validation-for="@Model.Date" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Час:</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-3 col-form-label">Час:</label>
+                        <div class="col-sm-9">
                             <div id="selectedTime" asp-for="@Model.Hour" class="form-control" hidden></div>
                             <input asp-for="@Model.Hour" value="" class="form-control-plaintext" required readonly />
                             <span asp-validation-for="@Model.Hour" class="text-danger"></span>

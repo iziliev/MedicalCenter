@@ -19,8 +19,6 @@ namespace MedicalCenter.Core.Contracts
 
         Task<User> GetUserByUsername(string username);
 
-        //Task<IEnumerable<DashboardAllDoctorUserViewModel>> ShowDoctorOnUser();
-
         Task<IEnumerable<string>> GetWorkHoursByDoctorId (string doctorId);
 
         Task<Doctor> GetDoctorById(string doctorId);
@@ -33,16 +31,20 @@ namespace MedicalCenter.Core.Contracts
 
         Task<string> ReturnDoctorName(string doctorId);
 
-        Task<IEnumerable<UserExaminationViewModel>> GetAllCurrentExamination(string userId);
+        //Task<IEnumerable<DashboardUserExaminationViewModel>> GetAllCurrentExamination(string userId);
 
         Task CancelUserExamination(string examinationId);
 
         Task<BookExaminationViewModel> FillBookViewModel(string doctorId);
 
-        Task<IEnumerable<ExaminationForReviewViewModel>> GetAllExaminationForReview(string userId);
+        //Task<IEnumerable<DashboardExaminationForReviewViewModel>> GetAllExaminationForReview(string userId);
 
         Task<Examination> GetExaminationAsync(string userId, BookExaminationViewModel bookModel);
 
         Task<ShowAllDoctorUserViewModel> ShowDoctorOnUser(int currentPage = 1, int doctorsPerPage = 4);
+
+        Task<ShowAllUserExaminationViewModel> GetAllCurrentExamination(string userId, int currentPage = 1, int examinationsPerPage = 6);
+
+        Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReview(string userId, int currentPage = 1, int examinationsPerPage = 6);
     }
 }

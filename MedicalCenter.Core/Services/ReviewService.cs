@@ -38,16 +38,16 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AllGiveReviewViewModel>> GetAllReviews(string userId)
+        public async Task<IEnumerable<AllGiveReviewViewModel>> GetAllToReviews(string userId)
         {
             return await repository.All<Review>()
-                .Include(d=>d.Doctor)
-                .Where(u=>u.UserId == userId)
-                .Select(x=>new AllGiveReviewViewModel
+                .Include(d => d.Doctor)
+                .Where(u => u.UserId == userId)
+                .Select(x => new AllGiveReviewViewModel
                 {
-                    Content=x.Content,
-                    CreatedOn=x.CreatedOn.ToString("dd.MM.yyyy"),
-                    DoctorFullName=$"Д-р {x.Doctor.FirstName} {x.Doctor.LastName}",
+                    Content = x.Content,
+                    CreatedOn = x.CreatedOn.ToString("dd.MM.yyyy"),
+                    DoctorFullName = $"Д-р {x.Doctor.FirstName} {x.Doctor.LastName}",
                     Rating = x.Rating
                 }).ToListAsync();
         }
@@ -91,18 +91,30 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<AllReceiveReviewViewModel>> GetReceiveReviews(string doctorId)
+        public async Task<ShowAllReceiveReviewViewModel> GetReceiveReviews(string doctorId,int currentPage = 1, int reviewPerPage = 6)
         {
-            return await repository.All<Review>()
+            var reviewsQuery = repository.All<Review>()
                 .Include(d => d.User)
                 .Where(u => u.DoctorId == doctorId)
+                .AsQueryable();
+
+            var reviews = await reviewsQuery
+                .Skip((currentPage - 1) * reviewPerPage)
+                .Take(reviewPerPage)
                 .Select(x => new AllReceiveReviewViewModel
                 {
                     Content = x.Content,
                     CreatedOn = x.CreatedOn.ToString("dd.MM.yyyy"),
                     UserFullName = $"{x.User.FirstName} {x.User.LastName}",
                     Rating = x.Rating
-                }).ToListAsync();
+                })
+                .ToListAsync();
+
+            return new ShowAllReceiveReviewViewModel
+            {
+                Reviews = reviews,
+                TotalReviewsCount = reviewsQuery.Count()
+            };
         }
 
         public async Task<User> GetUser(string userId)
@@ -110,6 +122,33 @@ namespace MedicalCenter.Core.Services
             return await repository.All<User>()
                 .Where(u => u.Id == userId)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<ShowAllGiveReviewViewModel> GetAllGiveReviews(string userId, int currentPage = 1, int reviewPerPage = 6)
+        {
+            var reviewsQuery = repository.All<Review>()
+                .Include(d => d.Examinations)
+                .ThenInclude(u=>u.Doctor)
+                .Where(u => u.UserId == userId)
+                .AsQueryable();
+
+            var reviews = await reviewsQuery
+                .Skip((currentPage - 1) * reviewPerPage)
+                .Take(reviewPerPage)
+                .Select(x => new AllGiveReviewViewModel
+                {
+                    Content = x.Content,
+                    CreatedOn = x.CreatedOn.ToString("dd.MM.yyyy"),
+                    DoctorFullName = $"{x.Doctor.FirstName} {x.Doctor.LastName}",
+                    Rating = x.Rating
+                })
+                .ToListAsync();
+
+            return new ShowAllGiveReviewViewModel
+            {
+                Reviews = reviews,
+                TotalReviewsCount = reviewsQuery.Count()
+            };
         }
     }
 }

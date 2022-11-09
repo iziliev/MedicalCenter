@@ -45,21 +45,36 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllGiveReview()
+        public async Task<IActionResult> AllGiveReview(ShowAllGiveReviewViewModel query)
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             ViewData["Title"] = $"Всички оценки";
-            var reviews = await reviewService.GetAllReviews(userId);
-            return View(reviews);
+
+            var queryResult = await reviewService.GetAllGiveReviews(userId, query.CurrentPage,
+                ShowAllGiveReviewViewModel.ReviewPerPage);
+
+            ViewData["Title"] = $"Получени оценки";
+
+            query.TotalReviewsCount = queryResult.TotalReviewsCount;
+            query.Reviews = queryResult.Reviews;
+
+            return View(query);
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllReceiveReview()
+        public async Task<IActionResult> AllReceiveReview(ShowAllReceiveReviewViewModel query)
         {
             var doctorId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            var queryResult = await reviewService.GetReceiveReviews(doctorId,query.CurrentPage,
+                ShowAllReceiveReviewViewModel.ReviewPerPage);
+
             ViewData["Title"] = $"Получени оценки";
-            var reviews = await reviewService.GetReceiveReviews(doctorId);
-            return View(reviews);
+
+            query.TotalReviewsCount = queryResult.TotalReviewsCount;
+            query.Reviews = queryResult.Reviews;
+
+            return View(query);
         }
 
         [HttpGet]

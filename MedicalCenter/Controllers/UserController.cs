@@ -227,16 +227,20 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UserExamination()
+        public async Task<IActionResult> UserExamination(ShowAllUserExaminationViewModel query)
         {
-            ViewData["Title"] = "Предстоящи часове за прегледи";
-
             var username = User.Identity?.Name;
             var user = await userService.GetUserByUsername(username);
 
-            var allExamination = await userService.GetAllCurrentExamination(user.Id);
+            var queryResult = await userService.GetAllCurrentExamination(user.Id,query.CurrentPage,
+                ShowAllUserExaminationViewModel.ExaminationsPerPage);
 
-            return View(allExamination);
+            ViewData["Title"] = "Предстоящи часове за прегледи";
+
+            query.TotalExaminationCount = queryResult.TotalExaminationCount;
+            query.Examinations = queryResult.Examinations;
+
+            return View(query);
         }
 
         [HttpGet]
@@ -263,13 +267,19 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ExaminationForFeedback()
+        public async Task<IActionResult> ExaminationForFeedback(ShowAllExaminationForReviewViewModel query)
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            var feedbackModel = await userService.GetAllExaminationForReview(userId);
+            var queryResult = await userService.GetAllExaminationForReview(userId, query.CurrentPage,
+                ShowAllExaminationForReviewViewModel.ExaminationsPerPage);
+
             ViewData["Title"] = "Обратна връзка";
-            return View(feedbackModel);
+
+            query.TotalExaminationsCount = queryResult.TotalExaminationsCount;
+            query.Examinations = queryResult.Examinations;
+
+            return View(query);
         }
     }
 }

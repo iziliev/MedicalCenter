@@ -180,13 +180,18 @@ namespace MedicalCenter.Core.Services
             return $"{doctor.FirstName} {doctor.LastName}";
         }
 
-        public async Task<IEnumerable<UserExaminationViewModel>> GetAllCurrentExamination(string userId)
+        public async Task<ShowAllUserExaminationViewModel> GetAllCurrentExamination(string userId, int currentPage = 1, int examinationPerPage = 6)
         {
-            return await repository.All<Examination>()
+            var examinationQuery = repository.All<Examination>()
                 .Include(e => e.User)
-                .Include(d=>d.Doctor)
-                .Where(e=>e.UserId == userId && e.Date>= DateTime.Today && !e.IsDeleted)
-                .Select(e => new UserExaminationViewModel
+                .Include(d => d.Doctor)
+                .Where(e => e.UserId == userId && e.Date >= DateTime.Today && !e.IsDeleted)
+                .AsQueryable();
+
+            var examinations = await examinationQuery
+                .Skip((currentPage - 1) * examinationPerPage)
+                .Take(examinationPerPage)
+                .Select(e => new DashboardUserExaminationViewModel
                 {
                     ExaminationId = e.Id,
                     Date = e.Date.ToString("dd.MM.yyyy"),
@@ -197,6 +202,13 @@ namespace MedicalCenter.Core.Services
                     DoctorPhoneNumber = e.DoctorPhoneNumber
                 })
                 .ToListAsync();
+
+            return new ShowAllUserExaminationViewModel
+            {
+                Examinations = examinations,
+                TotalExaminationCount = examinationQuery.Count()
+            };
+
         }
 
         public async Task CancelUserExamination(string examinationId)
@@ -226,12 +238,17 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<IEnumerable<ExaminationForReviewViewModel>> GetAllExaminationForReview(string userId)
+        public async Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReview(string userId, int currentPage = 1, int examinationPerPage = 6)
         {
-            return await repository.All<Examination>()
+            var examinationQuery = repository.All<Examination>()
                 .Include(d => d.Doctor)
                 .Where(e => e.UserId == userId && !e.IsDeleted && e.Date < DateTime.Today && !e.IsUserReviewedExamination)
-                .Select(e => new ExaminationForReviewViewModel
+                .AsQueryable();
+
+            var examinations = await examinationQuery
+                .Skip((currentPage - 1) * examinationPerPage)
+                .Take(examinationPerPage)
+                .Select(e => new DashboardExaminationForReviewViewModel
                 {
                     DoctorId = e.DoctorId,
                     ExaminationId = e.Id,
@@ -239,6 +256,12 @@ namespace MedicalCenter.Core.Services
                     DateAndHour = $"{e.Date.ToString("dd.MM.yyyy")} {e.Hour}"
                 })
                 .ToListAsync();
+
+            return new ShowAllExaminationForReviewViewModel
+            {
+                Examinations = examinations,
+                TotalExaminationsCount = examinationQuery.Count()
+            };
         }
     }
 }
