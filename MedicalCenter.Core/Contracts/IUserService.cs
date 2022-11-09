@@ -1,5 +1,4 @@
-﻿using MedicalCenter.Core.Models.Administrator;
-using MedicalCenter.Core.Models.User;
+﻿using MedicalCenter.Core.Models.User;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -30,8 +29,6 @@ namespace MedicalCenter.Core.Contracts
         Task<bool> IsDoctorFreeOnDateAnHour(BookExaminationViewModel bookModel);
 
         Task<string> ReturnDoctorName(string doctorId);
-
-        //Task<IEnumerable<DashboardUserExaminationViewModel>> GetAllCurrentExamination(string userId);
 
         Task CancelUserExamination(string examinationId);
 

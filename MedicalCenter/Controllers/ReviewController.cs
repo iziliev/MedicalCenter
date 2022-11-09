@@ -1,10 +1,7 @@
 ﻿using MedicalCenter.Core.Contracts;
-using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Core.Models.Review;
-using MedicalCenter.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MedicalCenter.Controllers
 {

@@ -1,7 +1,5 @@
 ﻿using MedicalCenter.Core.Contracts;
-using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Core.Models.User;
-using MedicalCenter.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

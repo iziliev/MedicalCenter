@@ -3,7 +3,6 @@ using MedicalCenter.Core.Models.Administrator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MedicalCenter.Controllers
 {
