@@ -107,7 +107,6 @@ namespace MedicalCenter.Controllers
 
             var result = await userService.Login(loginModel);
 
-            //TODO: make action
             if (result.Succeeded)
             {
                 if (loginModel.ReturnUrl != null)
@@ -122,7 +121,6 @@ namespace MedicalCenter.Controllers
             return View(loginModel);
         }
 
-        //TODO: make action
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -132,12 +130,12 @@ namespace MedicalCenter.Controllers
         }
 
         //[Authorize(Roles = AdministratorRole)]
-        public async Task<IActionResult> CreateRoles()
-        {
-            await globalService.CreateRoleAsync();
+        //public async Task<IActionResult> CreateRoles()
+        //{
+        //    await globalService.CreateRoleAsync();
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
         //[Authorize(Roles = AdministratorRole)]
         public async Task<IActionResult> AddUsersToRoles()
@@ -221,7 +219,9 @@ namespace MedicalCenter.Controllers
 
             await userService.CreateExamination(user, doctor, bookModel);
 
-            return RedirectToAction("Index", "Home");
+            TempData[MessageConstant.SuccessMessage] = $"Успешно е записан час при д-р {doctor.FirstName} {doctor.LastName} - {bookModel.Date} {bookModel.Hour}!";
+
+            return RedirectToAction(nameof(UserExamination));
         }
 
         [HttpGet]
@@ -244,9 +244,13 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> CancelExamination(string examinationId)
         {
+            var examination = await userService.GetExaminationById(examinationId);
+
+            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит час при {examination.DoctorFullName} - {examination.Date} {examination.Hour}!";
+
             await userService.CancelUserExamination(examinationId);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(UserExamination));
         }
 
         [HttpGet]

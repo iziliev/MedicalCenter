@@ -29,12 +29,16 @@ namespace MedicalCenter.Core.Services
                 Rating = reviewModel.Rating,
                 UserId = reviewModel.UserId,
                 Doctor = doctor,
-                User = user
+                User = user,
             };
 
-            examination.IsUserReviewedExamination = true;
-
             await repository.AddAsync(review);
+            await repository.SaveChangesAsync();
+
+            examination.IsUserReviewedExamination = true;
+            examination.ReviewId = review.Id;
+            examination.Review = review;
+
             await repository.SaveChangesAsync();
         }
 
@@ -42,11 +46,13 @@ namespace MedicalCenter.Core.Services
         {
             return await repository.All<Review>()
                 .Include(d => d.Doctor)
+                .ThenInclude(s=>s.Specialty)
                 .Where(u => u.UserId == userId)
                 .Select(x => new AllGiveReviewViewModel
                 {
                     Content = x.Content,
                     CreatedOn = x.CreatedOn.ToString("dd.MM.yyyy"),
+                    SpecialityName = x.Doctor.Specialty.Name,
                     DoctorFullName = $"Д-р {x.Doctor.FirstName} {x.Doctor.LastName}",
                     Rating = x.Rating
                 }).ToListAsync();
@@ -127,8 +133,10 @@ namespace MedicalCenter.Core.Services
         public async Task<ShowAllGiveReviewViewModel> GetAllGiveReviews(string userId, int currentPage = 1, int reviewPerPage = 6)
         {
             var reviewsQuery = repository.All<Review>()
-                .Include(d => d.Examinations)
-                .ThenInclude(u=>u.Doctor)
+                //.Include(d => d.Examinations)
+                //.ThenInclude(u=>u.Doctor)
+                .Include(u => u.Doctor)
+                .ThenInclude(s=>s.Specialty)
                 .Where(u => u.UserId == userId)
                 .AsQueryable();
 
@@ -139,6 +147,7 @@ namespace MedicalCenter.Core.Services
                 {
                     Content = x.Content,
                     CreatedOn = x.CreatedOn.ToString("dd.MM.yyyy"),
+                    SpecialityName = x.Doctor.Specialty.Name,
                     DoctorFullName = $"{x.Doctor.FirstName} {x.Doctor.LastName}",
                     Rating = x.Rating
                 })

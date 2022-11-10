@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Home\Privacy.cshtml" />
     <None Include="Views\Review\AllGiveReview.cshtml" />
     <None Include="Views\Review\AllReceiveReview.cshtml" />
     <None Include="Views\Review\AllReview.cshtml" />
@@ -73,6 +72,7 @@
     <None Include="wwwroot\lib\jquery\dist\jquery.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\lib\toastr\toastr.min.js" />
   </ItemGroup>
 
   <ItemGroup>

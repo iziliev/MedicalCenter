@@ -1,5 +1,6 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Dotor;
+using MedicalCenter.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
@@ -27,7 +28,9 @@ namespace MedicalCenter.Controllers
                 return View();
             }
 
-            var doctorId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var doctorId = User.Id();
+
+            //var doctorId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (doctorId == null)
             {

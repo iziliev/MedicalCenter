@@ -96,5 +96,12 @@
             public const int MinRating = 1;
             public const int MaxRating = 5;
         }
+
+        public static class MessageConstant
+        {
+            public const string ErrorMessage = "ErrorMessage";
+            public const string WarningMessage = "WarningMessage";
+            public const string SuccessMessage = "SuccessMessage";
+        }
     }
 }

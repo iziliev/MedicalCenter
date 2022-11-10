@@ -13,7 +13,7 @@
                 <div class="col-8">
                     <div class="inner">
                         <h3 class="text-center" style="padding-top:10px;">@Model.TotalExaminationCount</h3>
-                        <p class="text-center" style="font-weight:bold">@ViewData["Title"]</p>
+                        <p class="text-center" style="font-size:14px;padding-left:5px;">@ViewData["Title"]</p>
                     </div>
                 </div>
                 <div class="col-4" style="position:center;padding-top:15px;">
@@ -36,13 +36,13 @@
         ShowAllUserExaminationViewModel.ExaminationsPerPage);
 }
 
-<table class="table table-hover">
-    <thead class="table-dark">
+<table class="table table-hover" style="font-size:16px;">
+    <thead class="table">
         <tr>
-            <th scope="col" class="text-center">Дата</th>
-            <th scope="col" class="text-center">Час</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Час</th>
             <th scope="col" class="text-center">Доктор</th>
-            <th scope="col" class="text-center">Специалност</th>
+            <th scope="col" class="text-center">Специалист</th>
             <th scope="col" class="text-center">Телефон</th>
             <th scope="col" class="text-center">Действие</th>
         </tr>

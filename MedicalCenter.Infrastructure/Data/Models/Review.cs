@@ -25,6 +25,6 @@ namespace MedicalCenter.Infrastructure.Data.Models
 
         public DateTime CreatedOn { get; set; }
 
-        public ICollection<Examination> Examinations { get; set; } = new HashSet<Examination>();
+        //public ICollection<Examination> Examinations { get; set; } = new HashSet<Examination>();
     }
 }

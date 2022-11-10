@@ -43,7 +43,7 @@ namespace MedicalCenter.Controllers
 
             if (doctor == null)
             {
-                return RedirectToAction("CreateDoctor", "Administrator");
+                return RedirectToAction(nameof(CreateDoctor));
             }
 
             if (!doctor.IsOutOfCompany)
@@ -52,7 +52,7 @@ namespace MedicalCenter.Controllers
                 return View(searchModel);
             }
 
-            return RedirectToAction("CreateDoctor", doctor);
+            return RedirectToAction(nameof(CreateDoctor), doctor);
         }
 
         [HttpGet]
@@ -86,10 +86,12 @@ namespace MedicalCenter.Controllers
 
             if (doctor != null)
             {
+                TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран д-р {doctor.FirstName} {doctor.LastName}!";
+
                 await administratorService.EditDoctorAsync(doctorEditModel, doctor);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(AdminBoard));
         }
 
         [HttpGet]
@@ -115,14 +117,14 @@ namespace MedicalCenter.Controllers
                 return View(doctorCreateModel);
             }
 
-            if (doctorCreateModel.Id != null && doctorCreateModel.IsOutOfCompany)
-            {
-                await administratorService.ReturnDoctorAsync(doctorCreateModel.Id);
+            //if (doctorCreateModel.Id != null && doctorCreateModel.IsOutOfCompany)
+            //{
+            //    await administratorService.ReturnDoctorAsync(doctorCreateModel.Id);
 
-                ViewBag.CreateDoctor = $"Успешно е добавен д-р {doctorCreateModel.FirstName} {doctorCreateModel.LastName} в Medical Center!";
+            //    TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctorCreateModel.FirstName} {doctorCreateModel.LastName} в Medical Center!";
 
-                return View();
-            }
+            //    return RedirectToAction(nameof(AdminBoard));
+            //}
 
             var result = await administratorService.CreateDoctorAsync(doctorCreateModel);
 
@@ -132,9 +134,9 @@ namespace MedicalCenter.Controllers
             {
                 await administratorService.AddDoctorRoleAsync(doctor, RoleConstants.DoctorRole);
 
-                ViewBag.CreateDoctor = $"Успешно е добавен д-р {doctorCreateModel.FirstName} {doctorCreateModel.LastName} в Medical Center!";
+                TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctorCreateModel.FirstName} {doctorCreateModel.LastName} в Medical Center!";
 
-                return RedirectToAction("AdminBoard", "Administrator");
+                return RedirectToAction(nameof(AdminBoard));
             }
 
             foreach (var error in result.Errors)
@@ -150,28 +152,37 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> DeleteDoctor(string id)
         {
+            var doctor = await administratorService.GetDoctorByIdAsync(id);
+
             await administratorService.DeleteDoctorAsync(id);
 
-            return RedirectToAction("Index", "Home");
+            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит д-р {doctor.FirstName} {doctor.LastName} от Medical Center!";
+
+            return RedirectToAction(nameof(AdminBoard));
         }
 
         [HttpPost]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> ReturnDoctor(string id)
-        {
+        {   
+            var doctor = await administratorService.GetDoctorByIdAsync(id);
+
+            TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctor.FirstName} {doctor.LastName} в Medical Center!";
+
             await administratorService.ReturnDoctorAsync(id);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(AdminBoard));
         }
 
 
+        //TODO make rolesa automaticaly
         //[Authorize(Roles = AdministratorRole)]
-        public async Task<IActionResult> CreateRoles()
-        {
-            await globalService.CreateRoleAsync();
+        //public async Task<IActionResult> CreateRoles()
+        //{
+        //    await globalService.CreateRoleAsync();
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
         //[Authorize(Roles = AdministratorRole)]
         public async Task<IActionResult> AddUsersToRoles()
@@ -233,20 +244,8 @@ namespace MedicalCenter.Controllers
             var modelStatistic = await administratorService.GetStatisticsAsync();
 
             ViewData["Title"] = "Admin panel";
+
             return View(modelStatistic);
         }
-
-        //public async Task<IActionResult> AllDoctorPaging(ShowAllDoctorViewModel query)
-        //{
-        //    var queryResult = await administratorService.GetAllCurrentDoctorsAsync(query.CurrentPage,
-        //        ShowAllDoctorViewModel.DoctorsPerPage);
-
-        //    ViewData["Title"] = "Всички доктори";
-
-        //    query.TotalDoctorsCount = queryResult.Result.TotalDoctorsCount;
-        //    query.Doctors = queryResult.Result.Doctors;
-
-        //    return View(query);
-        //}
     }
 }

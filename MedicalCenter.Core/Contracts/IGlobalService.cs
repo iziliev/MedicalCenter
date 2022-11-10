@@ -5,7 +5,7 @@ namespace MedicalCenter.Core.Contracts
 {
     public interface IGlobalService
     {
-        Task CreateRoleAsync();
+        //Task CreateRoleAsync();
 
         Task AddUsersToRoleAsync();
 

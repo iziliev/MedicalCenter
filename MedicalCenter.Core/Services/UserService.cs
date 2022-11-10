@@ -67,7 +67,7 @@ namespace MedicalCenter.Core.Services
 
         public async Task<User> GetUserByUsername(string username)
         {
-            return await repository.All<User>().FirstOrDefaultAsync(u => u.UserName == username);
+            return await repository.All<User>().FirstAsync(u => u.UserName == username);
         }
 
         public async Task<ShowAllDoctorUserViewModel> ShowDoctorOnUser(int currentPage = 1, int doctorsPerPage = 4)
@@ -108,7 +108,7 @@ namespace MedicalCenter.Core.Services
                 .Include(s => s.Shedule)
                 .ThenInclude(h => h.WorkHours)
                 .Select(x => x.Shedule.WorkHours.Select(x => x.Hour))
-                .FirstOrDefaultAsync();               
+                .FirstAsync();               
         }
 
 
@@ -116,7 +116,7 @@ namespace MedicalCenter.Core.Services
         {
             return await repository.All<Doctor>()
                 .Include(s=>s.Specialty)
-                .Where(d => d.Id == doctorId).FirstOrDefaultAsync();
+                .Where(d => d.Id == doctorId).FirstAsync();
         }
 
         public async Task CreateExamination(User user, Doctor doctor, BookExaminationViewModel bookModel)
@@ -133,7 +133,7 @@ namespace MedicalCenter.Core.Services
                 UserPhoneNumber = user.PhoneNumber,
                 SpecialityId = doctor.SpecialtyId,
                 Doctor=doctor,
-                User=user
+                User=user,
             };
 
             user.UserExaminations.Add(examination);
@@ -159,7 +159,7 @@ namespace MedicalCenter.Core.Services
             return await repository.All<Examination>()
                 .Where(e => e.UserId == userId)
                 .Where(d => d.Date == date && d.Hour == bookModel.Hour)
-                .FirstOrDefaultAsync();
+                .FirstAsync();
         }
 
         public async Task<bool> IsDoctorFreeOnDateAnHour(BookExaminationViewModel bookModel)
@@ -252,7 +252,8 @@ namespace MedicalCenter.Core.Services
                     DoctorId = e.DoctorId,
                     ExaminationId = e.Id,
                     DoctorNameAndSpecialty = $"{e.DoctorFullName} ({e.Doctor.Specialty.Name})",
-                    DateAndHour = $"{e.Date.ToString("dd.MM.yyyy")} {e.Hour}"
+                    DateAndHour = $"{e.Date.ToString("dd.MM.yyyy")} {e.Hour}",
+                    IsReviewed = e.IsUserReviewedExamination
                 })
                 .ToListAsync();
 
@@ -261,6 +262,14 @@ namespace MedicalCenter.Core.Services
                 Examinations = examinations,
                 TotalExaminationsCount = examinationQuery.Count()
             };
+        }
+
+        public async Task<Examination> GetExaminationById(string id)
+        {
+            return await repository.All<Examination>()
+                .Where(e=>e.Id == id)
+                .FirstAsync();
+                
         }
     }
 }

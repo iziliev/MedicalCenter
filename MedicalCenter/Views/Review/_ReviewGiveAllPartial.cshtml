@@ -1,10 +1,13 @@
 ﻿@model AllGiveReviewViewModel
 
 <tr>
-    <th scope="row" class="text-center">@Model.DoctorFullName</th>
-    <th scope="row" class="text-center">
-        <textarea class="col-12 " rows="5" readonly>@Model.Content</textarea>
-    </th>
-    <th scope="row" class="text-center">@Model.Rating</th>
-    <th scope="row" class="text-center">@Model.CreatedOn</th>
+    <td scope="row">д-р @Model.DoctorFullName</td>
+    <td scope="row">@Model.SpecialityName</td>
+    <td scope="row" style="text-align:justify;font-size:14px;">
+        <div>
+            <em>@Model.Content</em>
+        </div>
+    </td>
+    <td scope="row" class="text-center">@Model.Rating</td>
+    <td scope="row" class="text-center">@Model.CreatedOn</td>
 </tr>

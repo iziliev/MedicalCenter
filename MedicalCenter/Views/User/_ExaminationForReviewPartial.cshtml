@@ -1,25 +1,12 @@
 ﻿@model DashboardExaminationForReviewViewModel
 
-
 <tr>
-    <th scope="row" class="text-center">@Model.DateAndHour</th>
-    <th scope="row" class="text-center">@Model.DoctorNameAndSpecialty</th>
-    @if (Model.IsReviewed)
-    {
-        <th>
-            <form asp-controller="Review" asp-action="CreateReview" method="get">
-                <input type="hidden" value="@Model.ExaminationId" name="examinationId" />
-                <input type="submit" value="Виж оценка" class="btn btn-outline-danger" />
-            </form>
-        </th>
-    }
-    else
-    {
-        <th scope="row" class="text-center">
-            <form asp-controller="Review" asp-action="CreateReview" method="get">
-                <input type="hidden" value="@Model.ExaminationId" name="examinationId" />
-                <input type="submit" value="Оцени" class="btn btn-outline-danger" />
-            </form>
-        </th>
-    }
+    <td scope="row">@Model.DateAndHour</td>
+    <td scope="row" class="text-center">@Model.DoctorNameAndSpecialty</td>
+    <td scope="row" class="text-center">
+        <form asp-controller="Review" asp-action="CreateReview" method="get">
+            <input type="hidden" value="@Model.ExaminationId" name="examinationId" />
+            <input type="submit" value="Оцени" class="btn btn-outline-danger" />
+        </form>
+    </td>
 </tr>

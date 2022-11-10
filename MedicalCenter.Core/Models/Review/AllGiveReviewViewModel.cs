@@ -4,6 +4,8 @@
     {
         public string DoctorFullName { get; set; } = null!;
 
+        public string SpecialityName { get; set; } = null!;
+
         public string Content { get; set; } = null!;
 
         public int Rating { get; set; }

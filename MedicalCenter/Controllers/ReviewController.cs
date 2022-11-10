@@ -1,5 +1,6 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Review;
+using MedicalCenter.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -44,7 +45,10 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> AllGiveReview(ShowAllGiveReviewViewModel query)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.Id();
+
+            //var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
             ViewData["Title"] = $"Всички оценки";
 
             var queryResult = await reviewService.GetAllGiveReviews(userId, query.CurrentPage,
@@ -59,7 +63,9 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> AllReceiveReview(ShowAllReceiveReviewViewModel query)
         {
-            var doctorId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var doctorId = User.Id();
+
+            //var doctorId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             var queryResult = await reviewService.GetReceiveReviews(doctorId,query.CurrentPage,
                 ShowAllReceiveReviewViewModel.ReviewPerPage);

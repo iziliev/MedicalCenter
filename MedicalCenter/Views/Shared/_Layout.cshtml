@@ -9,8 +9,14 @@
     <link rel="stylesheet" href="~/MedicalCenter.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/limonte-sweetalert2/sweetalert2.css" asp-append-version="true" />
     <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+
+    <link href="~/lib/toastr/toastr.min.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    
+
 </head>
 <body>
+    <partial name="_UserMessages" />
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -61,6 +67,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/limonte-sweetalert2/sweetalert2.js" asp-append-version="true"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
     @await RenderSectionAsync("Styles", required: false)
 </body>

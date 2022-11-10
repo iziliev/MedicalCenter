@@ -24,12 +24,12 @@ namespace MedicalCenter.Core.Services
             repository = _repository;
         }
 
-        public async Task CreateRoleAsync()
-        {
-            await roleManager.CreateAsync(new IdentityRole(RoleConstants.AdministratorRole));
-            await roleManager.CreateAsync(new IdentityRole(RoleConstants.DoctorRole));
-            await roleManager.CreateAsync(new IdentityRole(RoleConstants.UserRole));
-        }
+        //public async Task CreateRoleAsync()
+        //{
+        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.AdministratorRole));
+        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.DoctorRole));
+        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.UserRole));
+        //}
 
         public async Task AddUsersToRoleAsync()
         {

@@ -37,6 +37,10 @@ namespace MedicalCenter.Infrastructure.Data.Models
         [Required]
         public string Hour { get; set; } = null!;
 
+        [ForeignKey(nameof(Review))]
+        public string? ReviewId { get; set; }
+        public Review? Review { get; set; }
+
         public bool IsDeleted { get; set; } = false;
 
         public bool IsUserReviewedExamination { get; set; }

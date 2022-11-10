@@ -2,12 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Infrastructure.Data.Configuration
@@ -43,7 +38,7 @@ namespace MedicalCenter.Infrastructure.Data.Configuration
             for (int i = 0; i < doctorsData.Length; i += 6)
             {
                 var lastName = doctorsData[i + 1];
-                var genderByName = lastName[lastName.Length - 1].Equals('а') ? 1 : 2;
+                var genderByName = lastName[lastName.Length - 1].Equals('а') ? 2 : 1;
 
                 var d = new Doctor
                 {
@@ -71,5 +66,6 @@ namespace MedicalCenter.Infrastructure.Data.Configuration
             }
             return doctors;
         }
+
     }
 }
