@@ -219,7 +219,8 @@ namespace MedicalCenter.Core.Services
         public async Task CancelUserExamination(string examinationId)
         {
             var examination = await repository.All<Examination>()
-                .Where(e => e.Id == examinationId).FirstOrDefaultAsync();
+                .Where(e => e.Id == examinationId)
+                .FirstOrDefaultAsync();
             
             examination.IsDeleted = true;
 

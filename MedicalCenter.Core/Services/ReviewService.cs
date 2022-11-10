@@ -55,7 +55,8 @@ namespace MedicalCenter.Core.Services
                     SpecialityName = x.Doctor.Specialty.Name,
                     DoctorFullName = $"Д-р {x.Doctor.FirstName} {x.Doctor.LastName}",
                     Rating = x.Rating
-                }).ToListAsync();
+                })
+                .ToListAsync();
         }
 
         public async Task<ShowAllReviewViewModel> GetAllReviews(int currentPage = 1, int reviewPerPage = 6)

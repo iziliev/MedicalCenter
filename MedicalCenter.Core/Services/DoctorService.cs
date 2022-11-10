@@ -17,7 +17,8 @@ namespace MedicalCenter.Core.Services
 
         public async Task<Doctor> GetDoctorAsync(string id)
         {
-            return await repository.All<Doctor>().FirstOrDefaultAsync(x=>x.Id == id);
+            return await repository.All<Doctor>()
+                .FirstOrDefaultAsync(x=>x.Id == id);
         }
 
         public async Task<IEnumerable<DoctorExaminationViewModel>> GetAllExaminationAsync(Doctor doctor)

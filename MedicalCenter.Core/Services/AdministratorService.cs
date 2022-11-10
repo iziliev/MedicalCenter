@@ -69,14 +69,17 @@ namespace MedicalCenter.Core.Services
                     JoinOnDate = d.JoinOnDate,
                     OutOnDate = d.OutOnDate,
                     SheduleId = d.SheduleId
-                }).FirstOrDefaultAsync();
+                })
+                .FirstOrDefaultAsync();
 
             return existDoctor;
         }
 
         public async Task ReturnDoctorAsync(string id)
         {
-            var doctor = await repository.All<Doctor>().Where(u => u.Id == id).FirstOrDefaultAsync();
+            var doctor = await repository.All<Doctor>()
+                .Where(u => u.Id == id)
+                .FirstOrDefaultAsync();
 
             doctor.IsOutOfCompany = false ;
             doctor.OutOnDate = null;
@@ -120,7 +123,9 @@ namespace MedicalCenter.Core.Services
 
         public async Task<Doctor> GetDoctorByEgnAsync(string egn)
         {
-            return await repository.All<Doctor>().Where(x => x.Egn == egn).FirstOrDefaultAsync();
+            return await repository.All<Doctor>()
+                .Where(x => x.Egn == egn)
+                .FirstOrDefaultAsync();
         }
 
         public async Task AddDoctorRoleAsync(Doctor doctor, string doctorRole)
@@ -181,7 +186,8 @@ namespace MedicalCenter.Core.Services
                     JoinOnDate = d.JoinOnDate,
                     OutOnDate = d.OutOnDate,
                     SheduleId = d.SheduleId,
-                }).FirstOrDefaultAsync();
+                })
+                .FirstOrDefaultAsync();
 
             return doctorById;
         }
