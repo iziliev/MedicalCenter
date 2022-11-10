@@ -42,11 +42,13 @@ namespace MedicalCenter.Core.Services
         {
             var allFinishedExamination = repository.All<Examination>()
                 .Where(e => e.DoctorId == doctor.Id && !e.IsDeleted && e.Date < DateTime.Now)
-                .ToList().Count();
+                .ToList()
+                .Count();
 
             var allExamination = repository.All<Examination>()
                 .Where(e => e.DoctorId == doctor.Id && !e.IsDeleted)
-                .ToList().Count();
+                .ToList()
+                .Count();
 
             var ratings = repository.All<Review>()
                 .Where(r => r.DoctorId == doctor.Id)

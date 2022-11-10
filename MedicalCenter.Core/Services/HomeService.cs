@@ -17,15 +17,19 @@ namespace MedicalCenter.Core.Services
         public DashboardStatisticViewModel Statistics()
         {
             var allUsersCount = repository.All<User>()
-                .Where(u => u.Role == "User").ToList().Count();
+                .Where(u => u.Role == "User")
+                .ToList()
+                .Count();
 
             var oldExamination = repository.All<Examination>()
                 .Where(e => !e.IsDeleted && e.Date<DateTime.Now)
-                .ToList().Count();
+                .ToList()
+                .Count();
 
             var allExamination = repository.All<Examination>()
                 .Where(e => !e.IsDeleted)
-                .ToList().Count();
+                .ToList()
+                .Count();
 
             return new DashboardStatisticViewModel
             { 
