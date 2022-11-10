@@ -30,8 +30,6 @@ namespace MedicalCenter.Controllers
 
             var doctorId = User.Id();
 
-            //var doctorId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-
             if (doctorId == null)
             {
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);

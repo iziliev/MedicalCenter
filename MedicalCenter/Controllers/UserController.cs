@@ -63,7 +63,7 @@ namespace MedicalCenter.Controllers
 
                 await globalService.AddClaimAsync(user);
 
-                return RedirectToAction("Login", "User");
+                return RedirectToAction(nameof(Login));
             }
 
             foreach (var error in result.Errors)
@@ -128,14 +128,6 @@ namespace MedicalCenter.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
-        //[Authorize(Roles = AdministratorRole)]
-        //public async Task<IActionResult> CreateRoles()
-        //{
-        //    await globalService.CreateRoleAsync();
-
-        //    return RedirectToAction("Index", "Home");
-        //}
 
         //[Authorize(Roles = AdministratorRole)]
         public async Task<IActionResult> AddUsersToRoles()

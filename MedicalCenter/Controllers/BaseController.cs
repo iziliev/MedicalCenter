@@ -16,9 +16,7 @@ namespace MedicalCenter.Controllers
 
                 if (User?.Identity?.IsAuthenticated ?? false && User.HasClaim(c => c.Type == ClaimTypeConstants.FirsName))
                 {
-                    firstName = User.Claims
-                        .FirstOrDefault(c => c.Type == ClaimTypeConstants.FirsName)
-                        ?.Value ?? firstName;
+                    firstName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypeConstants.FirsName)?.Value ?? firstName;
                 }
 
                 return firstName;
