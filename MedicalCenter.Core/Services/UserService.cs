@@ -36,7 +36,9 @@ namespace MedicalCenter.Core.Services
 
         public async Task<SignInResult> Login(LoginViewModel loginModel)
         {
-            var user = await userManager.FindByNameAsync(loginModel.Username) == null ? await userManager.FindByEmailAsync(loginModel.Username) : await userManager.FindByNameAsync(loginModel.Username);
+            var user = await userManager.FindByNameAsync(loginModel.Username) == null 
+                ? await userManager.FindByEmailAsync(loginModel.Username) 
+                : await userManager.FindByNameAsync(loginModel.Username);
 
             return await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
         }
@@ -48,7 +50,9 @@ namespace MedicalCenter.Core.Services
 
         public async Task<IdentityResult> Register(RegisterViewModel registerModel)
         {
-            string phoneNumber = registerModel.PhoneNumber.Contains('+') ? registerModel.PhoneNumber : $"+359{registerModel.PhoneNumber.Remove(0,1)}";
+            string phoneNumber = registerModel.PhoneNumber.Contains('+') 
+                ? registerModel.PhoneNumber 
+                : $"+359{registerModel.PhoneNumber.Remove(0,1)}";
 
             var user = new User
             {
@@ -67,7 +71,8 @@ namespace MedicalCenter.Core.Services
 
         public async Task<User> GetUserByUsername(string username)
         {
-            return await repository.All<User>().FirstAsync(u => u.UserName == username);
+            return await repository.All<User>()
+                .FirstOrDefaultAsync(u => u.UserName == username);
         }
 
         public async Task<ShowAllDoctorUserViewModel> ShowDoctorOnUser(int currentPage = 1, int doctorsPerPage = 4)
@@ -108,7 +113,7 @@ namespace MedicalCenter.Core.Services
                 .Include(s => s.Shedule)
                 .ThenInclude(h => h.WorkHours)
                 .Select(x => x.Shedule.WorkHours.Select(x => x.Hour))
-                .FirstAsync();               
+                .FirstOrDefaultAsync();               
         }
 
 
@@ -116,7 +121,8 @@ namespace MedicalCenter.Core.Services
         {
             return await repository.All<Doctor>()
                 .Include(s=>s.Specialty)
-                .Where(d => d.Id == doctorId).FirstAsync();
+                .Where(d => d.Id == doctorId)
+                .FirstOrDefaultAsync();
         }
 
         public async Task CreateExamination(User user, Doctor doctor, BookExaminationViewModel bookModel)
@@ -159,7 +165,7 @@ namespace MedicalCenter.Core.Services
             return await repository.All<Examination>()
                 .Where(e => e.UserId == userId)
                 .Where(d => d.Date == date && d.Hour == bookModel.Hour)
-                .FirstAsync();
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> IsDoctorFreeOnDateAnHour(BookExaminationViewModel bookModel)
@@ -268,7 +274,7 @@ namespace MedicalCenter.Core.Services
         {
             return await repository.All<Examination>()
                 .Where(e=>e.Id == id)
-                .FirstAsync();
+                .FirstOrDefaultAsync();
                 
         }
     }
