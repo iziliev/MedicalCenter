@@ -36,8 +36,6 @@ namespace MedicalCenter.Core.Contracts
 
         Task<Examination> GetExaminationById(string id);
 
-        //Task<IEnumerable<DashboardExaminationForReviewViewModel>> GetAllExaminationForReview(string userId);
-
         Task<Examination> GetExaminationAsync(string userId, BookExaminationViewModel bookModel);
 
         Task<ShowAllDoctorUserViewModel> ShowDoctorOnUser(int currentPage = 1, int doctorsPerPage = 4);
