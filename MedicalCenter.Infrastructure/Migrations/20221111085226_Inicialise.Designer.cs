@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalCenter.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicalCenterDbContext))]
-    [Migration("20221111061731_Inicialise")]
+    [Migration("20221111085226_Inicialise")]
     partial class Inicialise
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -694,9 +694,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f63a089d-9cc4-49ca-9ea9-db50f25d9430",
+                            Id = "b0501047-4625-408a-a515-90e5a956e9ea",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0dfbe8fe-fef9-4dc9-bd01-9f404ce06199",
+                            ConcurrencyStamp = "5cab40f8-c91e-4831-8cb7-a608ecafcb68",
                             Email = "admin@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Ивайло",
@@ -705,11 +705,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MC-BG.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEjCQBDIAk1bRhz5YTeGRqcT5n5XkQvslTX055T95R08cOHufTitg0Z3kp/IJaSJVA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMmGM/XYwbPSFTVQ8Z2px9MzhbVDIPxeOR1+TG7xR4Q3vT0P7YASVPQSS6SxpKv8Qw==",
                             PhoneNumber = "+359888888888",
                             PhoneNumberConfirmed = false,
                             Role = "Administrator",
-                            SecurityStamp = "3871056a-3f55-49a9-834e-48a634f406b1",
+                            SecurityStamp = "5660faea-1a8c-47d5-9600-954cc7309b5d",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -864,22 +864,22 @@ namespace MedicalCenter.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "14677733-8cb8-4d02-81d6-4eaa4006cf68",
-                            ConcurrencyStamp = "6c525da2-4847-407e-853f-85b523ab8727",
+                            Id = "031f2b7c-28ff-4f10-91b8-861cc0fce34c",
+                            ConcurrencyStamp = "18dd608b-af0e-4daf-8073-dbacca6005b1",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac",
-                            ConcurrencyStamp = "9eb0d47a-5b42-4316-9c20-fecc4e3e2e74",
+                            Id = "5268ce00-c630-4c7e-8fde-9d23f6629dae",
+                            ConcurrencyStamp = "165a286b-8290-4de0-a778-630bde1d9c2a",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "7b671392-60d9-4142-b974-89d745e82e69",
-                            ConcurrencyStamp = "9bc21ba4-600b-4920-9dd1-604758868ec9",
+                            Id = "5d40c045-d35d-43b6-8877-e341af5e8e6d",
+                            ConcurrencyStamp = "85ee392a-1492-4f13-b786-e4a5f4c8143d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -976,118 +976,118 @@ namespace MedicalCenter.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f63a089d-9cc4-49ca-9ea9-db50f25d9430",
-                            RoleId = "14677733-8cb8-4d02-81d6-4eaa4006cf68"
+                            UserId = "b0501047-4625-408a-a515-90e5a956e9ea",
+                            RoleId = "031f2b7c-28ff-4f10-91b8-861cc0fce34c"
                         },
                         new
                         {
-                            UserId = "16c35d1a-2a16-4180-8d2a-6de486eabd3e",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "bded34c9-921f-4a0a-964a-432dc7eb962a",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "1ef87d4b-b631-4250-a082-36a32dc3beb7",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "e6a82ade-3d49-44a1-99a1-39a0178f1bb7",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "7415d582-abdf-4a37-9372-a92c678ece29",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "d166c5bf-d2e3-488a-94a2-0d1eebc42128",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "323a289d-5575-4d92-955e-ab7e75bb94e1",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "3b7136ee-ef2d-4b33-9d8a-f1f6e6257d67",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "494da0ca-23e9-4ece-a7af-4e341a3634da",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "e75a3110-b2d8-4382-9c5e-e03f18b8bd47",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "961e0979-c47e-4abc-855d-01aa7e852a7f",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "98e15e67-e7fd-4944-8fa5-90eed080f595",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "814c9c6e-0678-4c44-871e-381ed2033170",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "9bdc8a84-a52d-49d1-b27f-94bdf6b0363a",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "6a8798b4-6a1f-4828-8f2a-17535cd1f2db",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "6e5f8c85-b4ed-46fc-abf9-fc1a853f0973",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "f8681908-bd3c-4db4-9db9-f9168342a50e",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "e4ac6218-87c6-4832-bad6-7017e70da1ad",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "c675b800-2994-4c4f-94f9-6ab686ab3692",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "90db1886-75c4-4887-80e5-079d403e3858",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "82c8948c-0945-48f7-9f18-3daa08cee073",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "c9896137-0636-47ac-b914-e31781d74ddd",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "33765375-d28b-4221-bd82-991b63e97e6c",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "bd1951c9-d199-40c9-a89c-960beea29954",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "5a2cd453-fdc2-4ab1-88a9-02f5c8550d15",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "a2b5720b-8cf7-41a9-a968-979687620f0b",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "e4de6dbe-486e-4fcb-a6aa-a28b6cedce14",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "dfb73100-301a-4696-9edc-848b938ca952",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "31bea010-e271-425b-8b08-8686f424dadc",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "4344864a-ad93-4109-bcfa-becc1033bf13",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "aab5c243-5881-4959-bf82-67dc7b47633f",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "c5500b98-909a-49da-a298-392e18ae3503",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "9e9bb412-3ca5-4669-bc4a-9714272d6ebf",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "9f68547a-5389-4e06-a41a-bcb60303b720",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "658aa8b5-7c1d-4869-b710-8ec8ba70d525",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "00fc54e2-ac2b-4876-a05f-941f1a5af1c1",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "9e33bf9e-e7a3-45ff-8a5a-dd587ac55ed7",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "a8a3016a-0861-465b-a5ae-1528ef896ed6",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "b92d4792-d894-4901-ad24-ef0f6759895f",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "6b44e85c-e066-4489-841e-4ce5633e04a7",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "300588e0-9789-4af8-af83-d3e6db9a7fc2",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "ea51eca9-c0d5-46b5-a082-278d468a0ce0",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         },
                         new
                         {
-                            UserId = "f462d650-ab5e-46db-9b22-7566762c64f0",
-                            RoleId = "5d6e03dd-a6fc-4e51-b308-0c53075e3eac"
+                            UserId = "b754f806-22cf-4e3d-ae1b-e5aaf500f1b0",
+                            RoleId = "5268ce00-c630-4c7e-8fde-9d23f6629dae"
                         });
                 });
 
@@ -1161,9 +1161,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "16c35d1a-2a16-4180-8d2a-6de486eabd3e",
+                            Id = "bded34c9-921f-4a0a-964a-432dc7eb962a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4d450078-37cc-49f6-b770-e0e9781e2dfd",
+                            ConcurrencyStamp = "58a0c1b3-ae6c-47ac-af87-d30d91c10528",
                             Email = "m_monastirska@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Маргарита",
@@ -1173,11 +1173,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_MONASTIRSKA@MC-BG.COM",
                             NormalizedUserName = "M_MONASTIRSKA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMYcGP2U1znoPagbX4bTYW6LfLLDq0CIulmtx6bn5Rly3HRVrp4SBnUgZZj6hPwa4Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPBOeKRnN4wIyCHk/xg4rm7MFvXC5nARFFdRYHPeYEIsrMmkt0ZANz/KNMhPmh/y7Q==",
                             PhoneNumber = "+359888888100",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "c621d5c6-50ed-45f9-9df3-97d662de9447",
+                            SecurityStamp = "ecaa979e-042a-430a-a0a7-513ece6782a4",
                             TwoFactorEnabled = false,
                             UserName = "m_monastirska",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1191,9 +1191,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "1ef87d4b-b631-4250-a082-36a32dc3beb7",
+                            Id = "e6a82ade-3d49-44a1-99a1-39a0178f1bb7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "96a59090-cadc-48a3-8433-5b26fbeee034",
+                            ConcurrencyStamp = "180b3b56-3bc0-4c84-a156-c006269e4af5",
                             Email = "s_slavchev@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Станислав",
@@ -1203,11 +1203,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "S_SLAVCHEV@MC-BG.COM",
                             NormalizedUserName = "S_SLAVCHEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMPg6vhyEEPpQBQNN9AE/TDxORyLMWke+JBeFjB8PamQ8i7sCEvPHQYf/GcSVMfJnw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPVjq10L95eVisHmFSuhO/6W4i2JuWSOno1Xs9WiVg6Cvt0Lsk5B9n8MOhY90RX36g==",
                             PhoneNumber = "+359888888101",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "91e0ff05-d5b1-4301-b99f-5e24fa484e02",
+                            SecurityStamp = "e7e94e3b-0f8b-4df8-85ac-e806a2d36890",
                             TwoFactorEnabled = false,
                             UserName = "s_slavchev",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1221,9 +1221,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "7415d582-abdf-4a37-9372-a92c678ece29",
+                            Id = "d166c5bf-d2e3-488a-94a2-0d1eebc42128",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ffeaf9fb-dc40-4f75-ba88-e62444961875",
+                            ConcurrencyStamp = "370a168b-c0bc-4c43-8e71-15aabf072bfa",
                             Email = "b_petkova@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Бисерка",
@@ -1233,11 +1233,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "B_PETKOVA@MC-BG.COM",
                             NormalizedUserName = "B_PETKOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOAwgbAj8B6d0U7CxkrgbiyR41NcT2LKMeoI/SZGCkN5RtqImiREgJqcsMYE1SiRwA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJQKUT0MG4SgeDphDXdtfA6HPIEtxyyUZ+BXTOqRZIunrxIUXmtmfWqNSGP2p2YIJQ==",
                             PhoneNumber = "+359888888102",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "16ea8112-757c-4135-8222-cb9eb7a710a0",
+                            SecurityStamp = "9fde43fc-417e-419f-acc5-f2c14c7f4208",
                             TwoFactorEnabled = false,
                             UserName = "b_petkova",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1251,9 +1251,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "323a289d-5575-4d92-955e-ab7e75bb94e1",
+                            Id = "3b7136ee-ef2d-4b33-9d8a-f1f6e6257d67",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "92e96345-a5fb-4fdf-87a9-1a7374fbaa53",
+                            ConcurrencyStamp = "4322a6be-428c-4cdc-8c65-5a0d87634c68",
                             Email = "m_velikova@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Мими",
@@ -1263,11 +1263,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_VELIKOVA@MC-BG.COM",
                             NormalizedUserName = "M_VELIKOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN9+VIECs/4NfhZjAagnb9gRjLmmc1StDnC0x01LuvV8kr0PwBH8NibKJbcwnmAs0w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI+0Ew6uEYoMewKvea0uusxET1Tn8kX7NezwDN54FP36TW+h+bvkAM9/3eyc5Bab2Q==",
                             PhoneNumber = "+359888888103",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "7652318d-aef1-4bf5-8ed4-15744f840d65",
+                            SecurityStamp = "8c4d2375-738c-497d-a0f6-0ff338ed816a",
                             TwoFactorEnabled = false,
                             UserName = "m_velikova",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1281,9 +1281,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "494da0ca-23e9-4ece-a7af-4e341a3634da",
+                            Id = "e75a3110-b2d8-4382-9c5e-e03f18b8bd47",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c30a806f-0d93-4de8-9235-640621930558",
+                            ConcurrencyStamp = "9a52291d-93a2-448b-a0a2-39089ded2589",
                             Email = "t_stoev@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Тодор",
@@ -1293,11 +1293,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "T_STOEV@MC-BG.COM",
                             NormalizedUserName = "T_STOEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAopgYOcgRahFtPB6k6QKq4tbujOPO5BDGlb4F7N2+bzemPMyMBvyhW/7FmmdyNtnQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIbu+2VOioa1RXCkgLdNts5HusoBTPTUoud575OIXIGqgAG+rdhe9xJGS+Aa+3C4bQ==",
                             PhoneNumber = "+359888888104",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "76a905c4-bb50-45ea-87a2-46c746f166bb",
+                            SecurityStamp = "1e7d2e8a-39a4-427a-952c-1b8109f53fb9",
                             TwoFactorEnabled = false,
                             UserName = "t_stoev",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1311,9 +1311,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "961e0979-c47e-4abc-855d-01aa7e852a7f",
+                            Id = "98e15e67-e7fd-4944-8fa5-90eed080f595",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "da160399-ebc1-444b-8422-79a2b9d10993",
+                            ConcurrencyStamp = "8cfa6d6a-9d12-43e0-ad07-c4309a47e88a",
                             Email = "m_blagoeva@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Мая",
@@ -1323,11 +1323,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_BLAGOEVA@MC-BG.COM",
                             NormalizedUserName = "M_BLAGOEVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHOwyN1HLptgGa9G6oYC+ugQB8CcmRIpt/yigwB7wcAKKx2y4VxmzFDtysJz0jes0w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN7hWRKdw7F2OjthG0+xzhdbT7vWHRzkgyY5pS5HU0cA+yRewQMb7xAadCU11534wg==",
                             PhoneNumber = "+359888888105",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "772fb854-b0f4-41d4-a3a4-33222646ecfc",
+                            SecurityStamp = "c4cd0204-7a40-4cb1-9b23-3acdee960400",
                             TwoFactorEnabled = false,
                             UserName = "m_blagoeva",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1341,9 +1341,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "814c9c6e-0678-4c44-871e-381ed2033170",
+                            Id = "9bdc8a84-a52d-49d1-b27f-94bdf6b0363a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "aca3f386-5c7e-449e-a930-62a4a767f132",
+                            ConcurrencyStamp = "7f48f8ef-3ff0-4254-91c3-2bfef6853159",
                             Email = "m_kalinkova@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Мария",
@@ -1353,11 +1353,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_KALINKOVA@MC-BG.COM",
                             NormalizedUserName = "M_KALINKOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDLv/ZgvfLEs6nil6xMab598H56GS5QXq6gWGuq9gCcprFmd3rz01Yz3bGTEFo4rKQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEEKAAp16at3AfhXFNZr1b9Q8L8HNEFAVsP3VO9u67aTpOUhG1sV9MNYBQZLdcrFIg==",
                             PhoneNumber = "+359888888106",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "9ec809e8-d6e7-4765-9262-efa39a1e09c5",
+                            SecurityStamp = "346e33d3-a092-456c-8fab-edbcb1b1da31",
                             TwoFactorEnabled = false,
                             UserName = "m_kalinkova",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1371,9 +1371,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "6a8798b4-6a1f-4828-8f2a-17535cd1f2db",
+                            Id = "6e5f8c85-b4ed-46fc-abf9-fc1a853f0973",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b24a9db7-bd5e-42b0-a7be-97a1b943d72c",
+                            ConcurrencyStamp = "0f1e6caa-5413-4529-9a23-c426d2244a95",
                             Email = "d_georgiev@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Димитър",
@@ -1383,11 +1383,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "D_GEORGIEV@MC-BG.COM",
                             NormalizedUserName = "D_GEORGIEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO7BBoLgbSIL9Eq5aKuoytnSiv73J3jM418wHl9pOVkaSnM1uK65+7BEbKfuCdjjcA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBrlaUe/iD/dOFQJYpszHQYfP1Rbr+RU0U/M7FVe28MRVjLUDBHAShEIQwRESEnTIw==",
                             PhoneNumber = "+359888888107",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "7cafe54b-46f4-4215-ad6d-1a5e897e772b",
+                            SecurityStamp = "6c890bdc-af9d-406f-a296-4d3722232911",
                             TwoFactorEnabled = false,
                             UserName = "d_georgiev",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1401,9 +1401,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "f8681908-bd3c-4db4-9db9-f9168342a50e",
+                            Id = "e4ac6218-87c6-4832-bad6-7017e70da1ad",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "25f7949f-db38-48b7-9bf8-d0c5c9622fe0",
+                            ConcurrencyStamp = "a24d57d4-256e-4662-9b41-884d554f91d3",
                             Email = "r_ruseva@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Ралица",
@@ -1413,11 +1413,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "R_RUSEVA@MC-BG.COM",
                             NormalizedUserName = "R_RUSEVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHJb2ja7eld2hWfUQVEckdV0+c0sGDqpfvxeR7aBuxkYOEEMZJ7+GCN1yDjQ20pXeA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECHEQTaEvkARkn/uSex83p4GOgqI7QUvGsmG5eEytsaMOveStGj/bagxnkbD1sKnKg==",
                             PhoneNumber = "+359888888108",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "a67c7d5b-5bfc-4a7b-879e-ef6e8983dbbb",
+                            SecurityStamp = "9f07eb12-b97e-4aba-9b83-9a23664eabc5",
                             TwoFactorEnabled = false,
                             UserName = "r_ruseva",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1431,9 +1431,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "c675b800-2994-4c4f-94f9-6ab686ab3692",
+                            Id = "90db1886-75c4-4887-80e5-079d403e3858",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9ae7419d-46d1-4b19-bdc1-d43f48b0d413",
+                            ConcurrencyStamp = "4b02579c-eecc-4413-aa9a-24b38d82b68e",
                             Email = "s_tochev@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Сотир",
@@ -1443,11 +1443,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "S_TOCHEV@MC-BG.COM",
                             NormalizedUserName = "S_TOCHEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGYl0u03pfi/LnDUDp9pl3ugQ3aV4hehZKn7z/jG6o87Y8TYG0qId40D8sJMGUMOqQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG4zoxg/Jr/wQu9rAHFM3Zhpl9muekTH0rTmBMUGIHJeR4fsJKGjd18HdctAkLafAw==",
                             PhoneNumber = "+359888888109",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "63c4b1fb-ff29-406b-8b85-baa67e8d0cf3",
+                            SecurityStamp = "a7d2ada5-0bf6-425b-b7f2-10b19df24c76",
                             TwoFactorEnabled = false,
                             UserName = "s_tochev",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1461,9 +1461,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "82c8948c-0945-48f7-9f18-3daa08cee073",
+                            Id = "c9896137-0636-47ac-b914-e31781d74ddd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "921f358e-2f8f-4977-b12f-2674f42cc6eb",
+                            ConcurrencyStamp = "c88e9837-0271-4eae-96fd-ca435aea8ff8",
                             Email = "s_atanasova@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Стела",
@@ -1473,11 +1473,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "S_ATANASOVA@MC-BG.COM",
                             NormalizedUserName = "S_ATANASOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDBgv1/sDEcxEWraqX9Quap0vpcf2t+Y+UAiQmzVg/kbjCEYFPTQevB0h+vuAWcG7g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKao6fOfDLgcmJgfUKVjHE5UK0prfNpTuTevslIj/aiRaX+siE3/HvtP4EiOoBn5ig==",
                             PhoneNumber = "+359888888110",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "d46e4b1c-2272-4bc9-8a08-aa1289eb5296",
+                            SecurityStamp = "1cd0addd-6985-4cd0-bcde-c7fc23470eb6",
                             TwoFactorEnabled = false,
                             UserName = "s_atanasova",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1491,9 +1491,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "33765375-d28b-4221-bd82-991b63e97e6c",
+                            Id = "bd1951c9-d199-40c9-a89c-960beea29954",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4b1f6ef9-b01f-4bc0-ac0f-1cedfc3ecb2f",
+                            ConcurrencyStamp = "e0ee7067-b2bb-499a-b5c6-f8035d75732d",
                             Email = "r_ikonomov@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Росен",
@@ -1503,11 +1503,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "R_IKONOMOV@MC-BG.COM",
                             NormalizedUserName = "R_IKONOMOV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF2taOIbnJmUoqOOxwszE66C1jU2tHZg8za501t7lbJEPka8h9hTqNbSWM3+TH/PXQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDB0d2oQvntF5dYGRXvJx5Yr88sMC5tGLDsdk51tOsQynuNZYdYz5cn1j1yx9Z+ayA==",
                             PhoneNumber = "+359888888111",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "3291610d-6545-452d-bd72-d68b26c5922e",
+                            SecurityStamp = "4b180be7-d93a-4369-8c04-602ed34afeda",
                             TwoFactorEnabled = false,
                             UserName = "r_ikonomov",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1521,9 +1521,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "5a2cd453-fdc2-4ab1-88a9-02f5c8550d15",
+                            Id = "a2b5720b-8cf7-41a9-a968-979687620f0b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2fc85eba-6857-4290-aea3-1920db0e3363",
+                            ConcurrencyStamp = "6e4aabec-b2f0-426d-a5a5-4d9e65cf978f",
                             Email = "m_vuldjev@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Михаил",
@@ -1533,11 +1533,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_VULDJEV@MC-BG.COM",
                             NormalizedUserName = "M_VULDJEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAENrX7EeY9CvHuXe68IH0q76FC1HWpBDYdBc5z9AWGo1INvxQxILLUecIn9W6fZ0IBw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOQmsScnqIUmERewtaSWierns/2nVH+5njabvRCcVlMHwnJcdWjLmcYZo2jqswb/Vw==",
                             PhoneNumber = "+359888888112",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "27b36972-7217-428a-ab73-a7d8e8cd7b1e",
+                            SecurityStamp = "a1d6701e-048e-4ab0-a663-4e3a5757a748",
                             TwoFactorEnabled = false,
                             UserName = "m_vuldjev",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1551,9 +1551,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "e4de6dbe-486e-4fcb-a6aa-a28b6cedce14",
+                            Id = "dfb73100-301a-4696-9edc-848b938ca952",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "95485a03-f5fe-4bc8-9edb-908057c1a271",
+                            ConcurrencyStamp = "ba45c58f-032e-4a72-b198-d785d37f677f",
                             Email = "h_hristov@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Христо",
@@ -1563,11 +1563,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "H_HRISTOV@MC-BG.COM",
                             NormalizedUserName = "H_HRISTOV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB1w3RNg+xgHbKGpqBOzOLQSQSOudJU7vhmaj1vi376YINDTh2fmQA0xVkvk9+PISA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED+w4z6Eiyo30SdL8EL8KPTFjiRpUWAXxuxkDtKpgm0Y4asQ7s4t4sK8UdjXjneftA==",
                             PhoneNumber = "+359888888113",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "fc48748d-8392-47e9-97fc-e5d3b4b5033e",
+                            SecurityStamp = "dd5d985b-a0c6-4261-8618-519621b4304f",
                             TwoFactorEnabled = false,
                             UserName = "h_hristov",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1581,9 +1581,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "31bea010-e271-425b-8b08-8686f424dadc",
+                            Id = "4344864a-ad93-4109-bcfa-becc1033bf13",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "85cae3a3-9e57-43a2-a6e6-0bacdd77421c",
+                            ConcurrencyStamp = "45a99f19-da2d-47be-b8d7-283f52f975d0",
                             Email = "a_tomova@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Антония",
@@ -1593,11 +1593,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "A_TOMOVA@MC-BG.COM",
                             NormalizedUserName = "A_TOMOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDjRpYeQcOR9x9GJlLHM9DTDGFaHJtKt76AlORLyvEdkRFwp9hhRE5kaXiipmg35CA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDtSuvnqKVDRwaO8d0wo1NgVUzXJ1BQB19YH8/RaXfVwC0xtMINSFZbe6OP1nxP3cQ==",
                             PhoneNumber = "+359888888114",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "80c866c9-4ae4-41d4-b45f-1c1cbdd4b73e",
+                            SecurityStamp = "eafa5caf-74fb-44c0-bca0-b560aeda53f5",
                             TwoFactorEnabled = false,
                             UserName = "a_tomova",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1611,9 +1611,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "aab5c243-5881-4959-bf82-67dc7b47633f",
+                            Id = "c5500b98-909a-49da-a298-392e18ae3503",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8d8ceb0a-fb0c-41af-beca-8e8dae9212f6",
+                            ConcurrencyStamp = "f7f577f1-fc46-4e5b-9fd4-3891a872a5a5",
                             Email = "k_moskova@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Катерина",
@@ -1623,11 +1623,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "K_MOSKOVA@MC-BG.COM",
                             NormalizedUserName = "K_MOSKOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAELrHJ5Y7v3mXhADEnHMwum93lSgiQiTZuw4Xg+ZX1/C6hZAOAq3DyNcoI5YBmSpbwA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ3EsC2I53cpT5LZm0XTimoOy/+YT0Yh4i0N+ykzIVomESZzOivh38i9J9FPkq2R2w==",
                             PhoneNumber = "+359888888115",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "e0b9de08-0bd3-4993-b60b-912e02831b4e",
+                            SecurityStamp = "048028e6-b838-4233-adb8-b541f161e1f2",
                             TwoFactorEnabled = false,
                             UserName = "k_moskova",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1641,9 +1641,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "9e9bb412-3ca5-4669-bc4a-9714272d6ebf",
+                            Id = "9f68547a-5389-4e06-a41a-bcb60303b720",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fff145d0-5905-4682-83e2-e9af9d2716f2",
+                            ConcurrencyStamp = "a51fdfad-7412-4558-b418-cd03b55f5486",
                             Email = "k_atanasova@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Кристина",
@@ -1653,11 +1653,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "K_ATANASOVA@MC-BG.COM",
                             NormalizedUserName = "K_ATANASOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKV/fdst/ec8qKn3yrh0DQQQGOvc3tILrsTw4cXFDzLEX4in1q0nC+7kd32z/LNuBQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENHQQ2l9BsFAw621Q/fs4aHNnN4rVKcTSABI2SdyVSTrNfcchavHJCimJUh5RUzcuA==",
                             PhoneNumber = "+359888888116",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "18dcddeb-8897-4b89-b992-d8b42323d64b",
+                            SecurityStamp = "7bcf4ef9-7884-494b-8acd-f78751a4981b",
                             TwoFactorEnabled = false,
                             UserName = "k_atanasova",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1671,9 +1671,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "658aa8b5-7c1d-4869-b710-8ec8ba70d525",
+                            Id = "00fc54e2-ac2b-4876-a05f-941f1a5af1c1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4f7a049c-d144-4017-a3be-51797845787e",
+                            ConcurrencyStamp = "1dc885bd-5fc7-41c8-94c3-8984a02d6455",
                             Email = "g_kuchukov@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Георги",
@@ -1683,11 +1683,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "G_KUCHUKOV@MC-BG.COM",
                             NormalizedUserName = "G_KUCHUKOV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFSByNNn8SQvY18WSpt0HEJP8kUaK0Iaz4MdinZ1OAmyxiJj6BOhmir3XSBbUwaX5A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMDcuEve1RpZbxWzTcIWOis7oswRVCGvrN+dCfRtbzbsHRn2w/9TC9dwd5VopDaHvQ==",
                             PhoneNumber = "+359888888117",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "3478d7d6-a3c8-4757-bbb5-46c3ea3c9f75",
+                            SecurityStamp = "87bd9669-8d61-4fce-aada-1855f113a948",
                             TwoFactorEnabled = false,
                             UserName = "g_kuchukov",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1701,9 +1701,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "9e33bf9e-e7a3-45ff-8a5a-dd587ac55ed7",
+                            Id = "a8a3016a-0861-465b-a5ae-1528ef896ed6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ba95c684-ee92-4ad2-82b2-c51f39b8582d",
+                            ConcurrencyStamp = "b745a969-37a0-4378-acd7-a565d6067f1d",
                             Email = "k_stoicheva@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Катина",
@@ -1713,11 +1713,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "K_STOICHEVA@MC-BG.COM",
                             NormalizedUserName = "K_STOICHEVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGKQa/DCKyQrLijG09Bg+K6f/yragvG6+Q5sYZnIjxi8T6tr0qD9C2uvE+z2DvvGpQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED9RTNzD6Xg0uPjrErP84XHb1vNd7X2ydHhvJed1Kq6gfYb4GAIBBgYuzUMVMYC57g==",
                             PhoneNumber = "+359888888118",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "cbce4bdc-99d0-473c-b950-7b041468f796",
+                            SecurityStamp = "3cd48254-30ee-4256-83e0-f85c42b54a69",
                             TwoFactorEnabled = false,
                             UserName = "k_stoicheva",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1731,9 +1731,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "b92d4792-d894-4901-ad24-ef0f6759895f",
+                            Id = "6b44e85c-e066-4489-841e-4ce5633e04a7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1a09ecab-5596-4404-a07e-7bfce955cc49",
+                            ConcurrencyStamp = "6a5668f2-87ee-4ed3-aef8-3e965031edd2",
                             Email = "n_paskov@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Николай",
@@ -1743,11 +1743,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "N_PASKOV@MC-BG.COM",
                             NormalizedUserName = "N_PASKOV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEASIQqZDpDt0qJTh5LU0dOYEHDU1JbQe6w6yrppxZphHsj2u19+fZKVTY/ByOFSn5Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENXdPD0dnAjeiskXDwSDRkv/PkK/4efODA6Ja8PvmJXZ8yN7oESUUTs5A4wL4Prb3A==",
                             PhoneNumber = "+359888888119",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "74514749-06af-4d8b-89f2-889b223c9fee",
+                            SecurityStamp = "13872ddc-4377-42c0-8b84-0719c8dacd0b",
                             TwoFactorEnabled = false,
                             UserName = "n_paskov",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1761,9 +1761,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "300588e0-9789-4af8-af83-d3e6db9a7fc2",
+                            Id = "ea51eca9-c0d5-46b5-a082-278d468a0ce0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "93ffcbcd-7b41-4092-b19d-4a31b458e4c4",
+                            ConcurrencyStamp = "b799a0c7-4772-4b42-b996-df45251fe873",
                             Email = "r_uzunova@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Росица",
@@ -1773,11 +1773,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "R_UZUNOVA@MC-BG.COM",
                             NormalizedUserName = "R_UZUNOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMXwdFncKtgWHi6xwep0m90szzLH10nw05xkKlZhKnd8/FK5QJuU2hJkvwHb4pzhjA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOMAtrcQMb2TWPefdXxFU/XXKJgPCZscPm+ndtXjacqKSHw9kZySBAum8XahrZJ21w==",
                             PhoneNumber = "+359888888120",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "618b67b0-bb0d-4ad3-92d0-9ad45ee4db2d",
+                            SecurityStamp = "9c44985f-8a14-45cd-ab0f-20d3c831e391",
                             TwoFactorEnabled = false,
                             UserName = "r_uzunova",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",
@@ -1791,9 +1791,9 @@ namespace MedicalCenter.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "f462d650-ab5e-46db-9b22-7566762c64f0",
+                            Id = "b754f806-22cf-4e3d-ae1b-e5aaf500f1b0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "84602950-1707-4945-b804-048661377972",
+                            ConcurrencyStamp = "8bf19031-e234-412d-8bec-5b841253e55b",
                             Email = "i_belcheva@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Ирина",
@@ -1803,11 +1803,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "I_BELCHEVA@MC-BG.COM",
                             NormalizedUserName = "I_BELCHEVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMLKwz+H6EYF4pUpGfTNG2qIv/dVp0RWDyn+8gQislc6Vitca/i+q30lDPzB8gUC6Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJhVLoKXMCe+pJTYk9FqsvKmqo8Bp+L5xdfRoSPL6kgFZMJK+n3kKOx0O8vTs8gOHg==",
                             PhoneNumber = "+359888888121",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "703de51a-e965-4b44-bf13-957fd52a3c7f",
+                            SecurityStamp = "a6c19e40-a104-47ef-80ba-6a61336b035b",
                             TwoFactorEnabled = false,
                             UserName = "i_belcheva",
                             Biography = "Това е поредица от латински думи които, както са позиционирани, не образувайте изречения с пълен смисъл, а дайте живот на тестов текст, полезен за запълване на пространства, които впоследствие ще бъдат заети от ad hoc текстове, съставени от комуникационни специалисти. Със сигурност е най -известният заместващ текст дори ако има различни версии, които се различават от реда, в който се повтарят латинските думи. Lorem ipsum съдържа шрифтове , които се използват повече, аспект което ви позволява да имате преглед на изобразяването на текста по отношение на избор на шрифт an d размер на шрифта.",

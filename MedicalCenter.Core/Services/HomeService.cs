@@ -22,12 +22,12 @@ namespace MedicalCenter.Core.Services
                 .Count();
 
             var oldExamination = repository.All<Examination>()
-                .Where(e => !e.IsDeleted && e.Date<DateTime.Now)
+                .Where(e => !e.IsDeleted && e.Date.Date<DateTime.Now.Date)
                 .ToList()
                 .Count();
 
             var allExamination = repository.All<Examination>()
-                .Where(e => !e.IsDeleted)
+                .Where(e => !e.IsDeleted && e.Date.Date>DateTime.Now.Date)
                 .ToList()
                 .Count();
 

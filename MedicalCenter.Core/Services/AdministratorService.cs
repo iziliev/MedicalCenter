@@ -312,6 +312,7 @@ namespace MedicalCenter.Core.Services
                 BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.FirstName} {bestRatingDoctor.LastName}",
                 BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? 0.00 : bestRatingDoctor.DoctorReviews.Average(x => x.Rating),
                 BestExaminationDoctorFullName = bestExaminationDoctor.DoctorExaminations.Count == 0 ? "Няма записани часове" : $"Д-р {bestExaminationDoctor.FirstName} {bestExaminationDoctor.LastName}",
+                
                 BestExaminationCount = bestExaminationDoctor.DoctorExaminations.Count(),
                 AllDoctorCount = allDoctorCount,
                 AllDoctorOutCount = allDoctorOutCount,

@@ -47,7 +47,7 @@ namespace MedicalCenter.Core.Services
                 .Count();
 
             var allExamination = repository.All<Examination>()
-                .Where(e => e.DoctorId == doctor.Id && !e.IsDeleted)
+                .Where(e => e.DoctorId == doctor.Id && !e.IsDeleted && e.Date.Date >= DateTime.Now.Date)
                 .ToList()
                 .Count();
 
