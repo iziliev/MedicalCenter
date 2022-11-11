@@ -1,6 +1,6 @@
-﻿using MedicalCenter.Extensions;
-using MedicalCenter.Infrastructure.Data.Configuration;
+﻿using MedicalCenter.Infrastructure.Data.Configuration;
 using MedicalCenter.Infrastructure.Data.Models;
+using MedicalCenter.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,11 +31,8 @@ namespace MedicalCenter.Infrastructure.Data
             builder.ApplyConfiguration(new ReviewConfiguration());
             builder.ApplyConfiguration(new SpecialityConfiguration());
             builder.ApplyConfiguration(new GenderConfiguration());
-            //builder.ApplyConfiguration(new AdministratorConfiguration());
-            //builder.ApplyConfiguration(new DoctorConfiguration());
             builder.ApplyConfiguration(new SheduleConfiguration());
             builder.ApplyConfiguration(new WorkHourConfiguration());
-            //builder.ApplyConfiguration(new IdentityRoleConfiguration());
 
             builder.Seed();
 

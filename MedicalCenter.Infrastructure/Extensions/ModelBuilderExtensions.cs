@@ -4,26 +4,66 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
-namespace MedicalCenter.Extensions
+namespace MedicalCenter.Infrastructure.Extensions
 {
     public static class ModelBuilderExtensions
     {
         public static void Seed(this ModelBuilder builder)
         {
             // Seed Roles
-
             List<IdentityRole> roles = new List<IdentityRole>()
             {
                 new IdentityRole{Id = Guid.NewGuid().ToString(),Name = RoleConstants.AdministratorRole,NormalizedName = RoleConstants.AdministratorRole.ToUpper()},
                 new IdentityRole{Id = Guid.NewGuid().ToString(),Name = RoleConstants.DoctorRole,NormalizedName = RoleConstants.DoctorRole.ToUpper()},
                 new IdentityRole{Id = Guid.NewGuid().ToString(),Name = RoleConstants.UserRole,NormalizedName = RoleConstants.UserRole.ToUpper()}
             };
-
             builder.Entity<IdentityRole>().HasData(roles);
 
-            // -----------------------------------------------------------------------------
+            // Seed Administrator
+            var administrator = FillAdministratorData();
+            builder.Entity<User>().HasData(administrator);
 
-            // Seed Users
+            //Seed Doctors
+            var doctors = FillDoctorData();
+            builder.Entity<Doctor>().HasData(doctors);
+
+            builder.Entity<Doctor>()
+                .HasOne(e => e.Shedule)
+                .WithMany(e => e.Doctors)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Doctor>()
+                .HasOne(e => e.Specialty)
+                .WithMany(e => e.Doctors)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Seed UserRoles(Administrator and Doctors)
+            var userRoles = FillUsersRole(administrator, roles, doctors);
+            builder.Entity<IdentityUserRole<string>>().HasData(userRoles);
+        }
+
+        private static List<IdentityUserRole<string>> FillUsersRole(User administrator, List<IdentityRole> roles, List<Doctor> doctors)
+        {
+            List<IdentityUserRole<string>> userRoles = new List<IdentityUserRole<string>>();
+            userRoles.Add(new IdentityUserRole<string>
+            {
+                UserId = administrator.Id,
+                RoleId = roles.First(q => q.Name == "Administrator").Id
+            });
+
+            foreach (var doctor in doctors)
+            {
+                userRoles.Add(new IdentityUserRole<string>
+                {
+                    UserId = doctor.Id,
+                    RoleId = roles.First(q => q.Name == "Doctor").Id
+                });
+            }
+            return userRoles;
+        }
+
+        private static User FillAdministratorData()
+        {
             var administratorHasher = new PasswordHasher<User>();
             var administrator = new User
             {
@@ -38,15 +78,18 @@ namespace MedicalCenter.Extensions
                 PasswordHash = administratorHasher.HashPassword(null, "Admin"),
                 Role = "Administrator"
             };
+            return administrator;
+        }
 
-            builder.Entity<User>().HasData(administrator);
+        private static List<Doctor> FillDoctorData()
+        {
+            var doctors = new List<Doctor>();
 
             var doctorHasher = new PasswordHasher<Doctor>();
             var doctorsData = DoctorConstants.DoctorsData
                 .Split(" ")
                 .ToArray();
 
-            var doctors = new List<Doctor>();
             var doctorCount = 1;
             var lastTel = 100;
 
@@ -79,42 +122,7 @@ namespace MedicalCenter.Extensions
                 doctorCount++;
                 doctors.Add(d);
             }
-
-            builder.Entity<Doctor>().HasData(doctors);
-
-            builder.Entity<Doctor>()
-                .HasOne(e => e.Shedule)
-                .WithMany(e => e.Doctors)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Doctor>()
-                .HasOne(e => e.Specialty)
-                .WithMany(e => e.Doctors)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            ///----------------------------------------------------
-
-            // Seed UserRoles
-
-            List<IdentityUserRole<string>> userRoles = new List<IdentityUserRole<string>>();
-
-            userRoles.Add(new IdentityUserRole<string>
-            {
-                UserId = administrator.Id,
-                RoleId = roles.First(q => q.Name == "Administrator").Id
-            });
-
-            foreach (var doctor in doctors)
-            {
-                userRoles.Add(new IdentityUserRole<string>
-                {
-                    UserId = doctor.Id,
-                    RoleId = roles.First(q => q.Name == "Doctor").Id
-                });
-
-            }
-
-            builder.Entity<IdentityUserRole<string>>().HasData(userRoles);
+            return doctors;
         }
     }
 }
