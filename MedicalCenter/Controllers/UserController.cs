@@ -141,6 +141,7 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = $"{RoleConstants.UserRole}")]
         public async Task<IActionResult> Book(string doctorId)
         {
+
             var model = await userService.FillBookViewModel(doctorId);            
             return View(model);
         }

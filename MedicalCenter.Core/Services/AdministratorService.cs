@@ -23,6 +23,10 @@ namespace MedicalCenter.Core.Services
 
         public async Task<IdentityResult> CreateDoctorAsync(CreateDoctorViewModel doctorModel)
         {
+            string phoneNumber = doctorModel.PhoneNumber.Contains('+')
+                ? doctorModel.PhoneNumber
+                : $"+359{doctorModel.PhoneNumber.Remove(0, 1)}";
+
             var doctor = new Doctor()
             {
                 Biography = doctorModel.Biography,
@@ -31,7 +35,7 @@ namespace MedicalCenter.Core.Services
                 FirstName = doctorModel.FirstName,
                 LastName = doctorModel.LastName,
                 GenderId = doctorModel.Gender,
-                PhoneNumber = doctorModel.PhoneNumber,
+                PhoneNumber = phoneNumber,
                 ProfileImageUrl = doctorModel.ProfileImageUrl,
                 Representation = doctorModel.Representation,
                 SpecialtyId = doctorModel.SpecialtyId,
