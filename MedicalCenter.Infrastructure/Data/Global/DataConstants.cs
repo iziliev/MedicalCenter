@@ -103,5 +103,12 @@
             public const string WarningMessage = "WarningMessage";
             public const string SuccessMessage = "SuccessMessage";
         }
+
+        public static class ExeptionConstant
+        {
+            public const string DoctorNotExistExeptionMessage = "Doctor doesn't exist!";
+            public const string UserNotExistExeptionMessage = "User doesn't exist!";
+            public const string ExaminationNotExistExeptionMessage = "Examination doesn't exist!";
+        }
     }
 }
