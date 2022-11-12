@@ -154,6 +154,7 @@ namespace MedicalCenter.Controllers
             {
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
                 bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.HasError = true;
                 return View(bookModel);
             }
 
@@ -163,6 +164,7 @@ namespace MedicalCenter.Controllers
             {
                 ModelState.AddModelError("", ModelErrorConstants.WrongHourExaminationError);
                 bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.HasError = true;
                 return View(bookModel);
             }
 
@@ -170,6 +172,7 @@ namespace MedicalCenter.Controllers
             {
                 ModelState.AddModelError("", ModelErrorConstants.WeekendExaminationError);
                 bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.HasError = true;
                 return View(bookModel);
             }
 
@@ -181,6 +184,7 @@ namespace MedicalCenter.Controllers
             {
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
                 bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.HasError = true;
                 return View(bookModel);
             }
 
@@ -190,6 +194,7 @@ namespace MedicalCenter.Controllers
             {
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
                 bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.HasError = true;
                 return View(bookModel);
             }
 
@@ -200,6 +205,7 @@ namespace MedicalCenter.Controllers
 
                 ModelState.AddModelError("", $"Вече имате записан час при {examination.DoctorFullName} на {bookModel.Date} от {bookModel.Hour}.");
                 bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.HasError = true;
                 return View(bookModel);
             }
 
@@ -207,6 +213,7 @@ namespace MedicalCenter.Controllers
             {
                 ModelState.AddModelError("", $"На {bookModel.Date} часът {bookModel.Hour} е зает.");
                 bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.HasError = true;
                 return View(bookModel);
             }
 

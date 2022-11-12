@@ -17,7 +17,7 @@
                         <div class="card-body">
                             <p class="login-box-msg">Търсене в системата</p>
                             <form asp-controller ="Administrator" asp-action="SearchDoctor" method="post" >
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
                                 <div class="input-group mb-1">
                                     <input asp-for="Egn" class="form-control" placeholder="ЕГН" autocomplete="egn" />
                                     <div class="input-group-append">

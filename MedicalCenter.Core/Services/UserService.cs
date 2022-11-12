@@ -26,19 +26,18 @@ namespace MedicalCenter.Core.Services
 
         public async Task<bool> IsEmailExist(string username)
         {
-            return await userManager.FindByEmailAsync(username) == null ? false : true;
+            return await userManager.FindByEmailAsync(username) != null;
         }
 
         public async Task<bool> IsUsernameExist(string username)
         {
-            return await userManager.FindByNameAsync(username) == null ? false : true;
+            return await userManager.FindByNameAsync(username) != null;
         }
 
         public async Task<SignInResult> Login(LoginViewModel loginModel)
         {
-            var user = await userManager.FindByNameAsync(loginModel.Username) == null 
-                ? await userManager.FindByEmailAsync(loginModel.Username) 
-                : await userManager.FindByNameAsync(loginModel.Username);
+            var user = await userManager.FindByNameAsync(loginModel.Username) 
+                ?? await userManager.FindByEmailAsync(loginModel.Username);
 
             return await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
         }
@@ -155,7 +154,7 @@ namespace MedicalCenter.Core.Services
             return await repository.All<Examination>()
                 .Where(e => e.UserId == userId)
                 .Where(d=>d.Date == date && d.Hour==bookModel.Hour)
-                .FirstOrDefaultAsync() == null ? true : false;
+                .FirstOrDefaultAsync() == null;
         }
 
         public async Task<Examination> GetExaminationAsync (string userId, BookExaminationViewModel bookModel)
@@ -175,7 +174,7 @@ namespace MedicalCenter.Core.Services
             return await repository.All<Examination>()
                 .Where(e => e.DoctorId == bookModel.DoctorId)
                 .Where(d => d.Date == date && d.Hour == bookModel.Hour)
-                .FirstOrDefaultAsync() == null ? true : false;
+                .FirstOrDefaultAsync() == null;
         }
 
         public async Task<string> ReturnDoctorName(string doctorId)
@@ -259,7 +258,7 @@ namespace MedicalCenter.Core.Services
                     DoctorId = e.DoctorId,
                     ExaminationId = e.Id,
                     DoctorNameAndSpecialty = $"{e.DoctorFullName} ({e.Doctor.Specialty.Name})",
-                    DateAndHour = $"{e.Date.ToString("dd.MM.yyyy")} {e.Hour}",
+                    DateAndHour = $"{e.Date:dd.MM.yyyy} {e.Hour}",
                     IsReviewed = e.IsUserReviewedExamination
                 })
                 .ToListAsync();

@@ -25,6 +25,8 @@ namespace MedicalCenter.Core.Models.User
 
         public string? SpecialityName { get; set; }
 
+        public bool HasError { get; set; } = false;
+
         public IEnumerable<string> WorkHours { get; set; } = new List<string>();
     }
 }

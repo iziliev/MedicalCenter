@@ -3,8 +3,10 @@
 @{
     ViewData["Title"] = "Запазване на час";
 }
-
-<div asp-validation-summary="All" class="text-danger"></div>
+@if(Model.HasError)
+{
+    <div asp-validation-summary="All" class="alert alert-danger alert-dismissible fade show"></div>
+}
 
 @if (Model != null)
 {
