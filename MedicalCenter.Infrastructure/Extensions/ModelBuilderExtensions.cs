@@ -75,9 +75,9 @@ namespace MedicalCenter.Infrastructure.Extensions
                 NormalizedEmail = "ADMIN@MC-BG.COM",
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
-                PasswordHash = administratorHasher.HashPassword(null, "Admin"),
                 Role = "Administrator"
             };
+            administrator.PasswordHash = administratorHasher.HashPassword(administrator, "Admin");
             return administrator;
         }
 
@@ -96,7 +96,7 @@ namespace MedicalCenter.Infrastructure.Extensions
             for (int i = 0; i < doctorsData.Length; i += 6)
             {
                 var lastName = doctorsData[i + 1];
-                var genderByName = lastName[lastName.Length - 1].Equals('а') ? 2 : 1;
+                var genderByName = lastName[^1].Equals('а') ? 2 : 1;
 
                 var d = new Doctor
                 {
@@ -107,11 +107,10 @@ namespace MedicalCenter.Infrastructure.Extensions
                     NormalizedUserName = doctorsData[i + 3].ToUpper(),
                     Biography = DoctorConstants.Biography,
                     Education = DoctorConstants.Education,
-                    Email = String.Concat(doctorsData[i + 3], "@mc-bg.com"),
-                    NormalizedEmail = String.Concat(doctorsData[i + 3], "@mc-bg.com").ToUpper(),
+                    Email = string.Concat(doctorsData[i + 3], "@mc-bg.com"),
+                    NormalizedEmail = string.Concat(doctorsData[i + 3], "@mc-bg.com").ToUpper(),
                     PhoneNumber = $"+359888888{lastTel++}",
                     SpecialtyId = int.Parse(doctorsData[i + 5]),
-                    PasswordHash = doctorHasher.HashPassword(null, "Doctor"),
                     Representation = DoctorConstants.Representation,
                     GenderId = genderByName,
                     Egn = doctorsData[i + 4],
@@ -119,8 +118,9 @@ namespace MedicalCenter.Infrastructure.Extensions
                     JoinOnDate = DateTime.UtcNow.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
                     SheduleId = doctorCount % 2 == 0 ? 2 : 1,
                 };
-                doctorCount++;
+                d.PasswordHash = doctorHasher.HashPassword(d, "Doctor");
                 doctors.Add(d);
+                doctorCount++;
             }
             return doctors;
         }
