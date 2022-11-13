@@ -47,7 +47,6 @@ namespace MedicalCenter.Core.Services
                 .Where(r => r.DoctorId == doctor.Id)
                 .ToListAsync();
 
-
             var doctorFullName = $"Д-р {doctor.FirstName} {doctor.LastName}";
 
             return new DoctorStatisticViewModel
@@ -55,7 +54,7 @@ namespace MedicalCenter.Core.Services
                 AllExaminations = allExamination,
                 DoctorFullName = doctorFullName,
                 Examinations = allFinishedExamination,
-                Rating = ratings.Count != 0 ? (double)(ratings.Sum(r=>r.Rating)/ratings.Count)*1.00 : 0,
+                Rating = ratings.Count != 0 ? ratings.Average(r=>r.Rating) : 0,
                 RatingUser = ratings.Count
             };
         }
