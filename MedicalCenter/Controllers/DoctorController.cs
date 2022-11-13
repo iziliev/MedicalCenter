@@ -9,10 +9,14 @@ namespace MedicalCenter.Controllers
     public class DoctorController : BaseController
     {
         private readonly IDoctorService doctorService;
+        private readonly IGlobalService globalService;
 
-        public DoctorController(IDoctorService _doctorService)
+        public DoctorController(
+            IDoctorService _doctorService, 
+            IGlobalService _globalService)
         {
             doctorService = _doctorService;
+            globalService = _globalService;
         }
 
         [HttpGet]
@@ -36,7 +40,7 @@ namespace MedicalCenter.Controllers
                 return View();
             }
 
-            var doctor = await doctorService.GetDoctorByIdAsync(doctorId);
+            var doctor = await globalService.GetDoctorByIdAsync(doctorId);
 
             if (doctor == null)
             {

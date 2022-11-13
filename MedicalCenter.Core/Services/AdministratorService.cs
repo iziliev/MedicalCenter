@@ -8,18 +8,20 @@ using System.Globalization;
 
 namespace MedicalCenter.Core.Services
 {
-
     public class AdministratorService : IAdministratorService
     {
         private readonly UserManager<User> userManager;
         private readonly IRepository repository;
+        private readonly IGlobalService globalService;
 
         public AdministratorService(
             UserManager<User> _userManager,
-            IRepository _repository)
+            IRepository _repository,
+            IGlobalService _globalService)
         {
             userManager = _userManager;
             repository = _repository;
+            globalService = _globalService;
         }
 
         public async Task<IdentityResult> CreateDoctorAsync(CreateDoctorViewModel doctorModel)
@@ -43,7 +45,7 @@ namespace MedicalCenter.Core.Services
                 UserName = doctorModel.Username,
                 Egn = doctorModel.Egn,
                 Role = "Doctor",
-                JoinOnDate = DateTime.UtcNow.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
                 SheduleId = doctorModel.SheduleId,
             };
 
@@ -220,20 +222,11 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<Doctor> GetDoctorByIdAsync(string id)
-        {
-            var doctorById = await repository
-                .All<Doctor>()
-                .Where(u => u.Id == id)
-                .FirstOrDefaultAsync();
-
-            return doctorById;
-        }
 
         public async Task DeleteDoctorAsync(string id)
         {
-            var doctor = await GetDoctorByIdAsync(id);
-            doctor.OutOnDate = DateTime.UtcNow.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+            var doctor = await globalService.GetDoctorByIdAsync(id);
+            doctor.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
             doctor.IsOutOfCompany = true;
             await repository.SaveChangesAsync();
         }
@@ -308,7 +301,7 @@ namespace MedicalCenter.Core.Services
                 BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.FirstName} {bestRatingDoctor.LastName}",
                 BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? 0.00 : bestRatingDoctor.DoctorReviews.Average(x => x.Rating),
                 BestExaminationDoctorFullName = bestExaminationDoctor.DoctorExaminations.Count == 0 ? "Няма записани часове" : $"Д-р {bestExaminationDoctor.FirstName} {bestExaminationDoctor.LastName}",
-                BestExaminationCount = bestExaminationDoctor.DoctorExaminations.Count(),
+                BestExaminationCount = bestExaminationDoctor.DoctorExaminations.Count,
                 AllDoctorCount = allDoctorCount,
                 AllDoctorOutCount = allDoctorOutCount,
                 AllReviews = allReview,

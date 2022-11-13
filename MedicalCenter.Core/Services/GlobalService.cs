@@ -67,5 +67,12 @@ namespace MedicalCenter.Core.Services
 
             return doctorCreateModel;
         }
+
+        public async Task<Doctor> GetDoctorByIdAsync(string id)
+        {
+            return await repository.All<Doctor>()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+        }
     }
 }

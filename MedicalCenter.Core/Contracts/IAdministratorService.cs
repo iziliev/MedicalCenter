@@ -18,8 +18,6 @@ namespace MedicalCenter.Core.Contracts
 
         Task<MainDoctorViewModel> GetDoctorByIdToEditAsync(string id);
 
-        Task<Doctor> GetDoctorByIdAsync(string id);
-
         Task EditDoctorAsync(MainDoctorViewModel doctorModel, Doctor doctor);
 
         Task DeleteDoctorAsync(string id);

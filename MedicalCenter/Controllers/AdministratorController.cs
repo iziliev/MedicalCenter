@@ -69,7 +69,6 @@ namespace MedicalCenter.Controllers
             return View(doctorEditModel);
         }
 
-
         [HttpPost]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> EditDoctor(MainDoctorViewModel doctorEditModel)
@@ -83,7 +82,7 @@ namespace MedicalCenter.Controllers
                 return View(doctorEditModel);
             }
 
-            var doctor = await administratorService.GetDoctorByIdAsync(doctorEditModel.Id);
+            var doctor = await globalService.GetDoctorByIdAsync(doctorEditModel.Id);
 
             if (doctor != null)
             {
@@ -144,7 +143,7 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> DeleteDoctor(string id)
         {
-            var doctor = await administratorService.GetDoctorByIdAsync(id);
+            var doctor = await globalService.GetDoctorByIdAsync(id);
 
             await administratorService.DeleteDoctorAsync(id);
 
@@ -157,7 +156,7 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> ReturnDoctor(string id)
         {   
-            var doctor = await administratorService.GetDoctorByIdAsync(id);
+            var doctor = await globalService.GetDoctorByIdAsync(id);
 
             TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctor.FirstName} {doctor.LastName} в Medical Center!";
 

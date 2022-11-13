@@ -5,6 +5,8 @@ namespace MedicalCenter.Core.Contracts
 {
     public interface IGlobalService
     {
+        Task<Doctor> GetDoctorByIdAsync(string id);
+
         Task AddUserRoleAsync(User user, string userRole);
 
         Task AddClaimAsync(User user);

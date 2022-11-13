@@ -15,12 +15,6 @@ namespace MedicalCenter.Core.Services
             repository = _repository;
         }
 
-        public async Task<Doctor> GetDoctorByIdAsync(string id)
-        {
-            return await repository.All<Doctor>()
-                .FirstOrDefaultAsync(x=>x.Id == id);
-        }
-
         public async Task<IEnumerable<DoctorExaminationViewModel>> GetAllExaminationAsync(Doctor doctor)
         {
             return await repository.All<Examination>()
@@ -61,7 +55,7 @@ namespace MedicalCenter.Core.Services
                 AllExaminations = allExamination,
                 DoctorFullName = doctorFullName,
                 Examinations = allFinishedExamination,
-                Rating = ratings.Count != 0 ? (ratings.Sum(r=>r.Rating)/ratings.Count) : 0,
+                Rating = ratings.Count != 0 ? (double)(ratings.Sum(r=>r.Rating)/ratings.Count)*1.00 : 0,
                 RatingUser = ratings.Count
             };
         }
