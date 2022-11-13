@@ -5,10 +5,10 @@ namespace MedicalCenter.Core.Contracts
 {
     public interface IDoctorService
     {
-        Task<Doctor> GetDoctorAsync(string id);
+        Task<Doctor> GetDoctorByIdAsync(string id);
 
         Task<IEnumerable<DoctorExaminationViewModel>> GetAllExaminationAsync(Doctor doctor);
 
-        DoctorStatisticViewModel DoctorStatistic(Doctor doctor);
+        Task<DoctorStatisticViewModel> GetDoctorStatisticsAsync(Doctor doctor);
     }
 }

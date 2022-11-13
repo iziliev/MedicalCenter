@@ -1,5 +1,6 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.User;
+using MedicalCenter.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -12,7 +13,8 @@ namespace MedicalCenter.Controllers
         private readonly IUserService userService;
         private readonly IGlobalService globalService;
 
-        public UserController(IUserService _userService,
+        public UserController(
+            IUserService _userService,
             IGlobalService _globalService)
         {
             userService = _userService;
@@ -45,7 +47,7 @@ namespace MedicalCenter.Controllers
                 return View(registerModel);
             }
 
-            if (await userService.IsUsernameExist(registerModel.Username))
+            if (await userService.IsUsernameExistAsync(registerModel.Username))
             {
                 ViewData["Title"] = "Регистрация";
                 ModelState.AddModelError("", ModelErrorConstants.UsernameIsTaken);
@@ -57,7 +59,7 @@ namespace MedicalCenter.Controllers
 
             if (result.Succeeded)
             {
-                var user = await userService.GetUserByUsername(registerModel.Username);
+                var user = await userService.GetUserByUsernameAsync(registerModel.Username);
 
                 await globalService.AddUserRoleAsync(user, RoleConstants.UserRole);
 
@@ -98,7 +100,7 @@ namespace MedicalCenter.Controllers
                 return View(loginModel);
             }
 
-            if (!await userService.IsUsernameExist(loginModel.Username) && !await userService.IsEmailExist(loginModel.Username))
+            if (!await userService.IsUsernameExistAsync(loginModel.Username) && !await userService.IsUserEmailExistAsync(loginModel.Username))
             {
                 ViewData["Title"] = "Вход";
                 ModelState.AddModelError("", ModelErrorConstants.WrongLogin);
@@ -129,20 +131,12 @@ namespace MedicalCenter.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //[Authorize(Roles = AdministratorRole)]
-        public async Task<IActionResult> AddUsersToRoles()
-        {
-            await globalService.AddUsersToRoleAsync();
-
-            return RedirectToAction("Index", "Home");
-        }
-
         [HttpGet]
         [Authorize(Roles = $"{RoleConstants.UserRole}")]
         public async Task<IActionResult> Book(string doctorId)
         {
 
-            var model = await userService.FillBookViewModel(doctorId);            
+            var model = await userService.FillBookViewModelAsync(doctorId);            
             return View(model);
         }
 
@@ -153,7 +147,7 @@ namespace MedicalCenter.Controllers
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
-                bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
                 bookModel.HasError = true;
                 return View(bookModel);
             }
@@ -163,7 +157,7 @@ namespace MedicalCenter.Controllers
             if (date == DateTime.Now.Date && TimeSpan.Parse(bookModel.Hour) <= DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1)))
             {
                 ModelState.AddModelError("", ModelErrorConstants.WrongHourExaminationError);
-                bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
                 bookModel.HasError = true;
                 return View(bookModel);
             }
@@ -171,53 +165,52 @@ namespace MedicalCenter.Controllers
             if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
             {
                 ModelState.AddModelError("", ModelErrorConstants.WeekendExaminationError);
-                bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
                 bookModel.HasError = true;
                 return View(bookModel);
             }
 
             var username = User.Identity?.Name;
 
-            var user = await userService.GetUserByUsername(username);
+            var user = await userService.GetUserByUsernameAsync(username);
 
             if (user == null)
             {
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
-                bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
                 bookModel.HasError = true;
                 return View(bookModel);
             }
 
-            var doctor = await userService.GetDoctorById(bookModel.DoctorId);
+            var doctor = await userService.GetDoctorByIdAsync(bookModel.DoctorId);
 
             if (user == null)
             {
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
-                bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
                 bookModel.HasError = true;
                 return View(bookModel);
             }
 
-
-            if (!await userService.IsUserFreeOnDateAnHour(user.Id, bookModel))
+            if (!await userService.IsUserFreeOnDateAnHourAsync(user.Id, bookModel))
             {
                 var examination = await userService.GetExaminationAsync(user.Id, bookModel);
 
                 ModelState.AddModelError("", $"Вече имате записан час при {examination.DoctorFullName} на {bookModel.Date} от {bookModel.Hour}.");
-                bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
                 bookModel.HasError = true;
                 return View(bookModel);
             }
 
-            if (!await userService.IsDoctorFreeOnDateAnHour(bookModel))
+            if (!await userService.IsDoctorFreeOnDateAnHourAsync(bookModel))
             {
                 ModelState.AddModelError("", $"На {bookModel.Date} часът {bookModel.Hour} е зает.");
-                bookModel.WorkHours = await userService.GetWorkHoursByDoctorId(bookModel.DoctorId);
+                bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
                 bookModel.HasError = true;
                 return View(bookModel);
             }
 
-            await userService.CreateExamination(user, doctor, bookModel);
+            await userService.CreateExaminationAsync(user, doctor, bookModel);
 
             TempData[MessageConstant.SuccessMessage] = $"Успешно е записан час при д-р {doctor.FirstName} {doctor.LastName} - {bookModel.Date} {bookModel.Hour}!";
 
@@ -227,10 +220,9 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> UserExamination(ShowAllUserExaminationViewModel query)
         {
-            var username = User.Identity?.Name;
-            var user = await userService.GetUserByUsername(username);
+            var userId = User.Id();
 
-            var queryResult = await userService.GetAllCurrentExamination(user.Id,query.CurrentPage,
+            var queryResult = await userService.GetAllCurrentExaminationAsync(userId,query.CurrentPage,
                 ShowAllUserExaminationViewModel.ExaminationsPerPage);
 
             ViewData["Title"] = "Предстоящи часове за прегледи";
@@ -244,11 +236,11 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> CancelExamination(string examinationId)
         {
-            var examination = await userService.GetExaminationById(examinationId);
+            var examination = await userService.GetExaminationByIdAsync(examinationId);
 
             TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит час при {examination.DoctorFullName} - {examination.Date} {examination.Hour}!";
 
-            await userService.CancelUserExamination(examinationId);
+            await userService.CancelUserExaminationAsync(examinationId);
 
             return RedirectToAction(nameof(UserExamination));
         }
@@ -257,7 +249,7 @@ namespace MedicalCenter.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> UserBoard(ShowAllDoctorUserViewModel query)
         {
-            var queryResult = await userService.ShowDoctorOnUser(query.CurrentPage,
+            var queryResult = await userService.ShowDoctorOnUserAsync(query.CurrentPage,
                 ShowAllDoctorUserViewModel.DoctorsPerPage);
 
             ViewData["Title"] = "Запази час";
@@ -271,9 +263,9 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> ExaminationForFeedback(ShowAllExaminationForReviewViewModel query)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.Id();
 
-            var queryResult = await userService.GetAllExaminationForReview(userId, query.CurrentPage,
+            var queryResult = await userService.GetAllExaminationForReviewAsync(userId, query.CurrentPage,
                 ShowAllExaminationForReviewViewModel.ExaminationsPerPage);
 
             ViewData["Title"] = "Обратна връзка";

@@ -14,7 +14,8 @@ namespace MedicalCenter.Core.Services
         private readonly UserManager<User> userManager;
         private readonly IRepository repository;
 
-        public AdministratorService(UserManager<User> _userManager,
+        public AdministratorService(
+            UserManager<User> _userManager,
             IRepository _repository)
         {
             userManager = _userManager;
@@ -283,36 +284,30 @@ namespace MedicalCenter.Core.Services
                 .OrderByDescending(x => x.DoctorExaminations.Count())
                 .FirstOrDefaultAsync();
 
-            var allDoctorCount = repository.All<Doctor>()
+            var allDoctorCount = await repository.All<Doctor>()
                 .Where(u => !u.IsOutOfCompany)
-                .ToList()
-                .Count();
+                .CountAsync();
 
-            var allDoctorOutCount = repository.All<Doctor>()
+            var allDoctorOutCount = await repository.All<Doctor>()
                 .Where(u => u.IsOutOfCompany)
-                .ToList()
-                .Count();
+                .CountAsync();
 
-            var allUser = repository.All<User>()
+            var allUser = await repository.All<User>()
                 .Where(u => u.Role == nameof(User))
-                .ToList()
-                .Count();
+                .CountAsync();
 
-            var allReview = repository.All<Review>()
-                .ToList()
-                .Count();
+            var allReview = await repository.All<Review>()
+                .CountAsync();
 
-            var allExamination = repository.All<Examination>()
+            var allExamination = await repository.All<Examination>()
                 .Where(e => !e.IsDeleted && e.Date < DateTime.Now)
-                .ToList()
-                .Count();
+                .CountAsync();
 
             return new DashboardStatisticViewModel
             {
                 BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.FirstName} {bestRatingDoctor.LastName}",
                 BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? 0.00 : bestRatingDoctor.DoctorReviews.Average(x => x.Rating),
                 BestExaminationDoctorFullName = bestExaminationDoctor.DoctorExaminations.Count == 0 ? "Няма записани часове" : $"Д-р {bestExaminationDoctor.FirstName} {bestExaminationDoctor.LastName}",
-                
                 BestExaminationCount = bestExaminationDoctor.DoctorExaminations.Count(),
                 AllDoctorCount = allDoctorCount,
                 AllDoctorOutCount = allDoctorOutCount,

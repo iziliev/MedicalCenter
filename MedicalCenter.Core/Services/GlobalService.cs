@@ -23,32 +23,7 @@ namespace MedicalCenter.Core.Services
             roleManager = _roleManager;
             repository = _repository;
         }
-
-        //public async Task CreateRoleAsync()
-        //{
-        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.AdministratorRole));
-        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.DoctorRole));
-        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.UserRole));
-        //}
-
-        public async Task AddUsersToRoleAsync()
-        {
-            var administrator = await userManager.FindByNameAsync("admin");
-            var doctors = await repository.All<User>()
-                .Where(m => m.Email.EndsWith("@mc-bg.com"))
-                .ToListAsync();
-
-            if (administrator != null)
-            {
-                await userManager.AddToRoleAsync(administrator, RoleConstants.AdministratorRole);
-            }
-
-            foreach (var doc in doctors)
-            {
-                await userManager.AddToRoleAsync(doc, RoleConstants.DoctorRole);
-            }
-        }
-
+        
         public async Task AddUserRoleAsync(User user, string userRole)
         {
             await userManager.AddToRoleAsync(user, userRole);

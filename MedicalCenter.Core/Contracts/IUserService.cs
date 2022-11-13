@@ -8,40 +8,40 @@ namespace MedicalCenter.Core.Contracts
     {
         Task<IdentityResult> Register(RegisterViewModel registerModel);
 
-        Task<bool> IsUsernameExist(string username);
+        Task<bool> IsUsernameExistAsync(string username);
 
-        Task<bool> IsEmailExist(string username);
+        Task<bool> IsUserEmailExistAsync(string username);
 
         Task<SignInResult> Login(LoginViewModel loginModel);
 
         Task Logout();
 
-        Task<User> GetUserByUsername(string username);
+        Task<User> GetUserByUsernameAsync(string username);
 
-        Task<IEnumerable<string>> GetWorkHoursByDoctorId (string doctorId);
+        Task<IEnumerable<string>> GetDoctorWorkHoursByDoctorIdAsync (string doctorId);
 
-        Task<Doctor> GetDoctorById(string doctorId);
+        Task<Doctor> GetDoctorByIdAsync(string doctorId);
 
-        Task CreateExamination(User user,Doctor doctor, BookExaminationViewModel bookModel);
+        Task CreateExaminationAsync(User user,Doctor doctor, BookExaminationViewModel bookModel);
 
-        Task<bool> IsUserFreeOnDateAnHour(string userId, BookExaminationViewModel bookModel);
+        Task<bool> IsUserFreeOnDateAnHourAsync(string userId, BookExaminationViewModel bookModel);
 
-        Task<bool> IsDoctorFreeOnDateAnHour(BookExaminationViewModel bookModel);
+        Task<bool> IsDoctorFreeOnDateAnHourAsync(BookExaminationViewModel bookModel);
 
-        Task<string> ReturnDoctorName(string doctorId);
+        Task<string> ReturnDoctorNameByDoctorIdAsync(string doctorId);
 
-        Task CancelUserExamination(string examinationId);
+        Task CancelUserExaminationAsync(string examinationId);
 
-        Task<BookExaminationViewModel> FillBookViewModel(string doctorId);
+        Task<BookExaminationViewModel> FillBookViewModelAsync(string doctorId);
 
-        Task<Examination> GetExaminationById(string id);
+        Task<Examination> GetExaminationByIdAsync(string id);
 
         Task<Examination> GetExaminationAsync(string userId, BookExaminationViewModel bookModel);
 
-        Task<ShowAllDoctorUserViewModel> ShowDoctorOnUser(int currentPage = 1, int doctorsPerPage = 4);
+        Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(int currentPage = 1, int doctorsPerPage = 4);
 
-        Task<ShowAllUserExaminationViewModel> GetAllCurrentExamination(string userId, int currentPage = 1, int examinationsPerPage = 6);
+        Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(string userId, int currentPage = 1, int examinationsPerPage = 6);
 
-        Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReview(string userId, int currentPage = 1, int examinationsPerPage = 6);
+        Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, int currentPage = 1, int examinationsPerPage = 6);
     }
 }

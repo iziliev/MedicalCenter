@@ -4,6 +4,6 @@
     {
         public IEnumerable<DoctorExaminationViewModel> DoctorExaminations { get; set; } = new List<DoctorExaminationViewModel>();
 
-        public DoctorStatisticViewModel DoctorStatistics { get; set; }
+        public DoctorStatisticViewModel DoctorStatistics { get; set; } = null!;
     }
 }

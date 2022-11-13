@@ -15,7 +15,7 @@ namespace MedicalCenter.Core.Services
             repository = _repository;
         }
 
-        public async Task<Doctor> GetDoctorAsync(string id)
+        public async Task<Doctor> GetDoctorByIdAsync(string id)
         {
             return await repository.All<Doctor>()
                 .FirstOrDefaultAsync(x=>x.Id == id);
@@ -39,22 +39,20 @@ namespace MedicalCenter.Core.Services
                 .ToListAsync();
         }
 
-        public DoctorStatisticViewModel DoctorStatistic(Doctor doctor)
+        public async Task<DoctorStatisticViewModel> GetDoctorStatisticsAsync(Doctor doctor)
         {
-            var allFinishedExamination = repository.All<Examination>()
+            var allFinishedExamination = await repository.All<Examination>()
                 .Where(e => e.DoctorId == doctor.Id && !e.IsDeleted && e.Date < DateTime.Now)
-                .ToList()
-                .Count();
+                .CountAsync();
 
-            var allExamination = repository.All<Examination>()
+            var allExamination = await repository.All<Examination>()
                 .Where(e => e.DoctorId == doctor.Id && !e.IsDeleted && e.Date.Date >= DateTime.Now.Date)
-                .ToList()
-                .Count();
+                .CountAsync();
 
-            var ratings = repository.All<Review>()
+            var ratings = await repository.All<Review>()
                 .Where(r => r.DoctorId == doctor.Id)
-                .Select(x => x.Rating)
-                .ToList();
+                .ToListAsync();
+
 
             var doctorFullName = $"Д-р {doctor.FirstName} {doctor.LastName}";
 
@@ -63,8 +61,8 @@ namespace MedicalCenter.Core.Services
                 AllExaminations = allExamination,
                 DoctorFullName = doctorFullName,
                 Examinations = allFinishedExamination,
-                Rating = ratings.Count != 0 ? (ratings.Sum()/ratings.Count()) : 0,
-                RatingUser = ratings.Count()
+                Rating = ratings.Count != 0 ? (ratings.Sum(r=>r.Rating)/ratings.Count) : 0,
+                RatingUser = ratings.Count
             };
         }
     }

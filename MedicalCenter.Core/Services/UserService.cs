@@ -15,7 +15,8 @@ namespace MedicalCenter.Core.Services
         private readonly SignInManager<User> signInManager;
         private readonly IRepository repository;
 
-        public UserService(UserManager<User> _userManager,
+        public UserService(
+            UserManager<User> _userManager,
             SignInManager<User> _signInManager,
             IRepository _repository)
         {
@@ -24,12 +25,12 @@ namespace MedicalCenter.Core.Services
             repository = _repository;
         }
 
-        public async Task<bool> IsEmailExist(string username)
+        public async Task<bool> IsUserEmailExistAsync(string username)
         {
             return await userManager.FindByEmailAsync(username) != null;
         }
 
-        public async Task<bool> IsUsernameExist(string username)
+        public async Task<bool> IsUsernameExistAsync(string username)
         {
             return await userManager.FindByNameAsync(username) != null;
         }
@@ -68,13 +69,13 @@ namespace MedicalCenter.Core.Services
             return await userManager.CreateAsync(user, registerModel.Password);
         }
 
-        public async Task<User> GetUserByUsername(string username)
+        public async Task<User> GetUserByUsernameAsync(string username)
         {
             return await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.UserName == username);
         }
 
-        public async Task<ShowAllDoctorUserViewModel> ShowDoctorOnUser(int currentPage = 1, int doctorsPerPage = 4)
+        public async Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(int currentPage = 1, int doctorsPerPage = 4)
         {
             var doctorsQuery = repository.All<Doctor>()
                 .Where(d => !d.IsOutOfCompany)
@@ -105,7 +106,7 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<IEnumerable<string>> GetWorkHoursByDoctorId(string doctorId)
+        public async Task<IEnumerable<string>> GetDoctorWorkHoursByDoctorIdAsync(string doctorId)
         {
             return await repository.All<Doctor>()
                 .Where(d => d.Id == doctorId)
@@ -116,7 +117,7 @@ namespace MedicalCenter.Core.Services
         }
 
 
-        public async Task<Doctor> GetDoctorById(string doctorId)
+        public async Task<Doctor> GetDoctorByIdAsync(string doctorId)
         {
             return await repository.All<Doctor>()
                 .Include(s=>s.Specialty)
@@ -124,7 +125,7 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task CreateExamination(User user, Doctor doctor, BookExaminationViewModel bookModel)
+        public async Task CreateExaminationAsync(User user, Doctor doctor, BookExaminationViewModel bookModel)
         {
             var examination = new Examination
             {
@@ -147,7 +148,7 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<bool> IsUserFreeOnDateAnHour(string userId, BookExaminationViewModel bookModel)
+        public async Task<bool> IsUserFreeOnDateAnHourAsync(string userId, BookExaminationViewModel bookModel)
         {
             var date = DateTime.ParseExact(bookModel.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
@@ -167,7 +168,7 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> IsDoctorFreeOnDateAnHour(BookExaminationViewModel bookModel)
+        public async Task<bool> IsDoctorFreeOnDateAnHourAsync(BookExaminationViewModel bookModel)
         {
             var date = DateTime.ParseExact(bookModel.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
@@ -177,14 +178,14 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync() == null;
         }
 
-        public async Task<string> ReturnDoctorName(string doctorId)
+        public async Task<string> ReturnDoctorNameByDoctorIdAsync(string doctorId)
         {
-            var doctor = await GetDoctorById(doctorId);
+            var doctor = await GetDoctorByIdAsync(doctorId);
 
             return $"{doctor.FirstName} {doctor.LastName}";
         }
 
-        public async Task<ShowAllUserExaminationViewModel> GetAllCurrentExamination(string userId, int currentPage = 1, int examinationPerPage = 6)
+        public async Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(string userId, int currentPage = 1, int examinationPerPage = 6)
         {
             var examinationQuery = repository.All<Examination>()
                 .Include(e => e.User)
@@ -215,7 +216,7 @@ namespace MedicalCenter.Core.Services
 
         }
 
-        public async Task CancelUserExamination(string examinationId)
+        public async Task CancelUserExaminationAsync(string examinationId)
         {
             var examination = await repository.All<Examination>()
                 .Where(e => e.Id == examinationId)
@@ -226,15 +227,15 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<BookExaminationViewModel> FillBookViewModel(string doctorId)
+        public async Task<BookExaminationViewModel> FillBookViewModelAsync(string doctorId)
         {
-            var doctor = await GetDoctorById(doctorId);
+            var doctor = await GetDoctorByIdAsync(doctorId);
 
             return new BookExaminationViewModel()
             {
                 DoctorId = doctorId,
                 DoctorFullName = $"Д-р {doctor.FirstName} {doctor.LastName}",
-                WorkHours = await GetWorkHoursByDoctorId(doctorId),
+                WorkHours = await GetDoctorWorkHoursByDoctorIdAsync(doctorId),
                 Biography=doctor.Biography,
                 Education=doctor.Education,
                 ProfileImage=doctor.ProfileImageUrl,
@@ -243,7 +244,7 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReview(string userId, int currentPage = 1, int examinationPerPage = 6)
+        public async Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, int currentPage = 1, int examinationPerPage = 6)
         {
             var examinationQuery = repository.All<Examination>()
                 .Include(d => d.Doctor)
@@ -270,7 +271,7 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<Examination> GetExaminationById(string id)
+        public async Task<Examination> GetExaminationByIdAsync(string id)
         {
             return await repository.All<Examination>()
                 .Where(e=>e.Id == id)

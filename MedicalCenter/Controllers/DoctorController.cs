@@ -2,7 +2,6 @@
 using MedicalCenter.Core.Models.Dotor;
 using MedicalCenter.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Controllers
@@ -37,7 +36,7 @@ namespace MedicalCenter.Controllers
                 return View();
             }
 
-            var doctor = await doctorService.GetDoctorAsync(doctorId);
+            var doctor = await doctorService.GetDoctorByIdAsync(doctorId);
 
             if (doctor == null)
             {
@@ -49,7 +48,7 @@ namespace MedicalCenter.Controllers
             var allExaminationModel = new DoctorExaminationInfo
             {
                 DoctorExaminations = await doctorService.GetAllExaminationAsync(doctor),
-                DoctorStatistics = doctorService.DoctorStatistic(doctor)
+                DoctorStatistics = await doctorService.GetDoctorStatisticsAsync(doctor)
             };
 
             return View(allExaminationModel);

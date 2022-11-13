@@ -16,11 +16,11 @@ namespace MedicalCenter.Core.Services
             repository = _repository;
         }
 
-        public async Task CreateReview(ReviewViewModel reviewModel)
+        public async Task CreateReviewAsync(ReviewViewModel reviewModel)
         {
-            var user = await GetUser(reviewModel.UserId);
-            var doctor = await GetDoctor(reviewModel.DoctorId);
-            var examination = await GetExamination(reviewModel.ExaminationId);
+            var user = await GetUserByUserIdAsync(reviewModel.UserId);
+            var doctor = await GetDoctorByIdAsync(reviewModel.DoctorId);
+            var examination = await GetExaminationByIdAsync(reviewModel.ExaminationId);
             var review = new Review
             {
                 Content = reviewModel.Content,
@@ -42,7 +42,7 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AllGiveReviewViewModel>> GetAllToReviews(string userId)
+        public async Task<IEnumerable<AllGiveReviewViewModel>> GetAllToReviewsByUserIdAsync(string userId)
         {
             return await repository.All<Review>()
                 .Include(d => d.Doctor)
@@ -59,7 +59,7 @@ namespace MedicalCenter.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<ShowAllReviewViewModel> GetAllReviews(int currentPage = 1, int reviewPerPage = 6)
+        public async Task<ShowAllReviewViewModel> GetAllReviewsAsync(int currentPage = 1, int reviewPerPage = 6)
         {
             var reviewsQuery = repository.All<Review>()
                 .AsQueryable();
@@ -84,21 +84,21 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<Doctor> GetDoctor(string doctorId)
+        public async Task<Doctor> GetDoctorByIdAsync(string doctorId)
         {
             return await repository.All<Doctor>()
                 .Where(d => d.Id == doctorId)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Examination> GetExamination(string examinationId)
+        public async Task<Examination> GetExaminationByIdAsync(string examinationId)
         {
             return await repository.All<Examination>()
                 .Where(e => e.Id == examinationId)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ShowAllReceiveReviewViewModel> GetReceiveReviews(string doctorId,int currentPage = 1, int reviewPerPage = 6)
+        public async Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(string doctorId,int currentPage = 1, int reviewPerPage = 6)
         {
             var reviewsQuery = repository.All<Review>()
                 .Include(d => d.User)
@@ -124,18 +124,16 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<User> GetUser(string userId)
+        public async Task<User> GetUserByUserIdAsync(string userId)
         {
             return await repository.All<User>()
                 .Where(u => u.Id == userId)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ShowAllGiveReviewViewModel> GetAllGiveReviews(string userId, int currentPage = 1, int reviewPerPage = 6)
+        public async Task<ShowAllGiveReviewViewModel> GetAllGiveReviewsByUserAsync(string userId, int currentPage = 1, int reviewPerPage = 6)
         {
             var reviewsQuery = repository.All<Review>()
-                //.Include(d => d.Examinations)
-                //.ThenInclude(u=>u.Doctor)
                 .Include(u => u.Doctor)
                 .ThenInclude(s=>s.Specialty)
                 .Where(u => u.UserId == userId)

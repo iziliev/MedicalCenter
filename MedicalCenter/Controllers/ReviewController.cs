@@ -18,7 +18,7 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateReview(string examinationId)
         {
-            var examination = await reviewService.GetExamination(examinationId);
+            var examination = await reviewService.GetExaminationByIdAsync(examinationId);
             var reviewModel = new ReviewViewModel();
             reviewModel.ExaminationId=examinationId;
             reviewModel.UserId = examination.UserId;
@@ -32,12 +32,12 @@ namespace MedicalCenter.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var examination = await reviewService.GetExamination(reviewModel.ExaminationId);
+                var examination = await reviewService.GetExaminationByIdAsync(reviewModel.ExaminationId);
                 ViewData["Title"] = $"Оценка за прегледа при {examination.DoctorFullName} проведен на {examination.Date.ToString("dd.MM.yyyy")} {examination.Hour}";
                 return View(reviewModel);
             }
 
-            await reviewService.CreateReview(reviewModel);
+            await reviewService.CreateReviewAsync(reviewModel);
 
             return RedirectToAction("ExaminationForFeedback", "User");
         }
@@ -49,7 +49,7 @@ namespace MedicalCenter.Controllers
 
             ViewData["Title"] = $"Всички оценки";
 
-            var queryResult = await reviewService.GetAllGiveReviews(userId, query.CurrentPage,
+            var queryResult = await reviewService.GetAllGiveReviewsByUserAsync(userId, query.CurrentPage,
                 ShowAllGiveReviewViewModel.ReviewPerPage);
 
             query.TotalReviewsCount = queryResult.TotalReviewsCount;
@@ -63,7 +63,7 @@ namespace MedicalCenter.Controllers
         {
             var doctorId = User.Id();
 
-            var queryResult = await reviewService.GetReceiveReviews(doctorId,query.CurrentPage,
+            var queryResult = await reviewService.GetReceiveReviewsByDoctorIdAsync(doctorId,query.CurrentPage,
                 ShowAllReceiveReviewViewModel.ReviewPerPage);
 
             ViewData["Title"] = $"Получени оценки";
@@ -77,7 +77,7 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> AllReview(ShowAllReviewViewModel query)
         {
-            var queryResult = await reviewService.GetAllReviews(query.CurrentPage,
+            var queryResult = await reviewService.GetAllReviewsAsync(query.CurrentPage,
                 ShowAllReviewViewModel.ReviewPerPage);
 
             ViewData["Title"] = "Всички оценки";

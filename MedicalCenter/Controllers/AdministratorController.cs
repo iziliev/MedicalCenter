@@ -11,7 +11,8 @@ namespace MedicalCenter.Controllers
         private readonly IAdministratorService administratorService;
         private readonly IGlobalService globalService;
 
-        public AdministratorController(IAdministratorService _administratorService,
+        public AdministratorController(
+            IAdministratorService _administratorService,
             IGlobalService _globalService)
         {
             administratorService = _administratorService;
@@ -117,15 +118,6 @@ namespace MedicalCenter.Controllers
                 return View(doctorCreateModel);
             }
 
-            //if (doctorCreateModel.Id != null && doctorCreateModel.IsOutOfCompany)
-            //{
-            //    await administratorService.ReturnDoctorAsync(doctorCreateModel.Id);
-
-            //    TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctorCreateModel.FirstName} {doctorCreateModel.LastName} в Medical Center!";
-
-            //    return RedirectToAction(nameof(AdminBoard));
-            //}
-
             var result = await administratorService.CreateDoctorAsync(doctorCreateModel);
 
             var doctor = await administratorService.GetDoctorByEgnAsync(doctorCreateModel.Egn);
@@ -172,24 +164,6 @@ namespace MedicalCenter.Controllers
             await administratorService.ReturnDoctorAsync(id);
 
             return RedirectToAction(nameof(AdminBoard));
-        }
-
-
-        //TODO make rolesa automaticaly
-        //[Authorize(Roles = AdministratorRole)]
-        //public async Task<IActionResult> CreateRoles()
-        //{
-        //    await globalService.CreateRoleAsync();
-
-        //    return RedirectToAction("Index", "Home");
-        //}
-
-        //[Authorize(Roles = AdministratorRole)]
-        public async Task<IActionResult> AddUsersToRoles()
-        {
-            await globalService.AddUsersToRoleAsync();
-
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

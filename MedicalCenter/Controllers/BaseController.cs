@@ -14,7 +14,7 @@ namespace MedicalCenter.Controllers
             {
                 string firstName = string.Empty;
 
-                if (User?.Identity?.IsAuthenticated ?? false && User.HasClaim(c => c.Type == ClaimTypeConstants.FirsName))
+                if (User.Identity?.IsAuthenticated ?? false && User.HasClaim(c => c.Type == ClaimTypeConstants.FirsName))
                 {
                     firstName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypeConstants.FirsName)?.Value ?? firstName;
                 }
@@ -25,7 +25,7 @@ namespace MedicalCenter.Controllers
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            if (User?.Identity?.IsAuthenticated ?? false)
+            if (User.Identity?.IsAuthenticated ?? false)
             {
                 ViewBag.UserFirstName = UserFirstName;
             }
