@@ -1,62 +1,83 @@
 ﻿@model ReviewViewModel
 
 @section Styles {
-<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
-<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
 }
 
-<div class="container">
-    <div class="row">
-        <div class="register-box offset-lg-2 offset-sm-0 col-sm-12 col-lg-8">
-            <div class="card card-outline card-primary">
-                <div class="card-header text-center">
-                    <h1><b>Оценка</b></h1>
-                </div>
-                <div class="card-body">
-                    <p class="login-box-msg">@ViewData["Title"]</p>
-                    <form method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
-                        <div class="row">
-                            <div class="col-sm-12 col-lg-12">
-                                <input type="hidden" value="@Model.ExaminationId" name="examinationId" />
-                                <input type="hidden" value="@Model.UserId" name="userId" />
-                                <input type="hidden" value="@Model.DoctorId" name="doctorId" />
-                                <div class="input-group mb-1">
-                                <label class="input-group mb-1 mt-3">Коментар</label>
-                                    <textarea asp-for="Content" class="form-control" autocomplete="content" rows="6" maxlength="2500"></textarea>
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-align-justify"></span>
+    <div class="container">
+        <div class="row">
+            <div class="register-box offset-lg-2 offset-sm-0 col-sm-12 col-lg-8">
+                <div class="card card-outline card-primary">
+                    <div class="card-header text-center">
+                        <h1><b>Оценка</b></h1>
+                    </div>
+                    <div class="card-body">
+                        <p class="login-box-msg">@ViewData["Title"]</p>
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
+                            <div class="row">
+                                <div class="star-rating">
+                                    <input asp-for="Rating" type="radio" name="rating" id="star-a" value="5" />
+                                    <label for="star-a"></label>
+
+                                    <input asp-for="Rating" type="radio" name="rating" id="star-b" value="4" />
+                                    <label for="star-b"></label>
+
+                                    <input asp-for="Rating" type="radio" name="rating" id="star-c" value="3" />
+                                    <label for="star-c"></label>
+
+                                    <input asp-for="Rating" type="radio" name="rating" id="star-d" value="2" />
+                                    <label for="star-d"></label>
+
+                                    <input asp-for="Rating" type="radio" name="rating" id="star-e" value="1" checked />
+                                    <label for="star-e"></label>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-12">
+                                    <input type="hidden" value="@Model.ExaminationId" name="examinationId" />
+                                    <input type="hidden" value="@Model.UserId" name="userId" />
+                                    <input type="hidden" value="@Model.DoctorId" name="doctorId" />
+                                    <div class="input-group mb-1">
+                                        <label class="input-group mb-1 mt-3">Коментар</label>
+                                        <textarea asp-for="Content" class="form-control" autocomplete="content" rows="6" maxlength="2500"></textarea>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-align-justify"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="Content" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+
+                                @*<div class="col-sm-6 col-lg-6">
+                                    <label class="input-group mt-3">Оценка от 1 до 5</label>
+                                    <div class="input-group mb-1 mt-2">
+                                        <input asp-for="Rating" class="form-control" type="number" autocomplete="rating" min="1" max="5" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-light fa-star"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="Rating" class="text-danger"></span>
+                                </div>*@
+                                <div class=" offset-sm-2 offset-lg-2 col-sm-4 col-lg-4">
+                                    <div class="input-group mb-1 mt-5">
+                                        <div class="col-sm-8 col-lg-8">
+                                            <button type="submit" class="btn btn-primary btn-block">Оцени</button>
                                         </div>
                                     </div>
                                 </div>
-                                <span asp-validation-for="Content" class="text-danger"></span>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 col-lg-6">
-                                <label class="input-group mt-3">Оценка от 1 до 5</label>
-                                <div class="input-group mb-1 mt-2">
-                                    <input asp-for="Rating" class="form-control" type="number" autocomplete="rating" min="1" max="5"/>
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-light fa-star"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span asp-validation-for="Rating" class="text-danger"></span>
-                            </div>
-                            <div class=" offset-sm-2 offset-lg-2 col-sm-4 col-lg-4">
-                                <div class="input-group mb-1 mt-5">
-                                    <div class="col-sm-8 col-lg-8">
-                                        <button type="submit" class="btn btn-primary btn-block">Оцени</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
