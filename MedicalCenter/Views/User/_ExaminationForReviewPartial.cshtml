@@ -2,11 +2,11 @@
 
 <tr>
     <td scope="row">@Model.DateAndHour</td>
-    <td scope="row" class="text-center">@Model.DoctorNameAndSpecialty</td>
+    <td scope="row">@Model.DoctorNameAndSpecialty</td>
     <td scope="row" class="text-center">
         <form asp-controller="Review" asp-action="CreateReview" method="get">
             <input type="hidden" value="@Model.ExaminationId" name="examinationId" />
-            <input type="submit" value="Оцени" class="btn btn-outline-danger" />
+            <input type="submit" value="Оцени" class="btn btn-warning" />
         </form>
     </td>
 </tr>
