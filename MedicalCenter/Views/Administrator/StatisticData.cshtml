@@ -6,7 +6,7 @@
     {
         <div class="col-sm-3 col-6">
             <div class="description-block border-right">
-                <span class="description-percentage text-success">@((double)shedule.Value/Model.Shedules.Sum(x=>x.Value) * 100)% </span>
+                <span class="description-percentage text-success">@Math.Round((double)shedule.Value/Model.Shedules.Sum(x=>x.Value) * 100,2)% </span>
                 <h5 class="description-header">@shedule.Value</h5>
                 <span class="description-text text-center">записани часа в диапазона<br></span>
                 <span class="description-text">@shedule.Key</span>
@@ -14,23 +14,22 @@
         </div>
     }
 
-    @foreach (var speciality in @Model.Specialties)
+    @foreach (var speciality in @Model.Top5Specialises)
     {
         <div class="col-sm-3 col-6">
             <div class="description-block border-right">
-                <span class="description-percentage text-success">@((double)speciality.Value/Model.Specialties.Sum(x=>x.Value)*100)%</span>
+                <span class="description-percentage text-success">@Math.Round((double)speciality.Value/Model.Specialties.Sum(x=>x.Value)*100,2)%</span>
                 <h5 class="description-header">@speciality.Value</h5>
                 <span class="description-text">@speciality.Key</span>
             </div>
-
         </div>
     }
 
-    @foreach (var doctorExamination in @Model.DoctorsExaminations)
+    @foreach (var doctorExamination in @Model.Top5DoctorExamination)
     {
         <div class="col-sm-3 col-6">
             <div class="description-block">
-                <span class="description-percentage text-danger">@((double)doctorExamination.Value/Model.DoctorsExaminations.Sum(x=>x.Value)*100)%</span>
+                <span class="description-percentage text-danger">@Math.Round((double)doctorExamination.Value/Model.DoctorsExaminations.Sum(x=>x.Value)*100,2)%</span>
                 <h5 class="description-header">@doctorExamination.Value</h5>
                 <span class="description-text">@doctorExamination.Key</span>
             </div>

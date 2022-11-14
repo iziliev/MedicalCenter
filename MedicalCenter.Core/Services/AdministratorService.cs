@@ -425,8 +425,12 @@ namespace MedicalCenter.Core.Services
                     specialitiesDictionary.Add(specialtyName.Name, 0);
                 }
                 specialitiesDictionary[specialtyName.Name]++;
-
             }
+
+            var top5Specialises = specialitiesDictionary
+                .OrderByDescending(x => x.Value)
+                .ToDictionary(x => x.Key, x => x.Value)
+                .Take(5);
 
             var examinationDoctors = await repository.AllReadonly<Examination>()
                 .Where(x => !x.IsDeleted)
@@ -449,6 +453,11 @@ namespace MedicalCenter.Core.Services
                 doctorExaminationDictionary[doctorName]++;
             }
 
+            var top5DoctorExamination = doctorExaminationDictionary
+                .OrderByDescending(x => x.Value)
+                .ToDictionary(x => x.Key, x => x.Value)
+                .Take(5);
+
             var doctorReviews = await repository.AllReadonly<Examination>()
                 .Where(x => !x.IsDeleted && x.IsUserReviewedExamination)
                 .Include(x => x.Doctor)
@@ -470,17 +479,35 @@ namespace MedicalCenter.Core.Services
                 doctorsReview[doctorName].Add(review.Rating);
             }
 
-            //long sumRating = doctorReviews.Sum(x => x.Review.Rating);
-            //long ratingCount = doctorReviews.Select(x=>x.ReviewId).Count();
+            var sumRatingValue = new Dictionary<int, int>()
+            {
+                {1, 0},{2, 0},{3, 0},{4, 0},{5, 0}
+            };
+
+            var allReviews = await repository.AllReadonly<Review>()
+                .Where(x => x.Id != null)
+                .ToListAsync();
+
+            long sumRating = 0;
+            long countRating = allReviews.Count;
+
+
+            foreach (var review in allReviews)
+            {
+                sumRatingValue[review.Rating]++;
+                sumRating += review.Rating;
+            }
 
             return new DashboardStatisticDataViewModel
             {
                 Shedules = sheduleDictionary,
                 Specialties = specialitiesDictionary,
+                Top5Specialises = top5Specialises,
                 DoctorsExaminations = doctorExaminationDictionary,
+                Top5DoctorExamination = top5DoctorExamination,
                 DoctorsRating = doctorsReview,
-                //CountRaings = ratingCount,
-                //SumAllRaings = sumRating
+                CountRaings = countRating,
+                SumAllRaings = sumRating
             };
         }
     }
