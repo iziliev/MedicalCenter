@@ -220,5 +220,46 @@ namespace MedicalCenter.Controllers
 
             return View(modelStatistic);
         }
+
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> AllPastExamination(ShowAllExaminationViewModel query)
+        {
+            var queryResult = await administratorService.GetAllPastExamination(query.CurrentPage,
+                ShowAllExaminationViewModel.ExaminationPerPage);
+
+            ViewData["Title"] = "Извършени прегледа";
+
+            query.TotalExaminationCount = queryResult.TotalExaminationCount;
+            query.AllExamination = queryResult.AllExamination;
+
+            return View(query);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> AllFutureExamination(ShowAllExaminationViewModel query)
+        {
+            var queryResult = await administratorService.GetAllFutureExamination(query.CurrentPage,
+                ShowAllExaminationViewModel.ExaminationPerPage);
+
+            ViewData["Title"] = "Предстоящи прегледa";
+
+            query.TotalExaminationCount = queryResult.TotalExaminationCount;
+            query.AllExamination = queryResult.AllExamination;
+
+            return View(query);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> StatisticData()
+        {
+            var modelStatistic = await administratorService.GetStatisticsDataAsync();
+
+            ViewData["Title"] = "Admin panel";
+
+            return View(modelStatistic);
+        }
     }
 }

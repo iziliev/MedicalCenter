@@ -65,6 +65,7 @@ namespace MedicalCenter.Core.Services
                 .AsQueryable();
 
             var reviews = await reviewsQuery
+                .OrderByDescending(x => x.CreatedOn)
                 .Skip((currentPage - 1) * reviewPerPage)
                 .Take(reviewPerPage)
                 .Select(d => new AllReviewViewModel
@@ -106,6 +107,7 @@ namespace MedicalCenter.Core.Services
                 .AsQueryable();
 
             var reviews = await reviewsQuery
+                .OrderByDescending(d => d.CreatedOn)
                 .Skip((currentPage - 1) * reviewPerPage)
                 .Take(reviewPerPage)
                 .Select(x => new AllReceiveReviewViewModel
@@ -136,6 +138,7 @@ namespace MedicalCenter.Core.Services
             var reviewsQuery = repository.All<Review>()
                 .Include(u => u.Doctor)
                 .ThenInclude(s=>s.Specialty)
+                .OrderByDescending(u => u.CreatedOn)
                 .Where(u => u.UserId == userId)
                 .AsQueryable();
 

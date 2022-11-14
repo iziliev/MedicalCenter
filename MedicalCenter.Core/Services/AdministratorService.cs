@@ -1,6 +1,7 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Infrastructure.Data.Common;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -88,7 +89,7 @@ namespace MedicalCenter.Core.Services
                 .Where(u => u.Id == id)
                 .FirstOrDefaultAsync();
 
-            doctor.IsOutOfCompany = false ;
+            doctor.IsOutOfCompany = false;
             doctor.OutOnDate = null;
 
             await repository.SaveChangesAsync();
@@ -274,7 +275,7 @@ namespace MedicalCenter.Core.Services
 
             var bestExaminationDoctor = await repository.All<Doctor>()
                 .Include(d => d.DoctorExaminations)
-                .OrderByDescending(x => x.DoctorExaminations.Count())
+                .OrderByDescending(x => x.DoctorExaminations.Count)
                 .FirstOrDefaultAsync();
 
             var allDoctorCount = await repository.All<Doctor>()
@@ -296,6 +297,14 @@ namespace MedicalCenter.Core.Services
                 .Where(e => !e.IsDeleted && e.Date < DateTime.Now)
                 .CountAsync();
 
+            var allPastExamination = await repository.All<Examination>()
+                .Where(e => !e.IsDeleted && e.Date < DateTime.Now)
+                .CountAsync();
+
+            var allFutureExamination = await repository.All<Examination>()
+                .Where(e => !e.IsDeleted && e.Date > DateTime.Now)
+                .CountAsync();
+
             return new DashboardStatisticViewModel
             {
                 BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.FirstName} {bestRatingDoctor.LastName}",
@@ -306,7 +315,172 @@ namespace MedicalCenter.Core.Services
                 AllDoctorOutCount = allDoctorOutCount,
                 AllReviews = allReview,
                 AllUserCount = allUser,
-                AllExamination = allExamination
+                AllExamination = allExamination,
+                AllFutureExamination = allFutureExamination,
+                AllPastExamination = allPastExamination
+            };
+        }
+
+        public async Task<ShowAllExaminationViewModel> GetAllPastExamination(int currentPage = 1, int examinationsPerPage = 6)
+        {
+            var examinationQuery = repository.All<Examination>()
+                .Where(x => !x.IsDeleted & x.Date < DateTime.Now.Date)
+                .Include(u => u.User)
+                .Include(d => d.Doctor)
+                .ThenInclude(s => s.Specialty)
+                .AsQueryable();
+
+            var examinations = await examinationQuery
+                .OrderByDescending(x => x.Date < DateTime.Now.Date)
+                .Skip((currentPage - 1) * examinationsPerPage)
+                .Take(examinationsPerPage)
+                .Select(d => new DashboardExaminationViewModel
+                {
+                    DoctorFullName = d.DoctorFullName,
+                    DoctorId = d.DoctorId,
+                    PatientFullName = d.UserFullName,
+                    PatientId = d.UserId,
+                    SpecialityId = d.SpecialityId,
+                    SpecialityName = d.Doctor.Specialty.Name,
+                    ExaminationDate = d.Date.ToString("dd.MM.yyyy"),
+                    ExaminationHour = d.Hour
+                })
+                .ToListAsync();
+
+            return new ShowAllExaminationViewModel
+            {
+                AllExamination = examinations,
+                CurrentPage = currentPage,
+                TotalExaminationCount = examinationQuery.Count()
+            };
+        }
+
+        public async Task<ShowAllExaminationViewModel> GetAllFutureExamination(int currentPage = 1, int examinationsPerPage = 6)
+        {
+            var examinationQuery = repository.All<Examination>()
+                .Where(x => !x.IsDeleted & x.Date >= DateTime.Today.Date)
+                .Include(u => u.User)
+                .Include(d => d.Doctor)
+                .ThenInclude(s => s.Specialty)
+                .AsQueryable();
+
+            var examinations = await examinationQuery
+                .OrderByDescending(x => x.Date >= DateTime.Now.Date)
+                .Skip((currentPage - 1) * examinationsPerPage)
+                .Take(examinationsPerPage)
+                .Select(d => new DashboardExaminationViewModel
+                {
+                    DoctorFullName = d.DoctorFullName,
+                    DoctorId = d.DoctorId,
+                    PatientFullName = d.UserFullName,
+                    PatientId = d.UserId,
+                    SpecialityId = d.SpecialityId,
+                    SpecialityName = d.Doctor.Specialty.Name,
+                    ExaminationDate = d.Date.ToString("dd.MM.yyyy"),
+                    ExaminationHour = d.Hour
+                })
+                .ToListAsync();
+
+            return new ShowAllExaminationViewModel
+            {
+                AllExamination = examinations,
+                CurrentPage = currentPage,
+                TotalExaminationCount = examinationQuery.Count()
+            };
+        }
+
+        public async Task<DashboardStatisticDataViewModel> GetStatisticsDataAsync()
+        {
+            var examinations = await repository.All<Examination>()
+                .Where(x => !x.IsDeleted)
+                .ToListAsync();
+
+            var sheduleDictionary = new Dictionary<string, int>()
+            {
+                {"08:00-12:00",0 },
+                {"13:00-17:00",0 }
+            };
+
+            foreach (var shedule in examinations)
+            {
+                if (shedule.SheduleId == 1)
+                {
+                    sheduleDictionary["08:00-12:00"]++;
+                }
+                else
+                {
+                    sheduleDictionary["13:00-17:00"]++;
+                }
+            }
+
+            var specialitiesDictionary = new Dictionary<string, int>();
+
+            foreach (var speciality in examinations)
+            {
+                var specialtyName = await repository.AllReadonly<Specialty>()
+                    .FirstOrDefaultAsync(x => x.Id == speciality.SpecialityId);
+
+                if (!specialitiesDictionary.ContainsKey(specialtyName.Name))
+                {
+                    specialitiesDictionary.Add(specialtyName.Name, 0);
+                }
+                specialitiesDictionary[specialtyName.Name]++;
+
+            }
+
+            var examinationDoctors = await repository.AllReadonly<Examination>()
+                .Where(x => !x.IsDeleted)
+                .Include(x => x.Doctor)
+                .ToListAsync();
+
+            var doctorExaminationDictionary = new Dictionary<string, int>();
+
+            foreach (var examination in examinationDoctors)
+            {
+                var specialty = await repository.AllReadonly<Specialty>()
+                    .FirstOrDefaultAsync(x => x.Id == examination.SpecialityId);
+
+                var doctorName = $"{examination.DoctorFullName}- {specialty.Name}";
+
+                if (!doctorExaminationDictionary.ContainsKey(doctorName))
+                {
+                    doctorExaminationDictionary[doctorName] = 0;
+                }
+                doctorExaminationDictionary[doctorName]++;
+            }
+
+            var doctorReviews = await repository.AllReadonly<Examination>()
+                .Where(x => !x.IsDeleted && x.IsUserReviewedExamination)
+                .Include(x => x.Doctor)
+                .ThenInclude(r => r.DoctorReviews)
+                .ToListAsync();
+
+            var doctorsReview = new Dictionary<string, List<int>>();
+
+            foreach (var doctorReview in doctorReviews)
+            {
+                var doctorName = $"{doctorReview.DoctorFullName}";
+                var review = await repository.AllReadonly<Review>()
+                    .FirstOrDefaultAsync(r => r.Id == doctorReview.ReviewId);
+
+                if (!doctorsReview.ContainsKey(doctorName))
+                {
+                    doctorsReview[doctorName] = new List<int>();
+                }
+                doctorsReview[doctorName].Add(review.Rating);
+            }
+
+            //long sumRating = doctorReviews.Sum(x => x.Review.Rating);
+            //long ratingCount = doctorReviews.Select(x=>x.ReviewId).Count();
+
+            return new DashboardStatisticDataViewModel
+            {
+                Shedules = sheduleDictionary,
+                Specialties = specialitiesDictionary,
+                DoctorsExaminations = doctorExaminationDictionary,
+                DoctorsRating = doctorsReview,
+                //CountRaings = ratingCount,
+                //SumAllRaings = sumRating
             };
         }
     }

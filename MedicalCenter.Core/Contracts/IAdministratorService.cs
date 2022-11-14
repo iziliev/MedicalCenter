@@ -22,7 +22,13 @@ namespace MedicalCenter.Core.Contracts
 
         Task DeleteDoctorAsync(string id);
 
+        Task<DashboardStatisticDataViewModel> GetStatisticsDataAsync();
+
         Task<DashboardStatisticViewModel> GetStatisticsAsync();
+
+        Task<ShowAllExaminationViewModel> GetAllPastExamination(int currentPage = 1, int examinationPerPage = 6);
+
+        Task<ShowAllExaminationViewModel> GetAllFutureExamination(int currentPage = 1, int examinationPerPage = 6);
 
         Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(int currentPage = 1, int doctorsPerPage = 6);
 

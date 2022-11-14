@@ -41,6 +41,10 @@ namespace MedicalCenter.Infrastructure.Data.Models
         public string? ReviewId { get; set; }
         public Review? Review { get; set; }
 
+        [ForeignKey(nameof(Shedule))]
+        public int SheduleId { get; set; }
+        public Shedule Shedule { get; set; }
+
         public bool IsDeleted { get; set; } = false;
 
         public bool IsUserReviewedExamination { get; set; }

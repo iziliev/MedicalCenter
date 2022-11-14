@@ -1,0 +1,53 @@
+﻿@model DashboardStatisticDataViewModel
+
+<div class="row">
+
+    @foreach (var shedule in @Model.Shedules)
+    {
+        <div class="col-sm-3 col-6">
+            <div class="description-block border-right">
+                <span class="description-percentage text-success">@((double)shedule.Value/Model.Shedules.Sum(x=>x.Value) * 100)% </span>
+                <h5 class="description-header">@shedule.Value</h5>
+                <span class="description-text text-center">записани часа в диапазона<br></span>
+                <span class="description-text">@shedule.Key</span>
+            </div>
+        </div>
+    }
+
+    @foreach (var speciality in @Model.Specialties)
+    {
+        <div class="col-sm-3 col-6">
+            <div class="description-block border-right">
+                <span class="description-percentage text-success">@((double)speciality.Value/Model.Specialties.Sum(x=>x.Value)*100)%</span>
+                <h5 class="description-header">@speciality.Value</h5>
+                <span class="description-text">@speciality.Key</span>
+            </div>
+
+        </div>
+    }
+
+    @foreach (var doctorExamination in @Model.DoctorsExaminations)
+    {
+        <div class="col-sm-3 col-6">
+            <div class="description-block">
+                <span class="description-percentage text-danger">@((double)doctorExamination.Value/Model.DoctorsExaminations.Sum(x=>x.Value)*100)%</span>
+                <h5 class="description-header">@doctorExamination.Value</h5>
+                <span class="description-text">@doctorExamination.Key</span>
+            </div>
+
+        </div>
+    }
+
+    @foreach (var doctorRating in @Model.DoctorsRating)
+    {
+        <div class="col-sm-3 col-6">
+            <div class="description-block">
+                @*<span class="description-percentage text-danger">@((double)doctorRating.Value.Sum()/Model.DoctorsRating.Values.Sum()*100)%</span>*@
+                <h5 class="description-header">@((double)doctorRating.Value.Sum()/doctorRating.Value.Count)</h5>
+                <span class="description-text">@doctorRating.Key</span>
+            </div>
+
+        </div>
+    }
+
+</div>

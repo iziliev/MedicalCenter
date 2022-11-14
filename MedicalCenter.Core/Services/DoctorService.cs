@@ -21,6 +21,7 @@ namespace MedicalCenter.Core.Services
                 .Where(d => d.DoctorId == doctor.Id && !d.IsDeleted)
                 .Include(x => x.User)
                 .Where(x=>x.Date>=DateTime.Now)
+                .OrderByDescending(x=>x.Date)
                 .Select(x=>new DoctorExaminationViewModel
                 {
                     Date = x.Date.ToString("dd.MM.yyyy"),

@@ -19,5 +19,9 @@
         public int AllReviews { get; set; }
 
         public int AllExamination { get; set; }
+
+        public int AllPastExamination { get; set; }
+
+        public int AllFutureExamination { get; set; }
     }
 }

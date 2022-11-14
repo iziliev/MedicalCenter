@@ -140,6 +140,8 @@ namespace MedicalCenter.Core.Services
                 SpecialityId = doctor.SpecialtyId,
                 Doctor=doctor,
                 User=user,
+                Shedule = doctor.Shedule,
+                SheduleId = doctor.SheduleId
             };
 
             user.UserExaminations.Add(examination);

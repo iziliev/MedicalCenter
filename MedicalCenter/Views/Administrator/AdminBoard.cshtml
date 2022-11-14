@@ -104,6 +104,64 @@
             <a asp-controller="Review" asp-action="AllReview" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
+
+    <div class="col-lg-3 col-4">
+        <div class="small-box bg-gradient-teal">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>@Model.AllPastExamination</h3>
+                        <p>извършени</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-list"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Administrator" asp-action="AllPastExamination" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-4">
+        <div class="small-box bg-gradient-orange">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>@Model.AllFutureExamination</h3>
+                        <p>предстоящи</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-list"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Administrator" asp-action="AllFutureExamination" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-4">
+        <div class="small-box bg-gradient-fuchsia">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>@Model.AllFutureExamination</h3>
+                        <p>статистика</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-line-chart"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Administrator" asp-action="StatisticData" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
 </div>
 
 <div class="row mt-2" style="padding-top:20px;">
