@@ -19,18 +19,6 @@ builder.Services.AddDefaultIdentity<User>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<MedicalCenterDbContext>();
 
-builder.Services.AddAuthentication()
-    .AddFacebook(options =>
-    {
-        options.AppId = builder.Configuration["FacebookAuthentication:AppId"];
-        options.AppSecret = builder.Configuration["FacebookAuthentication:AppSecret"];
-    })
-    .AddGoogle(options =>
-    {
-        options.ClientId = builder.Configuration["GoogleAuthentication:ClientId"];
-        options.ClientSecret = builder.Configuration["GoogleAuthentication:ClientSecret"];
-    });
-
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/User/Login";
