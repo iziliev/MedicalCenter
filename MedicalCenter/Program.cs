@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<MedicalCenterDbContext>(options =>
@@ -20,9 +19,22 @@ builder.Services.AddDefaultIdentity<User>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<MedicalCenterDbContext>();
 
+builder.Services.AddAuthentication()
+    .AddFacebook(options =>
+    {
+        options.AppId = builder.Configuration["FacebookAuthentication:AppId"];
+        options.AppSecret = builder.Configuration["FacebookAuthentication:AppSecret"];
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["GoogleAuthentication:ClientId"];
+        options.ClientSecret = builder.Configuration["GoogleAuthentication:ClientSecret"];
+    });
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/User/Login";
+    options.LogoutPath = "/User/Logout";
 });
 
 builder.Services.AddControllersWithViews();

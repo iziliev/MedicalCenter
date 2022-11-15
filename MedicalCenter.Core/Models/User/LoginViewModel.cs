@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Authentication;
+using System.ComponentModel.DataAnnotations;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Core.Models.User
@@ -15,5 +16,7 @@ namespace MedicalCenter.Core.Models.User
         public string Password { get; set; } = null!;
 
         public string? ReturnUrl { get; set; }
+
+        public List<AuthenticationScheme> ExternalLogins { get; set; } = new List<AuthenticationScheme>();
     }
 }

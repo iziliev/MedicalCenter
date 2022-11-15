@@ -1,5 +1,6 @@
 ﻿using MedicalCenter.Core.Models.User;
 using MedicalCenter.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
 namespace MedicalCenter.Core.Contracts
@@ -43,5 +44,13 @@ namespace MedicalCenter.Core.Contracts
         Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(string userId, int currentPage = 1, int examinationsPerPage = 6);
 
         Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, int currentPage = 1, int examinationsPerPage = 6);
+
+        Task<List<AuthenticationScheme>> AutenticationSheme();
+
+        AuthenticationProperties AuthenticationProperties(string provider, string redirectUrl);
+
+        Task<ExternalLoginInfo> GetExternalLoginInfo();
+
+        Task<SignInResult> GetSignInExternalResult(ExternalLoginInfo info);
     }
 }

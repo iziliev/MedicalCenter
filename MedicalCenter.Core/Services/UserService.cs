@@ -2,6 +2,7 @@
 using MedicalCenter.Core.Models.User;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -279,6 +280,26 @@ namespace MedicalCenter.Core.Services
                 .Where(e=>e.Id == id)
                 .FirstOrDefaultAsync();
                 
+        }
+
+        public async Task<List<AuthenticationScheme>> AutenticationSheme()
+        {
+            return (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        }
+
+        public AuthenticationProperties AuthenticationProperties(string provider, string redirectUrl)
+        {
+            return signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        }
+
+        public async Task<ExternalLoginInfo> GetExternalLoginInfo()
+        {
+            return await signInManager.GetExternalLoginInfoAsync();
+        }
+
+        public async Task<SignInResult> GetSignInExternalResult(ExternalLoginInfo info)
+        {
+            return await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
         }
     }
 }
