@@ -12,6 +12,18 @@ builder.Services.AddDbContext<MedicalCenterDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.AddAuthentication()
+    .AddFacebook(options =>
+    {
+        options.AppId = "1131879931022359";
+        options.AppSecret = "c9ef5d12d0884359e443a78fe0541872";
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = "112108967188-pojuk3fn06mog3i50jqv39ljv6he51v3.apps.googleusercontent.com";
+        options.ClientSecret = "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";
+    });
+
 builder.Services.AddDefaultIdentity<User>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;

@@ -1,11 +1,13 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.User;
 using MedicalCenter.Extensions;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Security.Claims;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
@@ -15,13 +17,19 @@ namespace MedicalCenter.Controllers
     {
         private readonly IUserService userService;
         private readonly IGlobalService globalService;
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
 
         public UserController(
             IUserService _userService,
-            IGlobalService _globalService)
+            IGlobalService _globalService,
+            SignInManager<User> _signInManager,
+            UserManager<User> _userManager)
         {
             userService = _userService;
             globalService = _globalService;
+            signInManager = _signInManager;
+            userManager = _userManager;
         }
 
         [HttpGet]
@@ -84,8 +92,11 @@ namespace MedicalCenter.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(string? returnUrl = null)
         {
-            var loginModel = new LoginViewModel(); 
-            loginModel.ReturnUrl = returnUrl;
+            var loginModel = new LoginViewModel()
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
 
             ViewData["Title"] = "Вход";
 
@@ -127,6 +138,104 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirectUrl = Url.Action("ExternalLoginCallback", "User", new { ReturnUrl = returnUrl });
+
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+            return new ChallengeResult(provider, properties);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            var loginModel = new LoginViewModel
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+
+            if (remoteError != null)
+            {
+                TempData["ErrorMessage"] = $"Error from external provider: {remoteError}";
+                return View("Login", loginModel);
+            }
+
+            var info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                TempData["ErrorMessage"] = "Error loading external login information.";
+                return View("Login", loginModel);
+            }
+
+            var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            if (result.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                if (email != null)
+                {
+                    var user = await userManager.FindByEmailAsync(email);
+
+                    if (user == null)
+                    {
+                        var isHaveCirilicLetter = info.Principal.FindFirstValue(ClaimTypes.Name)
+                            .ToLower().Any(c => c <= 'a' || c >= 'z') ? true : false;
+
+                        var genderId = 3;
+                        if (isHaveCirilicLetter)
+                        {
+                            var lastname = info.Principal.FindFirstValue(ClaimTypes.Surname);
+                            var lastLetter = lastname[^1];
+                            if (lastLetter == 'а')
+                            {
+                                genderId = 2;
+                            }
+                            else
+                            {
+                                genderId = 1;
+                            }
+                        }
+
+                        user = new User
+                        {
+                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
+                            LastName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+                            Role = "User",
+                            GenderId = genderId,
+                            JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+                        };
+
+                        await userManager.CreateAsync(user);
+                        await globalService.AddUserRoleAsync(user, RoleConstants.UserRole);
+                        await globalService.AddClaimAsync(user);
+
+                    }
+
+                    await userManager.AddLoginAsync(user, info);
+                    await signInManager.SignInAsync(user, isPersistent: false);
+
+                    return LocalRedirect(returnUrl);
+                }
+
+                TempData["ErrorMessage"] = $"Email claim not received from: {info.LoginProvider}";
+                TempData["DangerMessage"] = $"Please contact support on  admin@mc-bg.com";
+
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await userService.Logout();
@@ -139,7 +248,7 @@ namespace MedicalCenter.Controllers
         public async Task<IActionResult> Book(string doctorId)
         {
 
-            var model = await userService.FillBookViewModelAsync(doctorId);            
+            var model = await userService.FillBookViewModelAsync(doctorId);
             return View(model);
         }
 
@@ -225,7 +334,7 @@ namespace MedicalCenter.Controllers
         {
             var userId = User.Id();
 
-            var queryResult = await userService.GetAllCurrentExaminationAsync(userId,query.CurrentPage,
+            var queryResult = await userService.GetAllCurrentExaminationAsync(userId, query.CurrentPage,
                 ShowAllUserExaminationViewModel.ExaminationsPerPage);
 
             ViewData["Title"] = "Предстоящи часове за прегледи";

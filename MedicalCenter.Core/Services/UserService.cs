@@ -63,7 +63,7 @@ namespace MedicalCenter.Core.Services
                 PhoneNumber = phoneNumber,
                 UserName = registerModel.Username,
                 Role = "User",
-                JoinOnDate = DateTime.UtcNow.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
             };
 
             return await userManager.CreateAsync(user, registerModel.Password);
