@@ -1,8 +1,11 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.User;
 using MedicalCenter.Extensions;
+using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
@@ -85,8 +88,6 @@ namespace MedicalCenter.Controllers
             loginModel.ReturnUrl = returnUrl;
 
             ViewData["Title"] = "Вход";
-
-            loginModel.ExternalLogins = await userService.AutenticationSheme();
 
             return View(loginModel);
         }
@@ -276,50 +277,6 @@ namespace MedicalCenter.Controllers
             query.Examinations = queryResult.Examinations;
 
             return View(query);
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public IActionResult ExternalLogin(string provider, string returnUrl = null)
-        {
-            // Request a redirect to the external login provider.
-            var redirectUrl = Url.Action("ExternalLoginCallback","User", new { returnUrl });
-
-            var properties = userService.AuthenticationProperties(provider,redirectUrl);
-
-            return new ChallengeResult(provider, properties);
-        }
-
-        [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
-        {
-            returnUrl = returnUrl ?? Url.Content("~/");
-            if (remoteError != null)
-            {
-                TempData["ErrorMessage"] = $"Error from external provider: {remoteError}";
-                return RedirectToAction("Login", new { ReturnUrl = returnUrl });
-            }
-            var info = await userService.GetExternalLoginInfo();
-            if (info == null)
-            {
-                TempData["ErrorMessage"] = "Error loading external login information.";
-                return RedirectToAction("Login", new { ReturnUrl = returnUrl });
-            }
-
-            // Sign in the user with this external login provider if the user already has a login.
-            var result = await userService.GetSignInExternalResult(info);
-            if (result.Succeeded)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            if (result.IsLockedOut)
-            {
-                return RedirectToPage("./Lockout");
-            }
-            else
-            {
-                return RedirectToAction("Register");
-            }
         }
     }
 }
