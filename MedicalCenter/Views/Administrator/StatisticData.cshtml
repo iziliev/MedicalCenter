@@ -2,51 +2,149 @@
 
 <div class="row">
 
-    @foreach (var shedule in @Model.Shedules)
-    {
-        <div class="col-sm-3 col-6">
-            <div class="description-block border-right">
-                <span class="description-percentage text-success">@Math.Round((double)shedule.Value/Model.Shedules.Sum(x=>x.Value) * 100,2)% </span>
-                <h5 class="description-header">@shedule.Value</h5>
-                <span class="description-text text-center">записани часа в диапазона<br></span>
-                <span class="description-text">@shedule.Key</span>
+    <div class="col-md-4">
+        <p class="text-center">
+            <strong>Часове в диапазон</strong><br />
+            <em>Общо запазени часове: <strong>@Model.Shedules.Sum(x=>x.Value)</strong></em>
+        </p>
+        @foreach (var shedule in @Model.Shedules)
+        {
+            var pertantage = Math.Round((double)shedule.Value / Model.Shedules.Sum(x => x.Value) * 100, 2);
+            <div class="progress-group">
+                @shedule.Key<br>
+                записани часа:<strong>@shedule.Value</strong>/@Model.Shedules.Sum(x=>x.Value)
+                <span class="float-right"><b>@pertantage</b>%</span>
+                <div class="progress progress-sm">
+                    @if (pertantage < 25)
+                    {
+                        <div class="progress-bar bg-danger" style="width: @pertantage%"></div>
+                    }
+                    else if (pertantage >= 25 && pertantage < 50)
+                    {
+                        <div class="progress-bar bg-warning" style="width: @pertantage%"></div>
+                    }
+                    else if (pertantage >= 50 && pertantage < 75)
+                    {
+                        <div class="progress-bar bg-primary" style="width: @pertantage%"></div>
+                    }
+                    else
+                    {
+                        <div class="progress-bar bg-success" style="width: @pertantage%"></div>
+                    }
+                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 
-    @foreach (var speciality in @Model.Top5Specialises)
-    {
-        <div class="col-sm-3 col-6">
-            <div class="description-block border-right">
-                <span class="description-percentage text-success">@Math.Round((double)speciality.Value/Model.Specialties.Sum(x=>x.Value)*100,2)%</span>
-                <h5 class="description-header">@speciality.Value</h5>
-                <span class="description-text">@speciality.Key</span>
+
+    <div class="col-md-4">
+        <p class="text-center">
+            <strong>Най-желани специалности:</strong><br>
+            <em>По запазени часове: <strong>@Model.Top5Specialises.Sum(x=>x.Value)</strong></em>
+        </p>
+
+        @foreach (var speciality in @Model.Top5Specialises)
+        {
+            var pertantage = Math.Round((double)speciality.Value/Model.Specialties.Sum(x=>x.Value)*100,2);
+            <div class="progress-group">
+                @speciality.Key<br>
+                записани часа:<strong>@speciality.Value</strong>/@Model.Top5Specialises.Sum(x=>x.Value)
+                <span class="float-right"><b>@pertantage</b>%</span>
+                <div class="progress progress-sm">
+                    @if (pertantage < 25)
+                    {
+                        <div class="progress-bar bg-danger" style="width: @pertantage%"></div>
+                    }
+                    else if (pertantage >= 25 && pertantage < 50)
+                    {
+                        <div class="progress-bar bg-warning" style="width: @pertantage%"></div>
+                    }
+                    else if (pertantage >= 50 && pertantage < 75)
+                    {
+                        <div class="progress-bar bg-primary" style="width: @pertantage%"></div>
+                    }
+                    else
+                    {
+                        <div class="progress-bar bg-success" style="width: @pertantage%"></div>
+                    }
+                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 
-    @foreach (var doctorExamination in @Model.Top5DoctorExamination)
-    {
-        <div class="col-sm-3 col-6">
-            <div class="description-block">
-                <span class="description-percentage text-danger">@Math.Round((double)doctorExamination.Value/Model.DoctorsExaminations.Sum(x=>x.Value)*100,2)%</span>
-                <h5 class="description-header">@doctorExamination.Value</h5>
-                <span class="description-text">@doctorExamination.Key</span>
+    <div class="col-md-4">
+        <p class="text-center">
+            <strong>Най-желани спецалисти:</strong><br>
+            <em>По запазени часове: <strong>@Model.Top5DoctorExamination.Sum(x=>x.Value)</strong></em>
+        </p>
+
+        @foreach (var doctorExamination in @Model.Top5DoctorExamination)
+        {
+            var pertantage = Math.Round((double)doctorExamination.Value/Model.DoctorsExaminations.Sum(x=>x.Value)*100,2);
+            <div class="progress-group">
+                @doctorExamination.Key<br>
+                записани часа: <strong>@doctorExamination.Value</strong>/@Model.Top5DoctorExamination.Sum(x=>x.Value)
+                <span class="float-right"><b>@pertantage</b>%</span>
+                <div class="progress progress-sm">
+                    @if (pertantage < 25)
+                    {
+                        <div class="progress-bar bg-danger" style="width: @pertantage%"></div>
+                    }
+                    else if (pertantage >= 25 && pertantage < 50)
+                    {
+                        <div class="progress-bar bg-warning" style="width: @pertantage%"></div>
+                    }
+                    else if (pertantage >= 50 && pertantage < 75)
+                    {
+                        <div class="progress-bar bg-primary" style="width: @pertantage%"></div>
+                    }
+                    else
+                    {
+                        <div class="progress-bar bg-success" style="width: @pertantage%"></div>
+                    }
+                </div>
             </div>
+        }
+    </div>
 
-        </div>
-    }
+    <div class="col-md-4">
+        <p class="text-center">
+            <strong>Най-добре оценени спеиалисти:</strong><br>
+            <em>По оставени оценки: <strong>@Model.CountRaings</strong></em>
+        </p>
 
-    @foreach (var doctorRating in @Model.DoctorsRating)
-    {
-        <div class="col-sm-3 col-6">
-            <div class="description-block">
-                @*<span class="description-percentage text-danger">@((double)doctorRating.Value.Sum()/Model.DoctorsRating.Values.Sum()*100)%</span>*@
-                <h5 class="description-header">@((double)doctorRating.Value.Sum()/doctorRating.Value.Count)</h5>
-                <span class="description-text">@doctorRating.Key</span>
+        @foreach (var doctorRating in @Model.DoctorsRating)
+        {
+            var pertantage = (double)doctorRating.Value.Sum()/doctorRating.Value.Count;
+            var currentPercent = pertantage / 5 * 100.00;
+            <div class="progress-group">
+                @doctorRating.Key<br>
+                оставени оценки: <strong>@doctorRating.Value.Count</strong><br>
+                <span class="float-right">рейтинг: <b>@pertantage</b>/5 <strong>@currentPercent%</strong></span>
+                <div class="progress progress-sm">
+                    @if (pertantage < 1)
+                    {
+                        <div class="progress-bar bg-danger" style="width: @currentPercent%"></div>
+                    }
+                    else if (pertantage >= 2 && pertantage < 3)
+                    {
+                        <div class="progress-bar bg-warning" style="width: @currentPercent%"></div>
+                    }
+                    else if (pertantage >= 3 && pertantage < 4)
+                    {
+                        <div class="progress-bar bg-primary" style="width: @currentPercent%"></div>
+                    }
+                    else
+                    {
+                        <div class="progress-bar bg-success" style="width: @currentPercent%"></div>
+                    }
+                </div>
             </div>
+        }
+    </div>
 
-        </div>
-    }
+
+
+    
 
 </div>

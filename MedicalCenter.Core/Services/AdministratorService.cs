@@ -444,7 +444,7 @@ namespace MedicalCenter.Core.Services
                 var specialty = await repository.AllReadonly<Specialty>()
                     .FirstOrDefaultAsync(x => x.Id == examination.SpecialityId);
 
-                var doctorName = $"{examination.DoctorFullName}- {specialty.Name}";
+                var doctorName = $"{examination.DoctorFullName} ({specialty.Name})";
 
                 if (!doctorExaminationDictionary.ContainsKey(doctorName))
                 {
