@@ -1,12 +1,10 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.User;
 using MedicalCenter.Extensions;
-using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Security.Claims;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
@@ -187,39 +185,21 @@ namespace MedicalCenter.Controllers
 
                     if (user == null)
                     {
-                        var isHaveCirilicLetter = info.Principal.FindFirstValue(ClaimTypes.Name)
-                            .ToLower().Any(c => c <= 'a' || c >= 'z') ? true : false;
+                        var usernameClaim = info.Principal.FindFirstValue(ClaimTypes.Email);
+                        var username = usernameClaim.Substring(0,usernameClaim.IndexOf("@"));
 
-                        var genderId = 3;
-                        if (isHaveCirilicLetter)
+                        var registerExternalViewModel = new RegisterExternalViewModel
                         {
-                            var lastname = info.Principal.FindFirstValue(ClaimTypes.Surname);
-                            var lastLetter = lastname[^1];
-                            if (lastLetter == 'а')
-                            {
-                                genderId = 2;
-                            }
-                            else
-                            {
-                                genderId = 1;
-                            }
-                        }
-
-                        user = new User
-                        {
-                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                            Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            Genders = await globalService.GetGendersAsync(),
+                            Username = username,
+                            Email = email,
                             FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
                             LastName = info.Principal.FindFirstValue(ClaimTypes.Surname),
-                            Role = "User",
-                            GenderId = genderId,
-                            JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+                            ReturnUrl = returnUrl,
+                            LoginProvider = info.LoginProvider
                         };
-
-                        await userManager.CreateAsync(user);
-                        await globalService.AddUserRoleAsync(user, RoleConstants.UserRole);
-                        await globalService.AddClaimAsync(user);
-
+                        
+                        return View("ExternalLoginRegister", registerExternalViewModel);
                     }
 
                     await userManager.AddLoginAsync(user, info);
@@ -233,6 +213,46 @@ namespace MedicalCenter.Controllers
 
                 return View("Error");
             }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginRegister(RegisterExternalViewModel registerExternalViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
+                registerExternalViewModel.Genders = await globalService.GetGendersAsync();
+                return View(registerExternalViewModel);
+            }
+
+
+            string phoneNumber = registerExternalViewModel.PhoneNumber.Contains('+')
+                ? registerExternalViewModel.PhoneNumber
+                : $"+359{registerExternalViewModel.PhoneNumber.Remove(0, 1)}";
+
+            var user = new User
+            {
+                Email = registerExternalViewModel.Email,
+                FirstName = registerExternalViewModel.FirstName,
+                LastName = registerExternalViewModel.LastName,
+                GenderId = registerExternalViewModel.Gender,
+                PhoneNumber = phoneNumber,
+                UserName = registerExternalViewModel.Username,
+                Role = "User",
+                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+            };
+
+            await userManager.CreateAsync(user);
+            await globalService.AddUserRoleAsync(user, RoleConstants.UserRole);
+            await globalService.AddClaimAsync(user);
+            await signInManager.SignInAsync(user, isPersistent: false);
+            
+            if (registerExternalViewModel.ReturnUrl == null)
+            {
+                return RedirectToAction(nameof(Index),"Home");
+            }
+            return LocalRedirect(registerExternalViewModel.ReturnUrl);
         }
 
         [HttpPost]

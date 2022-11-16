@@ -7,7 +7,6 @@ namespace MedicalCenter.Core.Models.User
 
     public class RegisterViewModel
     {
-
         [Required(ErrorMessage = ModelErrorConstants.RequiredUsername)]
         [StringLength(UserConstants.UsernameMaxLenght, MinimumLength = UserConstants.UsernameMinLenght,ErrorMessage = UserConstants.UsernameError)]
         [Display(Name ="Потребителско име")]
