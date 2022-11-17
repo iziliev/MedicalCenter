@@ -2,7 +2,7 @@
 {
     public class DoctorExaminationInfo
     {
-        public IEnumerable<DoctorExaminationViewModel> DoctorExaminations { get; set; } = new List<DoctorExaminationViewModel>();
+        public IEnumerable<DashboardDoctorExaminationViewModel> DoctorExaminations { get; set; } = new List<DashboardDoctorExaminationViewModel>();
 
         public DoctorStatisticViewModel DoctorStatistics { get; set; } = null!;
     }

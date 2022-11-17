@@ -1,0 +1,38 @@
+﻿@model DoctorExaminationInfo
+
+<h3 class="display-4 text-center">@ViewData["Title"] @Model.DoctorStatistics.DoctorFullName</h3>
+<hr />
+
+<div class="row mt-5">
+
+    <div class=col-4>
+        <article class="info">
+            <figure class="icon"><img src="~/images/examination.jpg" alt=""></figure>
+
+            <p class="text-center">
+                <em>
+                    @Model.DoctorStatistics.Examinations<br />
+                    <span>Извършени прегледа</span>
+                </em>
+            </p>
+        </article>
+    </div>
+    <div class=col-4>
+        <article class="info">
+            <figure class="icon"><img src="~/images/allexamination.jpg" alt=""></figure>
+            <p class="text-center">
+                <em>@Model.DoctorStatistics.AllExaminations</em> <br />
+                <em><span>Записани за преглед</span></em>
+            </p>
+        </article>
+    </div>
+    <div class=col-4>
+        <article class="info">
+            <figure class="icon"><a asp-controller="Review" asp-action="AllReceiveReview"><img src="~/images/starrating.png" alt="Всички оценки" style="padding-left:15px;width:92px;"></a></figure>
+            <p class="text-center">
+                <em>@Model.DoctorStatistics.Rating/@Model.DoctorStatistics.RatingUser</em> <br />
+                <em><span>Рейтинг</span></em>
+            </p>
+        </article>
+    </div>
+</div>

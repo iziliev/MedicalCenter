@@ -1,0 +1,102 @@
+﻿@model ShowAllExaminationDoctorViewModel
+
+<h3 class="display-4 text-center">@ViewData["Title"]</h3>
+<hr />
+
+@section Styles {
+<link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<form autocomplete="off" asp-controller="Doctor" asp-action="AllDoctorExamination" method="get">
+    <div class="row">
+        <div class="card-header col-sm-4 col-lg-3">
+            <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" type="text" id="dp1" class="datepicker" placeholder="&#xf073; Избор на дата" style="font-family: Arial, FontAwesome, white" name="SearchTerm" readonly />
+            </div>
+        </div>
+
+        <div class="card-header col-3">
+            <div class="form-group mt-4 p-2">
+                <button type="submit" class="btn btn-primary">Търси</button>
+            </div>
+        </div>
+
+        <div class="card-header col-5">
+            <div class="form-group mt-4 p-2">
+
+                <a class="btn btn-warning" type="reset"
+                   asp-controller="Doctor"
+                   asp-action="AllDoctorExamination">Изчистване на филтрите</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalExaminationCount /
+        ShowAllExaminationDoctorViewModel.ExaminationPerPage);
+}
+
+@if (Model.TotalExaminationCount == 0)
+{
+    <h3 class="text-center" style="padding:50px;font-family:Monospace"><em>Няма записани часове за преглед!</em></h3>
+}
+else
+{
+    <table class="table table table-bordered">
+        <thead style="background-color:#e6e6e6">
+            <tr>
+                <th scope="col" class="text-center">Дата</th>
+                <th scope="col" class="text-center">Час</th>
+                <th scope="col" class="text-center">Име на пациент</th>
+                <th scope="col" class="text-center">Телефон</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var examination in Model.AllExamination)
+            {
+                <partial name="_DoctorExaminationPartial" model="@examination" />
+            }
+        </tbody>
+    </table>
+}
+
+<div class="row mt-2 col-12">
+    <div class="col-lg-2 col-sm-2">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Doctor"
+           asp-action="AllDoctorExamination"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-currentPage="@previousPage">Previous</a>
+    </div>
+    @{
+        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+        !Model.AllExamination.Any();
+    }
+    <div class="offset-lg-9 offset-sm-9 col-lg-1 col-sm-1">
+        <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+           asp-controller="Doctor"
+           asp-action="AllDoctorExamination"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-currentPage="@(Model.CurrentPage+1)">Next</a>
+    </div>
+</div>
+
+@section Scripts {
+<script src="~/js/bootstrap-datepicker.js" asp-append-version="true"></script>
+<script src="~/js/date-picker.js" asp-append-version="true"></script>
+<partial name="_ValidationScriptsPartial" />
+<script>
+    var date = new Date();
+    $('#ClientTimeZoneOffset').val(date.getTimezoneOffset());
+</script>
+}
