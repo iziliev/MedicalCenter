@@ -4,6 +4,7 @@ using MedicalCenter.Core.Models.Review;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace MedicalCenter.Core.Services
 {
@@ -99,23 +100,37 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(string doctorId,int currentPage = 1, int reviewPerPage = 6)
+        public async Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(string doctorId, string? searchTerm = null, int currentPage = 1, int reviewPerPage = 6)
         {
-            var reviewsQuery = repository.All<Review>()
+            var reviewsQuery = repository.All<Examination>()
                 .Include(d => d.User)
-                .Where(u => u.DoctorId == doctorId)
+                .ThenInclude(x=>x.UserReviews)
+                .Where(u => u.DoctorId == doctorId && u.IsUserReviewedExamination)
+                .OrderByDescending(x=>x.Date)
                 .AsQueryable();
 
+            if (string.IsNullOrEmpty(searchTerm) == false)
+            {
+                DateTime searchDate;
+                var isDate = DateTime.TryParseExact(searchTerm, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out searchDate);
+
+                if (isDate)
+                {
+                    reviewsQuery = reviewsQuery
+                        .Where(y => y.Date == searchDate);
+                }
+            }
+
             var reviews = await reviewsQuery
-                .OrderByDescending(d => d.CreatedOn)
                 .Skip((currentPage - 1) * reviewPerPage)
                 .Take(reviewPerPage)
                 .Select(x => new AllReceiveReviewViewModel
                 {
-                    Content = x.Content,
-                    CreatedOn = x.CreatedOn.ToString("dd.MM.yyyy"),
+                    Content = x.Review.Content,
+                    CreatedOn = x.Review.CreatedOn.ToString("dd.MM.yyyy"),
                     UserFullName = $"{x.User.FirstName} {x.User.LastName}",
-                    Rating = x.Rating
+                    Rating = x.Review.Rating,
+                    ExaminationDate = $"{x.Date.ToString("dd.MM.yyyy")} {x.Hour}"
                 })
                 .ToListAsync();
 

@@ -15,7 +15,7 @@ namespace MedicalCenter.Core.Contracts
 
         Task<ShowAllReviewViewModel> GetAllReviewsAsync(int currentPage = 1, int reviewPerPage = 6);
 
-        Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(string doctorId,int currentPage = 1, int reviewPerPage = 6);
+        Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(string doctorId, string? searchTerm = null, int currentPage = 1, int reviewPerPage = 6);
 
         Task<ShowAllGiveReviewViewModel> GetAllGiveReviewsByUserAsync(string userId, int currentPage = 1, int reviewPerPage = 6);
     }

@@ -30,7 +30,8 @@
         <article class="info">
             <figure class="icon"><a asp-controller="Review" asp-action="AllReceiveReview"><img src="~/images/starrating.png" alt="Всички оценки" style="padding-left:15px;width:92px;"></a></figure>
             <p class="text-center">
-                <em>@Model.DoctorStatistics.Rating/@Model.DoctorStatistics.RatingUser</em> <br />
+                <em>@Model.DoctorStatistics.Rating/5 - @Model.DoctorStatistics.RatingUser оценки</em> <br />
+
                 <em><span>Рейтинг</span></em>
             </p>
         </article>

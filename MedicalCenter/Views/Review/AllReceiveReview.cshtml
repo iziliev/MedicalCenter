@@ -1,31 +1,63 @@
 ﻿@model ShowAllReceiveReviewViewModel
 
 @section Styles {
-    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
 }
 
-    <div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
-        <div class="small-box bg-gradient-secondary" style="height:120px;">
-            <div class="row">
-                <div class="col-8">
-                    <div class="inner">
-                        <h3 class="text-center" style="padding-top:10px;">@Model.TotalReviewsCount</h3>
-                        <p class="text-center" style="font-size:14px;padding-left:5px;">@ViewData["Title"]</p>
-                    </div>
+<div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
+    <div class="small-box bg-gradient-secondary" style="height:120px;">
+        <div class="row">
+            <div class="col-8">
+                <div class="inner">
+                    <h3 class="text-center" style="padding-top:10px;">@Model.TotalReviewsCount</h3>
+                    <p class="text-center" style="font-size:14px;padding-left:5px;">@ViewData["Title"]</p>
                 </div>
-                <div class="col-4" style="position:center;padding-top:15px;">
-                    <div class="icon">
-                        <i class="fa fa-hourglass"></i>
-                    </div>
+            </div>
+            <div class="col-4" style="position:center;padding-top:15px;">
+                <div class="icon">
+                    <i class="fa fa-hourglass"></i>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @{
+<h3 class="display-4 text-center">@ViewData["Title"]</h3>
+<hr />
+
+<form autocomplete="off" asp-controller="Review" asp-action="AllReceiveReview" method="get">
+    <div class="row">
+        <div class="card-header col-sm-4 col-lg-3">
+            <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" type="text" id="dp1" class="datepicker" placeholder="&#xf073; Избор на дата" style="font-family: Arial, FontAwesome, white" name="SearchTerm" readonly />
+            </div>
+        </div>
+
+        <div class="card-header col-3">
+            <div class="form-group mt-4 p-2">
+                <button type="submit" class="btn btn-primary">Търси</button>
+            </div>
+        </div>
+
+        <div class="card-header col-5">
+            <div class="form-group mt-4 p-2">
+
+                <a class="btn btn-warning" type="reset"
+                   asp-controller="Review"
+                   asp-action="AllReceiveReview">Изчистване на филтрите</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+@{
     var previousPage = Model.CurrentPage - 1;
     if (previousPage < 1)
     {
@@ -36,38 +68,60 @@
         ShowAllReceiveReviewViewModel.ReviewPerPage);
 }
 
-<table class="table table-hover" style="font-size:16px;">
-    <thead class="table">
-        <tr>
-            <th class="text-center col-lg-2 col-sm-2">Пациент</th>
-            <th class="text-center col-lg-6 col-sm-6">Коментар</th>
-            <th class="text-center col-lg-2 col-sm-3">Оценка</th>
-            <th class="text-center col-lg-1 col-sm-1">Дата на оценяване</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var review in Model.Reviews)
-        {
-            <partial name="_ReceiveReviewPartial" model="@review" />
-        }
-    </tbody>
-</table>
 
-<div class="row mt-2 col-12">
-    <div class="col-lg-2 col-sm-2">
-        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+@if (Model.TotalReviewsCount == 0)
+{
+    <h3 class="text-center" style="padding:50px;font-family:Monospace"><em>Няма все още коментари от прегледи!</em></h3>
+}
+else
+{
+
+    <table class="table table-hover" style="font-size:16px;">
+        <thead class="table">
+            <tr>
+                <th class="text-center col-lg-2 col-sm-2">Пациент</th>
+                <th class="text-center col-lg-2 col-sm-2">Дата на преглед</th>
+                <th class="text-center col-lg-6 col-sm-5">Коментар</th>
+                <th class="text-center col-lg-2 col-sm-4">Оценка</th>
+                <th class="text-center col-lg-1 col-sm-1">Дата на оценяване</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var review in Model.Reviews)
+            {
+                <partial name="_ReceiveReviewPartial" model="@review" />
+            }
+        </tbody>
+    </table>
+
+    <div class="row mt-2 col-12">
+        <div class="col-lg-2 col-sm-2">
+            <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
            asp-controller="Review"
            asp-action="AllReceiveReview"
+           asp-route-searchTerm="@Model.SearchTerm"
            asp-route-currentPage="@previousPage">Previous</a>
-    </div>
+        </div>
         @{
             var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
             !Model.Reviews.Any();
         }
         <div class="offset-lg-9 offset-sm-9 col-lg-1 col-sm-1">
             <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
-               asp-controller="Review"
-               asp-action="AllReceiveReview"
-               asp-route-currentPage="@(Model.CurrentPage+1)">Next</a>
+           asp-controller="Review"
+           asp-action="AllReceiveReview"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-currentPage="@(Model.CurrentPage+1)">Next</a>
         </div>
-</div>
+    </div>
+}
+
+@section Scripts {
+<script src="~/js/bootstrap-datepicker.js" asp-append-version="true"></script>
+<script src="~/js/date-picker-pvevious.js" asp-append-version="true"></script>
+<partial name="_ValidationScriptsPartial" />
+<script>
+    var date = new Date();
+    $('#ClientTimeZoneOffset').val(date.getTimezoneOffset());
+</script>
+}

@@ -98,7 +98,7 @@ namespace MedicalCenter.Core.Services
                 AllExaminations = allExamination,
                 DoctorFullName = doctorFullName,
                 Examinations = allFinishedExamination,
-                Rating = ratings.Count != 0 ? ratings.Average(r => r.Rating) : 0,
+                Rating = ratings.Count != 0 ? Math.Round(ratings.Average(r => r.Rating),2) : 0.00,
                 RatingUser = ratings.Count
             };
         }

@@ -59,11 +59,11 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllReceiveReview(ShowAllReceiveReviewViewModel query)
+        public async Task<IActionResult> AllReceiveReview([FromQuery]ShowAllReceiveReviewViewModel query)
         {
             var doctorId = User.Id();
 
-            var queryResult = await reviewService.GetReceiveReviewsByDoctorIdAsync(doctorId,query.CurrentPage,
+            var queryResult = await reviewService.GetReceiveReviewsByDoctorIdAsync(doctorId,query.SearchTerm,query.CurrentPage,
                 ShowAllReceiveReviewViewModel.ReviewPerPage);
 
             ViewData["Title"] = $"Получени оценки";
