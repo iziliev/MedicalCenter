@@ -17,6 +17,6 @@ namespace MedicalCenter.Core.Models.User
 
         public string? ReturnUrl { get; set; }
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public IList<AuthenticationScheme> ExternalLogins { get; set; } = new List<AuthenticationScheme>();
     }
 }
