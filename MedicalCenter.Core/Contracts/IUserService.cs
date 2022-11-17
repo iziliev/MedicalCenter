@@ -39,7 +39,7 @@ namespace MedicalCenter.Core.Contracts
 
         Task<Examination> GetExaminationAsync(string userId, BookExaminationViewModel bookModel);
 
-        Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(int currentPage = 1, int doctorsPerPage = 4);
+        Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(string? speciality = null, string? searchTerm = null, int currentPage = 1, int doctorsPerPage = 4);
 
         Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(string userId, int currentPage = 1, int examinationsPerPage = 6);
 

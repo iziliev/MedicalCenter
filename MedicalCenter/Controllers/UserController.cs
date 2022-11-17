@@ -379,15 +379,16 @@ namespace MedicalCenter.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> UserBoard(ShowAllDoctorUserViewModel query)
+        public async Task<IActionResult> UserBoard([FromQuery]ShowAllDoctorUserViewModel query)
         {
-            var queryResult = await userService.ShowDoctorOnUserAsync(query.CurrentPage,
+            var queryResult = await userService.ShowDoctorOnUserAsync(query.Specialty,query.SearchTerm,query.CurrentPage,
                 ShowAllDoctorUserViewModel.DoctorsPerPage);
 
             ViewData["Title"] = "Запази час";
 
             query.TotalDoctorsCount = queryResult.TotalDoctorsCount;
             query.Doctors = queryResult.Doctors;
+            query.Specialties = await globalService.GetSpecialtiesAsync();
 
             return View(query);
         }

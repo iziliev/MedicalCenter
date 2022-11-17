@@ -37,7 +37,7 @@ namespace MedicalCenter.Core.Services
 
         public async Task<SignInResult> Login(LoginViewModel loginModel)
         {
-            var user = await userManager.FindByNameAsync(loginModel.Username) 
+            var user = await userManager.FindByNameAsync(loginModel.Username)
                 ?? await userManager.FindByEmailAsync(loginModel.Username);
 
             return await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
@@ -50,9 +50,9 @@ namespace MedicalCenter.Core.Services
 
         public async Task<IdentityResult> Register(RegisterViewModel registerModel)
         {
-            string phoneNumber = registerModel.PhoneNumber.Contains('+') 
-                ? registerModel.PhoneNumber 
-                : $"+359{registerModel.PhoneNumber.Remove(0,1)}";
+            string phoneNumber = registerModel.PhoneNumber.Contains('+')
+                ? registerModel.PhoneNumber
+                : $"+359{registerModel.PhoneNumber.Remove(0, 1)}";
 
             var user = new User
             {
@@ -75,13 +75,45 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync(u => u.UserName == username);
         }
 
-        public async Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(int currentPage = 1, int doctorsPerPage = 4)
+        public async Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(string? speciality = null, string? searchTerm = null, int currentPage = 1, int doctorsPerPage = 4)
         {
             var doctorsQuery = repository.All<Doctor>()
                 .Where(d => !d.IsOutOfCompany)
                 .Include(s => s.Specialty)
                 .OrderBy(x => x.Specialty.Name)
+                .ThenBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
                 .AsQueryable();
+
+            if (string.IsNullOrEmpty(speciality) == false)
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => EF.Functions.Like(d.Specialty.Name.ToLower(), speciality));
+            }
+
+            if (string.IsNullOrEmpty(searchTerm) == false)
+            {
+                var searchTermName = searchTerm.ToLower().Split(" ").ToArray();
+
+                if (searchTermName.Length == 2)
+                {
+                    var firstName = $"%{searchTermName[0]}%";
+                    var lastName = $"%{searchTermName[1]}%";
+
+                    doctorsQuery = doctorsQuery
+                    .Where(d => EF.Functions.Like(d.FirstName.ToLower(), firstName) || 
+                    EF.Functions.Like(d.LastName.ToLower(), lastName) || 
+                    EF.Functions.Like(d.FirstName.ToLower(), lastName) ||
+                    EF.Functions.Like(d.LastName.ToLower(), firstName));
+                }
+                else
+                {
+                    var name = $"%{searchTermName[0]}%";
+
+                    doctorsQuery = doctorsQuery
+                    .Where(d => EF.Functions.Like(d.FirstName.ToLower(), name) || EF.Functions.Like(d.LastName.ToLower(), name));
+                }
+            }
 
             var doctors = await doctorsQuery
                 .Skip((currentPage - 1) * doctorsPerPage)
@@ -113,14 +145,14 @@ namespace MedicalCenter.Core.Services
                 .Include(s => s.Shedule)
                 .ThenInclude(h => h.WorkHours)
                 .Select(x => x.Shedule.WorkHours.Select(x => x.Hour))
-                .FirstOrDefaultAsync();               
+                .FirstOrDefaultAsync();
         }
 
 
         public async Task<Doctor> GetDoctorByIdAsync(string doctorId)
         {
             return await repository.All<Doctor>()
-                .Include(s=>s.Specialty)
+                .Include(s => s.Specialty)
                 .Where(d => d.Id == doctorId)
                 .FirstOrDefaultAsync();
         }
@@ -130,7 +162,7 @@ namespace MedicalCenter.Core.Services
             var examination = new Examination
             {
                 DoctorId = bookModel.DoctorId,
-                Date = DateTime.ParseExact(bookModel.Date, "dd.MM.yyyy",CultureInfo.InvariantCulture),
+                Date = DateTime.ParseExact(bookModel.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture),
                 DoctorFullName = bookModel.DoctorFullName,
                 DoctorPhoneNumber = doctor.PhoneNumber,
                 Hour = bookModel.Hour,
@@ -138,8 +170,8 @@ namespace MedicalCenter.Core.Services
                 UserId = user.Id,
                 UserPhoneNumber = user.PhoneNumber,
                 SpecialityId = doctor.SpecialtyId,
-                Doctor=doctor,
-                User=user,
+                Doctor = doctor,
+                User = user,
                 Shedule = doctor.Shedule,
                 SheduleId = doctor.SheduleId
             };
@@ -156,11 +188,11 @@ namespace MedicalCenter.Core.Services
 
             return await repository.All<Examination>()
                 .Where(e => e.UserId == userId)
-                .Where(d=>d.Date == date && d.Hour==bookModel.Hour)
+                .Where(d => d.Date == date && d.Hour == bookModel.Hour)
                 .FirstOrDefaultAsync() == null;
         }
 
-        public async Task<Examination> GetExaminationAsync (string userId, BookExaminationViewModel bookModel)
+        public async Task<Examination> GetExaminationAsync(string userId, BookExaminationViewModel bookModel)
         {
             var date = DateTime.ParseExact(bookModel.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
@@ -222,7 +254,7 @@ namespace MedicalCenter.Core.Services
             var examination = await repository.All<Examination>()
                 .Where(e => e.Id == examinationId)
                 .FirstOrDefaultAsync();
-            
+
             examination.IsDeleted = true;
 
             await repository.SaveChangesAsync();
@@ -237,10 +269,10 @@ namespace MedicalCenter.Core.Services
                 DoctorId = doctorId,
                 DoctorFullName = $"Д-р {doctor.FirstName} {doctor.LastName}",
                 WorkHours = await GetDoctorWorkHoursByDoctorIdAsync(doctorId),
-                Biography=doctor.Biography,
-                Education=doctor.Education,
-                ProfileImage=doctor.ProfileImageUrl,
-                Representation=doctor.Representation,
+                Biography = doctor.Biography,
+                Education = doctor.Education,
+                ProfileImage = doctor.ProfileImageUrl,
+                Representation = doctor.Representation,
                 SpecialityName = doctor.Specialty.Name
             };
         }
@@ -275,7 +307,7 @@ namespace MedicalCenter.Core.Services
         public async Task<Examination> GetExaminationByIdAsync(string id)
         {
             return await repository.All<Examination>()
-                .Where(e=>e.Id == id)
+                .Where(e => e.Id == id)
                 .FirstOrDefaultAsync();
         }
     }

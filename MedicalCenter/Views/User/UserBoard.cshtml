@@ -1,10 +1,10 @@
 ﻿@model ShowAllDoctorUserViewModel
 
- @section Styles {
+@section Styles {
 <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
  }
 
-    @{
+@{
     var previousPage = Model.CurrentPage - 1;
     if (previousPage < 1)
     {
@@ -14,6 +14,44 @@
     var maxPage = Math.Ceiling((double)Model.TotalDoctorsCount /
         ShowAllDoctorUserViewModel.DoctorsPerPage);
 }
+
+<form autocomplete="off" method="get">
+    <div class="row">
+        <div class="card-header col-sm-3 col-lg-4">
+            <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                <label asp-for="Specialty"></label>
+                <select asp-for="Specialty" class="form-control">
+                    <option value="">Всички</option>
+                    @foreach (var speciality in Model.Specialties)
+                    {
+                        <option value="@speciality.Name">@speciality.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="card-header col-sm-3 col-lg-4">
+            <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="Име на лекар">
+            </div>
+        </div>
+
+        <div class="card-header col-sm-2 col-lg-1">
+            <div class="form-group mt-4 p-2">
+                <button type="submit" class="btn btn-primary">Търси</button>
+            </div>
+        </div>
+
+        <div class="card-header col-sm-4 col-lg-2">
+            <div class="form-group mt-4 p-2">
+                <a class="btn btn-warning" type="reset"
+                   asp-controller="User"
+                   asp-action="UserBoard">Изчистване</a>
+            </div>
+        </div>
+    </div>
+</form>
 
 
 <div class="text-center row offset-lg-1">
