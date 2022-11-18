@@ -9,10 +9,14 @@ namespace MedicalCenter.Controllers
     public class ReviewController : BaseController
     {
         private readonly IReviewService reviewService;
+        private readonly IGlobalService globalService;
 
-        public ReviewController(IReviewService _reviewService)
+        public ReviewController(
+            IReviewService _reviewService, 
+            IGlobalService _globalService)
         {
             reviewService = _reviewService;
+            globalService = _globalService;
         }
 
         [HttpGet]
@@ -49,11 +53,12 @@ namespace MedicalCenter.Controllers
 
             ViewData["Title"] = $"Всички оценки";
 
-            var queryResult = await reviewService.GetAllGiveReviewsByUserAsync(userId, query.CurrentPage,
+            var queryResult = await reviewService.GetAllGiveReviewsByUserAsync(userId, query.Specialty,query.SearchTermDate,query. SearchTermName,query.CurrentPage,
                 ShowAllGiveReviewViewModel.ReviewPerPage);
 
             query.TotalReviewsCount = queryResult.TotalReviewsCount;
             query.Reviews = queryResult.Reviews;
+            query.Specialties = await globalService.GetSpecialtiesAsync();
 
             return View(query);
         }

@@ -357,15 +357,13 @@ namespace MedicalCenter.Controllers
             var queryResult = await userService.GetAllCurrentExaminationAsync(userId, query.Specialty,query.SearchTermDate,query.SearchTermName,query.CurrentPage,
                 ShowAllUserExaminationViewModel.ExaminationsPerPage);
 
-            var showStatisticAllExamination = await userService.GetAllCurrentExaminationAsync(userId,string.Empty,string.Empty,string.Empty, query.CurrentPage,
-                ShowAllUserExaminationViewModel.ExaminationsPerPage);
+            var showStatisticAllExamination = await userService.GetAllCurrentExaminationAsync(userId,string.Empty,string.Empty,string.Empty, 1,1);
 
             ViewData["Title"] = "Предстоящи часове за прегледи";
 
             query.TotalExaminationCount = queryResult.TotalExaminationCount;
             query.Examinations = queryResult.Examinations;
             query.Specialties = await globalService.GetSpecialtiesAsync();
-            query.StatistilAllExaminationCount = showStatisticAllExamination.TotalExaminationCount;
 
             return View(query);
         }
@@ -399,17 +397,18 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ExaminationForFeedback(ShowAllExaminationForReviewViewModel query)
+        public async Task<IActionResult> ExaminationForFeedback([FromQuery]ShowAllExaminationForReviewViewModel query)
         {
             var userId = User.Id();
 
-            var queryResult = await userService.GetAllExaminationForReviewAsync(userId, query.CurrentPage,
+            var queryResult = await userService.GetAllExaminationForReviewAsync(userId, query.Specialty, query.SearchTermDate,query.SearchTermName,query.CurrentPage,
                 ShowAllExaminationForReviewViewModel.ExaminationsPerPage);
 
             ViewData["Title"] = "Обратна връзка";
 
             query.TotalExaminationsCount = queryResult.TotalExaminationsCount;
             query.Examinations = queryResult.Examinations;
+            query.Specialties = await globalService.GetSpecialtiesAsync();
 
             return View(query);
         }

@@ -148,25 +148,65 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ShowAllGiveReviewViewModel> GetAllGiveReviewsByUserAsync(string userId, int currentPage = 1, int reviewPerPage = 6)
+        public async Task<ShowAllGiveReviewViewModel> GetAllGiveReviewsByUserAsync(string userId, string? speciality = null, string? searchTermDate = null, string? searchTermName = null, int currentPage = 1, int reviewPerPage = 6)
         {
-            var reviewsQuery = repository.All<Review>()
-                .Include(u => u.Doctor)
-                .ThenInclude(s=>s.Specialty)
-                .OrderByDescending(u => u.CreatedOn)
-                .Where(u => u.UserId == userId)
+            var reviewsQuery = repository.All<Examination>()
+                .Where(e=>!e.IsDeleted && e.UserId == userId && e.IsUserReviewedExamination)
+                .Include(d => d.User)
+                .Include(d=>d.Doctor)
+                .ThenInclude(x => x.UserReviews)
+                .OrderByDescending(x => x.Date)
                 .AsQueryable();
+
+
+            //var reviewsQuery = repository.All<Review>()
+            //    .Include(u => u.Doctor)
+            //    .ThenInclude(s=>s.Specialty)
+            //    .OrderByDescending(u => u.CreatedOn)
+            //    .Where(u => u.UserId == userId)
+            //    .AsQueryable();
+
+            if (string.IsNullOrEmpty(speciality) == false)
+            {
+                reviewsQuery = reviewsQuery
+                    .Where(d => d.Doctor.Specialty.Name == speciality);
+            }
+
+            if (string.IsNullOrEmpty(searchTermDate) == false)
+            {
+                var searchDate = new DateTime();
+
+                var isDateCorrect = DateTime.TryParseExact(searchTermDate, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out searchDate);
+
+                if (isDateCorrect)
+                {
+                    reviewsQuery = reviewsQuery
+                        .Where(d => d.Date == searchDate);
+                }
+            }
+
+            if (string.IsNullOrEmpty(searchTermName) == false)
+            {
+                searchTermName = $"%{searchTermName}%";
+
+                reviewsQuery = reviewsQuery
+                    .Where(d => EF.Functions.Like(d.Doctor.FirstName.ToLower(), searchTermName) ||
+                    EF.Functions.Like(d.Doctor.FirstName.ToLower(), searchTermName) ||
+                    EF.Functions.Like(d.Doctor.LastName.ToLower(), searchTermName) ||
+                    EF.Functions.Like(d.Doctor.LastName.ToLower(), searchTermName));
+            }
 
             var reviews = await reviewsQuery
                 .Skip((currentPage - 1) * reviewPerPage)
                 .Take(reviewPerPage)
                 .Select(x => new AllGiveReviewViewModel
                 {
-                    Content = x.Content,
-                    CreatedOn = x.CreatedOn.ToString("dd.MM.yyyy"),
+                    Content = x.Review.Content,
+                    CreatedOn = x.Review.CreatedOn.ToString("dd.MM.yyyy"),
                     SpecialityName = x.Doctor.Specialty.Name,
                     DoctorFullName = $"{x.Doctor.FirstName} {x.Doctor.LastName}",
-                    Rating = x.Rating
+                    Rating = x.Review.Rating,
+                    ExaminationDate = $"{x.Date.ToString("dd.MM.yyyy")} {x.Hour}"
                 })
                 .ToListAsync();
 

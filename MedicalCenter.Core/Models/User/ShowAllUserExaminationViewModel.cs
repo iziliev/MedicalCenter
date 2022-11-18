@@ -5,8 +5,6 @@ namespace MedicalCenter.Core.Models.User
 {
     public class ShowAllUserExaminationViewModel
     {
-        public int StatistilAllExaminationCount { get; set; }
-
         public const int ExaminationsPerPage = 6;
 
         public int CurrentPage { get; set; } = 1;

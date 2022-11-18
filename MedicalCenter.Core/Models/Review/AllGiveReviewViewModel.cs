@@ -11,5 +11,7 @@
         public int Rating { get; set; }
 
         public string CreatedOn { get; set; } = null!;
+
+        public string ExaminationDate { get; set; } = null!;
     }
 }

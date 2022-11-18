@@ -5,6 +5,7 @@ using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using System.Linq;
 
 namespace MedicalCenter.Core.Services
 {
@@ -305,12 +306,39 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, int currentPage = 1, int examinationPerPage = 6)
+        public async Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, string? speciality = null, string? searchTermDate = null, string? searchTermName = null, int currentPage = 1, int examinationPerPage = 6)
         {
             var examinationQuery = repository.All<Examination>()
                 .Include(d => d.Doctor)
                 .Where(e => e.UserId == userId && !e.IsDeleted && e.Date < DateTime.Today && !e.IsUserReviewedExamination)
                 .AsQueryable();
+
+            if (string.IsNullOrEmpty(speciality) == false)
+            {
+                examinationQuery = examinationQuery
+                    .Where(d => d.Doctor.Specialty.Name == speciality);
+            }
+
+            if (string.IsNullOrEmpty(searchTermDate) == false)
+            {
+                var searchDate = new DateTime();
+
+                var isDateCorrect = DateTime.TryParseExact(searchTermDate, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out searchDate);
+
+                if (isDateCorrect)
+                {
+                    examinationQuery = examinationQuery
+                        .Where(e => e.Date == searchDate);
+                }
+            }
+
+            if (string.IsNullOrEmpty(searchTermName) == false)
+            {
+                searchTermName = $"%{searchTermName}%";
+
+                examinationQuery = examinationQuery
+                    .Where(d => EF.Functions.Like(d.Doctor.FirstName, searchTermName) || EF.Functions.Like(d.Doctor.LastName, searchTermName));
+            }
 
             var examinations = await examinationQuery
                 .Skip((currentPage - 1) * examinationPerPage)

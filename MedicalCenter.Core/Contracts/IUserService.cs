@@ -49,6 +49,6 @@ namespace MedicalCenter.Core.Contracts
             int currentPage = 1, 
             int examinationsPerPage = 6);
 
-        Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, int currentPage = 1, int examinationsPerPage = 6);
+        Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, string? speciality = null,string? searchTermDate = null,string? searchTermName = null, int currentPage = 1, int reviewPerPage = 6);
     }
 }
