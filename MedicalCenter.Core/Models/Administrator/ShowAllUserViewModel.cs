@@ -8,6 +8,10 @@
 
         public int TotalUsersCount { get; set; }
 
+        public string? SearchTermEmail { get; set; }
+
+        public string? SearchTermName { get; set; }
+
         public IEnumerable<DashboardUserViewModel> AllUsers { get; set; } = new List<DashboardUserViewModel>();
     }
 }

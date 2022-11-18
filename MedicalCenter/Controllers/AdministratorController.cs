@@ -183,23 +183,25 @@ namespace MedicalCenter.Controllers
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
-        public async Task<IActionResult> AllDoctorOut(ShowAllDoctorViewModel query)
+        public async Task<IActionResult> AllDoctorOut([FromQuery]ShowAllDoctorViewModel query)
         {
-            var queryResult = await administratorService.GetAllLeftDoctorsAsync(query.CurrentPage,
+            var queryResult = await administratorService.GetAllLeftDoctorsAsync(query.Specialty, query.SearchTermEgn, query.SearchTermName, query.CurrentPage,
                 ShowAllDoctorViewModel.DoctorsPerPage);
 
             ViewData["Title"] = "Изтрити доктори";
 
             query.TotalDoctorsCount = queryResult.TotalDoctorsCount;
             query.Doctors = queryResult.Doctors;
+            query.Specialties = await globalService.GetSpecialtiesAsync();
+
             return View(query);
         }
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
-        public async Task<IActionResult> AllUser(ShowAllUserViewModel query)
+        public async Task<IActionResult> AllUser([FromQuery]ShowAllUserViewModel query)
         {
-            var queryResult = await administratorService.GetAllRegisteredUsersAsync(query.CurrentPage,
+            var queryResult = await administratorService.GetAllRegisteredUsersAsync(query.SearchTermEmail, query.SearchTermName,query.CurrentPage,
                 ShowAllUserViewModel.UsersPerPage);
 
             ViewData["Title"] = "Потребители";

@@ -60,10 +60,38 @@ namespace MedicalCenter.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<ShowAllReviewViewModel> GetAllReviewsAsync(int currentPage = 1, int reviewPerPage = 6)
+        public async Task<ShowAllReviewViewModel> GetAllReviewsAsync(string? speciality = null, string? searchTermName = null, string? searchTermRating = null,int currentPage = 1, int reviewPerPage = 6)
         {
             var reviewsQuery = repository.All<Review>()
+                .Include(d=>d.Doctor)
+                .ThenInclude(s=>s.Specialty)
                 .AsQueryable();
+
+            if (string.IsNullOrEmpty(speciality) == false)
+            {
+                reviewsQuery = reviewsQuery
+                    .Where(d => d.Doctor.Specialty.Name == speciality);
+            }
+
+            if (string.IsNullOrEmpty(searchTermName) == false)
+            {
+                searchTermName = $"%{searchTermName}%".ToLower();
+
+                reviewsQuery = reviewsQuery
+                    .Where(d => EF.Functions.Like(d.Doctor.FirstName, searchTermName) || EF.Functions.Like(d.Doctor.LastName, searchTermName));
+            }
+
+            if (string.IsNullOrEmpty(searchTermRating) == false)
+            {
+                int rating;
+                var isNumber = int.TryParse(searchTermRating, out rating);
+
+                if (isNumber)
+                {
+                    reviewsQuery = reviewsQuery
+                        .Where(d => d.Rating == rating);
+                }              
+            }
 
             var reviews = await reviewsQuery
                 .OrderByDescending(x => x.CreatedOn)

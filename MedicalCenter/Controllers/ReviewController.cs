@@ -80,16 +80,16 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllReview(ShowAllReviewViewModel query)
+        public async Task<IActionResult> AllReview([FromQuery]ShowAllReviewViewModel query)
         {
-            var queryResult = await reviewService.GetAllReviewsAsync(query.CurrentPage,
+            var queryResult = await reviewService.GetAllReviewsAsync(query.Speciality,query.SearchTermName,query.SearchTermRating,query.CurrentPage,
                 ShowAllReviewViewModel.ReviewPerPage);
 
             ViewData["Title"] = "Всички оценки";
 
             query.TotalReviewsCount = queryResult.TotalReviewsCount;
             query.Reviews = queryResult.Reviews;
-
+            query.Specialties = await globalService.GetSpecialtiesAsync();
             return View(query);
 
         }
