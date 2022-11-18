@@ -59,14 +59,19 @@
     </form>
 </div>
 
-
-<div class="text-center row offset-lg-1">
-    @foreach (var doctor in Model.Doctors)
-    {
-        <partial name="_DoctorUserPartial" model="@doctor" />
-    }
-</div>
-
+@if (Model.TotalDoctorsCount == 0)
+{
+    <h3 class="text-center" style="padding:50px;font-family:Monospace"><em>Няма специалисти по зададените критерии!</em></h3>
+}
+else
+{
+    <div class="text-center row offset-lg-1">
+        @foreach (var doctor in Model.Doctors)
+        {
+            <partial name="_DoctorUserPartial" model="@doctor" />
+        }
+    </div>
+}
 <div class="row mt-2 col-12">
     <div class="col-lg-2 col-sm-2">
         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"

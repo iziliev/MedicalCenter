@@ -26,36 +26,39 @@
     </div>
 </div>
 
-<h3 class="display-4 text-center">@ViewData["Title"]</h3>
-<hr />
+<div class="row">
+    <table class="table">
+        <thead style="background-color:#e6e6e6">
+            <tr scope="col" colspan="12" class="text-center">
+                <th scope="col" colspan="12">Филтър по</th>
+            </tr>
+        </thead>
+    </table>
+    <form autocomplete="off" asp-controller="Review" asp-action="AllReceiveReview" method="get">
+        <div class="row">
+            <div class="card-header offset-sm-2 offset-lg-3 col-sm-4 col-lg-3">
+                <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                    <input asp-for="SearchTerm" type="text" id="dp1" class="datepicker" placeholder="&#xf073; Избор на дата" style="font-family: Arial, FontAwesome, white;border: 1px solid #ced4da;" name="SearchTerm" readonly />
+                </div>
+            </div>
 
-<form autocomplete="off" asp-controller="Review" asp-action="AllReceiveReview" method="get">
-    <div class="row">
-        <div class="card-header col-sm-4 col-lg-3">
-            <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
-                <label asp-for="SearchTerm"></label>
-                <input asp-for="SearchTerm" type="text" id="dp1" class="datepicker" placeholder="&#xf073; Избор на дата" style="font-family: Arial, FontAwesome, white" name="SearchTerm" readonly />
+            <div class="card-header col-sm-2 col-lg-1">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Търси</button>
+                </div>
+            </div>
+
+            <div class="card-header col-sm-2 col-lg-1">
+                <div class="form-group">
+
+                    <a class="btn btn-warning" type="reset"
+                       asp-controller="Review"
+                       asp-action="AllReceiveReview">Изчистване</a>
+                </div>
             </div>
         </div>
-
-        <div class="card-header col-3">
-            <div class="form-group mt-4 p-2">
-                <button type="submit" class="btn btn-primary">Търси</button>
-            </div>
-        </div>
-
-        <div class="card-header col-5">
-            <div class="form-group mt-4 p-2">
-
-                <a class="btn btn-warning" type="reset"
-                   asp-controller="Review"
-                   asp-action="AllReceiveReview">Изчистване на филтрите</a>
-            </div>
-        </div>
-    </div>
-</form>
-
-
+    </form>
+</div>
 
 @{
     var previousPage = Model.CurrentPage - 1;

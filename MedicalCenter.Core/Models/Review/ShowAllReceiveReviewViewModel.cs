@@ -11,7 +11,6 @@ namespace MedicalCenter.Core.Models.Review
 
         public int TotalReviewsCount { get; set; }
 
-        [Display(Name = "Търсене по дата")]
         public string? SearchTerm { get; set; }
 
         public IEnumerable<AllReceiveReviewViewModel> Reviews { get; set; } = new List<AllReceiveReviewViewModel>();
