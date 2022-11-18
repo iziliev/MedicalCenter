@@ -350,17 +350,18 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UserExamination(ShowAllUserExaminationViewModel query)
+        public async Task<IActionResult> UserExamination([FromQuery]ShowAllUserExaminationViewModel query)
         {
             var userId = User.Id();
 
-            var queryResult = await userService.GetAllCurrentExaminationAsync(userId, query.CurrentPage,
+            var queryResult = await userService.GetAllCurrentExaminationAsync(userId, query.Specialty,query.SearchTermDate,query.SearchTermName,query.CurrentPage,
                 ShowAllUserExaminationViewModel.ExaminationsPerPage);
 
             ViewData["Title"] = "Предстоящи часове за прегледи";
 
             query.TotalExaminationCount = queryResult.TotalExaminationCount;
             query.Examinations = queryResult.Examinations;
+            query.Specialties = await globalService.GetSpecialtiesAsync();
 
             return View(query);
         }

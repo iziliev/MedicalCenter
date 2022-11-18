@@ -13,18 +13,16 @@
 
 .card { box-shadow: 0px 4px 8px 0px #6074bf; }
 
-input {
-    padding: 10px 20px !important;
-    border: 1px solid #616161 !important;
-    border-radius: 10px;
+.input {
+    padding: 10px 10px !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem;
     box-sizing: border-box;
-    background-color: #fff !important;
     font-size: 16px;
-    letter-spacing: 1px;
-    width: 180px
+    width: 100px
 }
 
-input:focus {
+.input:focus {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
@@ -38,15 +36,15 @@ button:focus {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    outline-width: 0
+    outline-width: 0; 
+    border-color: #dc3545;
 }
 
 .datepicker {
     background-color: #fff;
     color: #000;
-
     border: none;
-    padding: 10px !important
+    padding: 7px !important
 }
 
 .datepicker-dropdown:after { border-bottom: 6px solid #000 }

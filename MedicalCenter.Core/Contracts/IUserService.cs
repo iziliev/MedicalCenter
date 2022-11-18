@@ -41,7 +41,13 @@ namespace MedicalCenter.Core.Contracts
 
         Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(string? speciality = null, string? searchTerm = null, int currentPage = 1, int doctorsPerPage = 4);
 
-        Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(string userId, int currentPage = 1, int examinationsPerPage = 6);
+        Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(
+            string userId,
+            string? speciality = null, 
+            string? searchTermDate = null, 
+            string? searchTermName = null, 
+            int currentPage = 1, 
+            int examinationsPerPage = 6);
 
         Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, int currentPage = 1, int examinationsPerPage = 6);
     }
