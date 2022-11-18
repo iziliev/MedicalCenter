@@ -95,7 +95,7 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(int currentPage = 1, int doctorsPerPage = 5)
+        public async Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(string? speciality = null, string? searchTermEgn = null, string? searchTermName = null, int currentPage = 1, int doctorsPerPage = 5)
         {
             var doctorsQuery = repository.All<Doctor>()
                 .Where(d => !d.IsOutOfCompany)
@@ -104,6 +104,26 @@ namespace MedicalCenter.Core.Services
                 .ThenBy(x => x.FirstName)
                 .ThenBy(x => x.LastName)
                 .AsQueryable();
+
+            if (string.IsNullOrEmpty(speciality) == false)
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Specialty.Name == speciality);
+            }
+
+            if (string.IsNullOrEmpty(searchTermEgn) == false)
+            {
+                doctorsQuery = doctorsQuery
+                    .Where(d => d.Egn == searchTermEgn);
+            }
+
+            if (string.IsNullOrEmpty(searchTermName) == false)
+            {
+                searchTermName = $"%{searchTermName}%".ToLower();
+
+                doctorsQuery = doctorsQuery
+                    .Where(d => EF.Functions.Like(d.FirstName.ToLower(), searchTermName) || EF.Functions.Like(d.LastName.ToLower(), searchTermName));
+            }
 
             var doctors = await doctorsQuery
                 .Skip((currentPage - 1) * doctorsPerPage)

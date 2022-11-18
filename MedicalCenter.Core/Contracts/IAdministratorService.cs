@@ -30,7 +30,7 @@ namespace MedicalCenter.Core.Contracts
 
         Task<ShowAllExaminationViewModel> GetAllFutureExamination(int currentPage = 1, int examinationPerPage = 6);
 
-        Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(int currentPage = 1, int doctorsPerPage = 6);
+        Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(string? speciality = null, string? searchTermEgn = null, string? searchTermName = null, int currentPage = 1, int doctorsPerPage = 6);
 
         Task<ShowAllUserViewModel> GetAllRegisteredUsersAsync(int currentPage = 1, int doctorsPerPage = 6);
 
