@@ -14,44 +14,50 @@
     var maxPage = Math.Ceiling((double)Model.TotalDoctorsCount /
         ShowAllDoctorUserViewModel.DoctorsPerPage);
 }
+<div class="row">
+    <table class="table">
+        <thead style="background-color:#e6e6e6">
+            <tr scope="col" colspan="12" class="text-center">
+                <th scope="col" colspan="12">Филтър по</th>
+            </tr>
+        </thead>
+    </table>
+    <form autocomplete="off" method="get" class="pb-3">
+        <div class="row">
+            <div class="card-header col-sm-3 col-lg-4">
+                <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1 pb-3">
+                    <select asp-for="Specialty" class="form-control">
+                        <option value="">Специалност</option>
+                        @foreach (var speciality in Model.Specialties)
+                        {
+                            <option value="@speciality.Name">@speciality.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
 
-<form autocomplete="off" method="get">
-    <div class="row">
-        <div class="card-header col-sm-3 col-lg-4">
-            <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
-                <label asp-for="Specialty"></label>
-                <select asp-for="Specialty" class="form-control">
-                    <option value="">Всички</option>
-                    @foreach (var speciality in Model.Specialties)
-                    {
-                        <option value="@speciality.Name">@speciality.Name</option>
-                    }
-                </select>
+            <div class="card-header col-sm-3 col-lg-4">
+                <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1 pb-3">
+                    <input asp-for="SearchTerm" class="form-control" placeholder="Име на лекар">
+                </div>
+            </div>
+
+            <div class="card-header col-sm-2 col-lg-1">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Търси</button>
+                </div>
+            </div>
+
+            <div class="card-header col-sm-4 col-lg-3">
+                <div class="form-group">
+                    <a class="btn btn-warning" type="reset"
+                       asp-controller="User"
+                       asp-action="UserBoard">Изчистване</a>
+                </div>
             </div>
         </div>
-
-        <div class="card-header col-sm-3 col-lg-4">
-            <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
-                <label asp-for="SearchTerm"></label>
-                <input asp-for="SearchTerm" class="form-control" placeholder="Име на лекар">
-            </div>
-        </div>
-
-        <div class="card-header col-sm-2 col-lg-1">
-            <div class="form-group mt-4 p-2">
-                <button type="submit" class="btn btn-primary">Търси</button>
-            </div>
-        </div>
-
-        <div class="card-header col-sm-4 col-lg-2">
-            <div class="form-group mt-4 p-2">
-                <a class="btn btn-warning" type="reset"
-                   asp-controller="User"
-                   asp-action="UserBoard">Изчистване</a>
-            </div>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 
 
 <div class="text-center row offset-lg-1">

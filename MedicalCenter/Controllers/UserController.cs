@@ -357,11 +357,15 @@ namespace MedicalCenter.Controllers
             var queryResult = await userService.GetAllCurrentExaminationAsync(userId, query.Specialty,query.SearchTermDate,query.SearchTermName,query.CurrentPage,
                 ShowAllUserExaminationViewModel.ExaminationsPerPage);
 
+            var showStatisticAllExamination = await userService.GetAllCurrentExaminationAsync(userId,string.Empty,string.Empty,string.Empty, query.CurrentPage,
+                ShowAllUserExaminationViewModel.ExaminationsPerPage);
+
             ViewData["Title"] = "Предстоящи часове за прегледи";
 
             query.TotalExaminationCount = queryResult.TotalExaminationCount;
             query.Examinations = queryResult.Examinations;
             query.Specialties = await globalService.GetSpecialtiesAsync();
+            query.StatistilAllExaminationCount = showStatisticAllExamination.TotalExaminationCount;
 
             return View(query);
         }

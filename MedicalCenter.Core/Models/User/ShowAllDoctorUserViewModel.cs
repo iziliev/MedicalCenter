@@ -13,7 +13,6 @@ namespace MedicalCenter.Core.Models.User
     {
         public const int DoctorsPerPage = 4;
 
-        [Display(Name = "Търсене по специалност")]
         public string? Specialty { get; set; }
 
         public int CurrentPage { get; set; } = 1;
@@ -22,7 +21,6 @@ namespace MedicalCenter.Core.Models.User
 
         public IEnumerable<Specialty> Specialties { get; set; } = new List<Specialty>();
 
-        [Display(Name = "Търсене по име на лекар")]
         public string? SearchTerm { get; set; }
 
         public IEnumerable<DashboardAllDoctorUserViewModel> Doctors { get; set; } = new List<DashboardAllDoctorUserViewModel>();

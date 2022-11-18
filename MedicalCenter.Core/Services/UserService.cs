@@ -273,7 +273,7 @@ namespace MedicalCenter.Core.Services
             return new ShowAllUserExaminationViewModel
             {
                 Examinations = examinations,
-                TotalExaminationCount = examinationQuery.Count()
+                TotalExaminationCount = examinationQuery.Count(),
             };
         }
 
