@@ -6,7 +6,6 @@ namespace MedicalCenter.Core.Models.Dotor
     {
         public const int ExaminationPerPage = 6;
 
-        [Display(Name ="Търсене по дата")]
         public string? SearchTerm { get; set; }
 
         public int CurrentPage { get; set; } = 1;

@@ -109,6 +109,7 @@ namespace MedicalCenter.Controllers
             {
                 ViewData["Title"] = "Вход";
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
+                loginModel.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                 return View(loginModel);
             }
 
@@ -116,6 +117,7 @@ namespace MedicalCenter.Controllers
             {
                 ViewData["Title"] = "Вход";
                 ModelState.AddModelError("", ModelErrorConstants.WrongLogin);
+                loginModel.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                 return View(loginModel);
             }
 
@@ -132,6 +134,7 @@ namespace MedicalCenter.Controllers
 
             ViewData["Title"] = "Вход";
             ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
+            loginModel.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             return View(loginModel);
         }
 

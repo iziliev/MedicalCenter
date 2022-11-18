@@ -225,30 +225,31 @@ namespace MedicalCenter.Controllers
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
-        public async Task<IActionResult> AllPastExamination(ShowAllExaminationViewModel query)
+        public async Task<IActionResult> AllPastExamination([FromQuery]ShowAllExaminationViewModel query)
         {
-            var queryResult = await administratorService.GetAllPastExamination(query.CurrentPage,
+            var queryResult = await administratorService.GetAllPastExamination(query.Speciality, query.SearchTermDate, query.SearchTermName, query.CurrentPage,
                 ShowAllExaminationViewModel.ExaminationPerPage);
 
             ViewData["Title"] = "Извършени прегледа";
 
             query.TotalExaminationCount = queryResult.TotalExaminationCount;
             query.AllExamination = queryResult.AllExamination;
-
+            query.Specialities = await globalService.GetSpecialtiesAsync();
             return View(query);
         }
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
-        public async Task<IActionResult> AllFutureExamination(ShowAllExaminationViewModel query)
+        public async Task<IActionResult> AllFutureExamination([FromQuery]ShowAllExaminationViewModel query)
         {
-            var queryResult = await administratorService.GetAllFutureExamination(query.CurrentPage,
+            var queryResult = await administratorService.GetAllFutureExamination(query.Speciality,query.SearchTermDate,query.SearchTermName,query.CurrentPage,
                 ShowAllExaminationViewModel.ExaminationPerPage);
 
             ViewData["Title"] = "Предстоящи прегледa";
 
             query.TotalExaminationCount = queryResult.TotalExaminationCount;
             query.AllExamination = queryResult.AllExamination;
+            query.Specialities = await globalService.GetSpecialtiesAsync();
 
             return View(query);
         }

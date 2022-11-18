@@ -1,42 +1,64 @@
 ﻿@model ShowAllExaminationDoctorViewModel
 
-<h3 class="display-4 text-center">@ViewData["Title"]</h3>
-<hr />
-
 @section Styles {
-<link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true" />
-<link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true" />
-<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
-<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
 }
 
-<form autocomplete="off" asp-controller="Doctor" asp-action="AllDoctorExamination" method="get">
-    <div class="row">
-        <div class="card-header col-sm-4 col-lg-3">
-            <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
-                <label asp-for="SearchTerm"></label>
-                <input asp-for="SearchTerm" type="text" id="dp1" class="datepicker" placeholder="&#xf073; Избор на дата" style="font-family: Arial, FontAwesome, white" name="SearchTerm" readonly />
-            </div>
-        </div>
-
-        <div class="card-header col-3">
-            <div class="form-group mt-4 p-2">
-                <button type="submit" class="btn btn-primary">Търси</button>
-            </div>
-        </div>
-
-        <div class="card-header col-5">
-            <div class="form-group mt-4 p-2">
-
-                <a class="btn btn-warning" type="reset"
-                   asp-controller="Doctor"
-                   asp-action="AllDoctorExamination">Изчистване на филтрите</a>
+    <div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
+        <div class="small-box bg-gradient-secondary" style="height:120px;">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner">
+                        <h3 class="text-center" style="padding-top:10px;">@Model.TotalExaminationCount</h3>
+                        <p class="text-center" style="font-size:14px;padding-left:5px;">@ViewData["Title"]</p>
+                    </div>
+                </div>
+                <div class="col-4" style="position:center;padding-top:15px;">
+                    <div class="icon">
+                        <i class="fa fa-hourglass"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</form>
 
-@{
+    <div class="row">
+        <table class="table">
+            <thead style="background-color:#e6e6e6">
+                <tr scope="col" colspan="12" class="text-center">
+                    <th scope="col" colspan="12">Филтър по</th>
+                </tr>
+            </thead>
+        </table>
+        <form autocomplete="off" asp-controller="Doctor" asp-action="AllDoctorExamination" method="get">
+            <div class="row">
+                <div class="card-header col-sm-6 col-lg-6">
+                    <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                        <input asp-for="SearchTerm" type="text" id="dp1" class="datepicker" placeholder="&#xf073; Избор на дата" style="font-family: Arial, FontAwesome, white;border: 1px solid #ced4da;" name="SearchTerm" readonly />
+                    </div>
+                </div>
+
+                <div class="card-header col-sm-2 col-lg-1">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Търси</button>
+                    </div>
+                </div>
+
+                <div class="card-header col-sm-4 col-lg-5">
+                    <div class="form-group">
+
+                        <a class="btn btn-warning" type="reset"
+                       asp-controller="Doctor"
+                       asp-action="AllDoctorExamination">Изчистване</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    @{
     var previousPage = Model.CurrentPage - 1;
     if (previousPage < 1)
     {
@@ -93,11 +115,11 @@ else
 </div>
 
 @section Scripts {
-<script src="~/js/bootstrap-datepicker.js" asp-append-version="true"></script>
-<script src="~/js/date-picker-pvevious.js" asp-append-version="true"></script>
-<partial name="_ValidationScriptsPartial" />
-<script>
-    var date = new Date();
-    $('#ClientTimeZoneOffset').val(date.getTimezoneOffset());
-</script>
+    <script src="~/js/bootstrap-datepicker.js" asp-append-version="true"></script>
+    <script src="~/js/date-picker-pvevious.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        var date = new Date();
+        $('#ClientTimeZoneOffset').val(date.getTimezoneOffset());
+    </script>
 }

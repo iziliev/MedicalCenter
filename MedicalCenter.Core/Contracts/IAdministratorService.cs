@@ -26,9 +26,9 @@ namespace MedicalCenter.Core.Contracts
 
         Task<DashboardStatisticViewModel> GetStatisticsAsync();
 
-        Task<ShowAllExaminationViewModel> GetAllPastExamination(int currentPage = 1, int examinationPerPage = 6);
+        Task<ShowAllExaminationViewModel> GetAllPastExamination(string? speciality = null, string? searchTermDate = null, string? searchTermName = null, int currentPage = 1, int examinationPerPage = 6);
 
-        Task<ShowAllExaminationViewModel> GetAllFutureExamination(int currentPage = 1, int examinationPerPage = 6);
+        Task<ShowAllExaminationViewModel> GetAllFutureExamination(string? speciality = null, string? searchTermDate = null, string? searchTermName = null,int currentPage = 1, int examinationPerPage = 6);
 
         Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(string? speciality = null, string? searchTermEgn = null, string? searchTermName = null, int currentPage = 1, int doctorsPerPage = 6);
 

@@ -377,7 +377,7 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<ShowAllExaminationViewModel> GetAllPastExamination(int currentPage = 1, int examinationsPerPage = 6)
+        public async Task<ShowAllExaminationViewModel> GetAllPastExamination(string? speciality = null, string? searchTermDate = null, string? searchTermName = null,int currentPage = 1, int examinationsPerPage = 6)
         {
             var examinationQuery = repository.All<Examination>()
                 .Where(x => !x.IsDeleted & x.Date < DateTime.Now.Date)
@@ -385,6 +385,33 @@ namespace MedicalCenter.Core.Services
                 .Include(d => d.Doctor)
                 .ThenInclude(s => s.Specialty)
                 .AsQueryable();
+
+            if (string.IsNullOrEmpty(speciality) == false)
+            {
+                examinationQuery = examinationQuery
+                    .Where(d => d.Doctor.Specialty.Name == speciality);
+            }
+
+            if (string.IsNullOrEmpty(searchTermDate) == false)
+            {
+                var searchDate = new DateTime();
+
+                var isDateCorrect = DateTime.TryParseExact(searchTermDate, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out searchDate);
+
+                if (isDateCorrect)
+                {
+                    examinationQuery = examinationQuery
+                        .Where(e => e.Date == searchDate);
+                }
+            }
+
+            if (string.IsNullOrEmpty(searchTermName) == false)
+            {
+                searchTermName = $"%{searchTermName}%".ToLower();
+
+                examinationQuery = examinationQuery
+                    .Where(d => EF.Functions.Like(d.Doctor.FirstName, searchTermName) || EF.Functions.Like(d.Doctor.LastName, searchTermName));
+            }
 
             var examinations = await examinationQuery
                 .OrderByDescending(x => x.Date < DateTime.Now.Date)
@@ -411,7 +438,7 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<ShowAllExaminationViewModel> GetAllFutureExamination(int currentPage = 1, int examinationsPerPage = 6)
+        public async Task<ShowAllExaminationViewModel> GetAllFutureExamination(string? speciality = null, string? searchTermDate = null, string? searchTermName = null,int currentPage = 1, int examinationsPerPage = 6)
         {
             var examinationQuery = repository.All<Examination>()
                 .Where(x => !x.IsDeleted & x.Date >= DateTime.Today.Date)
@@ -419,6 +446,33 @@ namespace MedicalCenter.Core.Services
                 .Include(d => d.Doctor)
                 .ThenInclude(s => s.Specialty)
                 .AsQueryable();
+
+            if (string.IsNullOrEmpty(speciality) == false)
+            {
+                examinationQuery = examinationQuery
+                    .Where(d=>d.Doctor.Specialty.Name == speciality);
+            }
+
+            if (string.IsNullOrEmpty(searchTermDate) == false)
+            {
+                var searchDate = new DateTime();
+
+                var isDateCorrect = DateTime.TryParseExact(searchTermDate, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out searchDate);
+
+                if (isDateCorrect)
+                {
+                    examinationQuery = examinationQuery
+                        .Where(e => e.Date == searchDate);
+                }
+            }
+
+            if (string.IsNullOrEmpty(searchTermName) == false)
+            {
+                searchTermName = $"%{searchTermName}%".ToLower();
+
+                examinationQuery = examinationQuery
+                    .Where(d => EF.Functions.Like(d.Doctor.FirstName, searchTermName) || EF.Functions.Like(d.Doctor.LastName, searchTermName));
+            }
 
             var examinations = await examinationQuery
                 .OrderByDescending(x => x.Date >= DateTime.Now.Date)

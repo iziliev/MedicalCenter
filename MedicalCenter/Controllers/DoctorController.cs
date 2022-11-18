@@ -108,7 +108,7 @@ namespace MedicalCenter.Controllers
             }
             else
             {
-                ViewData["Title"] = $"Всички записани прегледи";
+                ViewData["Title"] = $"Записани прегледи";
             }
 
             query.TotalExaminationCount = queryResult.TotalExaminationCount;
