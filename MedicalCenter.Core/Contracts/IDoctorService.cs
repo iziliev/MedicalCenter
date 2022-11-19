@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Core.Models.Dotor;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 
 namespace MedicalCenter.Core.Contracts
@@ -9,6 +10,10 @@ namespace MedicalCenter.Core.Contracts
 
         Task<DoctorStatisticViewModel> GetDoctorStatisticsAsync(Doctor doctor);
 
-        Task<ShowAllExaminationDoctorViewModel> GetAllDoctorExaminationAsync(string doctorId,string? searchTerm=null, int currentPage = 1, int examinationPerPage = 6);
+        Task<ShowAllExaminationDoctorViewModel> GetAllDoctorExaminationAsync(
+            string doctorId,
+            string? searchTerm=null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int examinationPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
     }
 }

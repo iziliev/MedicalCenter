@@ -1,6 +1,7 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Dotor;
 using MedicalCenter.Infrastructure.Data.Common;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -16,7 +17,11 @@ namespace MedicalCenter.Core.Services
             repository = _repository;
         }
 
-        public async Task<ShowAllExaminationDoctorViewModel> GetAllDoctorExaminationAsync(string doctorId, string? searchTerm = null, int currentPage = 1, int examinationPerPage = 6)
+        public async Task<ShowAllExaminationDoctorViewModel> GetAllDoctorExaminationAsync(
+            string doctorId, 
+            string? searchTerm = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int examinationPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var doctorExaminationQuery = repository.AllReadonly<Examination>()
                 .Where(e => !e.IsDeleted && e.DoctorId == doctorId)

@@ -1,12 +1,13 @@
-﻿using MedicalCenter.Infrastructure.Data.Models;
+﻿using MedicalCenter.Infrastructure.Data.Global;
+using MedicalCenter.Infrastructure.Data.Models;
 
 namespace MedicalCenter.Core.Models.Administrator
 {
     public class ShowAllDoctorViewModel
     {
-        public const int DoctorsPerPage = 5;
+        public const int DoctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant;
 
-        public int CurrentPage { get; set; } = 1;
+        public int CurrentPage { get; set; } = DataConstants.PagingConstants.CurrentPageConstant;
 
         public int TotalDoctorsCount { get; set; }
 

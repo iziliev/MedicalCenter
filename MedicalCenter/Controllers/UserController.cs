@@ -113,7 +113,8 @@ namespace MedicalCenter.Controllers
                 return View(loginModel);
             }
 
-            if (!await userService.IsUsernameExistAsync(loginModel.Username) && !await userService.IsUserEmailExistAsync(loginModel.Username))
+            if (!await userService.IsUsernameExistAsync(loginModel.Username) && 
+                !await userService.IsUserEmailExistAsync(loginModel.Username))
             {
                 ViewData["Title"] = "Вход";
                 ModelState.AddModelError("", ModelErrorConstants.WrongLogin);
@@ -150,7 +151,7 @@ namespace MedicalCenter.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
@@ -359,8 +360,6 @@ namespace MedicalCenter.Controllers
 
             var queryResult = await userService.GetAllCurrentExaminationAsync(userId, query.Specialty,query.SearchTermDate,query.SearchTermName,query.CurrentPage,
                 ShowAllUserExaminationViewModel.ExaminationsPerPage);
-
-            var showStatisticAllExamination = await userService.GetAllCurrentExaminationAsync(userId,string.Empty,string.Empty,string.Empty, 1,1);
 
             ViewData["Title"] = "Предстоящи часове за прегледи";
 

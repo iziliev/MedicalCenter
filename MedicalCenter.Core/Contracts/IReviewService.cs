@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Core.Models.Review;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 
 namespace MedicalCenter.Core.Contracts
@@ -13,10 +14,25 @@ namespace MedicalCenter.Core.Contracts
 
         Task<Doctor> GetDoctorByIdAsync(string doctorId);
 
-        Task<ShowAllReviewViewModel> GetAllReviewsAsync(string? speciality = null, string? searchTermName = null, string? searchTermRating = null,int currentPage = 1, int reviewPerPage = 6);
+        Task<ShowAllReviewViewModel> GetAllReviewsAsync(
+            string? speciality = null, 
+            string? searchTermName = null, 
+            string? searchTermRating = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int reviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
 
-        Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(string doctorId, string? searchTerm = null, int currentPage = 1, int reviewPerPage = 6);
+        Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(
+            string doctorId, 
+            string? searchTerm = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int reviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
 
-        Task<ShowAllGiveReviewViewModel> GetAllGiveReviewsByUserAsync(string userId, string? speciality = null, string? searchTermDate = null, string? searchTermName = null, int currentPage = 1, int reviewPerPage = 6);
+        Task<ShowAllGiveReviewViewModel> GetAllGiveReviewsByUserAsync(
+            string userId, 
+            string? speciality = null, 
+            string? searchTermDate = null, 
+            string? searchTermName = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int reviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
     }
 }

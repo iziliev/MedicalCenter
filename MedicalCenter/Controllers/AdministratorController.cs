@@ -136,6 +136,7 @@ namespace MedicalCenter.Controllers
             }
 
             doctorCreateModel = await globalService.FillGendersSpecialitiesSheduleInCreateViewAsyanc(doctorCreateModel);
+
             return View(doctorCreateModel);
         }
 
@@ -169,7 +170,11 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllDoctor([FromQuery]ShowAllDoctorViewModel query)
         {
-            var queryResult = await administratorService.GetAllCurrentDoctorsAsync(query.Specialty,query.SearchTermEgn,query.SearchTermName,query.CurrentPage,
+            var queryResult = await administratorService.GetAllCurrentDoctorsAsync(
+                query.Specialty,
+                query.SearchTermEgn,
+                query.SearchTermName,
+                query.CurrentPage,
                 ShowAllDoctorViewModel.DoctorsPerPage);
 
             ViewData["Title"] = "Всички доктори";
@@ -185,7 +190,11 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllDoctorOut([FromQuery]ShowAllDoctorViewModel query)
         {
-            var queryResult = await administratorService.GetAllLeftDoctorsAsync(query.Specialty, query.SearchTermEgn, query.SearchTermName, query.CurrentPage,
+            var queryResult = await administratorService.GetAllLeftDoctorsAsync(
+                query.Specialty, 
+                query.SearchTermEgn, 
+                query.SearchTermName, 
+                query.CurrentPage,
                 ShowAllDoctorViewModel.DoctorsPerPage);
 
             ViewData["Title"] = "Изтрити доктори";
@@ -227,7 +236,11 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllPastExamination([FromQuery]ShowAllExaminationViewModel query)
         {
-            var queryResult = await administratorService.GetAllPastExamination(query.Speciality, query.SearchTermDate, query.SearchTermName, query.CurrentPage,
+            var queryResult = await administratorService.GetAllPastExamination(
+                query.Speciality, 
+                query.SearchTermDate, 
+                query.SearchTermName, 
+                query.CurrentPage,
                 ShowAllExaminationViewModel.ExaminationPerPage);
 
             ViewData["Title"] = "Извършени прегледа";
@@ -242,7 +255,11 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllFutureExamination([FromQuery]ShowAllExaminationViewModel query)
         {
-            var queryResult = await administratorService.GetAllFutureExamination(query.Speciality,query.SearchTermDate,query.SearchTermName,query.CurrentPage,
+            var queryResult = await administratorService.GetAllFutureExamination(
+                query.Speciality,
+                query.SearchTermDate,
+                query.SearchTermName,
+                query.CurrentPage,
                 ShowAllExaminationViewModel.ExaminationPerPage);
 
             ViewData["Title"] = "Предстоящи прегледa";

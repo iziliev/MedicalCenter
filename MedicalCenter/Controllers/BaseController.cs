@@ -29,6 +29,7 @@ namespace MedicalCenter.Controllers
             {
                 ViewBag.UserFirstName = UserFirstName;
             }
+
             base.OnActionExecuted(context);
         }
     }

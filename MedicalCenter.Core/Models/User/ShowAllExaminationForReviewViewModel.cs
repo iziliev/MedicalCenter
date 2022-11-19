@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Core.Models.Administrator;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace MedicalCenter.Core.Models.User
 {
     public class ShowAllExaminationForReviewViewModel
     {
-        public const int ExaminationsPerPage = 6;
+        public const int ExaminationsPerPage = DataConstants.PagingConstants.ShowPerPageConstant;
 
-        public int CurrentPage { get; set; } = 1;
+        public int CurrentPage { get; set; } = DataConstants.PagingConstants.CurrentPageConstant;
 
         public int TotalExaminationsCount { get; set; }
 

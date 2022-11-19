@@ -100,7 +100,11 @@ namespace MedicalCenter.Controllers
         {
             var doctorId = User.Id();
 
-            var queryResult = await doctorService.GetAllDoctorExaminationAsync(doctorId, query.SearchTerm, query.CurrentPage, ShowAllExaminationDoctorViewModel.ExaminationPerPage);
+            var queryResult = await doctorService.GetAllDoctorExaminationAsync(
+                doctorId, 
+                query.SearchTerm, 
+                query.CurrentPage, 
+                ShowAllExaminationDoctorViewModel.ExaminationPerPage);
 
             if (string.IsNullOrEmpty(query.SearchTerm) == false)
             {

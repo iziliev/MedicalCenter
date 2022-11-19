@@ -1,13 +1,14 @@
 ﻿using MedicalCenter.Core.Models.Administrator;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 
 namespace MedicalCenter.Core.Models.Review
 {
     public class ShowAllReviewViewModel
     {
-        public const int ReviewPerPage = 5;
+        public const int ReviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant;;
 
-        public int CurrentPage { get; set; } = 1;
+        public int CurrentPage { get; set; } = DataConstants.PagingConstants.CurrentPageConstant;;
 
         public int TotalReviewsCount { get; set; }
 

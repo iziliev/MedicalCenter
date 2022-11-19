@@ -110,5 +110,11 @@
             public const string UserNotExistExeptionMessage = "User doesn't exist!";
             public const string ExaminationNotExistExeptionMessage = "Examination doesn't exist!";
         }
+
+        public static class PagingConstants
+        {
+            public const int CurrentPageConstant = 1;
+            public const int ShowPerPageConstant = 6;
+        }
     }
 }

@@ -1,14 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MedicalCenter.Infrastructure.Data.Global;
+using System.ComponentModel.DataAnnotations;
 
 namespace MedicalCenter.Core.Models.Dotor
 {
     public class ShowAllExaminationDoctorViewModel
     {
-        public const int ExaminationPerPage = 6;
+        public const int ExaminationPerPage = DataConstants.PagingConstants.ShowPerPageConstant;
 
+        public int CurrentPage { get; set; } = DataConstants.PagingConstants.CurrentPageConstant;
+        
         public string? SearchTerm { get; set; }
-
-        public int CurrentPage { get; set; } = 1;
 
         public int TotalExaminationCount { get; set; }
 

@@ -53,7 +53,12 @@ namespace MedicalCenter.Controllers
 
             ViewData["Title"] = $"Всички оценки";
 
-            var queryResult = await reviewService.GetAllGiveReviewsByUserAsync(userId, query.Specialty,query.SearchTermDate,query. SearchTermName,query.CurrentPage,
+            var queryResult = await reviewService.GetAllGiveReviewsByUserAsync(
+                userId, 
+                query.Specialty,
+                query.SearchTermDate,
+                query. SearchTermName,
+                query.CurrentPage,
                 ShowAllGiveReviewViewModel.ReviewPerPage);
 
             query.TotalReviewsCount = queryResult.TotalReviewsCount;
@@ -68,7 +73,10 @@ namespace MedicalCenter.Controllers
         {
             var doctorId = User.Id();
 
-            var queryResult = await reviewService.GetReceiveReviewsByDoctorIdAsync(doctorId,query.SearchTerm,query.CurrentPage,
+            var queryResult = await reviewService.GetReceiveReviewsByDoctorIdAsync(
+                doctorId,
+                query.SearchTerm,
+                query.CurrentPage,
                 ShowAllReceiveReviewViewModel.ReviewPerPage);
 
             ViewData["Title"] = $"Получени оценки";
@@ -82,7 +90,11 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> AllReview([FromQuery]ShowAllReviewViewModel query)
         {
-            var queryResult = await reviewService.GetAllReviewsAsync(query.Speciality,query.SearchTermName,query.SearchTermRating,query.CurrentPage,
+            var queryResult = await reviewService.GetAllReviewsAsync(
+                query.Speciality,
+                query.SearchTermName,
+                query.SearchTermRating,
+                query.CurrentPage,
                 ShowAllReviewViewModel.ReviewPerPage);
 
             ViewData["Title"] = "Всички оценки";

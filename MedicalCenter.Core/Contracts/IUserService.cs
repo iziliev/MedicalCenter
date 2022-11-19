@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Core.Models.User;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -39,16 +40,26 @@ namespace MedicalCenter.Core.Contracts
 
         Task<Examination> GetExaminationAsync(string userId, BookExaminationViewModel bookModel);
 
-        Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(string? speciality = null, string? searchTerm = null, int currentPage = 1, int doctorsPerPage = 4);
+        Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(
+            string? speciality = null, 
+            string? searchTerm = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
 
         Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(
             string userId,
             string? speciality = null, 
             string? searchTermDate = null, 
             string? searchTermName = null, 
-            int currentPage = 1, 
-            int examinationsPerPage = 6);
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int examinationsPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
 
-        Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, string? speciality = null,string? searchTermDate = null,string? searchTermName = null, int currentPage = 1, int reviewPerPage = 6);
+        Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(
+            string userId, 
+            string? speciality = null,
+            string? searchTermDate = null,
+            string? searchTermName = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int reviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
     }
 }

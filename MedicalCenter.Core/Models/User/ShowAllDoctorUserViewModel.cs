@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Core.Models.Administrator;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,11 @@ namespace MedicalCenter.Core.Models.User
 {
     public class ShowAllDoctorUserViewModel
     {
-        public const int DoctorsPerPage = 4;
+        public const int DoctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant;
+
+        public int CurrentPage { get; set; } = DataConstants.PagingConstants.ShowPerPageConstant;
 
         public string? Specialty { get; set; }
-
-        public int CurrentPage { get; set; } = 1;
 
         public int TotalDoctorsCount { get; set; }
 

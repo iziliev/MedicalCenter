@@ -95,7 +95,12 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(string? speciality = null, string? searchTermEgn = null, string? searchTermName = null, int currentPage = 1, int doctorsPerPage = 5)
+        public async Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(
+            string? speciality = null, 
+            string? searchTermEgn = null, 
+            string? searchTermName = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var doctorsQuery = repository.All<Doctor>()
                 .Where(d => !d.IsOutOfCompany)
@@ -161,7 +166,11 @@ namespace MedicalCenter.Core.Services
             await userManager.AddToRoleAsync(doctor, doctorRole);
         }
 
-        public async Task<ShowAllUserViewModel> GetAllRegisteredUsersAsync(string? searchTermEmail = null, string? searchTermName = null, int currentPage = 1, int doctorsPerPage = 5)
+        public async Task<ShowAllUserViewModel> GetAllRegisteredUsersAsync(
+            string? searchTermEmail = null, 
+            string? searchTermName = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var usersQuery = repository.All<User>()
                 .Where(x => x.Role == "User")
@@ -268,7 +277,12 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<ShowAllDoctorViewModel> GetAllLeftDoctorsAsync(string? speciality = null, string? searchTermEgn = null, string? searchTermName = null, int currentPage = 1, int doctorsPerPage = 5)
+        public async Task<ShowAllDoctorViewModel> GetAllLeftDoctorsAsync(
+            string? speciality = null, 
+            string? searchTermEgn = null, 
+            string? searchTermName = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var doctorsQuery = repository.All<Doctor>()
                 .Where(d => d.IsOutOfCompany)
@@ -377,7 +391,12 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<ShowAllExaminationViewModel> GetAllPastExamination(string? speciality = null, string? searchTermDate = null, string? searchTermName = null,int currentPage = 1, int examinationsPerPage = 6)
+        public async Task<ShowAllExaminationViewModel> GetAllPastExamination(
+            string? speciality = null, 
+            string? searchTermDate = null, 
+            string? searchTermName = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int examinationsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var examinationQuery = repository.All<Examination>()
                 .Where(x => !x.IsDeleted & x.Date < DateTime.Now.Date)
@@ -438,7 +457,12 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<ShowAllExaminationViewModel> GetAllFutureExamination(string? speciality = null, string? searchTermDate = null, string? searchTermName = null,int currentPage = 1, int examinationsPerPage = 6)
+        public async Task<ShowAllExaminationViewModel> GetAllFutureExamination(
+            string? speciality = null, 
+            string? searchTermDate = null, 
+            string? searchTermName = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int examinationsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var examinationQuery = repository.All<Examination>()
                 .Where(x => !x.IsDeleted & x.Date >= DateTime.Today.Date)
