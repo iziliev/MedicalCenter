@@ -6,9 +6,9 @@ namespace MedicalCenter.Core.Models.Review
 {
     public class ShowAllGiveReviewViewModel
     {
-        public const int ReviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant;;
+        public const int ReviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant;
 
-        public int CurrentPage { get; set; } = DataConstants.PagingConstants.CurrentPageConstant;;
+        public int CurrentPage { get; set; } = DataConstants.PagingConstants.CurrentPageConstant;
 
         public int TotalReviewsCount { get; set; }
 
