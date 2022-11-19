@@ -7,7 +7,7 @@ namespace MedicalCenter.Core.Contracts
 {
     public interface IAdministratorService
     {
-        Task<CreateDoctorViewModel> SearchDoctorAsync(string egn);
+        Task<CreateDoctorViewModel> SearchDoctorByEgnAsync(string egn);
 
         Task<IdentityResult> CreateDoctorAsync(CreateDoctorViewModel doctorModel);
 

@@ -27,10 +27,8 @@ namespace MedicalCenter.Core.Services
 
         public async Task<IdentityResult> CreateDoctorAsync(CreateDoctorViewModel doctorModel)
         {
-            string phoneNumber = doctorModel.PhoneNumber.Contains('+')
-                ? doctorModel.PhoneNumber
-                : $"+359{doctorModel.PhoneNumber.Remove(0, 1)}";
-
+            string phoneNumber = globalService.ParsePnoneNumber(doctorModel.PhoneNumber);
+                
             var doctor = new Doctor()
             {
                 Biography = doctorModel.Biography,
@@ -53,7 +51,7 @@ namespace MedicalCenter.Core.Services
             return await userManager.CreateAsync(doctor, doctorModel.Password);
         }
 
-        public async Task<CreateDoctorViewModel> SearchDoctorAsync(string egn)
+        public async Task<CreateDoctorViewModel> SearchDoctorByEgnAsync(string egn)
         {
             var existDoctor = await repository.All<Doctor>()
                 .Where(d => d.Egn == egn)
@@ -85,9 +83,7 @@ namespace MedicalCenter.Core.Services
 
         public async Task ReturnDoctorAsync(string id)
         {
-            var doctor = await repository.All<Doctor>()
-                .Where(u => u.Id == id)
-                .FirstAsync();
+            var doctor = await repository.GetByIdAsync<Doctor>(id);
 
             doctor.IsOutOfCompany = false;
             doctor.OutOnDate = null;
@@ -271,7 +267,7 @@ namespace MedicalCenter.Core.Services
 
         public async Task DeleteDoctorAsync(string id)
         {
-            var doctor = await globalService.GetDoctorByIdAsync(id);
+            var doctor = await repository.GetByIdAsync<Doctor>(id);
             doctor.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
             doctor.IsOutOfCompany = true;
             await repository.SaveChangesAsync();

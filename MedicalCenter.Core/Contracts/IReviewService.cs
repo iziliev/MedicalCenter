@@ -8,12 +8,6 @@ namespace MedicalCenter.Core.Contracts
     {
         Task CreateReviewAsync(ReviewViewModel reviewModel);
 
-        Task<Examination> GetExaminationByIdAsync(string examinationId);
-
-        Task<User> GetUserByUserIdAsync(string userId);
-
-        Task<Doctor> GetDoctorByIdAsync(string doctorId);
-
         Task<ShowAllReviewViewModel> GetAllReviewsAsync(
             string? speciality = null, 
             string? searchTermName = null, 

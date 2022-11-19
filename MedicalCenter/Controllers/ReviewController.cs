@@ -1,8 +1,9 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Review;
 using MedicalCenter.Extensions;
+using MedicalCenter.Infrastructure.Data.Common;
+using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace MedicalCenter.Controllers
 {
@@ -10,19 +11,22 @@ namespace MedicalCenter.Controllers
     {
         private readonly IReviewService reviewService;
         private readonly IGlobalService globalService;
+        private readonly IRepository repository;
 
         public ReviewController(
             IReviewService _reviewService, 
-            IGlobalService _globalService)
+            IGlobalService _globalService,
+            IRepository _repository)
         {
             reviewService = _reviewService;
             globalService = _globalService;
+            repository = _repository;
         }
 
         [HttpGet]
         public async Task<IActionResult> CreateReview(string examinationId)
         {
-            var examination = await reviewService.GetExaminationByIdAsync(examinationId);
+            var examination = await repository.GetByIdAsync<Examination>(examinationId);
             var reviewModel = new ReviewViewModel();
             reviewModel.ExaminationId=examinationId;
             reviewModel.UserId = examination.UserId;
@@ -36,7 +40,7 @@ namespace MedicalCenter.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var examination = await reviewService.GetExaminationByIdAsync(reviewModel.ExaminationId);
+                var examination = await repository.GetByIdAsync<Examination>(reviewModel.ExaminationId);
                 ViewData["Title"] = $"Оценка за прегледа при {examination.DoctorFullName} проведен на {examination.Date.ToString("dd.MM.yyyy")} {examination.Hour}";
                 return View(reviewModel);
             }

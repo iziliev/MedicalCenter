@@ -36,8 +36,6 @@ namespace MedicalCenter.Core.Contracts
 
         Task<BookExaminationViewModel> FillBookViewModelAsync(string doctorId);
 
-        Task<Examination> GetExaminationByIdAsync(string id);
-
         Task<Examination> GetExaminationAsync(string userId, BookExaminationViewModel bookModel);
 
         Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(

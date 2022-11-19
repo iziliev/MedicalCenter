@@ -1,6 +1,7 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.User;
 using MedicalCenter.Extensions;
+using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,17 +16,21 @@ namespace MedicalCenter.Controllers
     {
         private readonly IUserService userService;
         private readonly IGlobalService globalService;
+        private readonly IRepository repository;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
+        
 
         public UserController(
             IUserService _userService,
             IGlobalService _globalService,
+            IRepository _repository,
             SignInManager<User> _signInManager,
             UserManager<User> _userManager)
         {
             userService = _userService;
             globalService = _globalService;
+            repository = _repository;
             signInManager = _signInManager;
             userManager = _userManager;
         }
@@ -308,7 +313,7 @@ namespace MedicalCenter.Controllers
 
             var userId = User.Id();
 
-            var user = await globalService.GetUserById(userId);
+            var user = await repository.GetByIdAsync<User>(userId);
 
             if (user == null)
             {
@@ -378,7 +383,7 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> CancelExamination(string examinationId)
         {
-            var examination = await userService.GetExaminationByIdAsync(examinationId);
+            var examination = await repository.GetByIdAsync<Examination>(examinationId);
 
             TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит час при {examination.DoctorFullName} - {examination.Date} {examination.Hour}!";
 

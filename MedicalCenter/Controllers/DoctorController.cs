@@ -1,6 +1,8 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Dotor;
 using MedicalCenter.Extensions;
+using MedicalCenter.Infrastructure.Data.Common;
+using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
@@ -11,13 +13,16 @@ namespace MedicalCenter.Controllers
     {
         private readonly IDoctorService doctorService;
         private readonly IGlobalService globalService;
+        private readonly IRepository repository;
 
         public DoctorController(
             IDoctorService _doctorService,
-            IGlobalService _globalService)
+            IGlobalService _globalService,
+            IRepository _repository)
         {
             doctorService = _doctorService;
             globalService = _globalService;
+            repository = _repository;
         }
 
         [HttpGet]
@@ -41,7 +46,7 @@ namespace MedicalCenter.Controllers
                 return View();
             }
 
-            var doctor = await globalService.GetDoctorByIdAsync(doctorId);
+            var doctor = await repository.GetByIdAsync<Doctor>(doctorId);
 
             if (doctor == null)
             {
@@ -76,7 +81,7 @@ namespace MedicalCenter.Controllers
                 return View();
             }
 
-            var doctor = await globalService.GetDoctorByIdAsync(doctorId);
+            var doctor = await repository.GetByIdAsync<Doctor>(doctorId);
 
             if (doctor == null)
             {

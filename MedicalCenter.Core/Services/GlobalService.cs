@@ -20,7 +20,7 @@ namespace MedicalCenter.Core.Services
             userManager = _userManager;
             repository = _repository;
         }
-        
+
         public async Task AddUserRoleAsync(User user, string userRole)
         {
             await userManager.AddToRoleAsync(user, userRole);
@@ -65,18 +65,9 @@ namespace MedicalCenter.Core.Services
             return doctorCreateModel;
         }
 
-        public async Task<Doctor> GetDoctorByIdAsync(string id)
+        public string ParsePnoneNumber(string phoneNumber)
         {
-            return await repository.All<Doctor>()
-                .Where(x => x.Id == id)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<User> GetUserById(string id)
-        {
-            return await repository.All<User>()
-                .Where(u => u.Id == id)
-                .FirstOrDefaultAsync();
+            return phoneNumber.Contains('+') ? phoneNumber : $"+359{phoneNumber.Remove(0, 1)}";
         }
     }
 }

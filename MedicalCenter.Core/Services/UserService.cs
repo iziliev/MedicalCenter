@@ -1,6 +1,7 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.User;
 using MedicalCenter.Infrastructure.Data.Common;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +16,18 @@ namespace MedicalCenter.Core.Services
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly IRepository repository;
+        private readonly IGlobalService globalService;
 
         public UserService(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
-            IRepository _repository)
+            IRepository _repository,
+            IGlobalService _globalService)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             repository = _repository;
+            globalService = _globalService;
         }
 
         public async Task<bool> IsUserEmailExistAsync(string username)
@@ -51,10 +55,8 @@ namespace MedicalCenter.Core.Services
 
         public async Task<IdentityResult> Register(RegisterViewModel registerModel)
         {
-            string phoneNumber = registerModel.PhoneNumber.Contains('+')
-                ? registerModel.PhoneNumber
-                : $"+359{registerModel.PhoneNumber.Remove(0, 1)}";
-
+            string phoneNumber = globalService.ParsePnoneNumber(registerModel.PhoneNumber);
+                
             var user = new User
             {
                 Email = registerModel.Email,
@@ -76,9 +78,14 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync(u => u.UserName == username);
         }
 
-        public async Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(string? speciality = null, string? searchTerm = null, int currentPage = 1, int doctorsPerPage = 4)
+        public async Task<ShowAllDoctorUserViewModel> ShowDoctorOnUserAsync(
+            string? speciality = null, 
+            string? searchTerm = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
-            var doctorsQuery = repository.All<Doctor>()
+
+            var doctorsQuery = repository.AllReadonly<Doctor>()
                 .Where(d => !d.IsOutOfCompany)
                 .Include(s => s.Specialty)
                 .OrderBy(x => x.Specialty.Name)
@@ -220,13 +227,21 @@ namespace MedicalCenter.Core.Services
             return $"{doctor.FirstName} {doctor.LastName}";
         }
 
-        public async Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(string userId, string? speciality = null, string? searchTermDate = null, string? searchTermName = null, int currentPage = 1, int examinationPerPage = 6)
+        public async Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(
+            string userId, 
+            string? speciality = null, 
+            string? searchTermDate = null, 
+            string? searchTermName = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int examinationPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
 
             var examinationQuery = repository.AllReadonly<Examination>()
                 .Include(e => e.User)
                 .Include(d => d.Doctor)
                 .Where(e => e.UserId == userId && e.Date >= DateTime.Today && !e.IsDeleted)
+                .OrderBy(x=>x.Date)
+                .ThenBy(x=>x.Hour)
                 .AsQueryable();
 
             if (string.IsNullOrEmpty(speciality) == false)
@@ -306,7 +321,13 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(string userId, string? speciality = null, string? searchTermDate = null, string? searchTermName = null, int currentPage = 1, int examinationPerPage = 6)
+        public async Task<ShowAllExaminationForReviewViewModel> GetAllExaminationForReviewAsync(
+            string userId, 
+            string? speciality = null, 
+            string? searchTermDate = null, 
+            string? searchTermName = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int examinationPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var examinationQuery = repository.All<Examination>()
                 .Include(d => d.Doctor)
@@ -358,13 +379,6 @@ namespace MedicalCenter.Core.Services
                 Examinations = examinations,
                 TotalExaminationsCount = examinationQuery.Count()
             };
-        }
-
-        public async Task<Examination> GetExaminationByIdAsync(string id)
-        {
-            return await repository.All<Examination>()
-                .Where(e => e.Id == id)
-                .FirstOrDefaultAsync();
         }
     }
 }

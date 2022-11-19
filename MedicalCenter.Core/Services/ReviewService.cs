@@ -20,9 +20,9 @@ namespace MedicalCenter.Core.Services
 
         public async Task CreateReviewAsync(ReviewViewModel reviewModel)
         {
-            var user = await GetUserByUserIdAsync(reviewModel.UserId);
-            var doctor = await GetDoctorByIdAsync(reviewModel.DoctorId);
-            var examination = await GetExaminationByIdAsync(reviewModel.ExaminationId);
+            var user = await repository.GetByIdAsync<User>(reviewModel.UserId);
+            var doctor = await repository.GetByIdAsync<Doctor>(reviewModel.DoctorId);
+            var examination = await repository.GetByIdAsync<Examination>(reviewModel.ExaminationId);
             var review = new Review
             {
                 Content = reviewModel.Content,
@@ -120,20 +120,6 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<Doctor> GetDoctorByIdAsync(string doctorId)
-        {
-            return await repository.All<Doctor>()
-                .Where(d => d.Id == doctorId)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<Examination> GetExaminationByIdAsync(string examinationId)
-        {
-            return await repository.All<Examination>()
-                .Where(e => e.Id == examinationId)
-                .FirstOrDefaultAsync();
-        }
-
         public async Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(
             string doctorId, 
             string? searchTerm = null, 
@@ -176,13 +162,6 @@ namespace MedicalCenter.Core.Services
                 Reviews = reviews,
                 TotalReviewsCount = reviewsQuery.Count()
             };
-        }
-
-        public async Task<User> GetUserByUserIdAsync(string userId)
-        {
-            return await repository.All<User>()
-                .Where(u => u.Id == userId)
-                .FirstOrDefaultAsync();
         }
 
         public async Task<ShowAllGiveReviewViewModel> GetAllGiveReviewsByUserAsync(

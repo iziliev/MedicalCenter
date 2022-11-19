@@ -1,5 +1,7 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Administrator;
+using MedicalCenter.Infrastructure.Data.Common;
+using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
@@ -10,13 +12,16 @@ namespace MedicalCenter.Controllers
     {
         private readonly IAdministratorService administratorService;
         private readonly IGlobalService globalService;
+        private readonly IRepository repository;
 
         public AdministratorController(
             IAdministratorService _administratorService,
-            IGlobalService _globalService)
+            IGlobalService _globalService,
+            IRepository _repository)
         {
             administratorService = _administratorService;
             globalService = _globalService;
+            repository = _repository;
         }
 
         [HttpGet]
@@ -40,7 +45,7 @@ namespace MedicalCenter.Controllers
                 return View(searchModel);
             }
 
-            var doctor = await administratorService.SearchDoctorAsync(searchModel.Egn);
+            var doctor = await administratorService.SearchDoctorByEgnAsync(searchModel.Egn);
 
             if (doctor == null)
             {
@@ -82,7 +87,7 @@ namespace MedicalCenter.Controllers
                 return View(doctorEditModel);
             }
 
-            var doctor = await globalService.GetDoctorByIdAsync(doctorEditModel.Id);
+            var doctor = await repository.GetByIdAsync<Doctor>(doctorEditModel.Id);
 
             if (doctor != null)
             {
@@ -144,7 +149,7 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> DeleteDoctor(string id)
         {
-            var doctor = await globalService.GetDoctorByIdAsync(id);
+            var doctor = await repository.GetByIdAsync<Doctor>(id);
 
             await administratorService.DeleteDoctorAsync(id);
 
@@ -157,7 +162,7 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> ReturnDoctor(string id)
         {   
-            var doctor = await globalService.GetDoctorByIdAsync(id);
+            var doctor = await repository.GetByIdAsync<Doctor>(id);
 
             TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctor.FirstName} {doctor.LastName} в Medical Center!";
 
@@ -210,7 +215,10 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllUser([FromQuery]ShowAllUserViewModel query)
         {
-            var queryResult = await administratorService.GetAllRegisteredUsersAsync(query.SearchTermEmail, query.SearchTermName,query.CurrentPage,
+            var queryResult = await administratorService.GetAllRegisteredUsersAsync(
+                query.SearchTermEmail, 
+                query.SearchTermName,
+                query.CurrentPage,
                 ShowAllUserViewModel.UsersPerPage);
 
             ViewData["Title"] = "Потребители";

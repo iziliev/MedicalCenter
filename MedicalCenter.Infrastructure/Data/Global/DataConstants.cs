@@ -115,6 +115,7 @@
         {
             public const int CurrentPageConstant = 1;
             public const int ShowPerPageConstant = 6;
+            public const int ShowDoctorPerPageConstant = 4;
         }
     }
 }
