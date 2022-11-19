@@ -306,9 +306,9 @@ namespace MedicalCenter.Controllers
                 return View(bookModel);
             }
 
-            var username = User.Identity?.Name;
+            var userId = User.Id();
 
-            var user = await userService.GetUserByUsernameAsync(username);
+            var user = await globalService.GetUserById(userId);
 
             if (user == null)
             {
@@ -320,7 +320,7 @@ namespace MedicalCenter.Controllers
 
             var doctor = await userService.GetDoctorByIdAsync(bookModel.DoctorId);
 
-            if (user == null)
+            if (doctor == null)
             {
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
                 bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
@@ -328,9 +328,9 @@ namespace MedicalCenter.Controllers
                 return View(bookModel);
             }
 
-            if (!await userService.IsUserFreeOnDateAnHourAsync(user.Id, bookModel))
+            if (!await userService.IsUserFreeOnDateAnHourAsync(userId, bookModel))
             {
-                var examination = await userService.GetExaminationAsync(user.Id, bookModel);
+                var examination = await userService.GetExaminationAsync(userId, bookModel);
 
                 ModelState.AddModelError("", $"Вече имате записан час при {examination.DoctorFullName} на {bookModel.Date} от {bookModel.Hour}.");
                 bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
@@ -358,7 +358,12 @@ namespace MedicalCenter.Controllers
         {
             var userId = User.Id();
 
-            var queryResult = await userService.GetAllCurrentExaminationAsync(userId, query.Specialty,query.SearchTermDate,query.SearchTermName,query.CurrentPage,
+            var queryResult = await userService.GetAllCurrentExaminationAsync(
+                userId,
+                query.Specialty,
+                query.SearchTermDate,
+                query.SearchTermName,
+                query.CurrentPage,
                 ShowAllUserExaminationViewModel.ExaminationsPerPage);
 
             ViewData["Title"] = "Предстоящи часове за прегледи";
@@ -386,7 +391,10 @@ namespace MedicalCenter.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> UserBoard([FromQuery]ShowAllDoctorUserViewModel query)
         {
-            var queryResult = await userService.ShowDoctorOnUserAsync(query.Specialty,query.SearchTerm,query.CurrentPage,
+            var queryResult = await userService.ShowDoctorOnUserAsync(
+                query.Specialty,
+                query.SearchTerm,
+                query.CurrentPage,
                 ShowAllDoctorUserViewModel.DoctorsPerPage);
 
             ViewData["Title"] = "Запази час";
@@ -403,7 +411,12 @@ namespace MedicalCenter.Controllers
         {
             var userId = User.Id();
 
-            var queryResult = await userService.GetAllExaminationForReviewAsync(userId, query.Specialty, query.SearchTermDate,query.SearchTermName,query.CurrentPage,
+            var queryResult = await userService.GetAllExaminationForReviewAsync(
+                userId, 
+                query.Specialty, 
+                query.SearchTermDate,
+                query.SearchTermName,
+                query.CurrentPage,
                 ShowAllExaminationForReviewViewModel.ExaminationsPerPage);
 
             ViewData["Title"] = "Обратна връзка";

@@ -7,6 +7,8 @@ namespace MedicalCenter.Core.Contracts
     {
         Task<Doctor> GetDoctorByIdAsync(string id);
 
+        Task<User> GetUserById(string id);
+
         Task AddUserRoleAsync(User user, string userRole);
 
         Task AddClaimAsync(User user);

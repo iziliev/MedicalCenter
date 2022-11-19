@@ -12,15 +12,12 @@ namespace MedicalCenter.Core.Services
     public class GlobalService : IGlobalService
     {
         private readonly UserManager<User> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IRepository repository;
 
         public GlobalService(UserManager<User> _userManager,
-            RoleManager<IdentityRole> _roleManager,
             IRepository _repository)
         {
             userManager = _userManager;
-            roleManager = _roleManager;
             repository = _repository;
         }
         
@@ -72,6 +69,13 @@ namespace MedicalCenter.Core.Services
         {
             return await repository.All<Doctor>()
                 .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetUserById(string id)
+        {
+            return await repository.All<User>()
+                .Where(u => u.Id == id)
                 .FirstOrDefaultAsync();
         }
     }

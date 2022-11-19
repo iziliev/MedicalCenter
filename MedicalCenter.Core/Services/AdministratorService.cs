@@ -87,7 +87,7 @@ namespace MedicalCenter.Core.Services
         {
             var doctor = await repository.All<Doctor>()
                 .Where(u => u.Id == id)
-                .FirstOrDefaultAsync();
+                .FirstAsync();
 
             doctor.IsOutOfCompany = false;
             doctor.OutOnDate = null;

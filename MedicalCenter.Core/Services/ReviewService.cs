@@ -2,6 +2,7 @@
 using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Core.Models.Review;
 using MedicalCenter.Infrastructure.Data.Common;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -60,7 +61,12 @@ namespace MedicalCenter.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<ShowAllReviewViewModel> GetAllReviewsAsync(string? speciality = null, string? searchTermName = null, string? searchTermRating = null,int currentPage = 1, int reviewPerPage = 6)
+        public async Task<ShowAllReviewViewModel> GetAllReviewsAsync(
+            string? speciality = null, 
+            string? searchTermName = null, 
+            string? searchTermRating = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int reviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var reviewsQuery = repository.All<Review>()
                 .Include(d=>d.Doctor)
@@ -128,9 +134,13 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(string doctorId, string? searchTerm = null, int currentPage = 1, int reviewPerPage = 6)
+        public async Task<ShowAllReceiveReviewViewModel> GetReceiveReviewsByDoctorIdAsync(
+            string doctorId, 
+            string? searchTerm = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
+            int reviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
-            var reviewsQuery = repository.All<Examination>()
+            var reviewsQuery = repository.AllReadonly<Examination>()
                 .Include(d => d.User)
                 .ThenInclude(x=>x.UserReviews)
                 .Where(u => u.DoctorId == doctorId && u.IsUserReviewedExamination)
@@ -139,8 +149,7 @@ namespace MedicalCenter.Core.Services
 
             if (string.IsNullOrEmpty(searchTerm) == false)
             {
-                DateTime searchDate;
-                var isDate = DateTime.TryParseExact(searchTerm, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out searchDate);
+                var isDate = DateTime.TryParseExact(searchTerm, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime searchDate);
 
                 if (isDate)
                 {
@@ -158,7 +167,7 @@ namespace MedicalCenter.Core.Services
                     CreatedOn = x.Review.CreatedOn.ToString("dd.MM.yyyy"),
                     UserFullName = $"{x.User.FirstName} {x.User.LastName}",
                     Rating = x.Review.Rating,
-                    ExaminationDate = $"{x.Date.ToString("dd.MM.yyyy")} {x.Hour}"
+                    ExaminationDate = $"{x.Date:dd.MM.yyyy} {x.Hour}"
                 })
                 .ToListAsync();
 
@@ -176,23 +185,21 @@ namespace MedicalCenter.Core.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ShowAllGiveReviewViewModel> GetAllGiveReviewsByUserAsync(string userId, string? speciality = null, string? searchTermDate = null, string? searchTermName = null, int currentPage = 1, int reviewPerPage = 6)
+        public async Task<ShowAllGiveReviewViewModel> GetAllGiveReviewsByUserAsync(
+            string userId, 
+            string? speciality = null, 
+            string? searchTermDate = null, 
+            string? searchTermName = null, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int reviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
-            var reviewsQuery = repository.All<Examination>()
+            var reviewsQuery = repository.AllReadonly<Examination>()
                 .Where(e=>!e.IsDeleted && e.UserId == userId && e.IsUserReviewedExamination)
                 .Include(d => d.User)
                 .Include(d=>d.Doctor)
                 .ThenInclude(x => x.UserReviews)
                 .OrderByDescending(x => x.Date)
                 .AsQueryable();
-
-
-            //var reviewsQuery = repository.All<Review>()
-            //    .Include(u => u.Doctor)
-            //    .ThenInclude(s=>s.Specialty)
-            //    .OrderByDescending(u => u.CreatedOn)
-            //    .Where(u => u.UserId == userId)
-            //    .AsQueryable();
 
             if (string.IsNullOrEmpty(speciality) == false)
             {
@@ -234,7 +241,7 @@ namespace MedicalCenter.Core.Services
                     SpecialityName = x.Doctor.Specialty.Name,
                     DoctorFullName = $"{x.Doctor.FirstName} {x.Doctor.LastName}",
                     Rating = x.Review.Rating,
-                    ExaminationDate = $"{x.Date.ToString("dd.MM.yyyy")} {x.Hour}"
+                    ExaminationDate = $"{x.Date:dd.MM.yyyy} {x.Hour}"
                 })
                 .ToListAsync();
 
