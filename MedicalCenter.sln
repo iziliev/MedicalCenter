@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalCenter", "MedicalCenter\MedicalCenter.csproj", "{0E27DC16-E623-4F55-831C-1DFAEDA42E2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalCenter", "MedicalCenter\MedicalCenter.csproj", "{0E27DC16-E623-4F55-831C-1DFAEDA42E2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalCenter.Core", "MedicalCenter.Core\MedicalCenter.Core.csproj", "{1E52F0D0-BD39-4C75-A6E8-54375609E891}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalCenter.Core", "MedicalCenter.Core\MedicalCenter.Core.csproj", "{1E52F0D0-BD39-4C75-A6E8-54375609E891}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalCenter.Infrastructure", "MedicalCenter.Infrastructure\MedicalCenter.Infrastructure.csproj", "{805F31E6-9E2E-4D2A-9993-E86548C87368}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalCenter.Infrastructure", "MedicalCenter.Infrastructure\MedicalCenter.Infrastructure.csproj", "{805F31E6-9E2E-4D2A-9993-E86548C87368}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{82E8E59E-FBB5-4313-BE66-BF9AC5D794DD}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

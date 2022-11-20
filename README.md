@@ -7,19 +7,20 @@ MedicalCenter is a web application for healthy examination. :calendar:
 ## :information_source: How It Works
 
 - Guest visitors: 
-  - browse categories of beauty services;
-  - view salons with their services;
-  - read blog posts.
-- Logged Users:
-  - book appointments using interactive datepicker; 
-  - can cancel appointments; 
-  - can rate salons for which they had confirmed past appointments.  
-- Salon Manager (user role):
-  - confirms/declines users' appointments for particular salon; 
-  - controls what services are available for booking in the salon.
-- Admin:
-  - creates/deletes blog posts, categories, salons and services; 
-  - can review the appointments history.
+  - browse doctors in medical center;
+- Logged Users (user role):
+  - book examination using interactive datepicker; 
+  - can cancel examination; 
+  - can rate doctor for which they had confirmed past examination.  
+- Doctor (doctor role):
+  - can see all booked examination; 
+  - can see for self, rating and comment for past examination.
+- Admin (administrator role):
+  - creates/deletes doctors;
+  - see all registered users;
+  - see all examination past/future;
+  - see all ratings and comments for all examination;
+  - see Top 5 statistic.
   
 ## :gear: Application Configurations
 
@@ -29,11 +30,41 @@ is in `appsettings.json`. If you don't use SQLEXPRESS, you should replace `Serve
 ### 2. Database Migrations 
 would be applied when you run the application, since the `ASPNETCORE-ENVIRONMENT` is set to `Development`. If you change it, you should apply the migrations yourself.
 
+users(can use `Facebook` or `Google` profile), doctors and administrator can Login by username or email and theur password.
+
 ### 3. Seeding sample data
 would happen once you run the application, including Test Accounts:
-  - User: user@user.com / password: 123456
-  - Salon Manager: manager@manager.com / password: 123456
-  - Admin: admin@admin.com / password: 123456
+  - Administrator: 
+	|username|email|password|
+	|--------|-----|--------|
+	|admin|admin@mc-bg.com|Admin|
+  - Doctor: 
+	|username|email|password|
+	|--------|-----|--------|
+	|m_monastirska|m_monastirska@mc-bg.com|Doctor|
+	|s_slavchev|s_slavchev@mc-bg.com|Doctor|
+	|b_petkova|b_petkova@mc-bg.com|Doctor|
+	|m_velikova|m_velikova@mc-bg.com|Doctor|
+	|t_stoev|t_stoev@mc-bg.com|Doctor|
+	|m_blagoeva|m_blagoeva@mc-bg.com|Doctor|
+	|m_kalinkova|m_kalinkova@mc-bg.com|Doctor|
+	|d_georgiev|d_georgiev@mc-bg.com|Doctor|
+	|r_ruseva|r_ruseva@mc-bg.com|Doctor|
+	|s_tochev|s_tochev@mc-bg.com|Doctor|
+	|s_atanasova|s_atanasova@mc-bg.com|Doctor|
+	|r_ikonomov|r_ikonomov@mc-bg.com|Doctor|
+	|m_vuldjev|m_vuldjev@mc-bg.com|Doctor|
+	|h_hristov|h_hristov@mc-bg.com|Doctor|
+	|a_tomova|a_tomova@mc-bg.com|Doctor|
+	|k_moskova|k_moskova@mc-bg.com|Doctor|
+	|k_atanasova|k_atanasova@mc-bg.com|Doctor|
+	|g_kuchukov|g_kuchukov@mc-bg.com|Doctor|
+	|k_stoicheva|k_stoicheva@mc-bg.com|Doctor|
+	|n_paskov|n_paskov@mc-bg.com|Doctor|
+	|r_uzunova|r_uzunova@mc-bg.com|Doctor|
+	|i_belcheva|i_belcheva@mc-bg.com|Doctor|
+  - User: can be registered or used `Facebook`/`Google` profile
+  
  
 ### 4. Cloudinary Setup - optionally
 #### Running without it:
