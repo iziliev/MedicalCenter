@@ -385,7 +385,7 @@ namespace MedicalCenter.Controllers
         {
             var examination = await repository.GetByIdAsync<Examination>(examinationId);
 
-            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит час при {examination.DoctorFullName} - {examination.Date} {examination.Hour}!";
+            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит час при {examination.DoctorFullName} - {examination.Date:dd.MM.yyyy} {examination.Hour}!";
 
             await userService.CancelUserExaminationAsync(examinationId);
 

@@ -195,7 +195,7 @@ namespace MedicalCenter.Core.Services
             var date = DateTime.ParseExact(bookModel.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
             return await repository.All<Examination>()
-                .Where(e => e.UserId == userId)
+                .Where(e => e.UserId == userId && !e.IsDeleted)
                 .Where(d => d.Date == date && d.Hour == bookModel.Hour)
                 .FirstOrDefaultAsync() == null;
         }
@@ -205,7 +205,7 @@ namespace MedicalCenter.Core.Services
             var date = DateTime.ParseExact(bookModel.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
             return await repository.All<Examination>()
-                .Where(e => e.UserId == userId)
+                .Where(e => e.UserId == userId && !e.IsDeleted)
                 .Where(d => d.Date == date && d.Hour == bookModel.Hour)
                 .FirstOrDefaultAsync();
         }
@@ -215,7 +215,7 @@ namespace MedicalCenter.Core.Services
             var date = DateTime.ParseExact(bookModel.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
             return await repository.All<Examination>()
-                .Where(e => e.DoctorId == bookModel.DoctorId)
+                .Where(e => e.DoctorId == bookModel.DoctorId && !e.IsDeleted)
                 .Where(d => d.Date == date && d.Hour == bookModel.Hour)
                 .FirstOrDefaultAsync() == null;
         }
