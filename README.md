@@ -92,9 +92,23 @@ You won't get an error for missing Cloudinary Credentials - it is handled by usi
 
 ![MedicalCenter-HomePage](/Screenshots/home.PNG)
 
-## :framed_picture: Screenshot - Make An Appointment Page
+## :framed_picture: Screenshot - Admin Page
 
-![BeautyBooking-MakeAnAppointment](/Screenshots/Doctor/doctor-board.PNG)
+![Admin-HomePage](/Screenshots/Admin/admin-homepage.PNG)
+
+![Admin-Panel](/Screenshots/Admin/admin-panel.PNG)
+
+## :framed_picture: Screenshot - Doctor Page
+
+![Doctor-HomePage](/Screenshots/Doctor/doctor-homepage.PNG)
+
+![Doctor-Board](/Screenshots/Doctor/doctor-board.PNG)
+
+![Doctor-Statistics](/Screenshots/Doctor/doctor-statistic.PNG)
+
+![Doctor-ReceiveComents](/Screenshots/Doctor/receive-doctor-comments.PNG)
+
+![Doctor-ShowExamination](/Screenshots/Doctor/show-all-examination.PNG)
 
 ## License
 
