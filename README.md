@@ -71,21 +71,27 @@ You won't get an error for missing Cloudinary Credentials - it is handled by usi
 #### If you want to actually upload images, you should:
 1. Add Cloudinary Credentials in `appsettings.json` in the format:
 ```json
-  "Cloudinary": {
-    "CloudName": "",
-    "ApiKey": "",
-    "ApiSecret": "",
-    "EnvironmentVariable": ""
+  "Facebook": {
+    "AppId": "",
+    "AppSecret": "",
+  "Google": {
+    "ClientId": "",
+    "ClientSecret": "",
   }
 ```
-2. Update the Cloudinary Setup part of `Startup.cs`'s `ConfigureServices` method as follows:
+2. Update the Cloudinary Setup part of `Program.cs`'s `ConfigureServices` method as follows:
 ```csharp
-            // Cloudinary Setup
-            Cloudinary cloudinary = new Cloudinary(new Account(
-                this.configuration["Cloudinary:CloudName"],
-                this.configuration["Cloudinary:ApiKey"],
-                this.configuration["Cloudinary:ApiSecret"]));
-            services.AddSingleton(cloudinary);
+            builder.Services.AddAuthentication()
+    .AddFacebook(options =>
+    {
+        options.AppId = builder.Configuration["Facebook:AppId"];
+        options.AppSecret = builder.Configuration["Facebook:AppSecret"];
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Google:ClientSecret"];
+    });
 ```
 
 ## :framed_picture: Screenshot - Home Page
