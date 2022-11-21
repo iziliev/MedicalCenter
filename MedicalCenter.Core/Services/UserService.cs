@@ -222,7 +222,7 @@ namespace MedicalCenter.Core.Services
 
         public async Task<string> ReturnDoctorNameByDoctorIdAsync(string doctorId)
         {
-            var doctor = await GetDoctorByIdAsync(doctorId);
+            var doctor = await repository.GetByIdAsync<Doctor>(doctorId);
 
             return $"{doctor.FirstName} {doctor.LastName}";
         }
