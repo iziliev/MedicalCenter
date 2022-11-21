@@ -13,12 +13,12 @@ MedicalCenter is a web application for healthy examination. :calendar:
   - can cancel examination; 
   - can rate doctor for which they had confirmed past examination.  
 - Doctor (doctor role):
-  - can see all booked examination; 
-  - can see for self, rating and comment for past examination.
+  - can see all self booked examination; 
+  - can see all self receive rating and comment for past examination.
 - Admin (administrator role):
-  - creates/deletes doctors;
+  - create/delete doctors;
   - see all registered users;
-  - see all examination past/future;
+  - see all examination in past/future;
   - see all ratings and comments for all examination;
   - see Top 5 statistic.
   
@@ -30,7 +30,7 @@ is in `appsettings.json`. If you don't use SQLEXPRESS, you should replace `Serve
 ### 2. Database Migrations 
 would be applied when you run the application, since the `ASPNETCORE-ENVIRONMENT` is set to `Development`. If you change it, you should apply the migrations yourself.
 
-users(can use `Facebook` or `Google` profile), doctors and administrator can Login by username or email and theur password.
+users(can use `Facebook` or `Google` profile), doctors and administrator can Login by username or email and their password.
 
 ### 3. Seeding sample data
 would happen once you run the application, including Test Accounts:
@@ -65,7 +65,6 @@ would happen once you run the application, including Test Accounts:
 	|i_belcheva|i_belcheva@mc-bg.com|Doctor|
   - User: can be registered or used `Facebook`/`Google` profile
   
- 
 ### 4. Cloudinary Setup - optionally
 #### Running without it:
 You won't get an error for missing Cloudinary Credentials - it is handled by using predefined (already uploaded) image, when Cloudinary configuration is missing. So when you are creating content in admin panel, it will be added but not with the image you have chosen.
@@ -91,11 +90,11 @@ You won't get an error for missing Cloudinary Credentials - it is handled by usi
 
 ## :framed_picture: Screenshot - Home Page
 
-![BeautyBooking-HomePage](https://res.cloudinary.com/beauty-booking/image/upload/v1588865868/SCREENSHOTS/1-home_orn9ng.png)
+![MedicalCenter-HomePage](/Screenshots/home.PNG)
 
 ## :framed_picture: Screenshot - Make An Appointment Page
 
-![BeautyBooking-MakeAnAppointment](https://res.cloudinary.com/beauty-booking/image/upload/v1588865868/SCREENSHOTS/4-make-an-appointment_zclidt.png)
+![BeautyBooking-MakeAnAppointment](/Screenshots/Doctor/doctor-board.PNG)
 
 ## License
 

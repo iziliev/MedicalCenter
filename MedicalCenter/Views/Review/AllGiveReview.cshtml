@@ -112,8 +112,9 @@ else
             }
         </tbody>
     </table>
+}
 
-    <div class="row mt-2 col-12">
+<div class="row mt-2 col-12">
         <div class="col-lg-2 col-sm-2">
             <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
            asp-controller="Review"
@@ -130,8 +131,7 @@ else
            asp-action="AllGiveReview"
            asp-route-currentPage="@(Model.CurrentPage+1)">Next</a>
         </div>
-    </div>
-}
+</div>
 
 @section Scripts {
 <script src="~/js/bootstrap-datepicker.js" asp-append-version="true"></script>
