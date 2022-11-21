@@ -92,6 +92,12 @@ You won't get an error for missing Cloudinary Credentials - it is handled by usi
 
 ![MedicalCenter-HomePage](/Screenshots/home.PNG)
 
+![User-Login](/Screenshots/User/login.PNG)
+
+![User-Registration](/Screenshots/User/registration.PNG)
+
+![User-Exteral-Registration](/Screenshots/User/external-registration.PNG)
+
 ## :framed_picture: Screenshot - Admin Page
 
 ![Admin-HomePage](/Screenshots/Admin/admin-homepage.PNG)
@@ -104,11 +110,17 @@ You won't get an error for missing Cloudinary Credentials - it is handled by usi
 
 ![Doctor-Board](/Screenshots/Doctor/doctor-board.PNG)
 
-![Doctor-Statistics](/Screenshots/Doctor/doctor-statistic.PNG)
-
 ![Doctor-ReceiveComents](/Screenshots/Doctor/receive-doctor-comments.PNG)
 
 ![Doctor-ShowExamination](/Screenshots/Doctor/show-all-examination.PNG)
+
+## :framed_picture: Screenshot - User Page
+
+![User-Book](/Screenshots/User/book.PNG)
+
+![User-Feedback](/Screenshots/User/user-feedback.PNG)
+
+![User-Future-Examination](/Screenshots/User/user-future-examination.PNG)
 
 ## License
 
