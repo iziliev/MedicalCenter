@@ -67,9 +67,9 @@ would happen once you run the application, including Test Accounts:
   
 ### 4. Cloudinary Setup - optionally
 #### Running without it:
-You won't get an error for missing Cloudinary Credentials - it is handled by using predefined (already uploaded) image, when Cloudinary configuration is missing. So when you are creating content in admin panel, it will be added but not with the image you have chosen.
+You won't get an error for missing Credentials - it is handled by using predefined (already uploaded) image, when Cloudinary configuration is missing. So when you are creating content in admin panel, it will be added but not with the image you have chosen.
 #### If you want to actually upload images, you should:
-1. Add Cloudinary Credentials in `appsettings.json` in the format:
+1. Add Credentials in `appsettings.json` in the format:
 ```json
   "Facebook": {
     "AppId": "",
@@ -79,7 +79,7 @@ You won't get an error for missing Cloudinary Credentials - it is handled by usi
     "ClientSecret": "",
   }
 ```
-2. Update the Cloudinary Setup part of `Program.cs`'s `ConfigureServices` method as follows:
+2. Update the Program part of `Program.cs`'s `ConfigureServices` method as follows:
 ```csharp
             builder.Services.AddAuthentication()
     .AddFacebook(options =>
