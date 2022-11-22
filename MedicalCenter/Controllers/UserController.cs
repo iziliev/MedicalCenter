@@ -19,7 +19,7 @@ namespace MedicalCenter.Controllers
         private readonly IRepository repository;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
-        
+
 
         public UserController(
             IUserService _userService,
@@ -118,7 +118,7 @@ namespace MedicalCenter.Controllers
                 return View(loginModel);
             }
 
-            if (!await userService.IsUsernameExistAsync(loginModel.Username) && 
+            if (!await userService.IsUsernameExistAsync(loginModel.Username) &&
                 !await userService.IsUserEmailExistAsync(loginModel.Username))
             {
                 ViewData["Title"] = "Вход";
@@ -195,7 +195,7 @@ namespace MedicalCenter.Controllers
                     if (user == null)
                     {
                         var usernameClaim = info.Principal.FindFirstValue(ClaimTypes.Email);
-                        var username = usernameClaim.Substring(0,usernameClaim.IndexOf("@"));
+                        var username = usernameClaim.Substring(0, usernameClaim.IndexOf("@"));
 
                         var registerExternalViewModel = new RegisterExternalViewModel
                         {
@@ -207,7 +207,7 @@ namespace MedicalCenter.Controllers
                             ReturnUrl = returnUrl,
                             LoginProvider = info.LoginProvider
                         };
-                        
+
                         return View("ExternalLoginRegister", registerExternalViewModel);
                     }
 
@@ -256,10 +256,10 @@ namespace MedicalCenter.Controllers
             await globalService.AddUserRoleAsync(user, RoleConstants.UserRole);
             await globalService.AddClaimAsync(user);
             await signInManager.SignInAsync(user, isPersistent: false);
-            
+
             if (registerExternalViewModel.ReturnUrl == null)
             {
-                return RedirectToAction(nameof(Index),"Home");
+                return RedirectToAction(nameof(Index), "Home");
             }
             return LocalRedirect(registerExternalViewModel.ReturnUrl);
         }
@@ -276,7 +276,6 @@ namespace MedicalCenter.Controllers
         [Authorize(Roles = $"{RoleConstants.UserRole}")]
         public async Task<IActionResult> Book(string doctorId)
         {
-
             var model = await userService.FillBookViewModelAsync(doctorId);
             return View(model);
         }
@@ -295,14 +294,33 @@ namespace MedicalCenter.Controllers
 
             var date = DateTime.Parse(bookModel.Date);
 
-            if (date == DateTime.Now.Date && TimeSpan.Parse(bookModel.Hour) <= DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1)))
+            if (date == DateTime.Now.Date)
             {
-                ModelState.AddModelError("", ModelErrorConstants.WrongHourExaminationError);
-                bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
-                bookModel.HasError = true;
-                return View(bookModel);
-            }
+                if(DateTime.Now.TimeOfDay >= TimeSpan.Parse("16:30"))
+                {
+                    ModelState.AddModelError("", ModelErrorConstants.OutWorkingTime);
+                    bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
+                    bookModel.HasError = true;
+                    return View(bookModel);
+                }
 
+                if (TimeSpan.Parse(bookModel.Hour) < DateTime.Now.TimeOfDay)
+                {
+                    ModelState.AddModelError("", ModelErrorConstants.WoркHourPast);
+                    bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
+                    bookModel.HasError = true;
+                    return View(bookModel);
+                }
+
+                if (TimeSpan.Parse(bookModel.Hour) <= DateTime.Now.TimeOfDay.Add(TimeSpan.FromHours(1)))
+                {
+                    ModelState.AddModelError("", ModelErrorConstants.WrongHourExaminationError);
+                    bookModel.WorkHours = await userService.GetDoctorWorkHoursByDoctorIdAsync(bookModel.DoctorId);
+                    bookModel.HasError = true;
+                    return View(bookModel);
+                }
+            }
+              
             if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
             {
                 ModelState.AddModelError("", ModelErrorConstants.WeekendExaminationError);
@@ -359,7 +377,7 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UserExamination([FromQuery]ShowAllUserExaminationViewModel query)
+        public async Task<IActionResult> UserExamination([FromQuery] ShowAllUserExaminationViewModel query)
         {
             var userId = User.Id();
 
@@ -394,7 +412,7 @@ namespace MedicalCenter.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> UserBoard([FromQuery]ShowAllDoctorUserViewModel query)
+        public async Task<IActionResult> UserBoard([FromQuery] ShowAllDoctorUserViewModel query)
         {
             var queryResult = await userService.ShowDoctorOnUserAsync(
                 query.Specialty,
@@ -412,13 +430,13 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ExaminationForFeedback([FromQuery]ShowAllExaminationForReviewViewModel query)
+        public async Task<IActionResult> ExaminationForFeedback([FromQuery] ShowAllExaminationForReviewViewModel query)
         {
             var userId = User.Id();
 
             var queryResult = await userService.GetAllExaminationForReviewAsync(
-                userId, 
-                query.Specialty, 
+                userId,
+                query.Specialty,
                 query.SearchTermDate,
                 query.SearchTermName,
                 query.CurrentPage,

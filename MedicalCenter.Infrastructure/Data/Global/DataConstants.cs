@@ -22,6 +22,8 @@
             public const string WrongHourExaminationError = "Може да запазите час, който е повече от 1 час от текущото време.";
             public const string WeekendExaminationError = "Събота и неделя са почивани дни. Може да запазете час само в работни дни!";
             public const string DoctorExistError = "Докторът вече същетвува!";
+            public const string WoркHourPast = "Часът вече е минал.";
+            public const string OutWorkingTime = "Работното време на медицинския център е до 16:30";
 
             public const string RequiredLogin = "Потребителско име/Email е задължително.";
             public const string RequiredUsername = "Полето име е задължително.";
