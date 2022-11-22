@@ -148,7 +148,7 @@ namespace MedicalCenter.Controllers
         [AllowAnonymous]
         public IActionResult ExternalLogin(string provider, string returnUrl)
         {
-            var redirectUrl = Url.Action("ExternalLoginCallback", "User", new { ReturnUrl = returnUrl });
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "User", new { ReturnUrl = returnUrl });
 
             var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 
@@ -169,14 +169,14 @@ namespace MedicalCenter.Controllers
             if (remoteError != null)
             {
                 TempData["ErrorMessage"] = $"Error from external provider: {remoteError}";
-                return View("Login", loginModel);
+                return View(nameof(Login), loginModel);
             }
 
             var info = await signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 TempData["ErrorMessage"] = "Error loading external login information.";
-                return View("Login", loginModel);
+                return View(nameof(Login), loginModel);
             }
 
             var result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
@@ -208,7 +208,7 @@ namespace MedicalCenter.Controllers
                             LoginProvider = info.LoginProvider
                         };
 
-                        return View("ExternalLoginRegister", registerExternalViewModel);
+                        return View(nameof(ExternalLoginRegister), registerExternalViewModel);
                     }
 
                     await userManager.AddLoginAsync(user, info);
@@ -269,7 +269,7 @@ namespace MedicalCenter.Controllers
         {
             await userService.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Index), "Home");
         }
 
         [HttpGet]
