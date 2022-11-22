@@ -70,7 +70,7 @@
                         <label class="col-sm-3 col-form-label">Специалист:</label>
                         <div class="col-sm-9">
                             <div asp-for="@Model.DoctorFullName" class="form-control" hidden></div>
-                            <input asp-for="@Model.DoctorFullName" value="@Model.DoctorFullName" class="form-control-plaintext" required readonly />
+                            <input asp-for="@Model.DoctorFullName" value="@Model.DoctorFullName" class="form-control-plaintext" style="border: 1px solid #ced4da;" required readonly />
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@
                         <label class="col-sm-3 col-form-label">Дата:</label>
                         <div class="col-sm-9">
                             <div id="selectedDate" asp-for="@Model.Date" class="form-control" hidden></div>
-                            <input asp-for="@Model.Date" value="" class="form-control-plaintext" required readonly />
+                            <input asp-for="@Model.Date" value="" class="form-control-plaintext" style="border: 1px solid #ced4da;" required readonly />
                             <span asp-validation-for="@Model.Date" class="text-danger"></span>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                         <label class="col-sm-3 col-form-label">Час:</label>
                         <div class="col-sm-9">
                             <div id="selectedTime" asp-for="@Model.Hour" class="form-control" hidden></div>
-                            <input asp-for="@Model.Hour" value="" class="form-control-plaintext" required readonly />
+                            <input asp-for="@Model.Hour" value="" class="form-control-plaintext" style="border: 1px solid #ced4da;" required readonly />
                             <span asp-validation-for="@Model.Hour" class="text-danger"></span>
                         </div>
                     </div>
