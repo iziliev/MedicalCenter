@@ -96,7 +96,7 @@ You won't get an error for missing Cloudinary Credentials - it is handled by usi
 
 ## :framed_picture: Screenshot - Home Page
 
-![MedicalCenter-HomePage]([img]https://i.ibb.co/FKT5PDg/home.png[/img])
+![MedicalCenter-HomePage]([Imgur](https://i.imgur.com/jNsQ4Yz.png))
 
 ![User-Login](/Screenshots/User/login.PNG)
 
