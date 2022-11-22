@@ -65,7 +65,7 @@ would happen once you run the application, including Test Accounts:
 	|i_belcheva|i_belcheva@mc-bg.com|Doctor|
   - User: can be registered or used `Facebook`/`Google` profile
   
-### 4. Cloudinary Setup - optionally
+### 4. External Login/Register Setup - optionally
 #### Running without it:
 You won't get an error for missing Credentials - it is handled by using predefined (already uploaded) image, when Cloudinary configuration is missing. So when you are creating content in admin panel, it will be added but not with the image you have chosen.
 #### If you want to actually upload images, you should:
