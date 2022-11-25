@@ -26,6 +26,7 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.DoctorRole)]
         public async Task<IActionResult> DoctorBoard()
         {
             ViewData["Title"] = "Табло на ";
@@ -61,6 +62,7 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.DoctorRole)]
         public async Task<IActionResult> DoctorStatistic()
         {
             ViewData["Title"] = "Табло на ";

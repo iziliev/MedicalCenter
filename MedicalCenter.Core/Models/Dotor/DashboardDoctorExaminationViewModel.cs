@@ -12,6 +12,6 @@
 
         public string UserFullName { get; set; } = null!;
 
-         public string UserPhoneNumber { get; set; } = null!;
+        public string UserPhoneNumber { get; set; } = null!;
     }
 }

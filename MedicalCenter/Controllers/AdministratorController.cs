@@ -63,6 +63,43 @@ namespace MedicalCenter.Controllers
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public IActionResult SearchLaborant()
+        {
+            var searchModel = new SearchLaborantViewModel();
+
+            ViewData["Title"] = "Проверка на лаборант по ЕГН";
+
+            return View(searchModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> SearchLaborant(SearchLaborantViewModel searchModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
+                return View(searchModel);
+            }
+
+            var laborant = await administratorService.SearchLaborantByEgnAsync(searchModel.Egn);
+
+            if (laborant == null)
+            {
+                return RedirectToAction(nameof(CreateLaborant));
+            }
+
+            if (!laborant.IsOutOfCompany)
+            {
+                ModelState.AddModelError("", ModelErrorConstants.LaborantExistError);
+                return View(searchModel);
+            }
+
+            return RedirectToAction(nameof(CreateLaborant), laborant);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> EditDoctor(string id)
         {
             var doctorEditModel = await administratorService.GetDoctorByIdToEditAsync(id);
@@ -96,8 +133,47 @@ namespace MedicalCenter.Controllers
                 await administratorService.EditDoctorAsync(doctorEditModel, doctor);
             }
 
-            return RedirectToAction(nameof(AdminBoard));
+            return RedirectToAction(nameof(AdminBoardMedicalCenter));
         }
+
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> EditLaborant(string id)
+        {
+            var laborantEditModel = await administratorService.GetLaborantByIdToEditAsync(id);
+
+            laborantEditModel.Genders = await globalService.GetGendersAsync();
+
+            ViewData["Title"] = "Редактиране на доктор";
+
+            return View(laborantEditModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> EditLaborant(MainLaborantViewModel laborantEditModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                laborantEditModel.Genders = await globalService.GetGendersAsync();
+
+                ViewData["Title"] = "Редактиране на лаборант";
+
+                return View(laborantEditModel);
+            }
+
+            var laborant = await repository.GetByIdAsync<Laborant>(laborantEditModel.Id);
+
+            if (laborant != null)
+            {
+                TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран лаборант {laborant.FirstName} {laborant.LastName}!";
+
+                await administratorService.EditLaborantAsync(laborantEditModel, laborant);
+            }
+
+            return RedirectToAction(nameof(AdminBoardLaboratory));
+        }
+
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
@@ -132,7 +208,7 @@ namespace MedicalCenter.Controllers
 
                 TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctorCreateModel.FirstName} {doctorCreateModel.LastName} в Medical Center!";
 
-                return RedirectToAction(nameof(AdminBoard));
+                return RedirectToAction(nameof(AdminBoardMedicalCenter));
             }
 
             foreach (var error in result.Errors)
@@ -145,6 +221,52 @@ namespace MedicalCenter.Controllers
             return View(doctorCreateModel);
         }
 
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> CreateLaborant()
+        {
+            var laborantCreateModel = new CreateLaborantViewModel();
+            laborantCreateModel.Genders = await globalService.GetGendersAsync();
+
+            ViewData["Title"] = "Добавяне на лаборант";
+
+            return View(laborantCreateModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> CreateLaborant(CreateLaborantViewModel laborantCreateModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                laborantCreateModel.Genders = await globalService.GetGendersAsync();
+
+                return View(laborantCreateModel);
+            }
+
+            var result = await administratorService.CreateLaborantAsync(laborantCreateModel);
+
+            var laborant = await administratorService.GetLaborantByEgnAsync(laborantCreateModel.Egn);
+
+            if (result.Succeeded)
+            {
+                await administratorService.AddLaborantRoleAsync(laborant, RoleConstants.LaborantRole);
+
+                TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен лаборант {laborantCreateModel.FirstName} {laborantCreateModel.LastName} в Medical Center!";
+
+                return RedirectToAction(nameof(AdminBoardLaboratory));
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            laborantCreateModel.Genders = await globalService.GetGendersAsync();
+
+            return View(laborantCreateModel);
+        }
+
         [HttpPost]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> DeleteDoctor(string id)
@@ -155,7 +277,20 @@ namespace MedicalCenter.Controllers
 
             TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит д-р {doctor.FirstName} {doctor.LastName} от Medical Center!";
 
-            return RedirectToAction(nameof(AdminBoard));
+            return RedirectToAction(nameof(AdminBoardMedicalCenter));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> DeleteLaborant(string id)
+        {
+            var laborant = await repository.GetByIdAsync<Laborant>(id);
+
+            await administratorService.DeleteLaborantAsync(id);
+
+            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит лаборант {laborant.FirstName} {laborant.LastName} от Medical Center!";
+
+            return RedirectToAction(nameof(AdminBoardLaboratory));
         }
 
         [HttpPost]
@@ -168,7 +303,20 @@ namespace MedicalCenter.Controllers
 
             await administratorService.ReturnDoctorAsync(id);
 
-            return RedirectToAction(nameof(AdminBoard));
+            return RedirectToAction(nameof(AdminBoardMedicalCenter));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> ReturnLaborant(string id)
+        {
+            var laborant = await repository.GetByIdAsync<Laborant>(id);
+
+            TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен лаборант {laborant.FirstName} {laborant.LastName} в Medical Center!";
+
+            await administratorService.ReturnLaborantAsync(id);
+
+            return RedirectToAction(nameof(AdminBoardLaboratory));
         }
 
         [HttpGet]
@@ -213,6 +361,42 @@ namespace MedicalCenter.Controllers
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> AllLaborant([FromQuery] ShowAllLaborantViewModel query)
+        {
+            var queryResult = await administratorService.GetAllCurrentLaborantsAsync(
+                query.SearchTermEgn,
+                query.SearchTermName,
+                query.CurrentPage,
+                ShowAllLaborantViewModel.LaborantPerPage);
+
+            ViewData["Title"] = "Всички доктори";
+
+            query.TotalLaborantsCount = queryResult.TotalLaborantsCount;
+            query.Laborants = queryResult.Laborants;
+
+            return View(query);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> AllLaborantOut([FromQuery] ShowAllLaborantViewModel query)
+        {
+            var queryResult = await administratorService.GetAllLeftLaborantsAsync(
+                query.SearchTermEgn,
+                query.SearchTermName,
+                query.CurrentPage,
+                ShowAllLaborantViewModel.LaborantPerPage);
+
+            ViewData["Title"] = "Изтрити доктори";
+
+            query.TotalLaborantsCount = queryResult.TotalLaborantsCount;
+            query.Laborants = queryResult.Laborants;
+
+            return View(query);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllUser([FromQuery]ShowAllUserViewModel query)
         {
             var queryResult = await administratorService.GetAllRegisteredUsersAsync(
@@ -231,9 +415,29 @@ namespace MedicalCenter.Controllers
 
         [HttpGet]
         [Authorize(Roles = RoleConstants.AdministratorRole)]
-        public async Task<IActionResult> AdminBoard()
+        public IActionResult AdminPanel()
+        {
+            ViewData["Title"] = "Admin panel";
+
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> AdminBoardMedicalCenter()
         {
             var modelStatistic = await administratorService.GetStatisticsAsync();
+
+            ViewData["Title"] = "Admin panel";
+
+            return View(modelStatistic);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleConstants.AdministratorRole)]
+        public async Task<IActionResult> AdminBoardLaboratory()
+        {
+            var modelStatistic = await administratorService.GetStatisticsLabAsync();
 
             ViewData["Title"] = "Admin panel";
 

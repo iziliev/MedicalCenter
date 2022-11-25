@@ -7,6 +7,8 @@
             public const string DoctorRole = "Doctor";
             public const string AdministratorRole = "Administrator";
             public const string UserRole = "User";
+            public const string LaborantRole = "Laborant";
+            public const string LaboratoryUserRole = "LaboratoryUser";
         }
 
         public class ClaimTypeConstants
@@ -33,6 +35,8 @@
             public const string RequiredFirstName = "Име е задължително.";
             public const string RequiredLastName = "Фамилия е задължителна.";
             public const string RequiredPhoneNumber = "Телефон е задължителен.";
+
+            public const string LaborantExistError = "Лаборантът вече същетвува!";
         }
 
         public class UserConstants

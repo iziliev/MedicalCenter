@@ -1,0 +1,59 @@
+﻿@model LoginPatientViewModel
+
+@section Styles {
+<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="login-box offset-lg-4 offset-sm-2 col-sm-8 col-lg-4">
+            <div class="login-box">
+                <div class="card card-outline card-primary">
+                    <div class="card-header text-center">
+                        <h1><b>@ViewData["Title"]</b></h1>
+                    </div>
+                    <div class="card-body">
+                        <p class="login-box-msg">Вход в системата</p>
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
+                            <div class="input-group mb-1">
+                                <input asp-for="Egn" class="form-control" placeholder="Email/Потребителско име" autocomplete="username" />
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Egn" class="text-danger"></span>
+                            <div class="input-group mb-1 mt-3">
+                                <input asp-for="Password" class="form-control" placeholder="Парола" autocomplete="password" />
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger mt-2"></span>
+                            <div class="row">
+                                <div class="col-4 offset-4 mt-3">
+                                    <button type="submit" class="btn btn-primary btn-block">Вход</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        
+
+                        <p class="text-center text-muted mt-4 mb-0">
+                            Все още нямате профил?
+                            <a asp-controller="User" asp-action="Register" class="fw-bold text-body">
+                                <u>Регистрация</u>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

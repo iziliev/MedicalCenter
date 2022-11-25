@@ -25,6 +25,8 @@ namespace MedicalCenter.Infrastructure.Data
 
         public DbSet<WorkHour> WorkHours { get; set; } = null!;
 
+        public DbSet<Test> Tests { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ExaminationConfiguration());

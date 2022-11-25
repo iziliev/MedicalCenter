@@ -1,4 +1,4 @@
-﻿@model SearchDoctorViewModel
+﻿@model SearchLaboratoryPatientViewModel
 
 
 @section Styles {
@@ -16,7 +16,7 @@
                         </div>
                         <div class="card-body">
                             <p class="login-box-msg">Търсене в системата</p>
-                            <form asp-controller ="Administrator" asp-action="SearchDoctor" method="post" >
+                            <form asp-controller ="Laborant" asp-action="SearchLaboratoryPatient" method="post" >
                                 <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
                                 <div class="input-group mb-1">
                                     <input asp-for="Egn" class="form-control" placeholder="ЕГН" autocomplete="egn" />
@@ -33,7 +33,7 @@
                                         <button type="submit" class="btn btn-primary btn-block">Търсене</button>
                                     </div>
                                     <div class="col-4 offset-0 mt-3">
-                                        <a type="submit" class="btn btn-secondary" asp-controller="Administrator" asp-action="AdminBoardMedicalCenter">Назад</a>
+                                        <a type="submit" class="btn btn-secondary" asp-controller="Laborant" asp-action="LaborantBoard">Назад</a>
                                     </div>
                                 </div>
                             </form>

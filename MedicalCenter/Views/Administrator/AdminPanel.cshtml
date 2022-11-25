@@ -1,0 +1,47 @@
+﻿<h4 class="display-4 text-center">Администраторски панел:</h4>
+<hr />
+@section Styles {
+<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+}
+
+<div class="row">
+    <div class="col-lg-6 col-6">
+        <div class="small-box bg-gradient-info">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>Медицински център</h3>
+                        <p>Вход</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Administrator" asp-action="AdminBoardMedicalCenter" class="small-box-footer">Вход <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-6">
+        <div class="small-box bg-gradient-info">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>Лаборатория</h3>
+                        <p>Вход</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Administrator" asp-action="AdminBoardLaboratory" class="small-box-footer">Вход <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>

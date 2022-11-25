@@ -1,0 +1,113 @@
+﻿@model CreateLaboratoryPatientViewModel
+
+@section Styles {
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+}
+    <div class="container">
+        <div class="row">
+            <div class="register-box offset-lg-2 offset-sm-0 col-sm-12 col-lg-8">
+                <div class="card card-outline card-primary">
+                    <div class="card-header text-center">
+                        <h1><b>Регистрация</b></h1>
+                    </div>
+                    <div class="card-body">
+                        <p class="login-box-msg">@ViewData["Title"] в системата</p>
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
+                            
+                            <div class="row">
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="Password" class="form-control" autocomplete="password" placeholder="Парола" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-lock"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="Egn" class="form-control" autocomplete="egn" placeholder="ЕГН" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-lock"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="Egn" class="text-danger"></span>
+                                </div>
+                                <input type="hidden" asp-for="Username" value="temporary" />
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="FirstName" class="form-control" autocomplete="firstname" placeholder="Име" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-user"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="LastName" class="form-control" autocomplete="lastname" placeholder="Фамилия" />
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-user"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <input asp-for="PhoneNumber" class="form-control" autocomplete="phonenumber" placeholder="+359888888888" />
+
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-mobile"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="col-sm-6 col-lg-6">
+                                    <div class="input-group mb-1 mt-3">
+                                        <select asp-for="Gender" class="form-control">
+                                        @foreach (var gender in Model.Genders)
+                                        {
+                                            <option value="@gender.Id">@gender.Name</option>
+                                        }
+                                    </select>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-venus"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+
+                            <div class="offset-sm-2 offset-lg-3 col-sm-8 col-lg-5">
+                                <div class="input-group mb-1 mt-5">
+                                    <button type="submit" class="btn btn-primary btn-block">Регистрация</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

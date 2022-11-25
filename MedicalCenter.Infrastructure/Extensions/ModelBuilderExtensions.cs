@@ -15,7 +15,9 @@ namespace MedicalCenter.Infrastructure.Extensions
             {
                 new IdentityRole{Id = Guid.NewGuid().ToString(),Name = RoleConstants.AdministratorRole,NormalizedName = RoleConstants.AdministratorRole.ToUpper()},
                 new IdentityRole{Id = Guid.NewGuid().ToString(),Name = RoleConstants.DoctorRole,NormalizedName = RoleConstants.DoctorRole.ToUpper()},
-                new IdentityRole{Id = Guid.NewGuid().ToString(),Name = RoleConstants.UserRole,NormalizedName = RoleConstants.UserRole.ToUpper()}
+                new IdentityRole{Id = Guid.NewGuid().ToString(),Name = RoleConstants.UserRole,NormalizedName = RoleConstants.UserRole.ToUpper()},
+                new IdentityRole{Id = Guid.NewGuid().ToString(),Name = RoleConstants.LaborantRole,NormalizedName = RoleConstants.LaborantRole.ToUpper()},
+                new IdentityRole{Id = Guid.NewGuid().ToString(),Name = RoleConstants.LaboratoryUserRole,NormalizedName = RoleConstants.LaboratoryUserRole.ToUpper()},
             };
             builder.Entity<IdentityRole>().HasData(roles);
 
@@ -37,12 +39,17 @@ namespace MedicalCenter.Infrastructure.Extensions
                 .WithMany(e => e.Doctors)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //Seed Laborants
+
+            var laborant = FillLaborantData();
+            builder.Entity<Laborant>().HasData(laborant);
+
             // Seed UserRoles(Administrator and Doctors)
-            var userRoles = FillUsersRole(administrator, roles, doctors);
+            var userRoles = FillUsersRole(administrator, roles, doctors, laborant);
             builder.Entity<IdentityUserRole<string>>().HasData(userRoles);
         }
 
-        private static List<IdentityUserRole<string>> FillUsersRole(User administrator, List<IdentityRole> roles, List<Doctor> doctors)
+        private static List<IdentityUserRole<string>> FillUsersRole(User administrator, List<IdentityRole> roles, List<Doctor> doctors, Laborant laborant)
         {
             List<IdentityUserRole<string>> userRoles = new List<IdentityUserRole<string>>();
             userRoles.Add(new IdentityUserRole<string>
@@ -59,6 +66,13 @@ namespace MedicalCenter.Infrastructure.Extensions
                     RoleId = roles.First(q => q.Name == "Doctor").Id
                 });
             }
+
+            userRoles.Add(new IdentityUserRole<string>
+            {
+                UserId = laborant.Id,
+                RoleId = roles.First(q => q.Name == "Laborant").Id
+            });
+
             return userRoles;
         }
 
@@ -123,6 +137,27 @@ namespace MedicalCenter.Infrastructure.Extensions
                 doctorCount++;
             }
             return doctors;
+        }
+
+        private static Laborant FillLaborantData()
+        {
+            var laborantHasher = new PasswordHasher<Laborant>();
+            var laborant = new Laborant
+            {
+                FirstName = "Ваня",
+                LastName = "Иванова",
+                GenderId = 2,
+                Egn = "8412194792",
+                PhoneNumber = "+359888888881",
+                Email = "lab_vivanova@mc-bg.com",
+                NormalizedEmail = "LAB_VIVANOVA@MC-BG.COM",
+                UserName = "lab_vivanova",
+                NormalizedUserName = "LAB_VIVANOVA",
+                Role = "Laborant",
+                JoinOnDate = DateTime.UtcNow.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+            };
+            laborant.PasswordHash = laborantHasher.HashPassword(laborant, "Laborant");
+            return laborant;
         }
     }
 }

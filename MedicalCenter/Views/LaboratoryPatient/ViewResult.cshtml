@@ -1,0 +1,117 @@
+﻿@model ResultViewModel
+
+@section Styles {
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+}
+    <div class="invoice p-3 mb-3">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-12">
+                <h4>
+                    <i class="fas fa-stethoscope"></i> Medical Center - Лаборатория
+                    <small class="float-right">Дата: @Model.Date</small>
+                </h4>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                Пациент
+                <address>
+                    Име: <strong>@Model.PatientName</strong><br>
+                </address>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <br />
+                <address>
+                    ЕГН: <strong>@Model.PatientEgn</strong><br>
+                </address>
+            </div>
+        </div>
+        <!-- /.row -->
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Име на изследване</th>
+                            <th>Резултат</th>
+                            <th>Единици</th>
+                            <th>Референтни стойности</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>WBC (левкоцити)1</td>
+                            <td>@Model.WBC</td>
+                            <td>x10^9/L</td>
+                            <td>3.50 - 10.50</td>
+                        </tr>
+                        <tr>
+                            <td>RBC (еритроцити - бр.)</td>
+                            <td>@Model.RBC</td>
+                                <td>x10^12/L</td>
+                            <td>3.70 - 5.30</td>
+                        </tr>
+                        <tr>
+                            <td>Hgb (хемоглобин)</td>
+                            <td>@Model.Hgb</td>
+                            <td>g/L</td>
+                            <td>120 - 160</td>
+                        </tr>
+                        <tr>
+                            <td>Hct (хематокрит)</td>
+                            <td>@Model.Hct</td>
+                            <td>L/L</td>
+                            <td>0.360 - 0.480</td>
+                        </tr>
+                        <tr>
+                            <td>MCV (ср. обем на еритроцита)</td>
+                            <td>@Model.MCV</td>
+                            <td>fL</td>
+                            <td>80.0 - 96.0</td>
+                        </tr>
+                        <tr>
+                            <td>MCH (ср. Hbg съдърж. в еритр. )</td>
+                            <td>@Model.MCH</td>
+                            <td>pg</td>
+                            <td>27.0 - 33.0</td>
+                        </tr>
+                        <tr>
+                            <td>MCHC (ср. Hgb конц. в еритр.)</td>
+                            <td>@Model.MCHC</td>
+                            <td>g/L</td>
+                            <td>300 - 600</td>
+                        </tr>
+                        <tr>
+                            <td>Plt (трoмбоцити)</td>
+                            <td>@Model.Plt</td>
+                            <td>x10^9/L</td>
+                            <td>130 - 140</td>
+                        </tr>
+                        <tr>
+                            <td>Урина-pH(Urine-pH)</td>
+                            <td>@Model.UrinepH</td>
+                            <td>*</td>
+                            <td>4.5 - 8.2</td>
+                        </tr>
+                        <tr>
+                            <td>Урина - Относително тегло( Graviti)</td>
+                            <td>@Model.UrineGravity</td>
+                            <td>*</td>
+                            <td>1.001 - 1.028</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+            <!-- /.col -->
+        </div>
+        <br/>
+        <strong class="text-center">Край на справката.</strong>
+        <br />
+    </div>

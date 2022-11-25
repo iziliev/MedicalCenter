@@ -1,0 +1,19 @@
+﻿@model DashboardLaborantViewModel
+
+@{
+    string date = Model.OutOnDate == null ? "Now" : Model.OutOnDate;
+}
+
+<tr>
+    <td scope="col">д-р @Model.FirstName @Model.LastName</td>
+    <td scope="col">@Model.Egn</td>
+    <td scope="col" class="text-center">@Model.JoinOnDate</td>
+    <th scope="col">@Model.OutOnDate</th>
+    
+    <td scope="col" class="text-center">
+        <form asp-controller="Administrator" asp-action="ReturnLaborant" asp-route-id="@Model.Id">
+            <input name="id" type="hidden" value="@Model.Id">
+            <input type="submit" value="Възтанови" class="btn btn-danger" onclick="myConfirm(event)" />
+        </form>
+    </td>
+</tr>

@@ -1,0 +1,47 @@
+﻿<h4 class="display-4 text-center">Панел:</h4>
+<hr />
+@section Styles {
+<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+}
+
+<div class="row">
+    <div class="col-lg-3 col-4">
+        <div class="small-box bg-gradient-info">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>Добави</h3>
+                        <p>потребител</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Laborant" asp-action="SearchLaboratoryPatient" class="small-box-footer">Добави <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-4">
+        <div class="small-box bg-gradient-success">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>Качи</h3>
+                        <p>резултат</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-database" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Laborant" asp-action="AllLaboratoryPatient" class="small-box-footer">Качи <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>

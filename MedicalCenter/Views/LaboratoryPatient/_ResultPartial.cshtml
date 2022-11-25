@@ -1,0 +1,11 @@
+﻿@model DashboardLaboratoryPatientResultViewModel
+
+<tr>
+    <td scope="col">@Model.Date</td>
+    <td scope="col" class="text-center">
+        <form asp-controller="LaboratoryPatient" asp-action="ViewResult" method="get">
+            <input name="id" type="hidden" value="@Model.TestId">
+            <button type="submit" class="btn btn-warning">Виж</button>
+        </form>
+    </td>
+</tr>

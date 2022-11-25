@@ -1,0 +1,120 @@
+﻿@model ShowAllLaboratoryPatientViewModel
+
+@section Styles {
+<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+}
+
+<div class="offset-lg-4 offset-sm-4 col-lg-4 col-sm-4">
+    <div class="small-box bg-success" style="height:100px;">
+        <div class="row">
+            <div class="col-8">
+                <div class="inner">
+                    <h3 class="text-center" style="padding-top:10px;">@Model.TotalLaboratoryPatientCount</h3>
+                    <p class="text-center" style="font-size:14px;padding-left:5px;">@ViewData["Title"]</p>
+                </div>
+            </div>
+            <div class="col-4" style="position:center;padding-top:15px;">
+                <div class="icon">
+                    <i class="fa fa-user-doctor"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <table class="table">
+        <thead style="background-color:#e6e6e6">
+            <tr scope="col" colspan="12" class="text-center">
+                <th scope="col" colspan="12">Филтър по</th>
+            </tr>
+        </thead>
+    </table>
+    <form autocomplete="off" method="get">
+        <div class="row">
+            
+            <div class="card-header col-sm-3 col-lg-3">
+                <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                    <input asp-for="SearchTermEgn" class="form-control" placeholder="ЕГН">
+                </div>
+            </div>
+
+            <div class="card-header col-sm-3 col-lg-3">
+                <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                    <input asp-for="SearchTermName" class="form-control" placeholder="Име лекар">
+                </div>
+            </div>
+
+            <div class="card-header col-sm-2 col-lg-1">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Търси</button>
+                </div>
+            </div>
+
+            <div class="card-header col-sm-2 col-lg-2">
+                <div class="form-group">
+                    <a class="btn btn-warning" type="reset"
+                       asp-controller="Administrator"
+                       asp-action="AllDoctor">Изчистване</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalLaboratoryPatientCount /
+        ShowAllLaboratoryPatientViewModel.LaboratoryPatientPerPage);
+}
+
+@if (Model.TotalLaboratoryPatientCount == 0)
+{
+    <h3 class="text-center" style="padding:50px;font-family:Monospace"><em>Няма намерени доктори по зададените критерии!</em></h3>
+}
+else
+{
+    <table class="table table table-bordered">
+        <thead style="background-color:#e6e6e6">
+            <tr>
+                <th scope="row" class="text-center">Име на доктор</th>
+                <th scope="row" class="text-center">ЕГН</th>
+                <th scope="row" class="text-center">Телефон</th>
+                <th scope="row" class="text-center">Регистриран на</th>
+                <th scope="row" class="text-center">Действиe</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model.LaboratoryPatients)
+            {
+                <partial name="_LaboratoryPatientPartial" model="@patient" />
+            }
+        </tbody>
+    </table>
+}
+<div class="row mt-2 col-12">
+    <div class="col-lg-2 col-sm-2">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Laborant"
+           asp-action="AllLaboratoryPatient"
+           asp-route-currentPage="@previousPage">Previous</a>
+    </div>
+    @{
+        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+        !Model.LaboratoryPatients.Any();
+    }
+    <div class="offset-lg-9 offset-sm-9 col-lg-1 col-sm-1">
+        <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+           asp-controller="Laborant"
+           asp-action="AllLaboratoryPatient"
+           asp-route-currentPage="@(Model.CurrentPage+1)">Next</a>
+    </div>
+</div>
