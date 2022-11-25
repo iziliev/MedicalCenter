@@ -21,7 +21,7 @@ namespace MedicalCenter.Infrastructure.Data.Configuration
             var shedules = new List<Shedule>()
             {
                 new Shedule { Id = 1, Name="Първа смяна" },
-                new Shedule { Id = 2, Name="Втора смена" }
+                new Shedule { Id = 2, Name="Втора смяна" }
             };
 
             return shedules;
