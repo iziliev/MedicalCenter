@@ -1,25 +1,12 @@
 ﻿@model AllReviewViewModel
 
 <tr>
-    <td scope="row" class="text-center">@Model.DoctorFullName</td>
+    <td scope="row" class="text-center">д-р @Model.DoctorFullName</td>
     <td scope="row" class="text-center">@Model.UserFullName</td>
     <td scope="row" style="text-align:justify;font-size:14px;">
         <div>
             <em>@Model.Content</em>
         </div>
     </td>
-    <td scope="row" class="text-center">
-        @for (var i = 1; i <= 5; i++)
-        {
-            if (i <= @Model.Rating)
-            {
-                <img src="~/images/star-fill.png"/>
-            }
-            else
-            {
-                <img src="~/images/star-not.png"/>
-            }
-        }
-    </td>
-    <td scope="row" class="text-center">@Model.CreatedOn</td>
+    <partial name="_FillRatingPartial">
 </tr>
