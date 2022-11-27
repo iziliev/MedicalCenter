@@ -4,6 +4,7 @@ using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Controllers
@@ -58,6 +59,12 @@ namespace MedicalCenter.Controllers
                 return View(searchModel);
             }
 
+            if (doctor.IsOutOfCompany)
+            {
+                ModelState.AddModelError("", ModelErrorConstants.DoctorOutExistError);
+                return View(searchModel);
+            }
+
             return RedirectToAction(nameof(CreateDoctor), doctor);
         }
 
@@ -92,6 +99,12 @@ namespace MedicalCenter.Controllers
             if (!laborant.IsOutOfCompany)
             {
                 ModelState.AddModelError("", ModelErrorConstants.LaborantExistError);
+                return View(searchModel);
+            }
+            
+            if (laborant.IsOutOfCompany)
+            {
+                ModelState.AddModelError("", ModelErrorConstants.LaborantOutExistError);
                 return View(searchModel);
             }
 
@@ -369,7 +382,7 @@ namespace MedicalCenter.Controllers
                 query.CurrentPage,
                 ShowAllLaborantViewModel.LaborantPerPage);
 
-            ViewData["Title"] = "Всички доктори";
+            ViewData["Title"] = "Всички лаборанти";
 
             query.TotalLaborantsCount = queryResult.TotalLaborantsCount;
             query.Laborants = queryResult.Laborants;
@@ -387,7 +400,7 @@ namespace MedicalCenter.Controllers
                 query.CurrentPage,
                 ShowAllLaborantViewModel.LaborantPerPage);
 
-            ViewData["Title"] = "Изтрити доктори";
+            ViewData["Title"] = "Изтрити лаборанти";
 
             query.TotalLaborantsCount = queryResult.TotalLaborantsCount;
             query.Laborants = queryResult.Laborants;

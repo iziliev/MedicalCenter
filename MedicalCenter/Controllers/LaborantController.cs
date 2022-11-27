@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 using MedicalCenter.Infrastructure.Data.Models;
+using System.Numerics;
 
 namespace MedicalCenter.Controllers
 {
@@ -30,7 +31,7 @@ namespace MedicalCenter.Controllers
         {
             var searchModel = new SearchLaboratoryPatientViewModel();
 
-            ViewData["Title"] = "Проверка на съществуващ потребител по ЕГН";
+            ViewData["Title"] = "Проверка на съществуващ пациент по ЕГН";
 
             return View(searchModel);
         }
@@ -52,7 +53,9 @@ namespace MedicalCenter.Controllers
                 return RedirectToAction(nameof(CreateLaboratoryPatient));
             }
 
-            return RedirectToAction(nameof(CreateLaboratoryPatient), laboratoryPatient);
+            ModelState.AddModelError("", ModelErrorConstants.LaboratoryPatientExistError);
+            ViewData["Title"] = "Проверка на съществуващ пациент по ЕГН";
+            return View(new SearchLaboratoryPatientViewModel());
         }
 
         [HttpGet]
@@ -123,7 +126,7 @@ namespace MedicalCenter.Controllers
                 query.CurrentPage,
                 ShowAllLaboratoryPatientViewModel.LaboratoryPatientPerPage);
 
-            ViewData["Title"] = "Всички доктори";
+            ViewData["Title"] = "Всички пациенти";
 
             query.TotalLaboratoryPatientCount = queryResult.TotalLaboratoryPatientCount;
             query.LaboratoryPatients = queryResult.LaboratoryPatients;
@@ -142,7 +145,7 @@ namespace MedicalCenter.Controllers
                 LaboratoryPatient = laboratoryPatient
             };
 
-            ViewData["Title"] = "Всички доктори";
+            ViewData["Title"] = $"Резултат на пациент с ЕГН: {laboratoryPatient.Egn}";
 
             return View(model);
         }
@@ -153,12 +156,12 @@ namespace MedicalCenter.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewData["Title"] = $"Резултат на пациент с ЕГН: {model.LaboratoryPatient.Egn}";
                 ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
                 return View(model);
             }
 
             await laborantService.UploadResultAsync(model);
-
             return RedirectToAction(nameof(LaborantBoard));
         }
     }

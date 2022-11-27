@@ -1,16 +1,9 @@
 ﻿@model UploadTestResultViewModel
 
 @section Styles {
-<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
-<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
 }
-
-
-
-            
-            
-            
-            
 
 <div class="container mt-5">
     <div class="row">
@@ -21,13 +14,13 @@
                         <h1><b>@ViewData["Title"]</b></h1>
                     </div>
                     <div class="card-body">
-                        <p class="login-box-msg">Вход в системата</p>
+                        <p class="login-box-msg">Качи</p>
                         <form method="post">
                             <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
                             <input asp-for="LaboratoryPatient" type="hidden" value="@Model.LaboratoryPatient" />
                             <input asp-for="LaboratoryPatientId" type="hidden" value="@Model.LaboratoryPatient.Id" />
                             <div class="input-group mb-1">
-                                <input asp-for="WBC" class="form-control" placeholder="Hemoglobin" autocomplete="hemoglobin" />
+                                <input asp-for="WBC" class="form-control" placeholder="WBC" autocomplete="WBC" />
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
@@ -36,7 +29,7 @@
                             </div>
                             <span asp-validation-for="WBC" class="text-danger"></span>
                             <div class="input-group mb-1">
-                                <input asp-for="RBC" class="form-control" placeholder="Levkocit" autocomplete="Levkocit" />
+                                <input asp-for="RBC" class="form-control" placeholder="RBC" autocomplete="RBC" />
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
@@ -46,96 +39,84 @@
                             <span asp-validation-for="RBC" class="text-danger mt-2"></span>
 
                             <div class="input-group mb-1">
-                                    <input asp-for="Hgb" class="form-control" placeholder="Limfocit" autocomplete="Limfocit" />
+                                <input asp-for="Hgb" class="form-control" placeholder="Hgb" autocomplete="Hgb" />
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
                                     </div>
                                 </div>
                             </div>
-                                <span asp-validation-for="Hgb" class="text-danger mt-2"></span>
+                            <span asp-validation-for="Hgb" class="text-danger mt-2"></span>
                             <div class="input-group mb-1">
-                                    <input asp-for="Hct" class="form-control" placeholder="Trombicit" autocomplete="Trombicit" />
+                                <input asp-for="Hct" class="form-control" placeholder="Hct" autocomplete="Hct" />
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
                                     </div>
                                 </div>
                             </div>
-                                <span asp-validation-for="Hct" class="text-danger mt-2"></span>
-
-                                
-            
-            
-            
-            
-            
-
-                                <div class="input-group mb-1">
-                                    <input asp-for="MCV" class="form-control" placeholder="Trombicit" autocomplete="Trombicit" />
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span asp-validation-for="MCV" class="text-danger mt-2"></span>
-                                <div class="input-group mb-1">
-                                    <input asp-for="MCH" class="form-control" placeholder="Trombicit" autocomplete="Trombicit" />
+                            <span asp-validation-for="Hct" class="text-danger mt-2"></span>
+                            <div class="input-group mb-1">
+                                <input asp-for="MCV" class="form-control" placeholder="MCV" autocomplete="MCV" />
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
                                     </div>
                                 </div>
                             </div>
-                                <span asp-validation-for="MCH" class="text-danger mt-2"></span>
-                                <div class="input-group mb-1">
-                                    <input asp-for="MCHC" class="form-control" placeholder="Trombicit" autocomplete="Trombicit" />
+                            <span asp-validation-for="MCV" class="text-danger mt-2"></span>
+                            <div class="input-group mb-1">
+                                <input asp-for="MCH" class="form-control" placeholder="MCH" autocomplete="MCH" />
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
                                     </div>
                                 </div>
                             </div>
-                                <span asp-validation-for="MCHC" class="text-danger mt-2"></span>
-                                <div class="input-group mb-1">
-                                    <input asp-for="Plt" class="form-control" placeholder="Trombicit" autocomplete="Trombicit" />
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
-                                        </div>
+                            <span asp-validation-for="MCH" class="text-danger mt-2"></span>
+                            <div class="input-group mb-1">
+                                <input asp-for="MCHC" class="form-control" placeholder="MCHC" autocomplete="MCHC" />
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
                                     </div>
                                 </div>
-                                <span asp-validation-for="Plt" class="text-danger mt-2"></span>
-
-                                <div class="input-group mb-1">
-                                    <input asp-for="UrinepH" class="form-control" placeholder="Trombicit" autocomplete="Trombicit" />
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
-                                        </div>
+                            </div>
+                            <span asp-validation-for="MCHC" class="text-danger mt-2"></span>
+                            <div class="input-group mb-1">
+                                <input asp-for="Plt" class="form-control" placeholder="Plt" autocomplete="Plt" />
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
                                     </div>
                                 </div>
-                                <span asp-validation-for="UrinepH" class="text-danger mt-2"></span>
-                                <div class="input-group mb-1">
-                                    <input asp-for="UrineGravity" class="form-control" placeholder="Trombicit" autocomplete="Trombicit" />
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
-                                        </div>
+                            </div>
+                            <span asp-validation-for="Plt" class="text-danger mt-2"></span>
+
+                            <div class="input-group mb-1">
+                                <input asp-for="UrinepH" class="form-control" placeholder="UrinepH" autocomplete="UrinepH" />
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
                                     </div>
                                 </div>
-                                <span asp-validation-for="UrineGravity" class="text-danger mt-2"></span>
-
-
+                            </div>
+                            <span asp-validation-for="UrinepH" class="text-danger mt-2"></span>
+                            <div class="input-group mb-1">
+                                <input asp-for="UrineGravity" class="form-control" placeholder="UrineGravity" autocomplete="UrineGravity" />
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span asp-validation-for="UrineGravity" class="text-danger mt-2"></span>
                             <div class="row">
                                 <div class="col-4 offset-4 mt-3">
-                                    <button type="submit" class="btn btn-primary btn-block">Вход</button>
+                                    <button type="submit" class="btn btn-primary btn-block">Качи</button>
                                 </div>
                             </div>
                         </form>
-
-                        
                     </div>
                 </div>
             </div>

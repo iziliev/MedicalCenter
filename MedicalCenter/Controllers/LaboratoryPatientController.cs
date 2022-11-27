@@ -88,7 +88,7 @@ namespace MedicalCenter.Controllers
                 query.CurrentPage,
                 ShowAllDoctorViewModel.DoctorsPerPage);
 
-            ViewData["Title"] = "Всички доктори";
+            ViewData["Title"] = "Всички резултати";
 
             query.TotalResultCount = queryResult.TotalResultCount;
             query.AllResults = queryResult.AllResults;
@@ -102,7 +102,7 @@ namespace MedicalCenter.Controllers
         {
             var modelResult = await laboratoryPatientService.GetResultByIdAsync(id);
 
-            ViewData["Title"] = "Всички доктори";
+            ViewData["Title"] = $"Резултат {id}";
 
             return View(modelResult);
         }

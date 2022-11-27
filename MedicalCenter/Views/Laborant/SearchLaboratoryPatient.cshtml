@@ -17,7 +17,7 @@
                         <div class="card-body">
                             <p class="login-box-msg">Търсене в системата</p>
                             <form asp-controller ="Laborant" asp-action="SearchLaboratoryPatient" method="post" >
-                                <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
                                 <div class="input-group mb-1">
                                     <input asp-for="Egn" class="form-control" placeholder="ЕГН" autocomplete="egn" />
                                     <div class="input-group-append">
@@ -38,7 +38,7 @@
                                 </div>
                             </form>
                             <p class="text-center text-muted mt-4 mb-0">
-                                Преди да се регистрира нов доктор се проверява дали той вече не е бил регистриран в базата. Ако не е открит се регистрира.
+                                Преди да се регистрира нов пациент се проверява дали той вече не е бил регистриран в базата. Ако не е открит се регистрира.
                             </p>
                         </div>
                     </div>

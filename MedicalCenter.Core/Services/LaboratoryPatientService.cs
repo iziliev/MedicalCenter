@@ -86,7 +86,7 @@ namespace MedicalCenter.Core.Services
                 if (isDateCorrect)
                 {
                     laboratoryPatientQuery = laboratoryPatientQuery
-                        .Where(e => e.TestDate == searchDate);
+                        .Where(e => e.TestDate.Date == searchDate);
                 }
             }
 

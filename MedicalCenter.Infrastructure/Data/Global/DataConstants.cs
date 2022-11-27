@@ -24,6 +24,7 @@
             public const string WrongHourExaminationError = "Може да запазите час, който е повече от 1 час от текущото време.";
             public const string WeekendExaminationError = "Събота и неделя са почивани дни. Може да запазете час само в работни дни!";
             public const string DoctorExistError = "Докторът вече същетвува!";
+            public const string DoctorOutExistError = "Докторът вече същетвува в изтрити!";
             public const string WoркHourPast = "Часът вече е минал.";
             public const string OutWorkingTime = "Работното време на медицинския център е до 16:30";
 
@@ -37,6 +38,8 @@
             public const string RequiredPhoneNumber = "Телефон е задължителен.";
 
             public const string LaborantExistError = "Лаборантът вече същетвува!";
+            public const string LaborantOutExistError = "Лаборантът вече същетвува в изтрити!";
+            public const string LaboratoryPatientExistError = "Пациентът вече съществува!";
         }
 
         public class UserConstants

@@ -14,11 +14,11 @@
                         <h1><b>@ViewData["Title"]</b></h1>
                     </div>
                     <div class="card-body">
-                        <p class="login-box-msg">Вход в системата</p>
+                        <p class="login-box-msg">в Онлайн резултати</p>
                         <form method="post">
                             <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
                             <div class="input-group mb-1">
-                                <input asp-for="Egn" class="form-control" placeholder="Email/Потребителско име" autocomplete="username" />
+                                <input asp-for="Egn" class="form-control" placeholder="ЕГН/Потребителско име" autocomplete="egn" />
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
@@ -41,15 +41,6 @@
                                 </div>
                             </div>
                         </form>
-
-                        
-
-                        <p class="text-center text-muted mt-4 mb-0">
-                            Все още нямате профил?
-                            <a asp-controller="User" asp-action="Register" class="fw-bold text-body">
-                                <u>Регистрация</u>
-                            </a>
-                        </p>
                     </div>
                 </div>
             </div>
