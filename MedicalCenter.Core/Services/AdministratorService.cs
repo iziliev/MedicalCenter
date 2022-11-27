@@ -73,35 +73,34 @@ namespace MedicalCenter.Core.Services
             return await userManager.CreateAsync(laborant, laborantModel.Password);
         }
 
-        //public async Task<CreateLaborantViewModel> SearchLaborantByEgnAsync(string egn)
-        //{
-        //    var existLaborant = await repository.All<Laborant>()
-        //        .Where(d => d.Egn == egn)
-        //        .Select(d => new CreateLaborantViewModel
-        //        {
-        //            Id = d.Id,
-        //            Username = d.UserName,
-        //            Egn = d.Egn,
-        //            Email = d.Email,
-        //            FirstName = d.FirstName,
-        //            Gender = d.GenderId,
-        //            PhoneNumber = d.PhoneNumber,
-        //            LastName = d.LastName,
-        //            IsOutOfCompany = d.IsOutOfCompany,
-        //            Role = d.Role,
-        //            JoinOnDate = d.JoinOnDate,
-        //            OutOnDate = d.OutOnDate,
-        //        })
-        //        .FirstOrDefaultAsync();
-
-        //    return existLaborant;
-        //}
-
-        public async Task<T> SearchByEgnAsync<T>(string egn)
+        public async Task<CreateLaborantViewModel> SearchLaborantByEgnAsync(string egn)
         {
-            if (typeof(T).Equals(typeof(CreateDoctorViewModel)))
-            {
-                var existDoctor = await repository.All<Doctor>()
+            var existLaborant = await repository.All<Laborant>()
+                .Where(d => d.Egn == egn)
+                .Select(d => new CreateLaborantViewModel
+                {
+                    Id = d.Id,
+                    Username = d.UserName,
+                    Egn = d.Egn,
+                    Email = d.Email,
+                    FirstName = d.FirstName,
+                    Gender = d.GenderId,
+                    PhoneNumber = d.PhoneNumber,
+                    LastName = d.LastName,
+                    IsOutOfCompany = d.IsOutOfCompany,
+                    Role = d.Role,
+                    JoinOnDate = d.JoinOnDate,
+                    OutOnDate = d.OutOnDate,
+                })
+                .FirstOrDefaultAsync();
+
+            return existLaborant;
+        }
+
+
+        public async Task<CreateDoctorViewModel> SearchDoctorByEgnAsync(string egn)
+        {
+            var existDoctor = await repository.All<Doctor>()
                 .Where(d => d.Egn == egn)
                 .Select(d => new CreateDoctorViewModel
                 {
@@ -126,65 +125,8 @@ namespace MedicalCenter.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
-                return (T)Convert.ChangeType(existDoctor, typeof(T));
-            }
-            else
-            {
-                var existLaborant = await repository.All<Laborant>()
-                .Where(d => d.Egn == egn)
-                .Select(d => new CreateLaborantViewModel
-                {
-                    Id = d.Id,
-                    Username = d.UserName,
-                    Egn = d.Egn,
-                    Email = d.Email,
-                    FirstName = d.FirstName,
-                    Gender = d.GenderId,
-                    PhoneNumber = d.PhoneNumber,
-                    LastName = d.LastName,
-                    IsOutOfCompany = d.IsOutOfCompany,
-                    Role = d.Role,
-                    JoinOnDate = d.JoinOnDate,
-                    OutOnDate = d.OutOnDate,
-                })
-                .FirstOrDefaultAsync();
-
-                return (T)Convert.ChangeType(existLaborant, typeof(T));
-            }
+            return existDoctor;
         }
-
-
-
-
-        //public async Task<CreateDoctorViewModel> SearchDoctorByEgnAsync(string egn)
-        //{
-        //    var existDoctor = await repository.All<Doctor>()
-        //        .Where(d => d.Egn == egn)
-        //        .Select(d => new CreateDoctorViewModel
-        //        {
-        //            Id = d.Id,
-        //            Username = d.UserName,
-        //            Biography = d.Biography,
-        //            Education = d.Education,
-        //            Egn = d.Egn,
-        //            Email = d.Email,
-        //            FirstName = d.FirstName,
-        //            Gender = d.GenderId,
-        //            PhoneNumber = d.PhoneNumber,
-        //            LastName = d.LastName,
-        //            Representation = d.Representation,
-        //            SpecialtyId = d.SpecialtyId,
-        //            ProfileImageUrl = d.ProfileImageUrl,
-        //            IsOutOfCompany = d.IsOutOfCompany,
-        //            Role = d.Role,
-        //            JoinOnDate = d.JoinOnDate,
-        //            OutOnDate = d.OutOnDate,
-        //            SheduleId = d.SheduleId
-        //        })
-        //        .FirstOrDefaultAsync();
-
-        //    return existDoctor;
-        //}
 
         public async Task ReturnAsync<T>(string id)
         {
