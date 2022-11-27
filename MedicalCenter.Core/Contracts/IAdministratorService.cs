@@ -15,13 +15,9 @@ namespace MedicalCenter.Core.Contracts
 
         Task<IdentityResult> CreateLaborantAsync(CreateLaborantViewModel laborantModel);
 
-        Task ReturnDoctorAsync(string id);
+        Task ReturnAsync<T>(string id);
 
-        Task ReturnLaborantAsync(string id);
-
-        Task<Doctor> GetDoctorByEgnAsync(string egn);
-
-        Task<Laborant> GetLaborantByEgnAsync(string egn);
+        Task<T> GetByEgnAsync<T>(string egn);
 
         Task AddDoctorRoleAsync(Doctor doctor, string doctorRole);
 
@@ -31,13 +27,11 @@ namespace MedicalCenter.Core.Contracts
 
         Task EditDoctorAsync(MainDoctorViewModel doctorModel, Doctor doctor);
 
-        Task<MainLaborantViewModel> GetLaborantByIdToEditAsync(string id);
-
         Task EditLaborantAsync(MainLaborantViewModel laborantModel, Laborant laborant);
 
-        Task DeleteDoctorAsync(string id);
+        Task<MainLaborantViewModel> GetLaborantByIdToEditAsync(string id);
 
-        Task DeleteLaborantAsync(string id);
+        Task DeleteAsync<T>(string id);
 
         Task<DashboardStatisticDataViewModel> GetStatisticsDataAsync();
 

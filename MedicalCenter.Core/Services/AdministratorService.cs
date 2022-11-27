@@ -1,11 +1,13 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Administrator;
+using MedicalCenter.Core.Models.Api;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using System.Numerics;
 
 namespace MedicalCenter.Core.Services
 {
@@ -28,7 +30,7 @@ namespace MedicalCenter.Core.Services
         public async Task<IdentityResult> CreateDoctorAsync(CreateDoctorViewModel doctorModel)
         {
             string phoneNumber = globalService.ParsePnoneNumber(doctorModel.PhoneNumber);
-                
+
             var doctor = new Doctor()
             {
                 Biography = doctorModel.Biography,
@@ -71,33 +73,35 @@ namespace MedicalCenter.Core.Services
             return await userManager.CreateAsync(laborant, laborantModel.Password);
         }
 
-        public async Task<CreateLaborantViewModel> SearchLaborantByEgnAsync(string egn)
-        {
-            var existLaborant = await repository.All<Laborant>()
-                .Where(d => d.Egn == egn)
-                .Select(d => new CreateLaborantViewModel
-                {
-                    Id = d.Id,
-                    Username = d.UserName,
-                    Egn = d.Egn,
-                    Email = d.Email,
-                    FirstName = d.FirstName,
-                    Gender = d.GenderId,
-                    PhoneNumber = d.PhoneNumber,
-                    LastName = d.LastName,
-                    IsOutOfCompany = d.IsOutOfCompany,
-                    Role = d.Role,
-                    JoinOnDate = d.JoinOnDate,
-                    OutOnDate = d.OutOnDate,
-                })
-                .FirstOrDefaultAsync();
+        //public async Task<CreateLaborantViewModel> SearchLaborantByEgnAsync(string egn)
+        //{
+        //    var existLaborant = await repository.All<Laborant>()
+        //        .Where(d => d.Egn == egn)
+        //        .Select(d => new CreateLaborantViewModel
+        //        {
+        //            Id = d.Id,
+        //            Username = d.UserName,
+        //            Egn = d.Egn,
+        //            Email = d.Email,
+        //            FirstName = d.FirstName,
+        //            Gender = d.GenderId,
+        //            PhoneNumber = d.PhoneNumber,
+        //            LastName = d.LastName,
+        //            IsOutOfCompany = d.IsOutOfCompany,
+        //            Role = d.Role,
+        //            JoinOnDate = d.JoinOnDate,
+        //            OutOnDate = d.OutOnDate,
+        //        })
+        //        .FirstOrDefaultAsync();
 
-            return existLaborant;
-        }
+        //    return existLaborant;
+        //}
 
-        public async Task<CreateDoctorViewModel> SearchDoctorByEgnAsync(string egn)
+        public async Task<T> SearchByEgnAsync<T>(string egn)
         {
-            var existDoctor = await repository.All<Doctor>()
+            if (typeof(T).Equals(typeof(CreateDoctorViewModel)))
+            {
+                var existDoctor = await repository.All<Doctor>()
                 .Where(d => d.Egn == egn)
                 .Select(d => new CreateDoctorViewModel
                 {
@@ -122,34 +126,88 @@ namespace MedicalCenter.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
-            return existDoctor;
+                return (T)Convert.ChangeType(existDoctor, typeof(T));
+            }
+            else
+            {
+                var existLaborant = await repository.All<Laborant>()
+                .Where(d => d.Egn == egn)
+                .Select(d => new CreateLaborantViewModel
+                {
+                    Id = d.Id,
+                    Username = d.UserName,
+                    Egn = d.Egn,
+                    Email = d.Email,
+                    FirstName = d.FirstName,
+                    Gender = d.GenderId,
+                    PhoneNumber = d.PhoneNumber,
+                    LastName = d.LastName,
+                    IsOutOfCompany = d.IsOutOfCompany,
+                    Role = d.Role,
+                    JoinOnDate = d.JoinOnDate,
+                    OutOnDate = d.OutOnDate,
+                })
+                .FirstOrDefaultAsync();
+
+                return (T)Convert.ChangeType(existLaborant, typeof(T));
+            }
         }
 
-        public async Task ReturnDoctorAsync(string id)
+
+
+
+        //public async Task<CreateDoctorViewModel> SearchDoctorByEgnAsync(string egn)
+        //{
+        //    var existDoctor = await repository.All<Doctor>()
+        //        .Where(d => d.Egn == egn)
+        //        .Select(d => new CreateDoctorViewModel
+        //        {
+        //            Id = d.Id,
+        //            Username = d.UserName,
+        //            Biography = d.Biography,
+        //            Education = d.Education,
+        //            Egn = d.Egn,
+        //            Email = d.Email,
+        //            FirstName = d.FirstName,
+        //            Gender = d.GenderId,
+        //            PhoneNumber = d.PhoneNumber,
+        //            LastName = d.LastName,
+        //            Representation = d.Representation,
+        //            SpecialtyId = d.SpecialtyId,
+        //            ProfileImageUrl = d.ProfileImageUrl,
+        //            IsOutOfCompany = d.IsOutOfCompany,
+        //            Role = d.Role,
+        //            JoinOnDate = d.JoinOnDate,
+        //            OutOnDate = d.OutOnDate,
+        //            SheduleId = d.SheduleId
+        //        })
+        //        .FirstOrDefaultAsync();
+
+        //    return existDoctor;
+        //}
+
+        public async Task ReturnAsync<T>(string id)
         {
-            var doctor = await repository.GetByIdAsync<Doctor>(id);
-
-            doctor.IsOutOfCompany = false;
-            doctor.OutOnDate = null;
-
-            await repository.SaveChangesAsync();
-        }
-
-        public async Task ReturnLaborantAsync(string id)
-        {
-            var laborant = await repository.GetByIdAsync<Laborant>(id);
-
-            laborant.IsOutOfCompany = false;
-            laborant.OutOnDate = null;
-
+            if (typeof(T).Equals(typeof(Doctor)))
+            {
+                var doctor = await repository.GetByIdAsync<Doctor>(id);
+                doctor.IsOutOfCompany = false;
+                doctor.OutOnDate = null;
+            }
+            else
+            {
+                var laborant = await repository.GetByIdAsync<Laborant>(id);
+                laborant.IsOutOfCompany = false;
+                laborant.OutOnDate = null;
+            }
             await repository.SaveChangesAsync();
         }
 
         public async Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(
-            string? speciality = null, 
-            string? searchTermEgn = null, 
-            string? searchTermName = null, 
-            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            string? speciality = null,
+            string? searchTermEgn = null,
+            string? searchTermName = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
             int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var doctorsQuery = repository.All<Doctor>()
@@ -204,18 +262,23 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<Doctor> GetDoctorByEgnAsync(string egn)
+        public async Task<T> GetByEgnAsync<T>(string egn)
         {
-            return await repository.All<Doctor>()
+            if (typeof(T).Equals(typeof(Doctor)))
+            {
+                var doctor = await repository.All<Doctor>()
                 .Where(x => x.Egn == egn)
                 .FirstOrDefaultAsync();
-        }
 
-        public async Task<Laborant> GetLaborantByEgnAsync(string egn)
-        {
-            return await repository.All<Laborant>()
+                return (T)Convert.ChangeType(doctor, typeof(T));
+            }
+            else
+            {
+                var laborant = await repository.All<Laborant>()
                 .Where(x => x.Egn == egn)
                 .FirstOrDefaultAsync();
+                return (T)Convert.ChangeType(laborant, typeof(T));
+            }
         }
 
         public async Task AddDoctorRoleAsync(Doctor doctor, string doctorRole)
@@ -229,9 +292,9 @@ namespace MedicalCenter.Core.Services
         }
 
         public async Task<ShowAllUserViewModel> GetAllRegisteredUsersAsync(
-            string? searchTermEmail = null, 
-            string? searchTermName = null, 
-            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            string? searchTermEmail = null,
+            string? searchTermName = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
             int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var usersQuery = repository.All<User>()
@@ -371,27 +434,29 @@ namespace MedicalCenter.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task DeleteDoctorAsync(string id)
+        public async Task DeleteAsync<T>(string id)
         {
-            var doctor = await repository.GetByIdAsync<Doctor>(id);
-            doctor.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
-            doctor.IsOutOfCompany = true;
-            await repository.SaveChangesAsync();
-        }
-
-        public async Task DeleteLaborantAsync(string id)
-        {
-            var laborant = await repository.GetByIdAsync<Laborant>(id);
-            laborant.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
-            laborant.IsOutOfCompany = true;
-            await repository.SaveChangesAsync();
+            if (typeof(T).Equals(typeof(Doctor)))
+            {
+                var doctor = await repository.GetByIdAsync<Doctor>(id);
+                doctor.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+                doctor.IsOutOfCompany = true;
+                await repository.SaveChangesAsync();
+            }
+            else
+            {
+                var laborant = await repository.GetByIdAsync<Laborant>(id);
+                laborant.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+                laborant.IsOutOfCompany = true;
+                await repository.SaveChangesAsync();
+            }
         }
 
         public async Task<ShowAllDoctorViewModel> GetAllLeftDoctorsAsync(
-            string? speciality = null, 
-            string? searchTermEgn = null, 
-            string? searchTermName = null, 
-            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            string? speciality = null,
+            string? searchTermEgn = null,
+            string? searchTermName = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
             int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var doctorsQuery = repository.All<Doctor>()
@@ -502,10 +567,10 @@ namespace MedicalCenter.Core.Services
         }
 
         public async Task<ShowAllExaminationViewModel> GetAllPastExamination(
-            string? speciality = null, 
-            string? searchTermDate = null, 
+            string? speciality = null,
+            string? searchTermDate = null,
             string? searchTermName = null,
-            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
             int examinationsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var examinationQuery = repository.All<Examination>()
@@ -568,10 +633,10 @@ namespace MedicalCenter.Core.Services
         }
 
         public async Task<ShowAllExaminationViewModel> GetAllFutureExamination(
-            string? speciality = null, 
-            string? searchTermDate = null, 
+            string? speciality = null,
+            string? searchTermDate = null,
             string? searchTermName = null,
-            int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
             int examinationsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var examinationQuery = repository.All<Examination>()
@@ -584,7 +649,7 @@ namespace MedicalCenter.Core.Services
             if (string.IsNullOrEmpty(speciality) == false)
             {
                 examinationQuery = examinationQuery
-                    .Where(d=>d.Doctor.Specialty.Name == speciality);
+                    .Where(d => d.Doctor.Specialty.Name == speciality);
             }
 
             if (string.IsNullOrEmpty(searchTermDate) == false)
@@ -871,5 +936,6 @@ namespace MedicalCenter.Core.Services
                 TotalLaborantsCount = laborantsQuery.Count()
             };
         }
+
     }
 }

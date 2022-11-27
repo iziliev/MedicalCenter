@@ -203,7 +203,7 @@ namespace MedicalCenter.Controllers
 
             var result = await administratorService.CreateDoctorAsync(doctorCreateModel);
 
-            var doctor = await administratorService.GetDoctorByEgnAsync(doctorCreateModel.Egn);
+            var doctor = await administratorService.GetByEgnAsync<Doctor>(doctorCreateModel.Egn);
 
             if (result.Succeeded)
             {
@@ -247,7 +247,7 @@ namespace MedicalCenter.Controllers
 
             var result = await administratorService.CreateLaborantAsync(laborantCreateModel);
 
-            var laborant = await administratorService.GetLaborantByEgnAsync(laborantCreateModel.Egn);
+            var laborant = await administratorService.GetByEgnAsync<Laborant>(laborantCreateModel.Egn);
 
             if (result.Succeeded)
             {
@@ -273,7 +273,7 @@ namespace MedicalCenter.Controllers
         {
             var doctor = await repository.GetByIdAsync<Doctor>(id);
 
-            await administratorService.DeleteDoctorAsync(id);
+            await administratorService.DeleteAsync<Doctor>(id);
 
             TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит д-р {doctor.FirstName} {doctor.LastName} от Medical Center!";
 
@@ -285,7 +285,7 @@ namespace MedicalCenter.Controllers
         {
             var laborant = await repository.GetByIdAsync<Laborant>(id);
 
-            await administratorService.DeleteLaborantAsync(id);
+            await administratorService.DeleteAsync<Laborant>(id);
 
             TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит лаборант {laborant.FirstName} {laborant.LastName} от Medical Center!";
 
@@ -299,7 +299,7 @@ namespace MedicalCenter.Controllers
 
             TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctor.FirstName} {doctor.LastName} в Medical Center!";
 
-            await administratorService.ReturnDoctorAsync(id);
+            await administratorService.ReturnAsync<Doctor>(id);
 
             return RedirectToAction(nameof(AdminBoardMedicalCenter));
         }
@@ -311,7 +311,7 @@ namespace MedicalCenter.Controllers
 
             TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен лаборант {laborant.FirstName} {laborant.LastName} в Medical Center!";
 
-            await administratorService.ReturnLaborantAsync(id);
+            await administratorService.ReturnAsync<Laborant>(id);
 
             return RedirectToAction(nameof(AdminBoardLaboratory));
         }
