@@ -1,12 +1,8 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Core.Models.LaboratoryPatient;
-using MedicalCenter.Core.Services;
 using MedicalCenter.Extensions;
-using MedicalCenter.Infrastructure.Data.Common;
-using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
@@ -15,24 +11,10 @@ namespace MedicalCenter.Controllers
     public class LaboratoryPatientController : BaseController
     {
         private readonly ILaboratoryPatient laboratoryPatientService;
-        private readonly IGlobalService globalService;
-        private readonly IRepository repository;
-        private readonly SignInManager<User> signInManager;
-        private readonly UserManager<User> userManager;
 
-
-        public LaboratoryPatientController(
-            ILaboratoryPatient _laboratoryPatientService,
-            IGlobalService _globalService,
-            IRepository _repository,
-            SignInManager<User> _signInManager,
-            UserManager<User> _userManager)
+        public LaboratoryPatientController(ILaboratoryPatient _laboratoryPatientService)
         {
             laboratoryPatientService = _laboratoryPatientService;
-            globalService = _globalService;
-            repository = _repository;
-            signInManager = _signInManager;
-            userManager = _userManager;
         }
 
         [HttpGet]

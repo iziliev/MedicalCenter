@@ -4,11 +4,11 @@ using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Numerics;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Controllers
 {
+    [Authorize(Roles = RoleConstants.AdministratorRole)]
     public class AdministratorController : BaseController
     {
         private readonly IAdministratorService administratorService;
@@ -26,7 +26,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public IActionResult SearchDoctor()
         {
             var searchModel = new SearchDoctorViewModel();
@@ -37,7 +36,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> SearchDoctor(SearchDoctorViewModel searchModel)
         {
             if (!ModelState.IsValid)
@@ -69,7 +67,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public IActionResult SearchLaborant()
         {
             var searchModel = new SearchLaborantViewModel();
@@ -80,7 +77,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> SearchLaborant(SearchLaborantViewModel searchModel)
         {
             if (!ModelState.IsValid)
@@ -112,7 +108,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> EditDoctor(string id)
         {
             var doctorEditModel = await administratorService.GetDoctorByIdToEditAsync(id);
@@ -125,7 +120,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> EditDoctor(MainDoctorViewModel doctorEditModel)
         {
             if (!ModelState.IsValid)
@@ -150,7 +144,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> EditLaborant(string id)
         {
             var laborantEditModel = await administratorService.GetLaborantByIdToEditAsync(id);
@@ -163,7 +156,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> EditLaborant(MainLaborantViewModel laborantEditModel)
         {
             if (!ModelState.IsValid)
@@ -189,7 +181,6 @@ namespace MedicalCenter.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> CreateDoctor()
         {
             var doctorCreateModel = new CreateDoctorViewModel();
@@ -201,7 +192,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> CreateDoctor(CreateDoctorViewModel doctorCreateModel)
         {
             if (!ModelState.IsValid)
@@ -235,7 +225,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> CreateLaborant()
         {
             var laborantCreateModel = new CreateLaborantViewModel();
@@ -247,7 +236,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> CreateLaborant(CreateLaborantViewModel laborantCreateModel)
         {
             if (!ModelState.IsValid)
@@ -281,7 +269,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> DeleteDoctor(string id)
         {
             var doctor = await repository.GetByIdAsync<Doctor>(id);
@@ -294,7 +281,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> DeleteLaborant(string id)
         {
             var laborant = await repository.GetByIdAsync<Laborant>(id);
@@ -307,7 +293,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> ReturnDoctor(string id)
         {   
             var doctor = await repository.GetByIdAsync<Doctor>(id);
@@ -320,7 +305,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> ReturnLaborant(string id)
         {
             var laborant = await repository.GetByIdAsync<Laborant>(id);
@@ -333,7 +317,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllDoctor([FromQuery]ShowAllDoctorViewModel query)
         {
             var queryResult = await administratorService.GetAllCurrentDoctorsAsync(
@@ -353,7 +336,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllDoctorOut([FromQuery]ShowAllDoctorViewModel query)
         {
             var queryResult = await administratorService.GetAllLeftDoctorsAsync(
@@ -373,7 +355,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllLaborant([FromQuery] ShowAllLaborantViewModel query)
         {
             var queryResult = await administratorService.GetAllCurrentLaborantsAsync(
@@ -391,7 +372,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllLaborantOut([FromQuery] ShowAllLaborantViewModel query)
         {
             var queryResult = await administratorService.GetAllLeftLaborantsAsync(
@@ -409,7 +389,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllUser([FromQuery]ShowAllUserViewModel query)
         {
             var queryResult = await administratorService.GetAllRegisteredUsersAsync(
@@ -427,7 +406,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public IActionResult AdminPanel()
         {
             ViewData["Title"] = "Admin panel";
@@ -436,7 +414,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AdminBoardMedicalCenter()
         {
             var modelStatistic = await administratorService.GetStatisticsAsync();
@@ -447,7 +424,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AdminBoardLaboratory()
         {
             var modelStatistic = await administratorService.GetStatisticsLabAsync();
@@ -458,7 +434,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllPastExamination([FromQuery]ShowAllExaminationViewModel query)
         {
             var queryResult = await administratorService.GetAllPastExamination(
@@ -477,7 +452,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> AllFutureExamination([FromQuery]ShowAllExaminationViewModel query)
         {
             var queryResult = await administratorService.GetAllFutureExamination(
@@ -497,7 +471,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.AdministratorRole)]
         public async Task<IActionResult> StatisticData()
         {
             var modelStatistic = await administratorService.GetStatisticsDataAsync();

@@ -1,14 +1,15 @@
-﻿using MedicalCenter.Core.Models.Laborant;
-using MedicalCenter.Core.Contracts;
+﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Core.Models.Laborant;
 using MedicalCenter.Infrastructure.Data.Common;
+using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
-using MedicalCenter.Infrastructure.Data.Models;
-using System.Numerics;
 
 namespace MedicalCenter.Controllers
 {
+
+    [Authorize(Roles = RoleConstants.LaborantRole)]
     public class LaborantController : BaseController
     {
         private readonly ILaborantService laborantService;
@@ -26,7 +27,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.LaborantRole)]
         public IActionResult SearchLaboratoryPatient()
         {
             var searchModel = new SearchLaboratoryPatientViewModel();
@@ -37,7 +37,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.LaborantRole)]
         public async Task<IActionResult> SearchLaboratoryPatient(SearchLaboratoryPatientViewModel searchModel)
         {
             if (!ModelState.IsValid)
@@ -59,7 +58,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.LaborantRole)]
         public async Task<IActionResult> CreateLaboratoryPatient()
         {
             var laboratoryPatientCreateModel = new CreateLaboratoryPatientViewModel();
@@ -72,7 +70,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.LaborantRole)]
         public async Task<IActionResult> CreateLaboratoryPatient(CreateLaboratoryPatientViewModel laboratoryPatientCreateModel)
         {
             laboratoryPatientCreateModel.Username = $"pat_{laboratoryPatientCreateModel.Egn}";
@@ -108,7 +105,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.LaborantRole)]
         public IActionResult LaborantBoard()
         {
             ViewData["Title"] = "Laborant panel";
@@ -117,7 +113,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.LaborantRole)]
         public async Task<IActionResult> AllLaboratoryPatient([FromQuery] ShowAllLaboratoryPatientViewModel query)
         {
             var queryResult = await laborantService.GetAllCurrentLaboratoryPatientAsync(
@@ -135,7 +130,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.LaborantRole)]
         public async Task<IActionResult> UploadResult(string patientId)
         {
             var laboratoryPatient = await repository.GetByIdAsync<LaboratoryPatient>(patientId);
@@ -151,7 +145,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.LaborantRole)]
         public async Task<IActionResult> UploadResult(UploadTestResultViewModel model)
         {
             if (!ModelState.IsValid)

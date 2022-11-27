@@ -9,24 +9,21 @@ using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Controllers
 {
+    [Authorize(Roles = RoleConstants.DoctorRole)]
     public class DoctorController : BaseController
     {
         private readonly IDoctorService doctorService;
-        private readonly IGlobalService globalService;
         private readonly IRepository repository;
 
         public DoctorController(
             IDoctorService _doctorService,
-            IGlobalService _globalService,
             IRepository _repository)
         {
             doctorService = _doctorService;
-            globalService = _globalService;
             repository = _repository;
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.DoctorRole)]
         public async Task<IActionResult> DoctorBoard()
         {
             ViewData["Title"] = "Табло на ";
@@ -62,7 +59,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.DoctorRole)]
         public async Task<IActionResult> DoctorStatistic()
         {
             ViewData["Title"] = "Табло на ";
@@ -102,7 +98,6 @@ namespace MedicalCenter.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstants.DoctorRole)]
         public async Task<IActionResult> AllDoctorExamination([FromQuery]ShowAllExaminationDoctorViewModel query)
         {
             var doctorId = User.Id();

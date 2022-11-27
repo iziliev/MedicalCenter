@@ -9,13 +9,10 @@ namespace MedicalCenter.Controllers
     [AllowAnonymous]
     public class HomeController : BaseController
     {
-        private readonly IUserService userService;
         private readonly IHomeService homeService;
 
-        public HomeController(IUserService _userService,
-            IHomeService _homeService)
+        public HomeController(IHomeService _homeService)
         {
-            userService = _userService;
             homeService = _homeService;
         }
 
