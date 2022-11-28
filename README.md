@@ -63,77 +63,73 @@ would happen once you run the application, including Test Accounts:
 	|n_paskov|n_paskov@mc-bg.com|Doctor|
 	|r_uzunova|r_uzunova@mc-bg.com|Doctor|
 	|i_belcheva|i_belcheva@mc-bg.com|Doctor|
+  - Laborant: can register `Laboratory patient` and Upload Test result on `Laboratory patient`
+	|username|password|
+	|--------|--------|
+	|lab_vivanova|Laborant|
+  - LaboratoryPatient: can be registered only by `Laborant` and can see only yours Test results
   - User: can be registered or used `Facebook`/`Google` profile
   
-### 4. External Login/Register Setup - optionally
+### 4. Cloudinary Setup - optionally
 #### Running without it:
-You won't get an error for missing Credentials - it is handled by using predefined (already uploaded) image, when configuration is missing. So when you are creating content in admin panel, it will be added but not with the image you have chosen.
+You won't get an error for missing Cloudinary Credentials - it is handled by using predefined (already uploaded) image, when Cloudinary configuration is missing. So when you are creating content in admin panel, it will be added but not with the image you have chosen.
 #### If you want to actually upload images, you should:
-1. Add Credentials in `appsettings.json` in the format:
+1. Add Facebook and Google Credentials in `appsettings.json` in the format:
 ```json
   "Facebook": {
     "AppId": "",
     "AppSecret": "",
+  },
   "Google": {
     "ClientId": "",
     "ClientSecret": "",
   }
 ```
-2. Update the Program part of `Program.cs`'s `ConfigureServices` method as follows:
+2. Update the Cloudinary Setup part of `Startup.cs`'s `ConfigureServices` method as follows:
 ```csharp
-            builder.Services.AddAuthentication()
-    .AddFacebook(options =>
-    {
-        options.AppId = builder.Configuration["Facebook:AppId"];
-        options.AppSecret = builder.Configuration["Facebook:AppSecret"];
-    })
-    .AddGoogle(options =>
-    {
-        options.ClientId = builder.Configuration["Google:ClientId"];
-        options.ClientSecret = builder.Configuration["Google:ClientSecret"];
-    });
+            // Cloudinary Setup
+            Cloudinary cloudinary = new Cloudinary(new Account(
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:ApiKey"],
+                this.configuration["Cloudinary:ApiSecret"]));
+            services.AddSingleton(cloudinary);
 ```
 
 ## :framed_picture: Screenshot - Home Page
 
-![MedicalCenter-HomePage](https://i.imgur.com/jNsQ4Yz.png)
+![MedicalCenter-HomePage](/Screenshots/home.PNG)
 
-![User-Login](https://i.imgur.com/brRZIcY.png)
+![User-Login](/Screenshots/User/login.PNG)
 
-![User-Registration](https://i.imgur.com/2AULsG0.png)
+![User-Registration](/Screenshots/User/registration.PNG)
 
-![User-Exteral-Registration](https://i.imgur.com/yB3yGIy.png)
+![User-Exteral-Registration](/Screenshots/User/external-registration.PNG)
 
 ## :framed_picture: Screenshot - Admin Page
 
-![Admin-HomePage](https://i.imgur.com/FJMbHBd.png)
+![Admin-HomePage](/Screenshots/Admin/admin-homepage.PNG)
 
-![Admin-Panel](https://i.imgur.com/4zJ0xfA.png)
+![Admin-Panel](/Screenshots/Admin/admin-panel.PNG)
 
 ## :framed_picture: Screenshot - Doctor Page
 
-![Doctor-HomePage](https://i.imgur.com/mp63TY3.png)
+![Doctor-HomePage](/Screenshots/Doctor/doctor-homepage.PNG)
 
-![Doctor-Board](https://i.imgur.com/HH1zdFI.png)
+![Doctor-Board](/Screenshots/Doctor/doctor-board.PNG)
 
-![Doctor-ReceiveComents](https://i.imgur.com/dTvD6Dt.png)
+![Doctor-ReceiveComents](/Screenshots/Doctor/receive-doctor-comments.PNG)
 
-![Doctor-ShowExamination](https://i.imgur.com/SI2EORg.png)
+![Doctor-ShowExamination](/Screenshots/Doctor/show-all-examination.PNG)
 
 ## :framed_picture: Screenshot - User Page
 
-![User-HomePage](https://i.imgur.com/yq252ei.png)
+![User-Book](/Screenshots/User/book.PNG)
 
-![User-Book](https://i.imgur.com/a8pYudg.png)
+![User-Feedback](/Screenshots/User/user-feedback.PNG)
 
-![User-Feedback](https://i.imgur.com/vja3eoX.png)
-
-![User-Future-Examination](https://i.imgur.com/P23RJv3.png)
+![User-Future-Examination](/Screenshots/User/user-future-examination.PNG)
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
 
-___
-**This project is made only for educational purposes!**
-___
