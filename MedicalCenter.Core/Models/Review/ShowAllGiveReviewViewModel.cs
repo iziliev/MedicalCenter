@@ -1,5 +1,4 @@
-﻿using MedicalCenter.Core.Models.Administrator;
-using MedicalCenter.Infrastructure.Data.Global;
+﻿using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 
 namespace MedicalCenter.Core.Models.Review

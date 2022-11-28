@@ -1,6 +1,6 @@
 ﻿using MedicalCenter.Infrastructure.Data.Models;
 
-namespace MedicalCenter.Core.Models.Administrator
+namespace MedicalCenter.Areas.Administrator.Models
 {
     public class DashboardStatisticDataViewModel
     {

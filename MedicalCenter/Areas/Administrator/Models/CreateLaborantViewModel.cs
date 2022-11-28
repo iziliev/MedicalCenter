@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
-namespace MedicalCenter.Core.Models.Administrator
+namespace MedicalCenter.Areas.Administrator.Models
 {
-    public class CreateDoctorViewModel : MainDoctorViewModel
+    public class CreateLaborantViewModel : MainLaborantViewModel
     {
         [Required]
         [StringLength(DoctorConstants.EgnMinMaxLenght, MinimumLength = DoctorConstants.EgnMinMaxLenght, ErrorMessage = DoctorConstants.EgnError)]

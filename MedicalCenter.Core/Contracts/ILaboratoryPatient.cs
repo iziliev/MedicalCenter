@@ -1,12 +1,6 @@
-﻿using MedicalCenter.Core.Models.Administrator;
-using MedicalCenter.Core.Models.LaboratoryPatient;
+﻿using MedicalCenter.Core.Models.LaboratoryPatient;
 using MedicalCenter.Infrastructure.Data.Global;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalCenter.Core.Contracts
 {

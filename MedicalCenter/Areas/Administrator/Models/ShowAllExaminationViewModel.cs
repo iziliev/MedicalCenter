@@ -1,7 +1,7 @@
 ﻿using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 
-namespace MedicalCenter.Core.Models.Administrator
+namespace MedicalCenter.Areas.Administrator.Models
 {
     public class ShowAllExaminationViewModel
     {

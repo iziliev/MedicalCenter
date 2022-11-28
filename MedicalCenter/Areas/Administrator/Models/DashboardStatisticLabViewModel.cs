@@ -1,4 +1,4 @@
-﻿namespace MedicalCenter.Core.Models.Administrator
+﻿namespace MedicalCenter.Areas.Administrator.Models
 {
     public class DashboardStatisticLabViewModel
     {

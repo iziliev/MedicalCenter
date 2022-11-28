@@ -1,4 +1,5 @@
-﻿using MedicalCenter.Core.Contracts;
+﻿using MedicalCenter.Areas.Administrator.Models;
+using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Core.Models.LaboratoryPatient;
 using MedicalCenter.Extensions;

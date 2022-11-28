@@ -1,11 +1,5 @@
-﻿using MedicalCenter.Core.Models.Administrator;
-using MedicalCenter.Infrastructure.Data.Global;
+﻿using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalCenter.Core.Models.User
 {

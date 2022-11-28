@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<IRepository,Repository>();
             services.AddScoped<IGlobalService, GlobalService>();
-            services.AddScoped<IAdministratorService, AdministratorService>();
+
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDoctorService, DoctorService>();

@@ -1,27 +1,26 @@
-﻿using MedicalCenter.Core.Contracts;
-using MedicalCenter.Core.Models.Administrator;
+﻿using MedicalCenter.Areas.Administrator.Models;
+using MedicalCenter.Areas.Contracts;
+using MedicalCenter.Controllers;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
-namespace MedicalCenter.Controllers
+namespace MedicalCenter.Areas.Administrator.Controllers
 {
+    [Area("Administrator")]
     [Authorize(Roles = RoleConstants.AdministratorRole)]
     public class AdministratorController : BaseController
     {
         private readonly IAdministratorService administratorService;
-        private readonly IGlobalService globalService;
         private readonly IRepository repository;
 
         public AdministratorController(
             IAdministratorService _administratorService,
-            IGlobalService _globalService,
             IRepository _repository)
         {
             administratorService = _administratorService;
-            globalService = _globalService;
             repository = _repository;
         }
 
@@ -112,7 +111,7 @@ namespace MedicalCenter.Controllers
         {
             var doctorEditModel = await administratorService.GetDoctorByIdToEditAsync(id);
 
-            doctorEditModel = await globalService.FillGendersSpecialitiesSheduleInEditViewAsyanc(doctorEditModel);
+            doctorEditModel = await administratorService.FillGendersSpecialitiesSheduleInEditViewAsyanc(doctorEditModel);
 
             ViewData["Title"] = "Редактиране на доктор";
 
@@ -124,7 +123,7 @@ namespace MedicalCenter.Controllers
         {
             if (!ModelState.IsValid)
             {
-                doctorEditModel = await globalService.FillGendersSpecialitiesSheduleInEditViewAsyanc(doctorEditModel);
+                doctorEditModel = await administratorService.FillGendersSpecialitiesSheduleInEditViewAsyanc(doctorEditModel);
 
                 ViewData["Title"] = "Редактиране на доктор";
 
@@ -148,7 +147,7 @@ namespace MedicalCenter.Controllers
         {
             var laborantEditModel = await administratorService.GetLaborantByIdToEditAsync(id);
 
-            laborantEditModel.Genders = await globalService.GetGendersAsync();
+            laborantEditModel.Genders = await administratorService.GetGendersAsync();
 
             ViewData["Title"] = "Редактиране на доктор";
 
@@ -160,7 +159,7 @@ namespace MedicalCenter.Controllers
         {
             if (!ModelState.IsValid)
             {
-                laborantEditModel.Genders = await globalService.GetGendersAsync();
+                laborantEditModel.Genders = await administratorService.GetGendersAsync();
 
                 ViewData["Title"] = "Редактиране на лаборант";
 
@@ -184,7 +183,7 @@ namespace MedicalCenter.Controllers
         public async Task<IActionResult> CreateDoctor()
         {
             var doctorCreateModel = new CreateDoctorViewModel();
-            doctorCreateModel = await globalService.FillGendersSpecialitiesSheduleInCreateViewAsyanc(doctorCreateModel);
+            doctorCreateModel = await administratorService.FillGendersSpecialitiesSheduleInCreateViewAsyanc(doctorCreateModel);
             
             ViewData["Title"] = "Добавяне на доктор";
 
@@ -196,7 +195,7 @@ namespace MedicalCenter.Controllers
         {
             if (!ModelState.IsValid)
             {
-                doctorCreateModel = await globalService.FillGendersSpecialitiesSheduleInCreateViewAsyanc(doctorCreateModel);
+                doctorCreateModel = await administratorService.FillGendersSpecialitiesSheduleInCreateViewAsyanc(doctorCreateModel);
 
                 return View(doctorCreateModel);
             }
@@ -219,7 +218,7 @@ namespace MedicalCenter.Controllers
                 ModelState.AddModelError("", error.Description);
             }
 
-            doctorCreateModel = await globalService.FillGendersSpecialitiesSheduleInCreateViewAsyanc(doctorCreateModel);
+            doctorCreateModel = await administratorService.FillGendersSpecialitiesSheduleInCreateViewAsyanc(doctorCreateModel);
 
             return View(doctorCreateModel);
         }
@@ -228,7 +227,7 @@ namespace MedicalCenter.Controllers
         public async Task<IActionResult> CreateLaborant()
         {
             var laborantCreateModel = new CreateLaborantViewModel();
-            laborantCreateModel.Genders = await globalService.GetGendersAsync();
+            laborantCreateModel.Genders = await administratorService.GetGendersAsync();
 
             ViewData["Title"] = "Добавяне на лаборант";
 
@@ -240,7 +239,7 @@ namespace MedicalCenter.Controllers
         {
             if (!ModelState.IsValid)
             {
-                laborantCreateModel.Genders = await globalService.GetGendersAsync();
+                laborantCreateModel.Genders = await administratorService.GetGendersAsync();
 
                 return View(laborantCreateModel);
             }
@@ -263,7 +262,7 @@ namespace MedicalCenter.Controllers
                 ModelState.AddModelError("", error.Description);
             }
 
-            laborantCreateModel.Genders = await globalService.GetGendersAsync();
+            laborantCreateModel.Genders = await administratorService.GetGendersAsync();
 
             return View(laborantCreateModel);
         }
@@ -330,7 +329,7 @@ namespace MedicalCenter.Controllers
 
             query.TotalDoctorsCount = queryResult.TotalDoctorsCount;
             query.Doctors = queryResult.Doctors;
-            query.Specialties = await globalService.GetSpecialtiesAsync();
+            query.Specialties = await administratorService.GetSpecialtiesAsync();
 
             return View(query);
         }
@@ -349,7 +348,7 @@ namespace MedicalCenter.Controllers
 
             query.TotalDoctorsCount = queryResult.TotalDoctorsCount;
             query.Doctors = queryResult.Doctors;
-            query.Specialties = await globalService.GetSpecialtiesAsync();
+            query.Specialties = await administratorService.GetSpecialtiesAsync();
 
             return View(query);
         }
@@ -447,7 +446,7 @@ namespace MedicalCenter.Controllers
 
             query.TotalExaminationCount = queryResult.TotalExaminationCount;
             query.AllExamination = queryResult.AllExamination;
-            query.Specialities = await globalService.GetSpecialtiesAsync();
+            query.Specialities = await administratorService.GetSpecialtiesAsync();
             return View(query);
         }
 
@@ -465,7 +464,7 @@ namespace MedicalCenter.Controllers
 
             query.TotalExaminationCount = queryResult.TotalExaminationCount;
             query.AllExamination = queryResult.AllExamination;
-            query.Specialities = await globalService.GetSpecialtiesAsync();
+            query.Specialities = await administratorService.GetSpecialtiesAsync();
 
             return View(query);
         }
@@ -478,6 +477,14 @@ namespace MedicalCenter.Controllers
             ViewData["Title"] = "Admin panel";
 
             return View(modelStatistic);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await administratorService.Logout();
+
+            return RedirectToAction("Index", new { controller = "Home", area = string.Empty });
         }
     }
 }

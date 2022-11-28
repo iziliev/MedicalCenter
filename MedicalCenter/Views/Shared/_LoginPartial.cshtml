@@ -19,11 +19,22 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Здравей, @name!</a>
         </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-controller="User" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Изход</button>
-            </form>
-        </li>
+        if (User.IsInRole(RoleConstants.AdministratorRole))
+        {
+            <li class="nav-item">
+                <form class="form-inline" asp-controller="Administrator" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Изход</button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <form class="form-inline" asp-controller="User" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Изход</button>
+                </form>
+            </li>
+        }
     }
     else
     {

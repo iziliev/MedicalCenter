@@ -1,5 +1,4 @@
-﻿using MedicalCenter.Core.Models.Administrator;
-using MedicalCenter.Infrastructure.Data.Models;
+﻿using MedicalCenter.Infrastructure.Data.Models;
 
 namespace MedicalCenter.Core.Contracts
 {
@@ -17,8 +16,5 @@ namespace MedicalCenter.Core.Contracts
 
         Task<IEnumerable<Gender>> GetGendersAsync();
 
-        Task<MainDoctorViewModel> FillGendersSpecialitiesSheduleInEditViewAsyanc(MainDoctorViewModel doctorEditModel);
-
-        Task<CreateDoctorViewModel> FillGendersSpecialitiesSheduleInCreateViewAsyanc(CreateDoctorViewModel doctorCreateModel);
     }
 }

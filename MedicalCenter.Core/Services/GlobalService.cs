@@ -1,5 +1,4 @@
 ﻿using MedicalCenter.Core.Contracts;
-using MedicalCenter.Core.Models.Administrator;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -45,24 +44,6 @@ namespace MedicalCenter.Core.Services
         public async Task<IEnumerable<Shedule>> GetShedulesAsync()
         {
             return await repository.All<Shedule>().ToListAsync();
-        }
-
-        public async Task<MainDoctorViewModel> FillGendersSpecialitiesSheduleInEditViewAsyanc(MainDoctorViewModel doctorEditModel)
-        {
-            doctorEditModel.Genders = await GetGendersAsync();
-            doctorEditModel.Specialties = await GetSpecialtiesAsync();
-            doctorEditModel.Shedules = await GetShedulesAsync();
-
-            return doctorEditModel;
-        }
-
-        public async Task<CreateDoctorViewModel> FillGendersSpecialitiesSheduleInCreateViewAsyanc(CreateDoctorViewModel doctorCreateModel)
-        {
-            doctorCreateModel.Genders = await GetGendersAsync();
-            doctorCreateModel.Specialties = await GetSpecialtiesAsync();
-            doctorCreateModel.Shedules = await GetShedulesAsync();
-
-            return doctorCreateModel;
         }
 
         public string ParsePnoneNumber(string phoneNumber)

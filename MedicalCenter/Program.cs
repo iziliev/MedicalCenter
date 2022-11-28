@@ -1,3 +1,5 @@
+using MedicalCenter.Areas.Administrator.Services;
+using MedicalCenter.Areas.Contracts;
 using MedicalCenter.Infrastructure.Data;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -41,6 +43,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddAplicationServices();
 
+builder.Services.AddScoped<IAdministratorService, AdministratorService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -61,9 +65,19 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    endpoints.MapControllerRoute(
+      name: "default",
+      pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapRazorPages();
+});
 
 app.Run();

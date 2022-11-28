@@ -1,30 +1,32 @@
-﻿using MedicalCenter.Core.Contracts;
-using MedicalCenter.Core.Models.Administrator;
-using MedicalCenter.Core.Models.Api;
+﻿using MedicalCenter.Areas.Administrator.Models;
+using MedicalCenter.Areas.Contracts;
+using MedicalCenter.Core.Contracts;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using System.Numerics;
 
-namespace MedicalCenter.Core.Services
+namespace MedicalCenter.Areas.Administrator.Services
 {
     public class AdministratorService : IAdministratorService
     {
         private readonly UserManager<User> userManager;
         private readonly IRepository repository;
         private readonly IGlobalService globalService;
+        private readonly SignInManager<User> signInManager;
 
         public AdministratorService(
             UserManager<User> _userManager,
             IRepository _repository,
-            IGlobalService _globalService)
+            IGlobalService _globalService,
+            SignInManager<User> _signInManager)
         {
             userManager = _userManager;
             repository = _repository;
             globalService = _globalService;
+            signInManager = _signInManager;
         }
 
         public async Task<IdentityResult> CreateDoctorAsync(CreateDoctorViewModel doctorModel)
@@ -453,7 +455,7 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public async Task<DashboardStatisticViewModel> GetStatisticsAsync()
+        public async Task<DashboardStatisticAdminViewModel> GetStatisticsAsync()
         {
             var bestRatingDoctor = await repository.All<Doctor>()
                 .Include(d => d.DoctorReviews)
@@ -492,7 +494,7 @@ namespace MedicalCenter.Core.Services
                 .Where(e => !e.IsDeleted && e.Date > DateTime.Now)
                 .CountAsync();
 
-            return new DashboardStatisticViewModel
+            return new DashboardStatisticAdminViewModel
             {
                 BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.FirstName} {bestRatingDoctor.LastName}",
                 BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? 0.00 : bestRatingDoctor.DoctorReviews.Average(x => x.Rating),
@@ -879,5 +881,42 @@ namespace MedicalCenter.Core.Services
             };
         }
 
+        public async Task<IEnumerable<Specialty>> GetSpecialtiesAsync()
+        {
+            return await repository.All<Specialty>().ToListAsync();
+        }
+
+        public async Task<IEnumerable<Gender>> GetGendersAsync()
+        {
+            return await repository.All<Gender>().ToListAsync();
+        }
+
+        public async Task<IEnumerable<Shedule>> GetShedulesAsync()
+        {
+            return await repository.All<Shedule>().ToListAsync();
+        }
+
+        public async Task<MainDoctorViewModel> FillGendersSpecialitiesSheduleInEditViewAsyanc(MainDoctorViewModel doctorEditModel)
+        {
+            doctorEditModel.Genders = await GetGendersAsync();
+            doctorEditModel.Specialties = await GetSpecialtiesAsync();
+            doctorEditModel.Shedules = await GetShedulesAsync();
+
+            return doctorEditModel;
+        }
+
+        public async Task<CreateDoctorViewModel> FillGendersSpecialitiesSheduleInCreateViewAsyanc(CreateDoctorViewModel doctorCreateModel)
+        {
+            doctorCreateModel.Genders = await GetGendersAsync();
+            doctorCreateModel.Specialties = await GetSpecialtiesAsync();
+            doctorCreateModel.Shedules = await GetShedulesAsync();
+
+            return doctorCreateModel;
+        }
+
+        public async Task Logout()
+        {
+            await signInManager.SignOutAsync();
+        }
     }
 }

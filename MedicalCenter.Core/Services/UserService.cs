@@ -45,7 +45,14 @@ namespace MedicalCenter.Core.Services
             var user = await userManager.FindByNameAsync(loginModel.Username)
                 ?? await userManager.FindByEmailAsync(loginModel.Username);
 
-            return await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+            //All users without laboratoryPatientCanLogin
+            if (user.Role != DataConstants.RoleConstants.LaboratoryUserRole)
+            {
+                return await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+            }
+
+            //If laboratoryPatient try to login in UserLogin it cant be
+            return await signInManager.PasswordSignInAsync(user, "*", false, false);
         }
 
         public async Task Logout()

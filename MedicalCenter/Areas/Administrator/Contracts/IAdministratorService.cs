@@ -1,9 +1,9 @@
-﻿using MedicalCenter.Core.Models.Administrator;
+﻿using MedicalCenter.Areas.Administrator.Models;
 using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace MedicalCenter.Core.Contracts
+namespace MedicalCenter.Areas.Contracts
 {
     public interface IAdministratorService
     {
@@ -35,9 +35,21 @@ namespace MedicalCenter.Core.Contracts
 
         Task<DashboardStatisticDataViewModel> GetStatisticsDataAsync();
 
-        Task<DashboardStatisticViewModel> GetStatisticsAsync();
+        Task<DashboardStatisticAdminViewModel> GetStatisticsAsync();
 
         Task<DashboardStatisticLabViewModel> GetStatisticsLabAsync();
+
+        Task<IEnumerable<Specialty>> GetSpecialtiesAsync();
+
+        Task<IEnumerable<Shedule>> GetShedulesAsync();
+
+        Task<IEnumerable<Gender>> GetGendersAsync();
+
+        Task Logout();
+
+        Task<MainDoctorViewModel> FillGendersSpecialitiesSheduleInEditViewAsyanc(MainDoctorViewModel doctorEditModel);
+
+        Task<CreateDoctorViewModel> FillGendersSpecialitiesSheduleInCreateViewAsyanc(CreateDoctorViewModel doctorCreateModel);
 
         Task<ShowAllExaminationViewModel> GetAllPastExamination(
             string? speciality = null, 
