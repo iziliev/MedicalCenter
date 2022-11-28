@@ -23,5 +23,7 @@
         public int AllPastExamination { get; set; }
 
         public int AllFutureExamination { get; set; }
+
+        public int AllTest { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using MedicalCenter.Core.Models.Administrator;
+﻿using MedicalCenter.Core.Models.Api;
 
 namespace MedicalCenter.Core.Contracts
 {

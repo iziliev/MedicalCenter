@@ -3,6 +3,7 @@ using MedicalCenter.Areas.Contracts;
 using MedicalCenter.Infrastructure.Data;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +40,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/User/Logout";
 });
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(option =>
+{
+    option.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+});
 
 builder.Services.AddAplicationServices();
 

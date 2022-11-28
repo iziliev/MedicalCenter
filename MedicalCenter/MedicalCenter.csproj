@@ -8,10 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Administrator\Data\**" />
     <Compile Remove="Data\**" />
+    <Compile Remove="Views\Administrator\**" />
+    <Content Remove="Areas\Administrator\Data\**" />
     <Content Remove="Data\**" />
+    <Content Remove="Views\Administrator\**" />
+    <EmbeddedResource Remove="Areas\Administrator\Data\**" />
     <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="Views\Administrator\**" />
+    <None Remove="Areas\Administrator\Data\**" />
     <None Remove="Data\**" />
+    <None Remove="Views\Administrator\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,11 +89,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MedicalCenter.Core\MedicalCenter.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Administrator\Data\" />
-    <Folder Include="Views\Administrator\" />
   </ItemGroup>
 
 </Project>

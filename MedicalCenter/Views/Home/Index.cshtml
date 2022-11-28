@@ -45,35 +45,74 @@
 </div>
 
 <div class="row mt-5">
-    <div class=col-4>
+    <div class=col-3>
         <article class="info">
         <figure class="icon"><img src="~/images/register.jpg" alt=""></figure>
-            <p class="text-center"><em>@Model.AllUserCount<br /> <span>Регистрирани пациента</span> </em></p>
+            <p class="text-center" id="total-user"></p>
+            <p class="text-center">
+                <em>
+                    @*@Model.AllUserCount*@
+                    Регистрирани пациента 
+                </em>
+            </p>
     </article>
     </div>
-    <div class=col-4>
+    <div class=col-3>
     <article class="info">
     <figure class="icon"><img src="~/images/examination.jpg" alt=""></figure>
 
+            <p class="text-center" id="total-past-examination"></p>
             <p class="text-center">
                 <em>
-                    @Model.BestExaminationCount<br />
-            <span>Извършени прегледа</span> </em>
-        </p>
-   
+                    @*@Model.BestExaminationCount*@
+                    Извършени прегледа
+                </em>
+            </p>    
+            
     </article>
     </div>
-    <div class=col-4>
+    <div class=col-3>
         <article class="info">
     <figure class="icon"><img src="~/images/allexamination.jpg" alt=""></figure>
-    <p class="text-center"> <em>@Model.AllExamination</em> <br />
-        <em><span>Записани за преглед</span></em>
-    </p>
+            <p class="text-center" id="total-future-examination"></p>
+
+            <p class="text-center">
+                <em>
+                    @*<em>@Model.AllExamination</em>*@
+                    Записани за преглед
+                </em>
+            </p>
     </article>
     </div>
+
+    <div class=col-3>
+        <article class="info">
+            <figure class="icon"><img src="~/images/examination.jpg" alt=""></figure>
+            <p class="text-center" id="total-test"></p>
+
+            <p class="text-center">
+                <em>
+                    Направени теста
+                </em>
+            </p>
+        </article>
+    </div>
+
 </div>
 
 <p class="coopy">Съществуват много вариации на пасажа Lorem Ipsum, но повечето от тях са променени<br>
                  по един или друг начин чрез добавяне на смешни думи или разбъркване на думите, което не изглежда много достоверно.<br>
                             Ако искате да използвате пасаж от Lorem Ipsum, трябва да сте сигурни, че в него няма смущаващи или нецензурни думи. <br />
                             Всички Lorem Ipsum генератори в Интернет използват предефинирани пасажи, който се повтарят, което прави този този генератор първия истински такъв.</p>
+
+@section Scripts{
+    <script>
+        $.get('/api/statistics',(data)=>{
+            console.log(data);
+            $('#total-user').text(data.allUserCount);
+            $('#total-past-examination').text(data.allPastExamination);
+            $('#total-future-examination').text(data.allExamination)
+            $('#total-test').text(data.allTest)
+        });
+    </script>
+}

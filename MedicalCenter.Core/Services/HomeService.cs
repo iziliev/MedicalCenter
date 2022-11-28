@@ -1,5 +1,5 @@
 ﻿using MedicalCenter.Core.Contracts;
-using MedicalCenter.Core.Models.Administrator;
+using MedicalCenter.Core.Models.Api;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 

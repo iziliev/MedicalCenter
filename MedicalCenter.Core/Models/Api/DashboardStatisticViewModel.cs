@@ -1,4 +1,4 @@
-﻿namespace MedicalCenter.Core.Models.Administrator
+﻿namespace MedicalCenter.Core.Models.Api
 {
     public class DashboardStatisticViewModel
     {
@@ -23,5 +23,7 @@
         public int AllPastExamination { get; set; }
 
         public int AllFutureExamination { get; set; }
+
+        public int AllTest { get; set; }
     }
 }
