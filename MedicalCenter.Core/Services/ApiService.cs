@@ -1,6 +1,7 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Api;
 using MedicalCenter.Infrastructure.Data.Common;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,6 +46,7 @@ namespace MedicalCenter.Core.Services
                 .CountAsync();
 
             var allUsers = await repository.AllReadonly<User>()
+                .Where(x=>x.Role==DataConstants.RoleConstants.UserRole)
                 .CountAsync();
 
             var allExamination = await repository.AllReadonly<Examination>()
