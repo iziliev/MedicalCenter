@@ -10,12 +10,12 @@ namespace MedicalCenter.Core.Contracts
 {
     public interface IApiService
     {
-        Task<DoctorModel> GetDoctorByEgnAsync(string egn);
+        Task<DashboardStatisticViewModel> GetStatisticHome();
 
-        Task<TestModel> GetTestByIdAsync(string testId);
+        Task<DashboardStatisticViewModel> GetStatisticAdminLaboratory();
 
-        Task<StatisticsModel> GetInfo();
+        Task<DashboardStatisticViewModel> GetStatisticAdminMedical();
 
-        Task<IEnumerable<DoctorModel>> GetAllDoctors();
+        Task<DashboardStatisticViewModel> GetStatisticLaborant();
     }
 }

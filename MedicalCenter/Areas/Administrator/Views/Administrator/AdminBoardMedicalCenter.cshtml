@@ -171,9 +171,34 @@
             <p class="text-center">
                 <em>
                     <span>Най-добре оценен</span><br />
-                    @Model.BestRatingDoctorFullName - @Model.BestDoctorRating
                 </em>
             </p>
+            <p class="text-center" id="best-rating-doctorname"></p>
+            <p class="text-center">
+                <span class="text-center">    
+                    @{
+                        int rating = (int)Model.BestDoctorRating;
+                    }
+
+                    @for (var i = 1; i <= 5; i++)
+                    {
+                        if (i <= rating)
+                        {
+                            <img src="~/images/star-fill.png" alt="">
+                        }
+                        else
+                        {
+                            <img src="~/images/star-not.png" alt="">
+                        }
+                    }
+                </span>
+                <span class="text-center">  </span>
+                <span class="text-center" id="best-rating-doctor"></span>
+            </p>
+
+            
+
+            @*@Model.BestRatingDoctorFullName - @Model.BestDoctorRating*@
         </article>
     </div>
     <div class="col-4">
@@ -182,9 +207,23 @@
             <p class="text-center">
                 <em>
                     <span>Най-много прегледи от</span><br />
-                    @Model.BestExaminationDoctorFullName - @Model.BestExaminationCount
                 </em>
             </p>
+            <p class="text-center" id="best-examination-doctorname"></p>
+            <p class="text-center" id="best-examination-count"></p>
+            @*@Model.BestExaminationDoctorFullName - @Model.BestExaminationCount*@
         </article>
     </div>
 </div>
+
+@section Scripts{
+<script>
+    $.get('https://localhost:7183/api/statisticAdminMedical',(data)=>{
+        //console.log(data);
+        $('#best-rating-doctorname').text(data.bestRatingDoctorFullName);
+        $('#best-rating-doctor').text(data.bestDoctorRating);
+        $('#best-examination-doctorname').text(data.bestExaminationDoctorFullName);
+        $('#best-examination-count').text(data.bestExaminationCount)
+    });
+</script>
+}

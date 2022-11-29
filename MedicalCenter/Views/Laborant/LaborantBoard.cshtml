@@ -45,3 +45,38 @@
         </div>
     </div>
 </div>
+
+<div class="row mt-2" style="padding-top:20px;">
+    <div class="offset-2 col-4">
+        <article class="info">
+            <figure class="icon text-center"><img src="~/images/register.jpg" alt=""></figure>
+            <p class="text-center">
+                <em>
+                    <span>Регистрирани пациенти</span><br />
+                </em>
+            </p>
+            <p class="text-center" id="total-patient"></p>
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="info">
+            <figure class="icon text-center"><img src="~/images/examination.jpg" alt=""></figure>
+            <p class="text-center">
+                <em>
+                    <span>Направени теста</span><br />
+                </em>
+            </p>
+            <p class="text-center" id="total-test"></p>
+        </article>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $.get('https://localhost:7183/api/statisticLaborant',(data)=>{
+            $('#total-patient').text(data.allUserCount)
+            $('#total-test').text(data.allTest)
+        });
+    </script>
+}

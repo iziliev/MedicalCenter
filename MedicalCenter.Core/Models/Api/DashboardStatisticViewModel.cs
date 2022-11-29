@@ -4,7 +4,7 @@
     {
         public string BestRatingDoctorFullName { get; set; } = null!;
 
-        public double BestDoctorRating { get; set; }
+        public string? BestDoctorRating { get; set; }
 
         public string BestExaminationDoctorFullName { get; set; } = null!;
 

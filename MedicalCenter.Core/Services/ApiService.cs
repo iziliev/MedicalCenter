@@ -16,111 +16,83 @@ namespace MedicalCenter.Core.Services
             repository = _repository;
         }
 
-        public async Task<DoctorModel> GetDoctorByEgnAsync(string egn)
+        public async Task<DashboardStatisticViewModel> GetStatisticHome()
         {
-            var doctor = await repository.AllReadonly<Doctor>()
-                .Include(x => x.Specialty)
-                .Include(x => x.Shedule)
-                .Where(x => x.Egn == egn)
+            var allFutureExamination = await repository.All<Examination>()
+                .Where(e => !e.IsDeleted && e.Date > DateTime.Now)
+                .CountAsync();
+
+            var allUsersCount = repository.AllReadonly<User>()
+                .Where(u => u.Role == "User")
+                .ToList()
+                .Count();
+
+            var oldExamination = repository.AllReadonly<Examination>()
+                .Where(e => !e.IsDeleted && e.Date.Date < DateTime.Now.Date)
+                .ToList()
+                .Count();
+
+            var allTest = repository.AllReadonly<Test>()
+                .ToList()
+                .Count();
+
+            return new DashboardStatisticViewModel
+            {
+                AllFutureExamination = allFutureExamination,
+                AllUserCount = allUsersCount,
+                AllPastExamination = oldExamination,
+                AllTest = allTest
+            };
+        }
+
+        public async Task<DashboardStatisticViewModel> GetStatisticAdminMedical()
+        {
+            var bestRatingDoctor = await repository.All<Doctor>()
+                .Include(d => d.DoctorReviews)
+                .OrderByDescending(x => x.DoctorReviews.Average(x => x.Rating))
                 .FirstOrDefaultAsync();
 
-            if (doctor == null)
-            {
-                return null;
-            }
-
-            return new DoctorModel
-            {
-                Name = $"д-р {doctor.FirstName} {doctor.LastName}",
-                Email = doctor.Email,
-                PhoneNumber = doctor.PhoneNumber,
-                SheduleName = doctor.Shedule.Name,
-                SpecialityName = doctor.Specialty.Name
-            };
-        }
-
-        public async Task<StatisticsModel> GetInfo()
-        {
-            var allDoctors = await repository.AllReadonly<Doctor>()
-                .Where(x => !x.IsOutOfCompany)
-                .CountAsync();
-
-            var allUsers = await repository.AllReadonly<User>()
-                .Where(x=>x.Role==DataConstants.RoleConstants.UserRole)
-                .CountAsync();
-
-            var allExamination = await repository.AllReadonly<Examination>()
-                .Where(x => !x.IsDeleted)
-                .CountAsync();
-
-            var allLaborants = await repository.AllReadonly<Laborant>()
-                .Where(x => !x.IsOutOfCompany)
-                .CountAsync();
-
-            var allLaboratoryPatients = await repository.AllReadonly<LaboratoryPatient>()
-                .CountAsync();
-
-            var AllTests = await repository.AllReadonly<Test>()
-                .CountAsync();
-
-            return new StatisticsModel
-            {
-                AllDoctors = allDoctors,
-                AllExamination = allExamination,
-                AllLaborants = allLaborants,
-                AllLaboratoryPatients = allLaboratoryPatients,
-                AllTests = AllTests,
-                AllUsers = allUsers
-            };
-        }
-
-        public async Task<TestModel> GetTestByIdAsync(string testId)
-        {
-            var test = await repository.AllReadonly<Test>()
-                .Where(x => x.Id == testId)
+            var bestExaminationDoctor = await repository.All<Doctor>()
+                .Include(d => d.DoctorExaminations)
+                .OrderByDescending(x => x.DoctorExaminations.Count)
                 .FirstOrDefaultAsync();
 
-            if (test == null)
+            return new DashboardStatisticViewModel
             {
-                return null;
-            }
-
-            return new TestModel
-            {
-                PatientName = $"{test.LaboratoryPatient.FirstName} {test.LaboratoryPatient.LastName}",
-                PatientEgn = test.LaboratoryPatient.Egn,
-                Date = test.TestDate.ToString("dd.MM.yyyy"),
-                Hct = test.Hct,
-                Hgb = test.Hgb,
-                MCH = test.MCH,
-                MCHC = test.MCHC,
-                MCV = test.MCV,
-                Plt = test.Plt,
-                RBC = test.RBC,
-                UrineGravity = test.UrineGravity,
-                UrinepH = test.UrinepH,
-                WBC = test.WBC
+                BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.FirstName} {bestRatingDoctor.LastName}",
+                BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? "0.00" : bestRatingDoctor.DoctorReviews.Average(x => x.Rating).ToString("F2"),
+                BestExaminationDoctorFullName = bestExaminationDoctor.DoctorExaminations.Count == 0 ? "Няма записани часове" : $"Д-р {bestExaminationDoctor.FirstName} {bestExaminationDoctor.LastName}",
+                BestExaminationCount = bestExaminationDoctor.DoctorExaminations.Count,
             };
         }
 
-        public async Task<IEnumerable<DoctorModel>> GetAllDoctors()
+        public Task<DashboardStatisticViewModel> GetStatisticAdminLaboratory()
         {
-            var doctors = await repository.AllReadonly<Doctor>()
-                .Include(x => x.Shedule)
-                .Include(x => x.Specialty)
-                .Select(x => new DoctorModel
-                {
-                    Name = $"д-р {x.FirstName} {x.LastName}",
-                    Email = x.Email,
-                    PhoneNumber = x.PhoneNumber,
-                    SpecialityName = x.Specialty.Name,
-                    SheduleName = x.Shedule.Name,
+            var allTest = repository.AllReadonly<Test>()
+                .ToList()
+                .Count();
 
-                })
-                .OrderBy(x=>x.SpecialityName)
-                .ToListAsync();
+            return Task.FromResult(new DashboardStatisticViewModel
+            {
+                AllTest = allTest
+            });
+        }
 
-            return doctors;
+        public Task<DashboardStatisticViewModel> GetStatisticLaborant()
+        {
+            var allTest = repository.AllReadonly<Test>()
+                .ToList()
+                .Count();
+
+            var allLaboratoryPatient = repository.AllReadonly<LaboratoryPatient>()
+                .ToList()
+                .Count();
+
+            return Task.FromResult(new DashboardStatisticViewModel
+            {
+                AllTest = allTest,
+                AllUserCount = allLaboratoryPatient
+            });
         }
     }
 }

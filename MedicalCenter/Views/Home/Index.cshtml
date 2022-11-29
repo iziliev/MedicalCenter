@@ -107,11 +107,11 @@
 
 @section Scripts{
     <script>
-        $.get('/api/statistics',(data)=>{
-            console.log(data);
+        $.get('https://localhost:7183/api/statisticHome',(data)=>{
+            //console.log(data);
             $('#total-user').text(data.allUserCount);
             $('#total-past-examination').text(data.allPastExamination);
-            $('#total-future-examination').text(data.allExamination)
+            $('#total-future-examination').text(data.allFutureExamination)
             $('#total-test').text(data.allTest)
         });
     </script>

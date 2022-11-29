@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalCenter.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
     public class ApiController : ControllerBase
     {
@@ -19,51 +19,47 @@ namespace MedicalCenter.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("ShowDoctorByEgn")]
-        [Produces("application/json")]
+        [Route("api/statisticHome")]
         [ProducesResponseType(200, Type = typeof(DoctorModel))]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> ShowDoctorByEgn(string egn)
+        public async Task<IActionResult> GetStatistics()
         {
-            var doctor = await apiService.GetDoctorByEgnAsync(egn);
+            var info = await apiService.GetStatisticHome();
 
-            return Ok(doctor);
+            return Ok(info);
         }
 
         [HttpGet]
-        [Route("ShowTestById")]
-        [Produces("application/json")]
-        [ProducesResponseType(200, Type = typeof(TestModel))]
+        [Route("api/statisticAdminMedical")]
+        [ProducesResponseType(200, Type = typeof(DoctorModel))]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> ShowTestById(string id)
+        public async Task<IActionResult> GetStatisticsAdminMedical()
         {
-            var test = await apiService.GetTestByIdAsync(id);
+            var info = await apiService.GetStatisticAdminMedical();
 
-            return Ok(test);
+            return Ok(info);
         }
 
         [HttpGet]
-        [Route("Statistics")]
-        [Produces("application/json")]
-        [ProducesResponseType(200, Type = typeof(StatisticsModel))]
+        [Route("api/statisticAdminLaboratory")]
+        [ProducesResponseType(200, Type = typeof(DoctorModel))]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> Statistics()
+        public async Task<IActionResult> GetStatisticsAdminLaboratory()
         {
-            var statistic = await apiService.GetInfo();
+            var info = await apiService.GetStatisticAdminLaboratory();
 
-            return Ok(statistic);
+            return Ok(info);
         }
 
         [HttpGet]
-        [Route("AllDoctors")]
-        [Produces("application/json")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<DoctorModel>))]
+        [Route("api/statisticLaborant")]
+        [ProducesResponseType(200, Type = typeof(DoctorModel))]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> AllDoctors()
+        public async Task<IActionResult> GetStatisticsLaborant()
         {
-            var doctors = await apiService.GetAllDoctors();
+            var info = await apiService.GetStatisticLaborant();
 
-            return Ok(doctors);
+            return Ok(info);
         }
     }
 }
