@@ -1,4 +1,4 @@
-﻿@model DashboardStatisticAdminViewModel
+﻿@model DashboardStatisticViewModel
 
 <h4 class="display-4 text-center">Медицински център</h4>
 <p class="display-6 text-center">Администраторски панел</p>
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <a asp-controller="Review" asp-action="AllReview" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+            <a asp-area="" asp-controller="Review" asp-action="AllReview" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 
@@ -177,7 +177,8 @@
             <p class="text-center">
                 <span class="text-center">    
                     @{
-                        int rating = (int)Model.BestDoctorRating;
+                        double ratingDouble = Math.Round(double.Parse(Model.BestDoctorRating),0);
+                        int rating = (int)ratingDouble;
                     }
 
                     @for (var i = 1; i <= 5; i++)
@@ -195,9 +196,6 @@
                 <span class="text-center">  </span>
                 <span class="text-center" id="best-rating-doctor"></span>
             </p>
-
-            
-
             @*@Model.BestRatingDoctorFullName - @Model.BestDoctorRating*@
         </article>
     </div>
