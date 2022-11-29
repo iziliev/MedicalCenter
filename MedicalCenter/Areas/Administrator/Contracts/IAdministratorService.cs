@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Areas.Administrator.Models;
+using MedicalCenter.Core.Models.Api;
 using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -35,7 +36,7 @@ namespace MedicalCenter.Areas.Contracts
 
         Task<DashboardStatisticDataViewModel> GetStatisticsDataAsync();
 
-        Task<DashboardStatisticAdminViewModel> GetStatisticsAsync();
+        Task<DashboardStatisticViewModel> GetStatisticsAsync();
 
         Task<DashboardStatisticLabViewModel> GetStatisticsLabAsync();
 

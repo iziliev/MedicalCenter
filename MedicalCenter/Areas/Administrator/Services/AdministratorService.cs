@@ -1,6 +1,7 @@
 ﻿using MedicalCenter.Areas.Administrator.Models;
 using MedicalCenter.Areas.Contracts;
 using MedicalCenter.Core.Contracts;
+using MedicalCenter.Core.Models.Api;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
@@ -455,7 +456,7 @@ namespace MedicalCenter.Areas.Administrator.Services
             };
         }
 
-        public async Task<DashboardStatisticAdminViewModel> GetStatisticsAsync()
+        public async Task<DashboardStatisticViewModel> GetStatisticsAsync()
         {
             var bestRatingDoctor = await repository.All<Doctor>()
                 .Include(d => d.DoctorReviews)
@@ -494,10 +495,10 @@ namespace MedicalCenter.Areas.Administrator.Services
                 .Where(e => !e.IsDeleted && e.Date > DateTime.Now)
                 .CountAsync();
 
-            return new DashboardStatisticAdminViewModel
+            return new DashboardStatisticViewModel
             {
                 BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.FirstName} {bestRatingDoctor.LastName}",
-                BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? 0.00 : bestRatingDoctor.DoctorReviews.Average(x => x.Rating),
+                BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? "0.00" : bestRatingDoctor.DoctorReviews.Average(x => x.Rating).ToString("F2"),
                 BestExaminationDoctorFullName = bestExaminationDoctor.DoctorExaminations.Count == 0 ? "Няма записани часове" : $"Д-р {bestExaminationDoctor.FirstName} {bestExaminationDoctor.LastName}",
                 BestExaminationCount = bestExaminationDoctor.DoctorExaminations.Count,
                 AllDoctorCount = allDoctorCount,
