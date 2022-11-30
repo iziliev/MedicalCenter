@@ -432,7 +432,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
 
             await administratorService.ReturnAsync<Infrastructure.Data.Models.Administrator>(id);
 
-            return RedirectToAction(nameof(AdminBoardMedicalCenter));
+            return RedirectToAction(nameof(AdminBoardAdministrator));
         }
 
         [HttpPost]
