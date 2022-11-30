@@ -1166,21 +1166,22 @@ namespace MedicalCenter.Infrastructure.Migrations
                             Id = "d026cf1f-a334-41f4-a1b7-31b7a56b9f1b",
                             AccessFailedCount = 0,
                             AdministratorId = "e0b65a18-1271-4146-a730-8e80a24cea78",
-                            ConcurrencyStamp = "5e719529-6b00-4c60-9653-8c9c085a234b",
+                            ConcurrencyStamp = "b46254a5-6df8-43ae-8219-a71bbdce1d31",
                             Email = "admin@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Ивайло",
                             GenderId = 1,
                             IsOutOfCompany = false,
+                            JoinOnDate = "30.11.2022",
                             LastName = "Илиев",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MC-BG.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFKeB8bWio7xHbcvRKj7VpDwqj2KC3dkw4q3l0/G+hSdaTF4OZGpExrSZI8dpNYBEg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFUfngUe8U/LEV+GFqdSN9A9ibr/9ZRhwBH9Lal5MxAKLEX6/Tt9Bgah7zgZm+Vqzw==",
                             PhoneNumber = "+359888888888",
                             PhoneNumberConfirmed = false,
                             Role = "Administrator",
-                            SecurityStamp = "dd556a14-a4da-4f40-826e-7b4b35f32e85",
+                            SecurityStamp = "2bed4cba-b6b4-4b58-a95c-bb839c899c9c",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -1188,7 +1189,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "9da9587f-e28e-4289-a559-7407d3ea34a5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f3070bc4-c138-4b9f-9e27-4a58e5d07e44",
+                            ConcurrencyStamp = "98c7f800-55cc-4e25-93a6-55e6e0de61b0",
                             DoctorId = "4b95c2a0-314d-414d-a80a-db46ef2f810a",
                             Email = "m_monastirska@mc-bg.com",
                             EmailConfirmed = false,
@@ -1200,11 +1201,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_MONASTIRSKA@MC-BG.COM",
                             NormalizedUserName = "M_MONASTIRSKA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKEbKWah0Git5QXEK9f0KEiEQRQl9173d3PrrEVQ2wUD5P4s2qhNLFZ0f4SarUbz0g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFM6s8AliTGNbayx9ddFu/1It71GK2QIkPEu4huri28+ObWlRpsHhUEfhSRvzymlDQ==",
                             PhoneNumber = "+359888888100",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "3736f457-82f7-4dd8-9ae0-649302a22438",
+                            SecurityStamp = "b210546b-2ade-47a9-9710-8ca6f46d33ee",
                             TwoFactorEnabled = false,
                             UserName = "m_monastirska"
                         },
@@ -1212,7 +1213,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "79fb8276-3bf8-4e70-9ac3-0e53a0d3a29e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2359af68-2cfd-43e2-9e53-8c2084a99caa",
+                            ConcurrencyStamp = "dd015a40-7e2e-4cc6-8f6f-e74f7fcd2611",
                             DoctorId = "22081bf0-1049-45ba-a9b3-3171271f1341",
                             Email = "s_slavchev@mc-bg.com",
                             EmailConfirmed = false,
@@ -1224,11 +1225,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "S_SLAVCHEV@MC-BG.COM",
                             NormalizedUserName = "S_SLAVCHEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOMpDJkOJlYd+ysoNM3LHXsBqFoncabNEMRfEHLY79e2h5XoSe++dnxStfasGaC4+g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAKIP72sAiiqkoBCdUudsdjWQAkqZx8fF1fY7UL6xRsKQLMaWjlmFGe2cL9ht2Dbsw==",
                             PhoneNumber = "+359888888101",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "823e322a-2a1b-4907-9d3d-073229ebba7f",
+                            SecurityStamp = "78fc9de7-a9f4-495f-9faf-593cd8a2c394",
                             TwoFactorEnabled = false,
                             UserName = "s_slavchev"
                         },
@@ -1236,7 +1237,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "f1221132-3b9f-4f33-9e4d-1514bc0221e8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1d46d4b1-b57c-4d00-a868-4ee5f6054e2e",
+                            ConcurrencyStamp = "6794c5a3-54f7-432c-8ce1-0f4980b16f87",
                             DoctorId = "4775e4ac-4930-4113-bb19-6ed94e12fa24",
                             Email = "b_petkova@mc-bg.com",
                             EmailConfirmed = false,
@@ -1248,11 +1249,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "B_PETKOVA@MC-BG.COM",
                             NormalizedUserName = "B_PETKOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAr+jbkU4mGt+wvnRF76oltOmN9iI50uM968DpNyM7n0Tvz9AeeiPdSfAQdueyS1Fg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECnzu59vCzNlfBbA2MPVUSzJ07JXDkY0y48XuVZPrXOmBuf47zXJsd0ZcGtz9Bearg==",
                             PhoneNumber = "+359888888102",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "c16b133b-5b4f-4034-b6cb-814134831629",
+                            SecurityStamp = "db24aea3-d4be-453e-87b2-6b8cdbc96950",
                             TwoFactorEnabled = false,
                             UserName = "b_petkova"
                         },
@@ -1260,7 +1261,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "da3da29d-5411-4750-a5c4-e4ae4e22965c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "261312c0-6ef6-4c4a-a83e-aa4ed3168ff2",
+                            ConcurrencyStamp = "0002213b-27df-4389-b4eb-60c9bb70cc89",
                             DoctorId = "499be402-5520-453d-a17d-3a52ac6ad798",
                             Email = "m_velikova@mc-bg.com",
                             EmailConfirmed = false,
@@ -1272,11 +1273,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_VELIKOVA@MC-BG.COM",
                             NormalizedUserName = "M_VELIKOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIjXX7KNqbFjpGXKCpFaHvTdbIMYlUwYReK3gBvlOHJDyC4kiZpn5eKdmsoIfyzcFg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECSmsTTN+a17DZDvL5kjISJ/7qpI/HTqOX4WqAoiq2AuIoMKqS7f2vAxy2xvLlBL3g==",
                             PhoneNumber = "+359888888103",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "bd2d7c4a-8f64-4be4-a3a0-c3f65c1c5cf8",
+                            SecurityStamp = "20e4ae1c-86ac-4ab6-8214-7f6056140c43",
                             TwoFactorEnabled = false,
                             UserName = "m_velikova"
                         },
@@ -1284,7 +1285,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "b922fbb1-e1e8-41c6-a903-931e1cd4b845",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f2adcc5b-0411-4739-89e1-1d5f93f8929f",
+                            ConcurrencyStamp = "dac2099c-53ca-4d68-9e50-2c3e1bc3ede6",
                             DoctorId = "f5628f68-e883-4b6a-8c6c-2511314af5a1",
                             Email = "t_stoev@mc-bg.com",
                             EmailConfirmed = false,
@@ -1296,11 +1297,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "T_STOEV@MC-BG.COM",
                             NormalizedUserName = "T_STOEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAECreZCOLID/f4Eqxlg/VHz3qvgVO0IdJ8uBb6X4lqxRZhX3C3r1L6MR2xoNewzSQIw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENyUjrzXpR3q1vfijXPXoonZ1Z9jHUm/HqZ7foBnUCmc8xnVzRxO1kU4VV9EsK6g1w==",
                             PhoneNumber = "+359888888104",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "c4035d1d-fa2f-49fd-a87f-ad65918e1457",
+                            SecurityStamp = "300d0670-9eb1-4054-a9f4-40bbbbb1688c",
                             TwoFactorEnabled = false,
                             UserName = "t_stoev"
                         },
@@ -1308,7 +1309,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "3f9592ad-6af3-4021-808f-39d7aa9246e9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf146713-f4f2-4e2f-b4d3-32c915e3c7cb",
+                            ConcurrencyStamp = "4a2fac37-e758-448a-b7fa-41739964722a",
                             DoctorId = "c96d7a14-8865-43bc-b756-8a6ad16b3cf4",
                             Email = "m_blagoeva@mc-bg.com",
                             EmailConfirmed = false,
@@ -1320,11 +1321,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_BLAGOEVA@MC-BG.COM",
                             NormalizedUserName = "M_BLAGOEVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIaFP2NkY5xXg5hvtzILq4b4f3sdemYcdfbupNfUbEgNj07WJqahinFCNA+Y9nKGxg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELKqvzceXQlZnkL5ar1vpe7iU35vNZXHrxYbJqjJRqVnn3lKqPuKY+tWd6vrWWZSfA==",
                             PhoneNumber = "+359888888105",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "75fe8af8-b499-4ca9-95a5-cec16c84b248",
+                            SecurityStamp = "ed85e1f9-021f-42a0-9ab2-3d4b39fec924",
                             TwoFactorEnabled = false,
                             UserName = "m_blagoeva"
                         },
@@ -1332,7 +1333,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "0bbf2307-d024-44b4-917f-a52ab9ddc013",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9a5443ec-10c8-4e3d-8275-d558d07aedea",
+                            ConcurrencyStamp = "8ebdeee4-a6fb-4516-b1f5-de2d524f0fe4",
                             DoctorId = "473d0775-d1d3-4439-940b-fe949652859f",
                             Email = "m_kalinkova@mc-bg.com",
                             EmailConfirmed = false,
@@ -1344,11 +1345,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_KALINKOVA@MC-BG.COM",
                             NormalizedUserName = "M_KALINKOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOIrVe9yY+a0mLQ5sOn3kRrZEHnSVpHsuwA1mpaU7MYXOBKl0PtMZdWOqhj6vM0UFQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK72Uf4sIQTUZaGdKI/INlZ9gfbyQK0qnb/XVKjLiCK8hcCJ0C3S71zfGadVOY4uxA==",
                             PhoneNumber = "+359888888106",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "4b58aecf-6cf1-417e-b73b-81daac2e2207",
+                            SecurityStamp = "00d66d2c-7a3e-4a7c-907e-7c4aa1da95a2",
                             TwoFactorEnabled = false,
                             UserName = "m_kalinkova"
                         },
@@ -1356,7 +1357,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "cf6e7092-584c-460d-9538-feee4a5b53d9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9e467f5a-736a-4e30-bc80-c0599e2933c5",
+                            ConcurrencyStamp = "22f3f316-58ea-40ba-8917-0d473596fd8c",
                             DoctorId = "97fde454-7892-40ab-acff-c641b14d1eab",
                             Email = "d_georgiev@mc-bg.com",
                             EmailConfirmed = false,
@@ -1368,11 +1369,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "D_GEORGIEV@MC-BG.COM",
                             NormalizedUserName = "D_GEORGIEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMb9OSGajduZpX5pSQzts1rhUEgLZL8RqeRhIxyqyzaQRBkR3HDkbUf8yCbz8t4wyA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDBsbXtjxJP+SmT52U84+Vc/R3+qA1OeAkpWV7PCoAFMZp3li1i5TTSPUOi6cKbusw==",
                             PhoneNumber = "+359888888107",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "1ab9dfd1-c7c9-49bb-ab9e-7a2963d9d0cf",
+                            SecurityStamp = "97b57e3f-0a8a-4b3f-ac4b-bc3f9459981e",
                             TwoFactorEnabled = false,
                             UserName = "d_georgiev"
                         },
@@ -1380,7 +1381,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "f142f846-dbe7-420e-bbce-4a9f83e36980",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7ea21f78-9370-4647-b5cf-6f9fb188b825",
+                            ConcurrencyStamp = "bec9d1c7-ba1e-42fa-8dcd-2c36c1e8cd62",
                             DoctorId = "221de519-48d4-41cd-befd-1b414b2fea57",
                             Email = "r_ruseva@mc-bg.com",
                             EmailConfirmed = false,
@@ -1392,11 +1393,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "R_RUSEVA@MC-BG.COM",
                             NormalizedUserName = "R_RUSEVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOXuxzP5dTWf18FiTpxXRBNxz4TyxmEOvC07RWqUyhcsZ1j0fJnLtDlo7fJJuVWKpg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBB7v5bDZjYpkI9X03VZU5R85T6K9P0h2wnHOH6GtD2SkG/iJgQgZNBX5+7Aael9ug==",
                             PhoneNumber = "+359888888108",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "7acf7616-5383-4e58-a29e-8813f72ad6dc",
+                            SecurityStamp = "68c3a746-d684-4a36-9af8-f45328f1a5c7",
                             TwoFactorEnabled = false,
                             UserName = "r_ruseva"
                         },
@@ -1404,7 +1405,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "d3ba8e2c-1f0f-4879-86b0-372d1b0bc760",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "28a3fcc1-7631-4817-86e2-1b424fac63eb",
+                            ConcurrencyStamp = "a860d8a1-5fc7-4639-b92b-761ff260ca18",
                             DoctorId = "f40725ef-50bd-4b7b-b2ab-df41d875781e",
                             Email = "s_tochev@mc-bg.com",
                             EmailConfirmed = false,
@@ -1416,11 +1417,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "S_TOCHEV@MC-BG.COM",
                             NormalizedUserName = "S_TOCHEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI4CGHtO8n6BpBThl/d/PGr4vhJCV6Wifn8B9E/uM5WFVKs2O06K7T2LH+4sYUZlhQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKNUr2mBr6Pku1IBhmbgKUy1ag8gso9CF+Hzbpoz1B/uN2WECun3lNrMN0LzzohkOg==",
                             PhoneNumber = "+359888888109",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "423a368e-ecb5-4f08-ae3c-016677d7c890",
+                            SecurityStamp = "ec3b097f-00a5-479a-803a-66db51010086",
                             TwoFactorEnabled = false,
                             UserName = "s_tochev"
                         },
@@ -1428,7 +1429,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "8c1bcbb9-96f4-4e4e-8ec2-fc26fb79ddca",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "87d6f9f1-8073-47af-b9f0-0f5d232dccee",
+                            ConcurrencyStamp = "35b7735e-0368-4bd5-89cb-3ccb98332789",
                             DoctorId = "182466cf-4d18-4ba4-940c-71e8f445335c",
                             Email = "s_atanasova@mc-bg.com",
                             EmailConfirmed = false,
@@ -1440,11 +1441,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "S_ATANASOVA@MC-BG.COM",
                             NormalizedUserName = "S_ATANASOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEA0ZqU9cmjGwK3qthfPuruMJ6l8o/ghB9qmT4sam/ZIIpyyHHrIssnzdJhYDz+k2A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMJLA41dNvJHs5DbBPvLMA9BZ2coUHV+65O84MTb3yFUXHNr4jKy7n36p/SAFSFEoQ==",
                             PhoneNumber = "+359888888110",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "f0fe8690-ba22-48f5-8996-2c5d76b1515a",
+                            SecurityStamp = "6cc1c56a-489a-4470-b1c7-b1e89a75fd5c",
                             TwoFactorEnabled = false,
                             UserName = "s_atanasova"
                         },
@@ -1452,7 +1453,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "095da4be-9891-4cd9-a2ad-05dbbb0e2085",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6fc0e3d3-3b8c-426d-ace5-6b39a191d3a3",
+                            ConcurrencyStamp = "09dd4ae8-82d7-4799-9061-080c2ecc2af6",
                             DoctorId = "17dcc03b-321f-4484-a96a-61f3b8fe6dc8",
                             Email = "r_ikonomov@mc-bg.com",
                             EmailConfirmed = false,
@@ -1464,11 +1465,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "R_IKONOMOV@MC-BG.COM",
                             NormalizedUserName = "R_IKONOMOV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEHHcNHgJgSrVwQ4nu4FqnL3xBhRX0HneYpqdkgnnhSmPxzgpZZQlhtrl8NwlkIjmw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHRXJXp/HF0iIbcVq9+9Xez4ipDlCtxPxbIkuaLT67D7UgsCOOSurFOui1BxCVeeDg==",
                             PhoneNumber = "+359888888111",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "df4920d8-ca30-4d93-913a-6deab88d7de3",
+                            SecurityStamp = "ee619d10-9228-476c-adb4-e64139eeb3e4",
                             TwoFactorEnabled = false,
                             UserName = "r_ikonomov"
                         },
@@ -1476,7 +1477,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "b67a1365-3902-4728-8c9f-05369b1556b7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "715ec61c-0d8b-4444-b65b-cbb3f1f418cb",
+                            ConcurrencyStamp = "fe1e321d-fc45-43ed-8747-b73d90c302ee",
                             DoctorId = "d5adc893-6e93-4b1f-9ce5-7105069e7a6c",
                             Email = "m_vuldjev@mc-bg.com",
                             EmailConfirmed = false,
@@ -1488,11 +1489,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "M_VULDJEV@MC-BG.COM",
                             NormalizedUserName = "M_VULDJEV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEmOLS7R1wkgsrwo1Tl3dYUQ87b+QqKZy4WQoGW01lqllY9ey/JGhsAxBheyti+msg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBv/Jg+SGdO65cnwxjD3pigRou7/lmg4+1p9w4yNDeGNw9tq1Xnxttu6vhKEb5KgnQ==",
                             PhoneNumber = "+359888888112",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "51130571-2b56-481a-871b-7acd8f44c140",
+                            SecurityStamp = "14f07876-9c2a-4026-803f-2901928ba937",
                             TwoFactorEnabled = false,
                             UserName = "m_vuldjev"
                         },
@@ -1500,7 +1501,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "f092f500-00e2-4544-952a-4cb91320558d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "03d237b8-2d71-4a88-9b67-d3445543f92a",
+                            ConcurrencyStamp = "73e4ddb1-5d42-40f1-8790-4eafd2a470bf",
                             DoctorId = "734a6dcd-060c-4108-a184-84997a5da2d1",
                             Email = "h_hristov@mc-bg.com",
                             EmailConfirmed = false,
@@ -1512,11 +1513,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "H_HRISTOV@MC-BG.COM",
                             NormalizedUserName = "H_HRISTOV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHvh10zM+5ms11KlukphcYaCz2c32fMLI4j9Z5AEQ0zO3rfVAx+zoC5n0g0kzZ4HlA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM1t0CDciPu7qNeHSXLz+leekmmzIEpfijAd9kuEnY5wwl+a3vSFaDIZ+gptVgx7dg==",
                             PhoneNumber = "+359888888113",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "3175560f-a1da-449d-8cfc-d1bc353e2258",
+                            SecurityStamp = "9d8556a5-1583-44a2-89f1-d86a1062a06e",
                             TwoFactorEnabled = false,
                             UserName = "h_hristov"
                         },
@@ -1524,7 +1525,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "c8517d67-c0f3-4cb8-ac8c-96602aaad8bb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "70c88a64-273d-4717-b866-b86ec0bec9f5",
+                            ConcurrencyStamp = "c76cd28c-393d-43a9-a13b-ec227e11fd4a",
                             DoctorId = "61f0536e-26ec-46cc-9386-1c7cb348f1e7",
                             Email = "a_tomova@mc-bg.com",
                             EmailConfirmed = false,
@@ -1536,11 +1537,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "A_TOMOVA@MC-BG.COM",
                             NormalizedUserName = "A_TOMOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE0B8nAjCi0UKg6V1sdKPMMpAZkRp1NcIe8jjvfj9bORtfW7wV6sO8mec8ADasbQKg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFfOCWijwFAQYAmzwUK9I4TyGE79z+VpBBEJLzJ7SqeGns3OM7YPrp6TV6lO9DuUqg==",
                             PhoneNumber = "+359888888114",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "b6b6f593-65c1-444d-a978-be8a86d2f604",
+                            SecurityStamp = "9a47c23b-b9e3-4197-a314-3c6268eeb34d",
                             TwoFactorEnabled = false,
                             UserName = "a_tomova"
                         },
@@ -1548,7 +1549,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "041639c2-fcd2-4899-a5c6-2025cbb3c1c7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "188ac354-7685-47fd-bccc-d80aabba18e8",
+                            ConcurrencyStamp = "1ac919a6-4809-4fe0-b574-73494d76de37",
                             DoctorId = "9c85bdfe-768b-43bc-bc3d-91d3565edd7a",
                             Email = "k_moskova@mc-bg.com",
                             EmailConfirmed = false,
@@ -1560,11 +1561,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "K_MOSKOVA@MC-BG.COM",
                             NormalizedUserName = "K_MOSKOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEACU/Kz1k4f0yasjvHpb8M7RgK4i0wJm0r1FwW7UV31mIyGgulVPyQjEN00N8hBv7A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC65J7oRo+HHpT7+eDWlxgJrbE7t74HCvxDnbcb01v79kvsWqeAvi9j82pOtsGPLfw==",
                             PhoneNumber = "+359888888115",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "4ffae09e-07ff-4633-95ec-16923e5ac23c",
+                            SecurityStamp = "47d4d6d6-bd56-40cd-be11-f1eb6dd5fa6a",
                             TwoFactorEnabled = false,
                             UserName = "k_moskova"
                         },
@@ -1572,7 +1573,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "c83d8295-ff6a-4644-a44a-c2bc294b220e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a85376bb-6337-4151-a7f0-f752a8b21548",
+                            ConcurrencyStamp = "0d932d71-1fcf-4edb-b35a-c82281badec9",
                             DoctorId = "5b0923f7-da08-4af1-a391-d0561a534a42",
                             Email = "k_atanasova@mc-bg.com",
                             EmailConfirmed = false,
@@ -1584,11 +1585,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "K_ATANASOVA@MC-BG.COM",
                             NormalizedUserName = "K_ATANASOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEtzLb262KgxxpZ1Fn0lUFIOviPCRawBacC3XeVDRQEMkRcYjMXYaB8EDUaUZg6JVw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG+9hxTIJBTnREAeQ8yroILDGyfw7dlr/yjmZydNYi3AKmTYOS71oQ/BxqZ1NiKdlQ==",
                             PhoneNumber = "+359888888116",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "ea4c772b-797c-4c8e-9792-da8d78c1f04a",
+                            SecurityStamp = "2dcbb35f-2fb4-466f-84e3-15d12512227b",
                             TwoFactorEnabled = false,
                             UserName = "k_atanasova"
                         },
@@ -1596,7 +1597,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "8f052e1c-d7f5-40d4-9ee4-9c9f29a85ffe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "591ed979-60a2-4220-9710-d6563c6d7292",
+                            ConcurrencyStamp = "312d5d4b-637a-43a7-b0a0-bc17fd454c01",
                             DoctorId = "9e38d1b5-6ba5-4e49-bbf0-7d893dd5b040",
                             Email = "g_kuchukov@mc-bg.com",
                             EmailConfirmed = false,
@@ -1608,11 +1609,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "G_KUCHUKOV@MC-BG.COM",
                             NormalizedUserName = "G_KUCHUKOV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEII/FcE09SB1yJbOJ9MuaZeXsRGaQ+ywDPfDvDfiRZBdbst9B1ivJHjsIAsBBc0G6w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELUS8CC7LJCttkaafEUzjkLHg+OXldcZJc5NX1NJlKOhsRvZo0BlGHoeGxCIBh8RjQ==",
                             PhoneNumber = "+359888888117",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "2bae498f-1f60-456a-9f60-922ddb31bfb1",
+                            SecurityStamp = "bdb947e7-3972-49e4-a897-7d983b3e1556",
                             TwoFactorEnabled = false,
                             UserName = "g_kuchukov"
                         },
@@ -1620,7 +1621,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "a8d60b9c-6bef-4eff-af47-bcce7daf311b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "28f44e53-654f-4307-bed0-5fb72e625654",
+                            ConcurrencyStamp = "a8fca13f-5935-41a0-82b4-dadeb104c358",
                             DoctorId = "992d83f0-1439-40dc-95f4-5a708fd3c086",
                             Email = "k_stoicheva@mc-bg.com",
                             EmailConfirmed = false,
@@ -1632,11 +1633,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "K_STOICHEVA@MC-BG.COM",
                             NormalizedUserName = "K_STOICHEVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMTJ5Jo9XI+x8BRAQQ0fLVqlIgnNaNz3maH3BSDQfEg79zQ9n//CeFe52+sRW0bBqA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHtyOVT/bwKoTi8baj57raEJBA5249vQASOrbAa5jpOkRMe24qCOoVyldQ4lMzRKCQ==",
                             PhoneNumber = "+359888888118",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "990387b2-aace-4291-a67e-5df1457cef75",
+                            SecurityStamp = "53215ad4-e711-4bd8-ac7e-ac5cf8326483",
                             TwoFactorEnabled = false,
                             UserName = "k_stoicheva"
                         },
@@ -1644,7 +1645,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "7c513995-bed0-4be3-b768-304cd697c3f9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7bb236fb-8576-48eb-87b3-57837581d83e",
+                            ConcurrencyStamp = "8c1a4c2b-f67f-4d02-8b2f-057ca50ffc28",
                             DoctorId = "cb55ad4a-e7c3-4cd6-8efb-6ccd3c369f4e",
                             Email = "n_paskov@mc-bg.com",
                             EmailConfirmed = false,
@@ -1656,11 +1657,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "N_PASKOV@MC-BG.COM",
                             NormalizedUserName = "N_PASKOV",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMxpQ7xmI2MRuBQTF2sln5PIZsEiO6LHvYIM1yBghJgrWuKPPQhBGN23obgwMSXkvg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK12BZolB6WOhkqGurMDuIoBzAI/oENQGMEJwhyP9L8emyT72wprCrUHB0RFM3NRsg==",
                             PhoneNumber = "+359888888119",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "2dfc3ba8-4981-4600-bdce-aac9dbf07b5f",
+                            SecurityStamp = "2169bcdd-f4e8-4720-a015-3a6b243698f5",
                             TwoFactorEnabled = false,
                             UserName = "n_paskov"
                         },
@@ -1668,7 +1669,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "cd25b1ea-70c5-47d2-9617-3b7d0e6bc788",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ceb31c76-5ec0-4411-8d63-5d3f7d298831",
+                            ConcurrencyStamp = "a769b82d-2127-4d5b-b881-282909e36304",
                             DoctorId = "be158f8c-bc22-4469-b01c-b9e928499a05",
                             Email = "r_uzunova@mc-bg.com",
                             EmailConfirmed = false,
@@ -1680,11 +1681,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "R_UZUNOVA@MC-BG.COM",
                             NormalizedUserName = "R_UZUNOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHDO9v/UwGL0JG1Ef/+OEGQFvbpl6vnaR1ZAmL3RR+gb7JxJoidWpzCErIw+LNxdvg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPB9aS6ih6UMJhwS7QGb8K77NzWGhfEaboM37AAwtwdQEjPGFjdM4OTeYAvTzpyR7w==",
                             PhoneNumber = "+359888888120",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "eda90ba0-f0e8-4290-a151-35192c4607f9",
+                            SecurityStamp = "4b5b37a6-40b8-4123-b202-b0eb515deb5a",
                             TwoFactorEnabled = false,
                             UserName = "r_uzunova"
                         },
@@ -1692,7 +1693,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "734267e9-a59b-44c3-baee-7e52a2bd1c29",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fd42f76a-3c74-4107-8ce1-3d3e39b36fc7",
+                            ConcurrencyStamp = "bff468b3-97d8-4331-b4ed-ab67b960d6cd",
                             DoctorId = "4be5615e-0d14-4756-a090-bd157133f463",
                             Email = "i_belcheva@mc-bg.com",
                             EmailConfirmed = false,
@@ -1704,11 +1705,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "I_BELCHEVA@MC-BG.COM",
                             NormalizedUserName = "I_BELCHEVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAro/xOscSGTjHjCYhB5bm7vB/gdq7Bb2UMyP67eBl0CDL6dSgTMDq7V27qWgYhNxA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGua8ovs1KJsWcdwcGgWF7uJYVxtgHAWowTTV+0aDwaElbj9fQsFdcUb3JoZCbOXKw==",
                             PhoneNumber = "+359888888121",
                             PhoneNumberConfirmed = false,
                             Role = "Doctor",
-                            SecurityStamp = "7442ef24-e6b4-4658-b5e1-393ad3b3dd61",
+                            SecurityStamp = "ee924d66-0e88-477a-947e-11d50deb76e1",
                             TwoFactorEnabled = false,
                             UserName = "i_belcheva"
                         },
@@ -1716,7 +1717,7 @@ namespace MedicalCenter.Infrastructure.Migrations
                         {
                             Id = "fb454478-8b7c-48bd-86b4-a0b36bf261a2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1e9186b3-c56a-4544-a8af-11cef8c25579",
+                            ConcurrencyStamp = "accd6d37-b9a9-4aa0-9136-95a5e0f6822c",
                             Email = "lab_vivanova@mc-bg.com",
                             EmailConfirmed = false,
                             FirstName = "Ваня",
@@ -1728,11 +1729,11 @@ namespace MedicalCenter.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "LAB_VIVANOVA@MC-BG.COM",
                             NormalizedUserName = "LAB_VIVANOVA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPnQgcnrRnpqoWKMzyYAlPeO/WQG6x9k19td3V6GS4b6ZN7DH5e0kTHPu4BhlqBSVg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELq7XrJ1TotHoFyi0Ilf1nQufj+EckvSHZgVd+xyXWHGDKFjzEkoibntCI0vsELSYQ==",
                             PhoneNumber = "+359888888881",
                             PhoneNumberConfirmed = false,
                             Role = "Laborant",
-                            SecurityStamp = "e001cb37-8332-4f01-9e48-ecbb925c0cb0",
+                            SecurityStamp = "263cae44-7417-4da5-bc12-3f5da6ab040b",
                             TwoFactorEnabled = false,
                             UserName = "lab_vivanova"
                         });
@@ -1887,36 +1888,36 @@ namespace MedicalCenter.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "69d06a34-d864-4930-8a7d-f97055530db7",
-                            ConcurrencyStamp = "0e7fe5bc-05ea-4ae6-9c5d-d6de2a596697",
+                            Id = "32d19b1e-b575-488e-860b-18eb1dbec58d",
+                            ConcurrencyStamp = "ef9edcdd-168f-411d-aa66-e143b0b329c4",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "fd455a66-249b-4d16-b5a9-af8d92c6c231",
-                            ConcurrencyStamp = "a15bd5cb-2f20-434e-a7e6-9eaa3734542d",
+                            Id = "485b1cfe-2066-4b04-9de3-716683e92111",
+                            ConcurrencyStamp = "62aafbe3-5fbd-4a8c-a7f4-5dc14b9e3410",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "f1321c5f-1fee-426a-833b-5d19cb9bdf42",
-                            ConcurrencyStamp = "3ef01e46-488b-4684-8ffc-c96965566013",
+                            Id = "a0f47389-4c6b-4590-8480-6beb741d2c3e",
+                            ConcurrencyStamp = "1ff4d815-1623-4044-8484-7b41a1fd8e97",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "3ec20065-9336-4017-89d0-1ee96dc6e4ba",
-                            ConcurrencyStamp = "572545c0-31c9-40ca-926d-435d7ec5be8f",
+                            Id = "30d8b959-5d2a-4399-a252-5f0e36664bc3",
+                            ConcurrencyStamp = "94f384ec-3288-44fb-8dcf-6f349e9ce6ee",
                             Name = "Laborant",
                             NormalizedName = "LABORANT"
                         },
                         new
                         {
-                            Id = "6b894a41-5fec-4ca3-81eb-2038e01bcce0",
-                            ConcurrencyStamp = "37b19683-20e0-4478-8bc0-a97cdd6a3dfb",
+                            Id = "706c269e-4eda-425f-87c2-829eec6cb202",
+                            ConcurrencyStamp = "0683211c-ebcc-46e0-b94f-db537a6ca059",
                             Name = "LaboratoryUser",
                             NormalizedName = "LABORATORYUSER"
                         });
@@ -2014,122 +2015,122 @@ namespace MedicalCenter.Infrastructure.Migrations
                         new
                         {
                             UserId = "d026cf1f-a334-41f4-a1b7-31b7a56b9f1b",
-                            RoleId = "69d06a34-d864-4930-8a7d-f97055530db7"
+                            RoleId = "32d19b1e-b575-488e-860b-18eb1dbec58d"
                         },
                         new
                         {
                             UserId = "9da9587f-e28e-4289-a559-7407d3ea34a5",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "79fb8276-3bf8-4e70-9ac3-0e53a0d3a29e",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "f1221132-3b9f-4f33-9e4d-1514bc0221e8",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "da3da29d-5411-4750-a5c4-e4ae4e22965c",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "b922fbb1-e1e8-41c6-a903-931e1cd4b845",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "3f9592ad-6af3-4021-808f-39d7aa9246e9",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "0bbf2307-d024-44b4-917f-a52ab9ddc013",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "cf6e7092-584c-460d-9538-feee4a5b53d9",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "f142f846-dbe7-420e-bbce-4a9f83e36980",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "d3ba8e2c-1f0f-4879-86b0-372d1b0bc760",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "8c1bcbb9-96f4-4e4e-8ec2-fc26fb79ddca",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "095da4be-9891-4cd9-a2ad-05dbbb0e2085",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "b67a1365-3902-4728-8c9f-05369b1556b7",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "f092f500-00e2-4544-952a-4cb91320558d",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "c8517d67-c0f3-4cb8-ac8c-96602aaad8bb",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "041639c2-fcd2-4899-a5c6-2025cbb3c1c7",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "c83d8295-ff6a-4644-a44a-c2bc294b220e",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "8f052e1c-d7f5-40d4-9ee4-9c9f29a85ffe",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "a8d60b9c-6bef-4eff-af47-bcce7daf311b",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "7c513995-bed0-4be3-b768-304cd697c3f9",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "cd25b1ea-70c5-47d2-9617-3b7d0e6bc788",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "734267e9-a59b-44c3-baee-7e52a2bd1c29",
-                            RoleId = "fd455a66-249b-4d16-b5a9-af8d92c6c231"
+                            RoleId = "485b1cfe-2066-4b04-9de3-716683e92111"
                         },
                         new
                         {
                             UserId = "fb454478-8b7c-48bd-86b4-a0b36bf261a2",
-                            RoleId = "3ec20065-9336-4017-89d0-1ee96dc6e4ba"
+                            RoleId = "30d8b959-5d2a-4399-a252-5f0e36664bc3"
                         });
                 });
 
