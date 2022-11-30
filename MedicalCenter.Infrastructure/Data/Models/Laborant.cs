@@ -22,8 +22,6 @@ namespace MedicalCenter.Infrastructure.Data.Models
         public string? UserId { get; set; }
         public User? User { get; set; }
 
-        public bool IsOutOfCompany { get; set; } = false;
-
         public string? OutOnDate { get; set; }
     }
 }

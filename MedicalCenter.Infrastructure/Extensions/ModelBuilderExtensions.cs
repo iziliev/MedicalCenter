@@ -118,6 +118,7 @@ namespace MedicalCenter.Infrastructure.Extensions
             {
                 Id = GuidIdsConstants.AdministratorGuidConstants,
                 UserId = GuidIdsConstants.AdministratorUserGuidConstants,
+                Egn = "9305264209"
             };
         }
 

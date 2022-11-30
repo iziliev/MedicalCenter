@@ -45,13 +45,16 @@ namespace MedicalCenter.Core.Services
             var user = await userManager.FindByNameAsync(loginModel.Username)
                 ?? await userManager.FindByEmailAsync(loginModel.Username);
 
-            //All users without laboratoryPatientCanLogin
-            if (user.Role != DataConstants.RoleConstants.LaboratoryUserRole)
+            if (user.IsOutOfCompany == false)
             {
-                return await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+                //All users without laboratoryPatientCanLogin
+                if (user.Role != DataConstants.RoleConstants.LaboratoryUserRole)
+                {
+                    return await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+                }
             }
 
-            //If laboratoryPatient try to login in UserLogin it cant be
+            //If laboratoryPatient try to login in UserLogin it cant be or ii Admin,Doctor,Laborant is deleted
             return await signInManager.PasswordSignInAsync(user, "*", false, false);
         }
 
@@ -93,7 +96,8 @@ namespace MedicalCenter.Core.Services
         {
 
             var doctorsQuery = repository.AllReadonly<Doctor>()
-                .Where(d => !d.IsOutOfCompany)
+                .Include(u=>u.User)
+                .Where(d => !d.User.IsOutOfCompany)
                 .Include(s => s.Specialty)
                 .OrderBy(x => x.Specialty.Name)
                 .ThenBy(x => x.User.FirstName)

@@ -31,8 +31,6 @@ namespace MedicalCenter.Infrastructure.Data.Models
         [StringLength(DoctorConstants.BiographyMaxLenght)]
         public string Biography { get; set; } = null!;
 
-        public bool IsOutOfCompany { get; set; } = false;
-
         public string? OutOnDate { get; set; }
 
         [Required]

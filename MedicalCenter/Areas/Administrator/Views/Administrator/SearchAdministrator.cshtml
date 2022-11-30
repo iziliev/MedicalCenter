@@ -1,0 +1,52 @@
+﻿@model SearchAdminViewModel
+
+
+@section Styles {
+    <link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+}
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="login-box offset-lg-4 offset-sm-2 col-sm-8 col-lg-4">
+                <div class="login-box">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header text-center">
+                            <h1><b>@ViewData["Title"]</b></h1>
+                        </div>
+                        <div class="card-body">
+                            <p class="login-box-msg">Търсене в системата</p>
+                            <form asp-controller ="Administrator" asp-action="SearchAdministrator" method="post" >
+                                <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
+                                <div class="input-group mb-1">
+                                    <input asp-for="Egn" class="form-control" placeholder="ЕГН" autocomplete="egn" />
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-shield"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="Egn" class="text-danger"></span>
+                                
+                                <div class="row">
+                                    <div class="col-4 offset-2 mt-3">
+                                        <button type="submit" class="btn btn-primary btn-block">Търсене</button>
+                                    </div>
+                                    <div class="col-4 offset-0 mt-3">
+                                        <a type="submit" class="btn btn-secondary" asp-controller="Administrator" asp-action="AdminBoardAdministrator">Назад</a>
+                                    </div>
+                                </div>
+                            </form>
+                            <p class="text-center text-muted mt-4 mb-0">
+                                Преди да се регистрира нов администратор се проверява дали той вече не е бил регистриран в базата. Ако не е открит се регистрира.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

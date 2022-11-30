@@ -34,6 +34,8 @@ namespace MedicalCenter.Infrastructure.Data.Models
 
         public string? JoinOnDate { get; set; }
 
+        public bool IsOutOfCompany { get; set; } = false;
+
         public ICollection<Examination> UserExaminations { get; set; } = new HashSet<Examination>();
 
         public ICollection<Review> UserReviews { get; set; } = new HashSet<Review>();

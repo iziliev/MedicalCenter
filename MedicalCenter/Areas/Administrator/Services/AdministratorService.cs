@@ -88,6 +88,32 @@ namespace MedicalCenter.Areas.Administrator.Services
             return await userManager.CreateAsync(user, laborantModel.Password);
         }
 
+        public async Task<IdentityResult> CreateAdminAsync(CreateAdminViewModel adminModel)
+        {
+            string phoneNumber = globalService.ParsePnoneNumber(adminModel.PhoneNumber);
+
+            var administrator = new Infrastructure.Data.Models.Administrator()
+            {
+                Egn = adminModel.Egn
+            };
+            
+            var user = new User
+            {
+                Email = adminModel.Email,
+                FirstName = adminModel.FirstName,
+                LastName = adminModel.LastName,
+                GenderId = adminModel.Gender,
+                PhoneNumber = phoneNumber,
+                UserName = adminModel.Username,
+                Role = "Administrator",
+                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                Administrator = administrator,
+                AdministratorId = administrator.Id
+            };
+
+            return await userManager.CreateAsync(user, adminModel.Password);
+        }
+
         public async Task<CreateLaborantViewModel> SearchLaborantByEgnAsync(string egn)
         {
             var existLaborant = await repository.All<Laborant>()
@@ -103,7 +129,6 @@ namespace MedicalCenter.Areas.Administrator.Services
                     Gender = d.User.GenderId,
                     PhoneNumber = d.User.PhoneNumber,
                     LastName = d.User.LastName,
-                    IsOutOfCompany = d.IsOutOfCompany,
                     Role = d.User.Role,
                     JoinOnDate = d.User.JoinOnDate,
                     OutOnDate = d.OutOnDate,
@@ -133,7 +158,6 @@ namespace MedicalCenter.Areas.Administrator.Services
                     Representation = d.Representation,
                     SpecialtyId = d.SpecialtyId,
                     ProfileImageUrl = d.ProfileImageUrl,
-                    IsOutOfCompany = d.IsOutOfCompany,
                     Role = d.User.Role,
                     JoinOnDate = d.User.JoinOnDate,
                     OutOnDate = d.OutOnDate,
@@ -142,6 +166,46 @@ namespace MedicalCenter.Areas.Administrator.Services
                 .FirstOrDefaultAsync();
 
             return existDoctor;
+        }
+
+        public async Task<CreateAdminViewModel> SearchAdminByEgnAsync(string egn)
+        {
+            var existAdministartor = await repository.All<Infrastructure.Data.Models.Administrator>()
+                .Where(d => d.Egn == egn)
+                .Include(d => d.User)
+                .Select(d => new CreateAdminViewModel
+                {
+                    Id = d.Id,
+                    Username = d.User.UserName,
+                    Egn = d.Egn,
+                    Email = d.User.Email,
+                    FirstName = d.User.FirstName,
+                    Gender = d.User.GenderId,
+                    PhoneNumber = d.User.PhoneNumber,
+                    LastName = d.User.LastName,
+                    Role = d.User.Role,
+                    JoinOnDate = d.User.JoinOnDate,
+                    
+                })
+                .FirstOrDefaultAsync();
+
+            return existAdministartor;
+        }
+
+        public async Task<Infrastructure.Data.Models.Administrator> GetAdminByUserIdAsync(string id)
+        {
+            return await repository.All<Infrastructure.Data.Models.Administrator>()
+                .Include(a=>a.User)
+                .Where(a => a.User.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Infrastructure.Data.Models.Administrator> GetAdminByIdAsync(string id)
+        {
+            return await repository.All<Infrastructure.Data.Models.Administrator>()
+                .Where(u => u.Id == id)
+                .Include(d => d.User)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<Doctor> GetDoctorByIdAsync(string id)
@@ -168,18 +232,77 @@ namespace MedicalCenter.Areas.Administrator.Services
                     .Where(u => u.DoctorId == id)
                     .FirstOrDefaultAsync();
 
-                user.Doctor.IsOutOfCompany = false;
+                user.IsOutOfCompany = false;
                 user.Doctor.OutOnDate = null;
             }
-            else
+            else if(typeof(T).Equals(typeof(Laborant)))
             {
                 var user = await repository.All<User>()
                     .Where(u => u.LaborantId == id)
                     .FirstOrDefaultAsync();
-                user.Laborant.IsOutOfCompany = false;
+                user.IsOutOfCompany = false;
                 user.Laborant.OutOnDate = null;
             }
+            else
+            {
+                var user = await repository.All<User>()
+                    .Where(u => u.AdministratorId == id)
+                    .FirstOrDefaultAsync();
+                user.IsOutOfCompany = false;
+                user.Administrator.OutOnDate = null;
+            }
             await repository.SaveChangesAsync();
+        }
+
+        public async Task<ShowAllAdminViewModel> GetAllCurrentAdminAsync(
+            string id,
+            string? searchTermEgn = null,
+            string? searchTermName = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
+            int adminsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
+        {
+            var adminsQuery = repository.All<Infrastructure.Data.Models.Administrator>()
+                .Include(d => d.User)
+                .Where(d => !d.User.IsOutOfCompany && d.User.Id != id)
+                .OrderBy(x => x.User.FirstName)
+                .ThenBy(x => x.User.LastName)
+                .AsQueryable();
+
+            if (string.IsNullOrEmpty(searchTermEgn) == false)
+            {
+                adminsQuery = adminsQuery
+                    .Where(d => d.Egn == searchTermEgn);
+            }
+
+            if (string.IsNullOrEmpty(searchTermName) == false)
+            {
+                searchTermName = $"%{searchTermName}%".ToLower();
+
+                adminsQuery = adminsQuery
+                    .Where(d => EF.Functions.Like(d.User.FirstName.ToLower(), searchTermName) || EF.Functions.Like(d.User.LastName.ToLower(), searchTermName));
+            }
+
+            var admins = await adminsQuery
+                .Skip((currentPage - 1) * adminsPerPage)
+                .Take(adminsPerPage)
+                .Select(d => new DashboardAdminViewModel
+                {
+                    FirstName = d.User.FirstName,
+                    Id = d.Id,
+                    JoinOnDate = d.User.JoinOnDate,
+                    LastName = d.User.LastName,
+                    OutOnDate = d.OutOnDate,
+                    PhoneNumber = d.User.PhoneNumber,
+                    Egn = d.Egn,
+                    Email = d.User.Email
+                })
+                .ToListAsync();
+
+            return new ShowAllAdminViewModel
+            {
+                Admins = admins,
+                TotalAdminsCount = adminsQuery.Count()
+            };
         }
 
         public async Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(
@@ -190,7 +313,8 @@ namespace MedicalCenter.Areas.Administrator.Services
             int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var doctorsQuery = repository.All<Doctor>()
-                .Where(d => !d.IsOutOfCompany)
+                .Include(d => d.User)
+                .Where(d => !d.User.IsOutOfCompany)
                 .Include(d => d.User)
                 .Include(s => s.Specialty)
                 .OrderBy(x => x.Specialty.Id)
@@ -253,7 +377,7 @@ namespace MedicalCenter.Areas.Administrator.Services
 
                 return (T)Convert.ChangeType(doctor, typeof(T));
             }
-            else
+            else if(typeof(T).Equals(typeof(Laborant)))
             {
                 var laborant = await repository.All<Laborant>()
                     .Include(d => d.User)
@@ -262,6 +386,20 @@ namespace MedicalCenter.Areas.Administrator.Services
 
                 return (T)Convert.ChangeType(laborant, typeof(T));
             }
+            else
+            {
+                var administrator = await repository.All<Infrastructure.Data.Models.Administrator>()
+                    .Include(d => d.User)
+                    .Where(x => x.Egn == egn)
+                    .FirstOrDefaultAsync();
+
+                return (T)Convert.ChangeType(administrator, typeof(T));
+            }
+        }
+
+        public async Task AddAdminRoleAsync(User administrator, string adminRole)
+        {
+            await userManager.AddToRoleAsync(administrator, adminRole);
         }
 
         public async Task AddDoctorRoleAsync(User doctor, string doctorRole)
@@ -321,6 +459,30 @@ namespace MedicalCenter.Areas.Administrator.Services
             };
         }
 
+        public async Task<MainAdminViewModel> GetAdminByIdToEditAsync(string adminId)
+        {
+            var adminById = await repository
+                .All<Infrastructure.Data.Models.Administrator>()
+                .Where(u => u.Id == adminId)
+                .Include(U => U.User)
+                .Select(d => new MainAdminViewModel
+                {
+                    Email = d.User.Email,
+                    FirstName = d.User.FirstName,
+                    Gender = d.User.GenderId,
+                    Id = d.Id,
+                    LastName = d.User.LastName,
+                    PhoneNumber = d.User.PhoneNumber,
+                    Username = d.User.UserName,
+                    Role = d.User.Role,
+                    JoinOnDate = d.User.JoinOnDate,
+                    OutOnDate = d.OutOnDate,
+                })
+                .FirstOrDefaultAsync();
+
+            return adminById;
+        }
+
         public async Task<MainDoctorViewModel> GetDoctorByIdToEditAsync(string doctorId)
         {
             var doctorById = await repository
@@ -344,7 +506,6 @@ namespace MedicalCenter.Areas.Administrator.Services
                     Username = d.User.UserName,
                     SpecialityName = d.Specialty.Name,
                     Role = d.User.Role,
-                    IsOutOfCompany = d.IsOutOfCompany,
                     JoinOnDate = d.User.JoinOnDate,
                     OutOnDate = d.OutOnDate,
                     SheduleId = d.SheduleId,
@@ -352,6 +513,22 @@ namespace MedicalCenter.Areas.Administrator.Services
                 .FirstOrDefaultAsync();
 
             return doctorById;
+        }
+
+        public async Task EditAdminAsync(MainAdminViewModel doctorModel, Infrastructure.Data.Models.Administrator admin)
+        {
+            admin.User.Email = doctorModel.Email;
+            admin.User.PhoneNumber = doctorModel.PhoneNumber;
+            admin.User.LastName = doctorModel.LastName;
+            admin.User.FirstName = doctorModel.FirstName;
+            admin.User.GenderId = doctorModel.Gender;
+            admin.Id = doctorModel.Id;
+            admin.User.JoinOnDate = doctorModel.JoinOnDate;
+            admin.User.Role = doctorModel.Role;
+            admin.User.UserName = doctorModel.Username;
+            admin.OutOnDate = doctorModel.OutOnDate;
+
+            await repository.SaveChangesAsync();
         }
 
         public async Task EditDoctorAsync(MainDoctorViewModel doctorModel, Doctor doctor)
@@ -366,7 +543,6 @@ namespace MedicalCenter.Areas.Administrator.Services
             doctor.Id = doctorModel.Id;
             doctor.User.JoinOnDate = doctorModel.JoinOnDate;
             doctor.User.Role = doctorModel.Role;
-            doctor.IsOutOfCompany = doctorModel.IsOutOfCompany;
             doctor.ProfileImageUrl = doctorModel.ProfileImageUrl;
             doctor.SpecialtyId = doctor.SpecialtyId;
             doctor.Representation = doctorModel.Representation;
@@ -393,7 +569,6 @@ namespace MedicalCenter.Areas.Administrator.Services
                     PhoneNumber = d.User.PhoneNumber,
                     Username = d.User.UserName,
                     Role = d.User.Role,
-                    IsOutOfCompany = d.IsOutOfCompany,
                     JoinOnDate = d.User.JoinOnDate,
                     OutOnDate = d.OutOnDate,
                 })
@@ -412,7 +587,6 @@ namespace MedicalCenter.Areas.Administrator.Services
             laborant.Id = laborantModel.Id;
             laborant.User.JoinOnDate = laborantModel.JoinOnDate;
             laborant.User.Role = laborantModel.Role;
-            laborant.IsOutOfCompany = laborantModel.IsOutOfCompany;
             laborant.User.UserName = laborantModel.Username;
             laborant.OutOnDate = laborantModel.OutOnDate;
 
@@ -429,10 +603,10 @@ namespace MedicalCenter.Areas.Administrator.Services
                     .FirstOrDefaultAsync();
 
                 doctor.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
-                doctor.IsOutOfCompany = true;
+                doctor.User.IsOutOfCompany = true;
                 await repository.SaveChangesAsync();
             }
-            else
+            else if(typeof(T).Equals(typeof(Laborant)))
             {
                 var laborant = await repository.All<Laborant>()
                     .Where(x => x.User.LaborantId == id)
@@ -440,10 +614,72 @@ namespace MedicalCenter.Areas.Administrator.Services
                     .FirstOrDefaultAsync();
 
                 laborant.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
-                laborant.IsOutOfCompany = true;
+                laborant.User.IsOutOfCompany = true;
+                await repository.SaveChangesAsync();
+            }
+            else
+            {
+                var administrator = await repository.All<Infrastructure.Data.Models.Administrator>()
+                    .Where(x => x.User.AdministratorId == id)
+                    .Include(u => u.User)
+                    .FirstOrDefaultAsync();
+
+                administrator.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+                administrator.User.IsOutOfCompany = true;
                 await repository.SaveChangesAsync();
             }
         }
+
+        public async Task<ShowAllAdminViewModel> GetAllLeftAdminAsync(
+            string? searchTermEgn = null,
+            string? searchTermName = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
+            int adminsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
+        {
+            var adminsQuery = repository.All<Infrastructure.Data.Models.Administrator>()
+                .Include(u=>u.User)
+                .Where(d => d.User.IsOutOfCompany)
+                .OrderBy(x => x.User.FirstName)
+                .ThenBy(x => x.User.LastName)
+                .AsQueryable();
+
+            if (string.IsNullOrEmpty(searchTermEgn) == false)
+            {
+                adminsQuery = adminsQuery
+                    .Where(d => d.Egn == searchTermEgn);
+            }
+
+            if (string.IsNullOrEmpty(searchTermName) == false)
+            {
+                searchTermName = $"%{searchTermName}%".ToLower();
+
+                adminsQuery = adminsQuery
+                    .Where(d => EF.Functions.Like(d.User.FirstName.ToLower(), searchTermName) || EF.Functions.Like(d.User.LastName.ToLower(), searchTermName));
+            }
+
+            var admins = await adminsQuery
+                .Skip((currentPage - 1) * adminsPerPage)
+                .Take(adminsPerPage)
+                .Select(d => new DashboardAdminViewModel
+                {
+                    FirstName = d.User.FirstName,
+                    Id = d.Id,
+                    JoinOnDate = d.User.JoinOnDate,
+                    LastName = d.User.LastName,
+                    OutOnDate = d.OutOnDate,
+                    PhoneNumber = d.User.PhoneNumber,
+                    Egn = d.Egn,
+                    Email = d.User.Email
+                })
+                .ToListAsync();
+
+            return new ShowAllAdminViewModel
+            {
+                Admins = admins,
+                TotalAdminsCount = adminsQuery.Count()
+            };
+        }
+
 
         public async Task<ShowAllDoctorViewModel> GetAllLeftDoctorsAsync(
             string? speciality = null,
@@ -453,7 +689,8 @@ namespace MedicalCenter.Areas.Administrator.Services
             int doctorsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var doctorsQuery = repository.All<Doctor>()
-                .Where(d => d.IsOutOfCompany)
+                .Include(u=>u.User)
+                .Where(d => d.User.IsOutOfCompany)
                 .Include(s => s.Specialty)
                 .OrderBy(x => x.Specialty.Id)
                 .ThenBy(x => x.User.FirstName)
@@ -519,11 +756,13 @@ namespace MedicalCenter.Areas.Administrator.Services
                 .FirstOrDefaultAsync();
 
             var allDoctorCount = await repository.All<Doctor>()
-                .Where(u => !u.IsOutOfCompany)
+                .Include(u=>u.User)
+                .Where(u => !u.User.IsOutOfCompany)
                 .CountAsync();
 
             var allDoctorOutCount = await repository.All<Doctor>()
-                .Where(u => u.IsOutOfCompany)
+                .Include(u => u.User)
+                .Where(u => u.User.IsOutOfCompany)
                 .CountAsync();
 
             var allUser = await repository.All<User>()
@@ -815,14 +1054,35 @@ namespace MedicalCenter.Areas.Administrator.Services
             };
         }
 
+        public async Task<DashboardStatisticAdminViewModel> GetStatisticsAdminAsync()
+        {
+            var allAdminCount = await repository.All<Infrastructure.Data.Models.Administrator>()
+                .Include(u=>u.User)
+                .Where(u => !u.User.IsOutOfCompany)
+                .CountAsync();
+
+            var allAdminOutCount = await repository.All<Infrastructure.Data.Models.Administrator>()
+                .Include(u => u.User)
+                .Where(u => u.User.IsOutOfCompany)
+                .CountAsync();
+
+            return new DashboardStatisticAdminViewModel
+            {
+                AllAdministratorCount = allAdminCount,
+                AllAdministratorOutCount = allAdminOutCount,
+            };
+        }
+
         public async Task<DashboardStatisticLabViewModel> GetStatisticsLabAsync()
         {
             var allLaborantCount = await repository.All<Laborant>()
-                .Where(u => !u.IsOutOfCompany)
+                .Include(u=>u.User)
+                .Where(u => !u.User.IsOutOfCompany)
                 .CountAsync();
 
             var allLaborantOutCount = await repository.All<Laborant>()
-                .Where(u => u.IsOutOfCompany)
+                .Include(u => u.User)
+                .Where(u => u.User.IsOutOfCompany)
                 .CountAsync();
 
             var allTestCount = await repository.All<Test>()
@@ -843,7 +1103,8 @@ namespace MedicalCenter.Areas.Administrator.Services
             int laborantsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var laborantsQuery = repository.All<Laborant>()
-                .Where(d => d.IsOutOfCompany)
+                .Include(u => u.User)
+                .Where(d => d.User.IsOutOfCompany)
                 .Include(u => u.User)
                 .OrderBy(x => x.User.FirstName)
                 .ThenBy(x => x.User.LastName)
@@ -892,7 +1153,8 @@ namespace MedicalCenter.Areas.Administrator.Services
             int laborantsPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var laborantsQuery = repository.All<Laborant>()
-                .Where(d => !d.IsOutOfCompany)
+                .Include(u => u.User)
+                .Where(d => !d.User.IsOutOfCompany)
                 .Include(u => u.User)
                 .OrderBy(x => x.User.FirstName)
                 .ThenBy(x => x.User.LastName)
@@ -971,6 +1233,5 @@ namespace MedicalCenter.Areas.Administrator.Services
         {
             await signInManager.SignOutAsync();
         }
-
     }
 }

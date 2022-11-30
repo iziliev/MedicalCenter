@@ -8,9 +8,13 @@ namespace MedicalCenter.Areas.Contracts
 {
     public interface IAdministratorService
     {
+        Task<CreateAdminViewModel> SearchAdminByEgnAsync(string egn);
+
         Task<CreateDoctorViewModel> SearchDoctorByEgnAsync(string egn);
 
         Task<CreateLaborantViewModel> SearchLaborantByEgnAsync(string egn);
+
+        Task<IdentityResult> CreateAdminAsync(CreateAdminViewModel doctorModel);
 
         Task<IdentityResult> CreateDoctorAsync(CreateDoctorViewModel doctorModel);
 
@@ -20,15 +24,25 @@ namespace MedicalCenter.Areas.Contracts
 
         Task<T> GetByEgnAsync<T>(string egn);
 
+        Task<Infrastructure.Data.Models.Administrator> GetAdminByUserIdAsync(string id);
+
+        Task<Infrastructure.Data.Models.Administrator> GetAdminByIdAsync(string id);
+
         Task<Doctor> GetDoctorByIdAsync(string id);
 
         Task<Laborant> GetLaborantByIdAsync(string id);
+
+        Task AddAdminRoleAsync(User administrator, string adminRole);
 
         Task AddDoctorRoleAsync(User doctor, string doctorRole);
 
         Task AddLaborantRoleAsync(User laborant, string laborantRole);
 
         Task<MainDoctorViewModel> GetDoctorByIdToEditAsync(string id);
+
+        Task<MainAdminViewModel> GetAdminByIdToEditAsync(string id);
+
+        Task EditAdminAsync(MainAdminViewModel doctorModel, Infrastructure.Data.Models.Administrator admin);
 
         Task EditDoctorAsync(MainDoctorViewModel doctorModel, Doctor doctor);
 
@@ -37,6 +51,8 @@ namespace MedicalCenter.Areas.Contracts
         Task<MainLaborantViewModel> GetLaborantByIdToEditAsync(string id);
 
         Task DeleteAsync<T>(string id);
+
+        Task<DashboardStatisticAdminViewModel> GetStatisticsAdminAsync();
 
         Task<DashboardStatisticDataViewModel> GetStatisticsDataAsync();
 
@@ -70,6 +86,13 @@ namespace MedicalCenter.Areas.Contracts
             int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
             int examinationPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
 
+        Task<ShowAllAdminViewModel> GetAllCurrentAdminAsync(
+            string id,
+            string? searchTermEgn = null,
+            string? searchTermName = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
+            int adminsPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
+
         Task<ShowAllDoctorViewModel> GetAllCurrentDoctorsAsync(
             string? speciality = null, 
             string? searchTermEgn = null, 
@@ -101,5 +124,11 @@ namespace MedicalCenter.Areas.Contracts
             string? searchTermName = null,
             int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
             int laborantssPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
+
+        Task<ShowAllAdminViewModel> GetAllLeftAdminAsync(
+            string? searchTermEgn = null,
+            string? searchTermName = null,
+            int currentPage = DataConstants.PagingConstants.CurrentPageConstant,
+            int adminsPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
     }
 }

@@ -1,0 +1,69 @@
+﻿@model DashboardStatisticAdminViewModel
+
+<h4 class="display-4 text-center">Администратор</h4>
+<p class="display-6 text-center">Администраторски панел</p>
+<hr />
+@section Styles {
+<link href="~/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/adminlte.css" rel="stylesheet" asp-append-version="true" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
+}
+
+<div class="row">
+    <div class="col-lg-4 col-4">
+        <div class="small-box bg-gradient-info">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>Добави</h3>
+                        <p>администратор в базата</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Administrator" asp-action="SearchAdministrator" class="small-box-footer">Добави <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-4">
+        <div class="small-box bg-gradient-success">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>@Model.AllAdministratorCount</h3>
+                        <p>администратори в базата</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-database" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Administrator" asp-action="AllAdministrator" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-4">
+        <div class="small-box bg-gradient-warning">
+            <div class="row">
+                <div class="col-8">
+                    <div class="inner text-center">
+                        <h3>@Model.AllAdministratorOutCount</h3>
+                        <p>изтрити администратори</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="icon">
+                        <i class="fa fa-trash"></i>
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Administrator" asp-action="AllAdministratorOut" class="small-box-footer">Покажи <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>

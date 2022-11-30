@@ -1,6 +1,7 @@
 ﻿using MedicalCenter.Areas.Administrator.Models;
 using MedicalCenter.Areas.Contracts;
 using MedicalCenter.Controllers;
+using MedicalCenter.Extensions;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,47 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         {
             administratorService = _administratorService;
             repository = _repository;
+        }
+
+        [HttpGet]
+        public IActionResult SearchAdministrator()
+        {
+            var searchModel = new SearchAdminViewModel();
+
+            ViewData["Title"] = "Проверка на администратор по ЕГН";
+
+            return View(searchModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchAdministrator(SearchAdminViewModel searchModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", ModelErrorConstants.ViewModelError);
+                return View(searchModel);
+            }
+
+            var administrator = await administratorService.SearchAdminByEgnAsync(searchModel.Egn);
+
+            if (administrator == null)
+            {
+                return RedirectToAction(nameof(CreateAdministrator));
+            }
+
+            if (!administrator.IsOutOfCompany)
+            {
+                ModelState.AddModelError("", ModelErrorConstants.DoctorExistError);
+                return View(searchModel);
+            }
+
+            if (administrator.IsOutOfCompany)
+            {
+                ModelState.AddModelError("", ModelErrorConstants.DoctorOutExistError);
+                return View(searchModel);
+            }
+
+            return RedirectToAction(nameof(CreateAdministrator), administrator);
         }
 
         [HttpGet]
@@ -107,6 +149,39 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> EditAdministrator(string id)
+        {
+            var adminEditModel = await administratorService.GetAdminByIdToEditAsync(id);
+            adminEditModel.Genders = await administratorService.GetGendersAsync();
+            ViewData["Title"] = "Редактиране на администратор";
+
+            return View(adminEditModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAdministrator(MainAdminViewModel adminEditModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["Title"] = "Редактиране на администратор";
+                adminEditModel.Genders = await administratorService.GetGendersAsync();
+                return View(adminEditModel);
+            }
+
+            var administrator = await administratorService.GetAdminByIdAsync(adminEditModel.Id);
+
+            if (administrator != null)
+            {
+                TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран админ {administrator.User.FirstName} {administrator.User.LastName}!";
+                adminEditModel.Genders = await administratorService.GetGendersAsync();
+                await administratorService.EditAdminAsync(adminEditModel, administrator);
+            }
+
+            return RedirectToAction(nameof(AdminBoardMedicalCenter));
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> EditDoctor(string id)
         {
             var doctorEditModel = await administratorService.GetDoctorByIdToEditAsync(id);
@@ -178,6 +253,46 @@ namespace MedicalCenter.Areas.Administrator.Controllers
             return RedirectToAction(nameof(AdminBoardLaboratory));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CreateAdministrator()
+        {
+            var adminCreateModel = new CreateAdminViewModel();
+            adminCreateModel.Genders = await administratorService.GetGendersAsync();
+            ViewData["Title"] = "Добавяне на администратор";
+
+            return View(adminCreateModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAdministrator(CreateAdminViewModel adminCreateModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                adminCreateModel.Genders = await administratorService.GetGendersAsync();
+                return View(adminCreateModel);
+            }
+
+            var result = await administratorService.CreateAdminAsync(adminCreateModel);
+
+            var administrator = await administratorService.GetByEgnAsync<Infrastructure.Data.Models.Administrator>(adminCreateModel.Egn);
+
+            if (result.Succeeded)
+            {
+                await administratorService.AddAdminRoleAsync(administrator.User, RoleConstants.DoctorRole);
+
+                TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен админ {adminCreateModel.FirstName} {adminCreateModel.LastName} в Medical Center!";
+
+                return RedirectToAction(nameof(AdminPanel));
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            adminCreateModel.Genders = await administratorService.GetGendersAsync();
+            return View(adminCreateModel);
+        }
 
         [HttpGet]
         public async Task<IActionResult> CreateDoctor()
@@ -268,6 +383,25 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> DeleteAdministrator(string id)
+        {
+            var admin = await repository.GetByIdAsync<Infrastructure.Data.Models.Administrator>(id);
+
+            if (User.Id() != id)
+            {
+                TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит админ {admin.User.FirstName} {admin.User.LastName} от Medical Center!";
+
+                return RedirectToAction(nameof(AdminBoardMedicalCenter));
+            }
+
+            await administratorService.DeleteAsync<Infrastructure.Data.Models.Administrator>(id);
+
+            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит админ {admin.User.FirstName} {admin.User.LastName} от Medical Center!";
+
+            return RedirectToAction(nameof(AdminBoardMedicalCenter));
+        }
+
+        [HttpPost]
         public async Task<IActionResult> DeleteDoctor(string id)
         {
             var doctor = await repository.GetByIdAsync<Doctor>(id);
@@ -292,6 +426,18 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> ReturnAdministrator(string id)
+        {
+            var admin = await administratorService.GetAdminByIdAsync(id);
+
+            TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {admin.User.FirstName} {admin.User.LastName} в Medical Center!";
+
+            await administratorService.ReturnAsync<Infrastructure.Data.Models.Administrator>(id);
+
+            return RedirectToAction(nameof(AdminBoardMedicalCenter));
+        }
+
+        [HttpPost]
         public async Task<IActionResult> ReturnDoctor(string id)
         {   
             var doctor = await administratorService.GetDoctorByIdAsync(id);
@@ -313,6 +459,43 @@ namespace MedicalCenter.Areas.Administrator.Controllers
             await administratorService.ReturnAsync<Laborant>(id);
 
             return RedirectToAction(nameof(AdminBoardLaboratory));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllAdministrator([FromQuery] ShowAllAdminViewModel query)
+        {
+            var userId = User.Id();
+
+            var queryResult = await administratorService.GetAllCurrentAdminAsync(
+                userId,
+                query.SearchTermEgn,
+                query.SearchTermName,
+                query.CurrentPage,
+                ShowAllAdminViewModel.AdminsPerPage);
+
+            ViewData["Title"] = "Всички администратори";
+
+            query.TotalAdminsCount = queryResult.TotalAdminsCount;
+            query.Admins = queryResult.Admins;
+
+            return View(query);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllAdministratorOut([FromQuery] ShowAllAdminViewModel query)
+        {
+            var queryResult = await administratorService.GetAllLeftAdminAsync(
+                query.SearchTermEgn,
+                query.SearchTermName,
+                query.CurrentPage,
+                ShowAllAdminViewModel.AdminsPerPage);
+
+            ViewData["Title"] = "Изтрити администратори";
+
+            query.TotalAdminsCount = queryResult.TotalAdminsCount;
+            query.Admins = queryResult.Admins;
+
+            return View(query);
         }
 
         [HttpGet]
@@ -426,6 +609,16 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         public async Task<IActionResult> AdminBoardLaboratory()
         {
             var modelStatistic = await administratorService.GetStatisticsLabAsync();
+
+            ViewData["Title"] = "Admin panel";
+
+            return View(modelStatistic);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AdminBoardAdministrator()
+        {
+            var modelStatistic = await administratorService.GetStatisticsAdminAsync();
 
             ViewData["Title"] = "Admin panel";
 
