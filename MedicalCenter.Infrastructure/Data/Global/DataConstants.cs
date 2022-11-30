@@ -126,5 +126,18 @@
             public const int ShowPerPageConstant = 6;
             public const int ShowDoctorPerPageConstant = 4;
         }
+
+        public static class GuidIdsConstants
+        {
+            public const string DoctorGuidConstants = "4b95c2a0-314d-414d-a80a-db46ef2f810a,22081bf0-1049-45ba-a9b3-3171271f1341,4775e4ac-4930-4113-bb19-6ed94e12fa24,499be402-5520-453d-a17d-3a52ac6ad798,f5628f68-e883-4b6a-8c6c-2511314af5a1,c96d7a14-8865-43bc-b756-8a6ad16b3cf4,473d0775-d1d3-4439-940b-fe949652859f,97fde454-7892-40ab-acff-c641b14d1eab,221de519-48d4-41cd-befd-1b414b2fea57,f40725ef-50bd-4b7b-b2ab-df41d875781e,182466cf-4d18-4ba4-940c-71e8f445335c,17dcc03b-321f-4484-a96a-61f3b8fe6dc8,d5adc893-6e93-4b1f-9ce5-7105069e7a6c,734a6dcd-060c-4108-a184-84997a5da2d1,61f0536e-26ec-46cc-9386-1c7cb348f1e7,9c85bdfe-768b-43bc-bc3d-91d3565edd7a,5b0923f7-da08-4af1-a391-d0561a534a42,9e38d1b5-6ba5-4e49-bbf0-7d893dd5b040,992d83f0-1439-40dc-95f4-5a708fd3c086,cb55ad4a-e7c3-4cd6-8efb-6ccd3c369f4e,be158f8c-bc22-4469-b01c-b9e928499a05,4be5615e-0d14-4756-a090-bd157133f463";
+
+            public const string DoctorUserGuidConstants = "9da9587f-e28e-4289-a559-7407d3ea34a5,79fb8276-3bf8-4e70-9ac3-0e53a0d3a29e,f1221132-3b9f-4f33-9e4d-1514bc0221e8,da3da29d-5411-4750-a5c4-e4ae4e22965c,b922fbb1-e1e8-41c6-a903-931e1cd4b845,3f9592ad-6af3-4021-808f-39d7aa9246e9,0bbf2307-d024-44b4-917f-a52ab9ddc013,cf6e7092-584c-460d-9538-feee4a5b53d9,f142f846-dbe7-420e-bbce-4a9f83e36980,d3ba8e2c-1f0f-4879-86b0-372d1b0bc760,8c1bcbb9-96f4-4e4e-8ec2-fc26fb79ddca,095da4be-9891-4cd9-a2ad-05dbbb0e2085,b67a1365-3902-4728-8c9f-05369b1556b7,f092f500-00e2-4544-952a-4cb91320558d,c8517d67-c0f3-4cb8-ac8c-96602aaad8bb,041639c2-fcd2-4899-a5c6-2025cbb3c1c7,c83d8295-ff6a-4644-a44a-c2bc294b220e,8f052e1c-d7f5-40d4-9ee4-9c9f29a85ffe,a8d60b9c-6bef-4eff-af47-bcce7daf311b,7c513995-bed0-4be3-b768-304cd697c3f9,cd25b1ea-70c5-47d2-9617-3b7d0e6bc788,734267e9-a59b-44c3-baee-7e52a2bd1c29";
+
+            public const string AdministratorGuidConstants = "e0b65a18-1271-4146-a730-8e80a24cea78";
+            public const string AdministratorUserGuidConstants = "d026cf1f-a334-41f4-a1b7-31b7a56b9f1b";
+
+            public const string LaborantGuidConstants = "fb454478-8b7c-48bd-86b4-a0b36bf261a2";
+            public const string LaborantUserGuidConstants = "fb454478-8b7c-48bd-86b4-a0b36bf261a2";
+        }
     }
 }

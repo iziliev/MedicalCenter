@@ -18,7 +18,7 @@ namespace MedicalCenter.Core.Contracts
 
         Task<LaboratoryPatient> GetLaboratoryPatientByEgnAsync(string egn);
 
-        Task AddLaboratoryPatientRoleAsync(LaboratoryPatient laboratoryPatient, string laboratoryPatientRole);
+        Task AddLaboratoryPatientRoleAsync(User laboratoryPatient, string laboratoryPatientRole);
 
         Task<ShowAllLaboratoryPatientViewModel> GetAllCurrentLaboratoryPatientAsync(
             string? searchTermEgn = null,

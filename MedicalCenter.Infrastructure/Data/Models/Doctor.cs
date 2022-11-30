@@ -4,8 +4,14 @@ using static MedicalCenter.Infrastructure.Data.Global.DataConstants;
 
 namespace MedicalCenter.Infrastructure.Data.Models
 {
-    public class Doctor : User
+    public class Doctor
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+
+        [ForeignKey(nameof(User))]
+        public string? UserId { get; set; }
+        public User? User { get; set; }
+
         [Required]
         public string ProfileImageUrl { get; set; } = null!;
 

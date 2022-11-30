@@ -371,7 +371,7 @@ namespace MedicalCenter.Controllers
 
             await userService.CreateExaminationAsync(user, doctor, bookModel);
 
-            TempData[MessageConstant.SuccessMessage] = $"Успешно е записан час при д-р {doctor.FirstName} {doctor.LastName} - {bookModel.Date} {bookModel.Hour}!";
+            TempData[MessageConstant.SuccessMessage] = $"Успешно е записан час при д-р {doctor.User.FirstName} {doctor.User.LastName} - {bookModel.Date} {bookModel.Hour}!";
 
             return RedirectToAction(nameof(UserExamination));
         }

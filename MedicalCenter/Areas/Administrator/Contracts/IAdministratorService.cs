@@ -20,9 +20,13 @@ namespace MedicalCenter.Areas.Contracts
 
         Task<T> GetByEgnAsync<T>(string egn);
 
-        Task AddDoctorRoleAsync(Doctor doctor, string doctorRole);
+        Task<Doctor> GetDoctorByIdAsync(string id);
 
-        Task AddLaborantRoleAsync(Laborant laborant, string laborantRole);
+        Task<Laborant> GetLaborantByIdAsync(string id);
+
+        Task AddDoctorRoleAsync(User doctor, string doctorRole);
+
+        Task AddLaborantRoleAsync(User laborant, string laborantRole);
 
         Task<MainDoctorViewModel> GetDoctorByIdToEditAsync(string id);
 

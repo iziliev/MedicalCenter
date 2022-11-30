@@ -87,7 +87,7 @@ namespace MedicalCenter.Controllers
 
             if (result.Succeeded)
             {
-                await laborantService.AddLaboratoryPatientRoleAsync(laboratoryPatient, RoleConstants.LaboratoryUserRole);
+                await laborantService.AddLaboratoryPatientRoleAsync(laboratoryPatient.User, RoleConstants.LaboratoryUserRole);
 
                 TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен {laboratoryPatientCreateModel.FirstName} {laboratoryPatientCreateModel.LastName}!";
 

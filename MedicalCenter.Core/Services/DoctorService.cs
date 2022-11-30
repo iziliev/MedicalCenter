@@ -82,6 +82,14 @@ namespace MedicalCenter.Core.Services
                 .ToListAsync();
         }
 
+        public async Task<Doctor> GetDoctorByIdAsync(string id)
+        {
+            return await repository.All<Doctor>()
+                .Where(d=>d.UserId == id)
+                .Include(d=>d.User)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<DoctorStatisticViewModel> GetDoctorStatisticsAsync(Doctor doctor)
         {
             var allFinishedExamination = await repository.All<Examination>()
@@ -96,7 +104,7 @@ namespace MedicalCenter.Core.Services
                 .Where(r => r.DoctorId == doctor.Id)
                 .ToListAsync();
 
-            var doctorFullName = $"Д-р {doctor.FirstName} {doctor.LastName}";
+            var doctorFullName = $"Д-р {doctor.User.FirstName} {doctor.User.LastName}";
 
             return new DoctorStatisticViewModel
             {

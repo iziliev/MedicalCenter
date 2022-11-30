@@ -54,7 +54,7 @@ namespace MedicalCenter.Core.Services
                     Content = x.Content,
                     CreatedOn = x.CreatedOn.ToString("dd.MM.yyyy"),
                     SpecialityName = x.Doctor.Specialty.Name,
-                    DoctorFullName = $"Д-р {x.Doctor.FirstName} {x.Doctor.LastName}",
+                    DoctorFullName = $"Д-р {x.User.FirstName} {x.User.LastName}",
                     Rating = x.Rating
                 })
                 .ToListAsync();
@@ -83,7 +83,7 @@ namespace MedicalCenter.Core.Services
                 searchTermName = $"%{searchTermName}%".ToLower();
 
                 reviewsQuery = reviewsQuery
-                    .Where(d => EF.Functions.Like(d.Doctor.FirstName, searchTermName) || EF.Functions.Like(d.Doctor.LastName, searchTermName));
+                    .Where(d => EF.Functions.Like(d.Doctor.User.FirstName, searchTermName) || EF.Functions.Like(d.Doctor.User.LastName, searchTermName));
             }
 
             if (string.IsNullOrEmpty(searchTermRating) == false)
@@ -106,7 +106,7 @@ namespace MedicalCenter.Core.Services
                 {
                     Content = d.Content,
                     CreatedOn = d.CreatedOn.ToString("dd.MM.yyyy"),
-                    DoctorFullName = $"{d.Doctor.FirstName} {d.Doctor.LastName}",
+                    DoctorFullName = $"{d.User.FirstName} {d.User.LastName}",
                     Rating = d.Rating,
                     UserFullName = $"{d.User.FirstName} {d.User.LastName}"
                 })
@@ -175,7 +175,7 @@ namespace MedicalCenter.Core.Services
                 .Where(e=>!e.IsDeleted && e.UserId == userId && e.IsUserReviewedExamination)
                 .Include(d => d.User)
                 .Include(d=>d.Doctor)
-                .ThenInclude(x => x.UserReviews)
+                .ThenInclude(x => x.User.UserReviews)
                 .OrderByDescending(x => x.Date)
                 .AsQueryable();
 
@@ -203,10 +203,10 @@ namespace MedicalCenter.Core.Services
                 searchTermName = $"%{searchTermName}%";
 
                 reviewsQuery = reviewsQuery
-                    .Where(d => EF.Functions.Like(d.Doctor.FirstName.ToLower(), searchTermName) ||
-                    EF.Functions.Like(d.Doctor.FirstName.ToLower(), searchTermName) ||
-                    EF.Functions.Like(d.Doctor.LastName.ToLower(), searchTermName) ||
-                    EF.Functions.Like(d.Doctor.LastName.ToLower(), searchTermName));
+                    .Where(d => EF.Functions.Like(d.Doctor.User.FirstName.ToLower(), searchTermName) ||
+                    EF.Functions.Like(d.Doctor.User.FirstName.ToLower(), searchTermName) ||
+                    EF.Functions.Like(d.Doctor.User.LastName.ToLower(), searchTermName) ||
+                    EF.Functions.Like(d.Doctor.User.LastName.ToLower(), searchTermName));
             }
 
             var reviews = await reviewsQuery
@@ -217,7 +217,7 @@ namespace MedicalCenter.Core.Services
                     Content = x.Review.Content,
                     CreatedOn = x.Review.CreatedOn.ToString("dd.MM.yyyy"),
                     SpecialityName = x.Doctor.Specialty.Name,
-                    DoctorFullName = $"{x.Doctor.FirstName} {x.Doctor.LastName}",
+                    DoctorFullName = $"{x.Doctor.User.FirstName} {x.Doctor.User.LastName}",
                     Rating = x.Review.Rating,
                     ExaminationDate = $"{x.Date:dd.MM.yyyy} {x.Hour}"
                 })

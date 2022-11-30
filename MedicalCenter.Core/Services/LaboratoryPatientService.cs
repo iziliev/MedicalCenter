@@ -37,18 +37,18 @@ namespace MedicalCenter.Core.Services
         public async Task<bool> IsUsernameExistAsync(string username)
         {
             return await repository.AllReadonly<LaboratoryPatient>()
-                .AnyAsync(p => p.UserName == username);
+                .AnyAsync(p => p.User.UserName == username);
         }
 
         public async Task<SignInResult> Login(LoginPatientViewModel loginModel)
         {
-            var laboratoryParient = await repository.AllReadonly<LaboratoryPatient>()
-                .Where(p => p.Egn == loginModel.Egn)
+            var laboratoryParient = await repository.AllReadonly<User>()
+                .Where(p => p.LaboratoryPatient.Egn == loginModel.Egn)
                 .FirstOrDefaultAsync();
 
             if (laboratoryParient == null)
             {
-                laboratoryParient = await repository.AllReadonly<LaboratoryPatient>()
+                laboratoryParient = await repository.AllReadonly<User>()
                 .Where(p => p.UserName == loginModel.Egn)
                 .FirstOrDefaultAsync();
             }
@@ -68,7 +68,7 @@ namespace MedicalCenter.Core.Services
             int laboratoryPatientPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var laboratoryPatientQuery = repository.All<Test>()
-                .Where(d => d.LaboratoryPatientId == userId)
+                .Where(d => d.LaboratoryPatient.UserId == userId)
                 .AsQueryable();
 
             if (string.IsNullOrEmpty(searchTermDate) == false)
@@ -109,7 +109,7 @@ namespace MedicalCenter.Core.Services
                 .Select(x=>new ResultViewModel
                 {
                     Date = x.TestDate.ToString("dd.MM.yyyy"),
-                    PatientName = $"{x.LaboratoryPatient.FirstName} {x.LaboratoryPatient.LastName}",
+                    PatientName = $"{x.LaboratoryPatient.User.FirstName} {x.LaboratoryPatient.User.LastName}",
                     Hct = x.Hct,
                     Hgb = x.Hgb,
                     WBC=x.WBC,
@@ -121,7 +121,7 @@ namespace MedicalCenter.Core.Services
                     MCV = x.MCV,
                     Plt = x.Plt,
                     PatientEgn = x.LaboratoryPatient.Egn,
-                    PatientGender = x.LaboratoryPatient.GenderId
+                    PatientGender = x.LaboratoryPatient.User.GenderId
                 })
                 .FirstOrDefaultAsync();
         }

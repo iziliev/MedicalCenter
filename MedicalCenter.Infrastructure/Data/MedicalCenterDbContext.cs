@@ -25,7 +25,21 @@ namespace MedicalCenter.Infrastructure.Data
 
         public DbSet<WorkHour> WorkHours { get; set; } = null!;
 
+        public DbSet<Administrator> Administrators { get; set; }
+
+        public DbSet<Doctor> Doctors { get; set; }
+
+        public DbSet<Laborant> Laborants { get; set; }
+
+        public DbSet<LaboratoryPatient> LaboratoryPatients { get; set; }
+
         public DbSet<Test> Tests { get; set; } = null!;
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.EnableSensitiveDataLogging();
+        //    base.OnConfiguring(optionsBuilder);
+        //}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -130,11 +130,11 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(doctorEditModel);
             }
 
-            var doctor = await repository.GetByIdAsync<Doctor>(doctorEditModel.Id);
+            var doctor = await administratorService.GetDoctorByIdAsync(doctorEditModel.Id);
 
             if (doctor != null)
             {
-                TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран д-р {doctor.FirstName} {doctor.LastName}!";
+                TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран д-р {doctor.User.FirstName} {doctor.User.LastName}!";
 
                 await administratorService.EditDoctorAsync(doctorEditModel, doctor);
             }
@@ -166,11 +166,11 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(laborantEditModel);
             }
 
-            var laborant = await repository.GetByIdAsync<Laborant>(laborantEditModel.Id);
+            var laborant = await administratorService.GetLaborantByIdAsync(laborantEditModel.Id);
 
             if (laborant != null)
             {
-                TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран лаборант {laborant.FirstName} {laborant.LastName}!";
+                TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран лаборант {laborant.User.FirstName} {laborant.User.LastName}!";
 
                 await administratorService.EditLaborantAsync(laborantEditModel, laborant);
             }
@@ -206,7 +206,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
 
             if (result.Succeeded)
             {
-                await administratorService.AddDoctorRoleAsync(doctor, RoleConstants.DoctorRole);
+                await administratorService.AddDoctorRoleAsync(doctor.User, RoleConstants.DoctorRole);
 
                 TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctorCreateModel.FirstName} {doctorCreateModel.LastName} в Medical Center!";
 
@@ -250,7 +250,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
 
             if (result.Succeeded)
             {
-                await administratorService.AddLaborantRoleAsync(laborant, RoleConstants.LaborantRole);
+                await administratorService.AddLaborantRoleAsync(laborant.User, RoleConstants.LaborantRole);
 
                 TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен лаборант {laborantCreateModel.FirstName} {laborantCreateModel.LastName} в Medical Center!";
 
@@ -271,10 +271,10 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         public async Task<IActionResult> DeleteDoctor(string id)
         {
             var doctor = await repository.GetByIdAsync<Doctor>(id);
-
+            
             await administratorService.DeleteAsync<Doctor>(id);
 
-            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит д-р {doctor.FirstName} {doctor.LastName} от Medical Center!";
+            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит д-р {doctor.User.FirstName} {doctor.User.LastName} от Medical Center!";
 
             return RedirectToAction(nameof(AdminBoardMedicalCenter));
         }
@@ -286,7 +286,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
 
             await administratorService.DeleteAsync<Laborant>(id);
 
-            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит лаборант {laborant.FirstName} {laborant.LastName} от Medical Center!";
+            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит лаборант {laborant.User.FirstName} {laborant.User.LastName} от Medical Center!";
 
             return RedirectToAction(nameof(AdminBoardLaboratory));
         }
@@ -294,9 +294,9 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> ReturnDoctor(string id)
         {   
-            var doctor = await repository.GetByIdAsync<Doctor>(id);
+            var doctor = await administratorService.GetDoctorByIdAsync(id);
 
-            TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctor.FirstName} {doctor.LastName} в Medical Center!";
+            TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctor.User.FirstName} {doctor.User.LastName} в Medical Center!";
 
             await administratorService.ReturnAsync<Doctor>(id);
 
@@ -306,9 +306,9 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> ReturnLaborant(string id)
         {
-            var laborant = await repository.GetByIdAsync<Laborant>(id);
+            var laborant = await administratorService.GetLaborantByIdAsync(id);
 
-            TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен лаборант {laborant.FirstName} {laborant.LastName} в Medical Center!";
+            TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен лаборант {laborant.User.FirstName} {laborant.User.LastName} в Medical Center!";
 
             await administratorService.ReturnAsync<Laborant>(id);
 

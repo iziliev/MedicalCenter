@@ -10,6 +10,8 @@ namespace MedicalCenter.Core.Contracts
 
         Task<DoctorStatisticViewModel> GetDoctorStatisticsAsync(Doctor doctor);
 
+        Task<Doctor> GetDoctorByIdAsync(string id);
+
         Task<ShowAllExaminationDoctorViewModel> GetAllDoctorExaminationAsync(
             string doctorId,
             string? searchTerm=null, 

@@ -25,7 +25,7 @@ namespace MedicalCenter.Core.Services
             repository = _repository;
         }
 
-        public async Task AddLaboratoryPatientRoleAsync(LaboratoryPatient laboratoryPatient, string laboratoryPatientRole)
+        public async Task AddLaboratoryPatientRoleAsync(User laboratoryPatient, string laboratoryPatientRole)
         {
             await userManager.AddToRoleAsync(laboratoryPatient, laboratoryPatientRole);
         }
@@ -41,19 +41,22 @@ namespace MedicalCenter.Core.Services
         {
             string phoneNumber = globalService.ParsePnoneNumber(laboratoryPatientModel.PhoneNumber);
 
-            var laboratoryPatient = new LaboratoryPatient()
+            var user = new User
             {
                 FirstName = laboratoryPatientModel.FirstName,
                 LastName = laboratoryPatientModel.LastName,
                 GenderId = laboratoryPatientModel.Gender,
                 UserName = laboratoryPatientModel.Username,
                 PhoneNumber = phoneNumber,
-                Egn = laboratoryPatientModel.Egn,
                 Role = "LaboratoryUser",
                 JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                LaboratoryPatient = new LaboratoryPatient()
+                {
+                    Egn = laboratoryPatientModel.Egn,
+                }
             };
 
-            return await userManager.CreateAsync(laboratoryPatient, laboratoryPatientModel.Password);
+            return await userManager.CreateAsync(user, laboratoryPatientModel.Password);
         }
 
         public async Task<CreateLaboratoryPatientViewModel> SearchLaboratoryPatientByEgnAsync(string egn)
@@ -64,11 +67,11 @@ namespace MedicalCenter.Core.Services
                 {
                     Id = d.Id,
                     Egn = d.Egn,
-                    FirstName = d.FirstName,
-                    Gender = d.GenderId,
-                    PhoneNumber = d.PhoneNumber,
-                    LastName = d.LastName,
-                    Role = d.Role
+                    FirstName = d.User.FirstName,
+                    Gender = d.User.GenderId,
+                    PhoneNumber = d.User.PhoneNumber,
+                    LastName = d.User.LastName,
+                    Role = d.User.Role
                 })
                 .FirstOrDefaultAsync();
 
@@ -82,8 +85,8 @@ namespace MedicalCenter.Core.Services
             int laboratoryPatientPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
             var laboratoryPatientQuery = repository.All<LaboratoryPatient>()
-                .OrderBy(x => x.FirstName)
-                .ThenBy(x => x.LastName)
+                .OrderBy(x => x.User.FirstName)
+                .ThenBy(x => x.User.LastName)
                 .AsQueryable();
 
             if (string.IsNullOrEmpty(searchTermEgn) == false)
@@ -97,7 +100,7 @@ namespace MedicalCenter.Core.Services
                 searchTermName = $"%{searchTermName}%".ToLower();
 
                 laboratoryPatientQuery = laboratoryPatientQuery
-                    .Where(d => EF.Functions.Like(d.FirstName.ToLower(), searchTermName) || EF.Functions.Like(d.LastName.ToLower(), searchTermName));
+                    .Where(d => EF.Functions.Like(d.User.FirstName.ToLower(), searchTermName) || EF.Functions.Like(d.User.LastName.ToLower(), searchTermName));
             }
 
             var laboratoryPatients = await laboratoryPatientQuery
@@ -105,11 +108,11 @@ namespace MedicalCenter.Core.Services
                 .Take(laboratoryPatientPerPage)
                 .Select(d => new DashboardLaboratoryPatientViewModel
                 {
-                    FirstName = d.FirstName,
+                    FirstName = d.User.FirstName,
                     Id = d.Id,
-                    JoinOnDate = d.JoinOnDate,
-                    LastName = d.LastName,
-                    PhoneNumber = d.PhoneNumber,
+                    JoinOnDate = d.User.JoinOnDate,
+                    LastName = d.User.LastName,
+                    PhoneNumber = d.User.PhoneNumber,
                     Egn = d.Egn
                 })
                 .ToListAsync();

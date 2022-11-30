@@ -96,8 +96,8 @@ namespace MedicalCenter.Core.Services
                 .Where(d => !d.IsOutOfCompany)
                 .Include(s => s.Specialty)
                 .OrderBy(x => x.Specialty.Name)
-                .ThenBy(x => x.FirstName)
-                .ThenBy(x => x.LastName)
+                .ThenBy(x => x.User.FirstName)
+                .ThenBy(x => x.User.LastName)
                 .AsQueryable();
 
             if (string.IsNullOrEmpty(speciality) == false)
@@ -116,17 +116,17 @@ namespace MedicalCenter.Core.Services
                     var lastName = $"%{searchTermName[1]}%";
 
                     doctorsQuery = doctorsQuery
-                    .Where(d => EF.Functions.Like(d.FirstName.ToLower(), firstName) || 
-                    EF.Functions.Like(d.LastName.ToLower(), lastName) || 
-                    EF.Functions.Like(d.FirstName.ToLower(), lastName) ||
-                    EF.Functions.Like(d.LastName.ToLower(), firstName));
+                    .Where(d => EF.Functions.Like(d.User.FirstName.ToLower(), firstName) || 
+                    EF.Functions.Like(d.User.LastName.ToLower(), lastName) || 
+                    EF.Functions.Like(d.User.FirstName.ToLower(), lastName) ||
+                    EF.Functions.Like(d.User.LastName.ToLower(), firstName));
                 }
                 else
                 {
                     var name = $"%{searchTermName[0]}%";
 
                     doctorsQuery = doctorsQuery
-                    .Where(d => EF.Functions.Like(d.FirstName.ToLower(), name) || EF.Functions.Like(d.LastName.ToLower(), name));
+                    .Where(d => EF.Functions.Like(d.User.FirstName.ToLower(), name) || EF.Functions.Like(d.User.LastName.ToLower(), name));
                 }
             }
 
@@ -135,12 +135,12 @@ namespace MedicalCenter.Core.Services
                 .Take(doctorsPerPage)
                 .Select(d => new DashboardAllDoctorUserViewModel
                 {
-                    FirstName = d.FirstName,
+                    FirstName = d.User.FirstName,
                     Id = d.Id,
-                    LastName = d.LastName,
-                    PhoneNumber = d.PhoneNumber,
+                    LastName = d.User.LastName,
+                    PhoneNumber = d.User.PhoneNumber,
                     SpecialityName = d.Specialty.Name,
-                    Email = d.Email,
+                    Email = d.User.Email,
                     ProfileImageUrl = d.ProfileImageUrl,
                     SpecialtyId = d.SpecialtyId,
                 })
@@ -167,8 +167,9 @@ namespace MedicalCenter.Core.Services
         public async Task<Doctor> GetDoctorByIdAsync(string doctorId)
         {
             return await repository.All<Doctor>()
-                .Include(s => s.Specialty)
                 .Where(d => d.Id == doctorId)
+                .Include(s => s.Specialty)
+                .Include(u=>u.User)
                 .FirstOrDefaultAsync();
         }
 
@@ -179,7 +180,7 @@ namespace MedicalCenter.Core.Services
                 DoctorId = bookModel.DoctorId,
                 Date = DateTime.ParseExact(bookModel.Date, "dd.MM.yyyy", CultureInfo.InvariantCulture),
                 DoctorFullName = bookModel.DoctorFullName,
-                DoctorPhoneNumber = doctor.PhoneNumber,
+                DoctorPhoneNumber = doctor.User.PhoneNumber,
                 Hour = bookModel.Hour,
                 UserFullName = $"{user.FirstName} {user.LastName}",
                 UserId = user.Id,
@@ -231,7 +232,7 @@ namespace MedicalCenter.Core.Services
         {
             var doctor = await repository.GetByIdAsync<Doctor>(doctorId);
 
-            return $"{doctor.FirstName} {doctor.LastName}";
+            return $"{doctor.User.FirstName} {doctor.User.LastName}";
         }
 
         public async Task<ShowAllUserExaminationViewModel> GetAllCurrentExaminationAsync(
@@ -318,7 +319,7 @@ namespace MedicalCenter.Core.Services
             return new BookExaminationViewModel()
             {
                 DoctorId = doctorId,
-                DoctorFullName = $"Д-р {doctor.FirstName} {doctor.LastName}",
+                DoctorFullName = $"Д-р {doctor.User.FirstName} {doctor.User.LastName}",
                 WorkHours = await GetDoctorWorkHoursByDoctorIdAsync(doctorId),
                 Biography = doctor.Biography,
                 Education = doctor.Education,
@@ -365,7 +366,7 @@ namespace MedicalCenter.Core.Services
                 searchTermName = $"%{searchTermName}%";
 
                 examinationQuery = examinationQuery
-                    .Where(d => EF.Functions.Like(d.Doctor.FirstName, searchTermName) || EF.Functions.Like(d.Doctor.LastName, searchTermName));
+                    .Where(d => EF.Functions.Like(d.User.FirstName, searchTermName) || EF.Functions.Like(d.User.LastName, searchTermName));
             }
 
             var examinations = await examinationQuery

@@ -44,7 +44,7 @@ namespace MedicalCenter.Controllers
                 return View();
             }
 
-            var doctor = await repository.GetByIdAsync<Doctor>(doctorId);
+            var doctor = await doctorService.GetDoctorByIdAsync(doctorId);
 
             if (doctor == null)
             {
@@ -53,7 +53,7 @@ namespace MedicalCenter.Controllers
                 return View();
             }
 
-            ViewData["DoctorName"] = $"д-р {doctor.FirstName} {doctor.LastName}";
+            ViewData["DoctorName"] = $"д-р {doctor.User.FirstName} {doctor.User.LastName}";
 
             return View();
         }
@@ -79,7 +79,7 @@ namespace MedicalCenter.Controllers
                 return View();
             }
 
-            var doctor = await repository.GetByIdAsync<Doctor>(doctorId);
+            var doctor = await doctorService.GetDoctorByIdAsync(doctorId);
 
             if (doctor == null)
             {

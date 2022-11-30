@@ -49,19 +49,21 @@ namespace MedicalCenter.Core.Services
         {
             var bestRatingDoctor = await repository.All<Doctor>()
                 .Include(d => d.DoctorReviews)
+                .Include(u=>u.User)
                 .OrderByDescending(x => x.DoctorReviews.Average(x => x.Rating))
                 .FirstOrDefaultAsync();
 
             var bestExaminationDoctor = await repository.All<Doctor>()
                 .Include(d => d.DoctorExaminations)
+                .Include(u => u.User)
                 .OrderByDescending(x => x.DoctorExaminations.Count)
                 .FirstOrDefaultAsync();
 
             return new DashboardStatisticViewModel
             {
-                BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.FirstName} {bestRatingDoctor.LastName}",
+                BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.User.FirstName} {bestRatingDoctor.User.LastName}",
                 BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? "0.00" : bestRatingDoctor.DoctorReviews.Average(x => x.Rating).ToString("F2"),
-                BestExaminationDoctorFullName = bestExaminationDoctor.DoctorExaminations.Count == 0 ? "Няма записани часове" : $"Д-р {bestExaminationDoctor.FirstName} {bestExaminationDoctor.LastName}",
+                BestExaminationDoctorFullName = bestExaminationDoctor.DoctorExaminations.Count == 0 ? "Няма записани часове" : $"Д-р {bestExaminationDoctor.User.FirstName} {bestExaminationDoctor.User.LastName}",
                 BestExaminationCount = bestExaminationDoctor.DoctorExaminations.Count,
             };
         }
