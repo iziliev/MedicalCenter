@@ -105,7 +105,8 @@ namespace MedicalCenter.Infrastructure.Extensions
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
                 Role = "Administrator",
-                AdministratorId= GuidIdsConstants.AdministratorGuidConstants
+                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                AdministratorId = GuidIdsConstants.AdministratorGuidConstants
             };
 
             user.PasswordHash = administratorHasher.HashPassword(user, "Admin");
@@ -160,7 +161,7 @@ namespace MedicalCenter.Infrastructure.Extensions
                     PhoneNumber = $"+359888888{lastTel++}",
                     GenderId = genderByName,
                     Role = "Doctor",
-                    JoinOnDate = DateTime.UtcNow.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                    JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
                     DoctorId = doctorsDoctorGuid[guidCount]
                 };
 

@@ -177,9 +177,8 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 await administratorService.EditAdminAsync(adminEditModel, administrator);
             }
 
-            return RedirectToAction(nameof(AdminBoardMedicalCenter));
+            return RedirectToAction(nameof(AdminBoardAdministrator));
         }
-
 
         [HttpGet]
         public async Task<IActionResult> EditDoctor(string id)
@@ -278,11 +277,11 @@ namespace MedicalCenter.Areas.Administrator.Controllers
 
             if (result.Succeeded)
             {
-                await administratorService.AddAdminRoleAsync(administrator.User, RoleConstants.DoctorRole);
+                await administratorService.AddAdminRoleAsync(administrator.User, RoleConstants.AdministratorRole);
 
                 TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен админ {adminCreateModel.FirstName} {adminCreateModel.LastName} в Medical Center!";
 
-                return RedirectToAction(nameof(AdminPanel));
+                return RedirectToAction(nameof(AdminBoardAdministrator));
             }
 
             foreach (var error in result.Errors)
@@ -389,16 +388,15 @@ namespace MedicalCenter.Areas.Administrator.Controllers
 
             if (User.Id() != id)
             {
-                TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит админ {admin.User.FirstName} {admin.User.LastName} от Medical Center!";
+                await administratorService.DeleteAsync<Infrastructure.Data.Models.Administrator>(id);
 
-                return RedirectToAction(nameof(AdminBoardMedicalCenter));
+                TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит админ {admin.User.FirstName} {admin.User.LastName} от Medical Center!";
+                return RedirectToAction(nameof(AdminBoardAdministrator));
             }
 
-            await administratorService.DeleteAsync<Infrastructure.Data.Models.Administrator>(id);
+            TempData[MessageConstant.ErrorMessage] = $"Не Успешно е изтрит админ {admin.User.FirstName} {admin.User.LastName} от Medical Center!";
 
-            TempData[MessageConstant.ErrorMessage] = $"Успешно е изтрит админ {admin.User.FirstName} {admin.User.LastName} от Medical Center!";
-
-            return RedirectToAction(nameof(AdminBoardMedicalCenter));
+            return RedirectToAction(nameof(AllAdministrator));
         }
 
         [HttpPost]

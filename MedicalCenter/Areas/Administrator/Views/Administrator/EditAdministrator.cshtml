@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
                     <p class="login-box-msg">@ViewData["Title"] в системата</p>
-                    <form asp-controller="Administrator" asp-action="EditLaborant" method="post">
+                    <form asp-controller="Administrator" asp-action="EditAdministrator" method="post">
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show"></div>
                         <input type="hidden" asp-for="@Model.Id" />
                         <input type="hidden" asp-for="@Model.IsOutOfCompany" />
