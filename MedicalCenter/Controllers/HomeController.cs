@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,11 @@ namespace MedicalCenter.Controllers
 
         public IActionResult Index()
         {
+            if (User.IsInRole(DataConstants.RoleConstants.AdministratorRole))
+            {
+                return RedirectToAction("AdminPanel", "Administrator", new { area = "Administrator" });
+            }
+
             var statisticModel = homeService.Statistics();
 
             return View(statisticModel);
