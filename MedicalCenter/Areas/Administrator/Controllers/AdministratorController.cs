@@ -1,6 +1,7 @@
 ﻿using MedicalCenter.Areas.Administrator.Models;
 using MedicalCenter.Areas.Contracts;
 using MedicalCenter.Controllers;
+using MedicalCenter.Core.Models.Api;
 using MedicalCenter.Extensions;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
@@ -44,7 +45,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(searchModel);
             }
 
-            var administrator = await administratorService.SearchAdminByEgnAsync(searchModel.Egn);
+            var administrator = await administratorService.SearchUserByEgnAsync<CreateAdminViewModel,Infrastructure.Data.Models.Administrator>(searchModel.Egn);
 
             if (administrator == null)
             {
@@ -85,7 +86,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(searchModel);
             }
 
-            var doctor = await administratorService.SearchDoctorByEgnAsync(searchModel.Egn);
+            var doctor = await administratorService.SearchUserByEgnAsync<CreateDoctorViewModel,Doctor>(searchModel.Egn);
 
             if (doctor == null)
             {
@@ -126,7 +127,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(searchModel);
             }
 
-            var laborant = await administratorService.SearchLaborantByEgnAsync(searchModel.Egn);
+            var laborant = await administratorService.SearchUserByEgnAsync<CreateLaborantViewModel,Laborant>(searchModel.Egn);
 
             if (laborant == null)
             {
@@ -151,7 +152,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> EditAdministrator(string id)
         {
-            var adminEditModel = await administratorService.GetAdminByIdToEditAsync(id);
+            var adminEditModel = await administratorService.GetUserByIdToEditAsync<MainAdminViewModel,Infrastructure.Data.Models.Administrator>(id);
             adminEditModel.Genders = await administratorService.GetGendersAsync();
             ViewData["Title"] = "Редактиране на администратор";
 
@@ -168,13 +169,13 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(adminEditModel);
             }
 
-            var administrator = await administratorService.GetAdminByIdAsync(adminEditModel.Id);
+            var administrator = await administratorService.GetUserByIdAsync<Infrastructure.Data.Models.Administrator>(adminEditModel.Id);
 
             if (administrator != null)
             {
                 TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран админ {administrator.User.FirstName} {administrator.User.LastName}!";
                 adminEditModel.Genders = await administratorService.GetGendersAsync();
-                await administratorService.EditAdminAsync(adminEditModel, administrator);
+                await administratorService.EditUserAsync<MainAdminViewModel, Infrastructure.Data.Models.Administrator>(adminEditModel, administrator);
             }
 
             return RedirectToAction(nameof(AdminBoardAdministrator));
@@ -183,7 +184,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> EditDoctor(string id)
         {
-            var doctorEditModel = await administratorService.GetDoctorByIdToEditAsync(id);
+            var doctorEditModel = await administratorService.GetUserByIdToEditAsync<MainDoctorViewModel, Doctor>(id);
 
             doctorEditModel = await administratorService.FillGendersSpecialitiesSheduleInEditViewAsyanc(doctorEditModel);
 
@@ -204,13 +205,13 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(doctorEditModel);
             }
 
-            var doctor = await administratorService.GetDoctorByIdAsync(doctorEditModel.Id);
+            var doctor = await administratorService.GetUserByIdAsync<Doctor>(doctorEditModel.Id);
 
             if (doctor != null)
             {
                 TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран д-р {doctor.User.FirstName} {doctor.User.LastName}!";
 
-                await administratorService.EditDoctorAsync(doctorEditModel, doctor);
+                await administratorService.EditUserAsync<MainDoctorViewModel,Doctor>(doctorEditModel, doctor);
             }
 
             return RedirectToAction(nameof(AdminBoardMedicalCenter));
@@ -219,7 +220,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> EditLaborant(string id)
         {
-            var laborantEditModel = await administratorService.GetLaborantByIdToEditAsync(id);
+            var laborantEditModel = await administratorService.GetUserByIdToEditAsync<MainLaborantViewModel, Laborant>(id);
 
             laborantEditModel.Genders = await administratorService.GetGendersAsync();
 
@@ -240,13 +241,13 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(laborantEditModel);
             }
 
-            var laborant = await administratorService.GetLaborantByIdAsync(laborantEditModel.Id);
+            var laborant = await administratorService.GetUserByIdAsync<Laborant>(laborantEditModel.Id);
 
             if (laborant != null)
             {
                 TempData[MessageConstant.WarningMessage] = $"Успешно е редактиран лаборант {laborant.User.FirstName} {laborant.User.LastName}!";
 
-                await administratorService.EditLaborantAsync(laborantEditModel, laborant);
+                await administratorService.EditUserAsync<MainLaborantViewModel,Laborant>(laborantEditModel, laborant);
             }
 
             return RedirectToAction(nameof(AdminBoardLaboratory));
@@ -271,13 +272,13 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(adminCreateModel);
             }
 
-            var result = await administratorService.CreateAdminAsync(adminCreateModel);
+            var result = await administratorService.CreateUserAsync(adminCreateModel);
 
             var administrator = await administratorService.GetByEgnAsync<Infrastructure.Data.Models.Administrator>(adminCreateModel.Egn);
 
             if (result.Succeeded)
             {
-                await administratorService.AddAdminRoleAsync(administrator.User, RoleConstants.AdministratorRole);
+                await administratorService.AddRoleAsync(administrator.User, RoleConstants.AdministratorRole);
 
                 TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен админ {adminCreateModel.FirstName} {adminCreateModel.LastName} в Medical Center!";
 
@@ -314,13 +315,13 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(doctorCreateModel);
             }
 
-            var result = await administratorService.CreateDoctorAsync(doctorCreateModel);
+            var result = await administratorService.CreateUserAsync(doctorCreateModel);
 
             var doctor = await administratorService.GetByEgnAsync<Doctor>(doctorCreateModel.Egn);
 
             if (result.Succeeded)
             {
-                await administratorService.AddDoctorRoleAsync(doctor.User, RoleConstants.DoctorRole);
+                await administratorService.AddRoleAsync(doctor.User, RoleConstants.DoctorRole);
 
                 TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctorCreateModel.FirstName} {doctorCreateModel.LastName} в Medical Center!";
 
@@ -358,13 +359,13 @@ namespace MedicalCenter.Areas.Administrator.Controllers
                 return View(laborantCreateModel);
             }
 
-            var result = await administratorService.CreateLaborantAsync(laborantCreateModel);
+            var result = await administratorService.CreateUserAsync(laborantCreateModel);
 
             var laborant = await administratorService.GetByEgnAsync<Laborant>(laborantCreateModel.Egn);
 
             if (result.Succeeded)
             {
-                await administratorService.AddLaborantRoleAsync(laborant.User, RoleConstants.LaborantRole);
+                await administratorService.AddRoleAsync(laborant.User, RoleConstants.LaborantRole);
 
                 TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен лаборант {laborantCreateModel.FirstName} {laborantCreateModel.LastName} в Medical Center!";
 
@@ -426,7 +427,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> ReturnAdministrator(string id)
         {
-            var admin = await administratorService.GetAdminByIdAsync(id);
+            var admin = await administratorService.GetUserByIdAsync<Infrastructure.Data.Models.Administrator>(id);
 
             TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {admin.User.FirstName} {admin.User.LastName} в Medical Center!";
 
@@ -438,7 +439,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> ReturnDoctor(string id)
         {   
-            var doctor = await administratorService.GetDoctorByIdAsync(id);
+            var doctor = await administratorService.GetUserByIdAsync<Doctor>(id);
 
             TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен д-р {doctor.User.FirstName} {doctor.User.LastName} в Medical Center!";
 
@@ -450,7 +451,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> ReturnLaborant(string id)
         {
-            var laborant = await administratorService.GetLaborantByIdAsync(id);
+            var laborant = await administratorService.GetUserByIdAsync<Laborant>(id);
 
             TempData[MessageConstant.SuccessMessage] = $"Успешно е добавен лаборант {laborant.User.FirstName} {laborant.User.LastName} в Medical Center!";
 
@@ -596,7 +597,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> AdminBoardMedicalCenter()
         {
-            var modelStatistic = await administratorService.GetStatisticsAsync();
+            var modelStatistic = await administratorService.GetStatisticsAsync<DashboardStatisticViewModel>();
 
             ViewData["Title"] = "Admin panel";
 
@@ -606,7 +607,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> AdminBoardLaboratory()
         {
-            var modelStatistic = await administratorService.GetStatisticsLabAsync();
+            var modelStatistic = await administratorService.GetStatisticsAsync<DashboardStatisticLabViewModel>();
 
             ViewData["Title"] = "Admin panel";
 
@@ -616,7 +617,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> AdminBoardAdministrator()
         {
-            var modelStatistic = await administratorService.GetStatisticsAdminAsync();
+            var modelStatistic = await administratorService.GetStatisticsAsync<DashboardStatisticAdminViewModel>();
 
             ViewData["Title"] = "Admin panel";
 
@@ -663,7 +664,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> StatisticData()
         {
-            var modelStatistic = await administratorService.GetStatisticsDataAsync();
+            var modelStatistic = await administratorService.GetStatisticsAsync<DashboardStatisticDataViewModel>();
 
             ViewData["Title"] = "Admin panel";
 

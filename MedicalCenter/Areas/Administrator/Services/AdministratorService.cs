@@ -6,6 +6,7 @@ using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Global;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
@@ -30,93 +31,106 @@ namespace MedicalCenter.Areas.Administrator.Services
             signInManager = _signInManager;
         }
 
-        public async Task<IdentityResult> CreateDoctorAsync(CreateDoctorViewModel doctorModel)
+
+        public async Task<IdentityResult> CreateUserAsync<T>(T userModel)
+            where T : class
         {
-            string phoneNumber = globalService.ParsePnoneNumber(doctorModel.PhoneNumber);
-
-            var doctor = new Doctor()
+            if (typeof(T).Equals(typeof(CreateDoctorViewModel))) 
             {
-                Biography = doctorModel.Biography,
-                Education = doctorModel.Education,
-                ProfileImageUrl = doctorModel.ProfileImageUrl,
-                Representation = doctorModel.Representation,
-                SpecialtyId = doctorModel.SpecialtyId,
-                Egn = doctorModel.Egn,
-                SheduleId = doctorModel.SheduleId
-            };
+                var doctorModel = userModel as CreateDoctorViewModel;
 
-            var user = new User
+                string phoneNumber = globalService.ParsePnoneNumber(doctorModel.PhoneNumber);
+
+                var doctor = new Doctor()
+                {
+                    Biography = doctorModel.Biography,
+                    Education = doctorModel.Education,
+                    ProfileImageUrl = doctorModel.ProfileImageUrl,
+                    Representation = doctorModel.Representation,
+                    SpecialtyId = doctorModel.SpecialtyId,
+                    Egn = doctorModel.Egn,
+                    SheduleId = doctorModel.SheduleId
+                };
+
+                var user = new User
+                {
+                    Email = doctorModel.Email,
+                    FirstName = doctorModel.FirstName,
+                    LastName = doctorModel.LastName,
+                    GenderId = doctorModel.Gender,
+                    PhoneNumber = phoneNumber,
+                    UserName = doctorModel.Username,
+                    Role = "Doctor",
+                    JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                    Doctor = doctor,
+                    DoctorId = doctor.Id
+                };
+
+                return await userManager.CreateAsync(user, doctorModel.Password);
+            }
+            else if (typeof(T).Equals(typeof(CreateLaborantViewModel))) 
             {
-                Email = doctorModel.Email,
-                FirstName = doctorModel.FirstName,
-                LastName = doctorModel.LastName,
-                GenderId = doctorModel.Gender,
-                PhoneNumber = phoneNumber,
-                UserName = doctorModel.Username,
-                Role = "Doctor",
-                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
-                Doctor = doctor,
-                DoctorId = doctor.Id
-            };
+                var laborantModel = userModel as CreateLaborantViewModel;
 
-            return await userManager.CreateAsync(user, doctorModel.Password);
+                string phoneNumber = globalService.ParsePnoneNumber(laborantModel.PhoneNumber);
+
+                var laborant = new Laborant()
+                {
+                    Egn = laborantModel.Egn
+                };
+
+                var user = new User
+                {
+                    Email = laborantModel.Email,
+                    FirstName = laborantModel.FirstName,
+                    LastName = laborantModel.LastName,
+                    GenderId = laborantModel.Gender,
+                    PhoneNumber = phoneNumber,
+                    UserName = laborantModel.Username,
+                    Role = "Laborant",
+                    JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                    Laborant = laborant,
+                    LaborantId = laborant.Id
+                };
+
+                return await userManager.CreateAsync(user, laborantModel.Password);
+            }
+            else
+            {
+                var adminModel = userModel as CreateAdminViewModel;
+
+                string phoneNumber = globalService.ParsePnoneNumber(adminModel.PhoneNumber);
+
+                var administrator = new Infrastructure.Data.Models.Administrator()
+                {
+                    Egn = adminModel.Egn
+                };
+
+                var user = new User
+                {
+                    Email = adminModel.Email,
+                    FirstName = adminModel.FirstName,
+                    LastName = adminModel.LastName,
+                    GenderId = adminModel.Gender,
+                    PhoneNumber = phoneNumber,
+                    UserName = adminModel.Username,
+                    Role = "Administrator",
+                    JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                    Administrator = administrator,
+                    AdministratorId = administrator.Id
+                };
+
+                return await userManager.CreateAsync(user, adminModel.Password);
+            }
         }
 
-        public async Task<IdentityResult> CreateLaborantAsync(CreateLaborantViewModel laborantModel)
+        public async Task<T> SearchUserByEgnAsync<T, Z>(string egn)
+            where T : class
+            where Z : class
         {
-            string phoneNumber = globalService.ParsePnoneNumber(laborantModel.PhoneNumber);
-
-            var laborant = new Laborant()
+            if (typeof(Z).Equals(typeof(Laborant)))
             {
-                Egn = laborantModel.Egn
-            };
-
-            var user = new User
-            {
-                Email = laborantModel.Email,
-                FirstName = laborantModel.FirstName,
-                LastName = laborantModel.LastName,
-                GenderId = laborantModel.Gender,
-                PhoneNumber = phoneNumber,
-                UserName = laborantModel.Username,
-                Role = "Laborant",
-                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
-                Laborant = laborant,
-                LaborantId = laborant.Id
-            };
-
-            return await userManager.CreateAsync(user, laborantModel.Password);
-        }
-
-        public async Task<IdentityResult> CreateAdminAsync(CreateAdminViewModel adminModel)
-        {
-            string phoneNumber = globalService.ParsePnoneNumber(adminModel.PhoneNumber);
-
-            var administrator = new Infrastructure.Data.Models.Administrator()
-            {
-                Egn = adminModel.Egn
-            };
-            
-            var user = new User
-            {
-                Email = adminModel.Email,
-                FirstName = adminModel.FirstName,
-                LastName = adminModel.LastName,
-                GenderId = adminModel.Gender,
-                PhoneNumber = phoneNumber,
-                UserName = adminModel.Username,
-                Role = "Administrator",
-                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
-                Administrator = administrator,
-                AdministratorId = administrator.Id
-            };
-
-            return await userManager.CreateAsync(user, adminModel.Password);
-        }
-
-        public async Task<CreateLaborantViewModel> SearchLaborantByEgnAsync(string egn)
-        {
-            var existLaborant = await repository.All<Laborant>()
+                var existLaborant = await repository.All<Laborant>()
                 .Where(d => d.Egn == egn)
                 .Include(u => u.User)
                 .Select(d => new CreateLaborantViewModel
@@ -135,12 +149,11 @@ namespace MedicalCenter.Areas.Administrator.Services
                 })
                 .FirstOrDefaultAsync();
 
-            return existLaborant;
-        }
-
-        public async Task<CreateDoctorViewModel> SearchDoctorByEgnAsync(string egn)
-        {
-            var existDoctor = await repository.All<Doctor>()
+                return (T)Convert.ChangeType(existLaborant, typeof(T));
+            }
+            else if (typeof(T).Equals(typeof(Doctor)))
+            {
+                var existDoctor = await repository.All<Doctor>()
                 .Where(d => d.Egn == egn)
                 .Include(d => d.User)
                 .Select(d => new CreateDoctorViewModel
@@ -165,12 +178,11 @@ namespace MedicalCenter.Areas.Administrator.Services
                 })
                 .FirstOrDefaultAsync();
 
-            return existDoctor;
-        }
-
-        public async Task<CreateAdminViewModel> SearchAdminByEgnAsync(string egn)
-        {
-            var existAdministartor = await repository.All<Infrastructure.Data.Models.Administrator>()
+                return (T)Convert.ChangeType(existDoctor, typeof(T));
+            }
+            else
+            {
+                var existAdmin = await repository.All<Infrastructure.Data.Models.Administrator>()
                 .Where(d => d.Egn == egn)
                 .Include(d => d.User)
                 .Select(d => new CreateAdminViewModel
@@ -185,46 +197,56 @@ namespace MedicalCenter.Areas.Administrator.Services
                     LastName = d.User.LastName,
                     Role = d.User.Role,
                     JoinOnDate = d.User.JoinOnDate,
-                    
+
                 })
                 .FirstOrDefaultAsync();
 
-            return existAdministartor;
+                return (T)Convert.ChangeType(existAdmin, typeof(T));
+            }
         }
 
         public async Task<Infrastructure.Data.Models.Administrator> GetAdminByUserIdAsync(string id)
         {
             return await repository.All<Infrastructure.Data.Models.Administrator>()
-                .Include(a=>a.User)
+                .Include(a => a.User)
                 .Where(a => a.User.Id == id)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Infrastructure.Data.Models.Administrator> GetAdminByIdAsync(string id)
+        public async Task<T> GetUserByIdAsync<T>(string id)
+            where T : class
         {
-            return await repository.All<Infrastructure.Data.Models.Administrator>()
+            if (typeof(T).Equals(typeof(Doctor)))
+            {
+                var doctor =  await repository.All<Doctor>()
                 .Where(u => u.Id == id)
                 .Include(d => d.User)
                 .FirstOrDefaultAsync();
-        }
 
-        public async Task<Doctor> GetDoctorByIdAsync(string id)
-        {
-            return await repository.All<Doctor>()
+                return (T)Convert.ChangeType(doctor, typeof(T));
+            }
+            else if (typeof(T).Equals(typeof(Laborant)))
+            {
+                var laborant =  await repository.All<Laborant>()
                 .Where(u => u.Id == id)
                 .Include(d => d.User)
                 .FirstOrDefaultAsync();
-        }
 
-        public async Task<Laborant> GetLaborantByIdAsync(string id)
-        {
-            return await repository.All<Laborant>()
+                return (T)Convert.ChangeType(laborant, typeof(T));
+            }
+            else
+            {
+                var admin = await repository.All<Infrastructure.Data.Models.Administrator>()
                 .Where(u => u.Id == id)
                 .Include(d => d.User)
                 .FirstOrDefaultAsync();
+
+                return (T)Convert.ChangeType(admin, typeof(T));
+            }
         }
 
         public async Task ReturnAsync<T>(string id)
+            where T : class
         {
             if (typeof(T).Equals(typeof(Doctor)))
             {
@@ -367,6 +389,7 @@ namespace MedicalCenter.Areas.Administrator.Services
         }
 
         public async Task<T> GetByEgnAsync<T>(string egn)
+            where T : class
         {
             if (typeof(T).Equals(typeof(Doctor)))
             {
@@ -397,19 +420,9 @@ namespace MedicalCenter.Areas.Administrator.Services
             }
         }
 
-        public async Task AddAdminRoleAsync(User administrator, string adminRole)
+        public async Task AddRoleAsync(User user, string roleName)
         {
-            await userManager.AddToRoleAsync(administrator, adminRole);
-        }
-
-        public async Task AddDoctorRoleAsync(User doctor, string doctorRole)
-        {
-            await userManager.AddToRoleAsync(doctor, doctorRole);
-        }
-
-        public async Task AddLaborantRoleAsync(User laborant, string laborantRole)
-        {
-            await userManager.AddToRoleAsync(laborant, laborantRole);
+            await userManager.AddToRoleAsync(user, roleName);
         }
 
         public async Task<ShowAllUserViewModel> GetAllRegisteredUsersAsync(
@@ -459,35 +472,15 @@ namespace MedicalCenter.Areas.Administrator.Services
             };
         }
 
-        public async Task<MainAdminViewModel> GetAdminByIdToEditAsync(string adminId)
+        public async Task<T> GetUserByIdToEditAsync<T, Z>(string id)
+            where T : class
+            where Z : class
         {
-            var adminById = await repository
-                .All<Infrastructure.Data.Models.Administrator>()
-                .Where(u => u.Id == adminId)
-                .Include(U => U.User)
-                .Select(d => new MainAdminViewModel
-                {
-                    Email = d.User.Email,
-                    FirstName = d.User.FirstName,
-                    Gender = d.User.GenderId,
-                    Id = d.Id,
-                    LastName = d.User.LastName,
-                    PhoneNumber = d.User.PhoneNumber,
-                    Username = d.User.UserName,
-                    Role = d.User.Role,
-                    JoinOnDate = d.User.JoinOnDate,
-                    OutOnDate = d.OutOnDate,
-                })
-                .FirstOrDefaultAsync();
-
-            return adminById;
-        }
-
-        public async Task<MainDoctorViewModel> GetDoctorByIdToEditAsync(string doctorId)
-        {
-            var doctorById = await repository
+            if (typeof(Z).Equals(typeof(Doctor)))
+            {
+                var doctor = await repository
                 .All<Doctor>()
-                .Where(u => u.Id == doctorId)
+                .Where(u => u.Id == id)
                 .Include(U => U.User)
                 .Include(s => s.Specialty)
                 .Select(d => new MainDoctorViewModel
@@ -512,52 +505,13 @@ namespace MedicalCenter.Areas.Administrator.Services
                 })
                 .FirstOrDefaultAsync();
 
-            return doctorById;
-        }
-
-        public async Task EditAdminAsync(MainAdminViewModel doctorModel, Infrastructure.Data.Models.Administrator admin)
-        {
-            admin.User.Email = doctorModel.Email;
-            admin.User.PhoneNumber = doctorModel.PhoneNumber;
-            admin.User.LastName = doctorModel.LastName;
-            admin.User.FirstName = doctorModel.FirstName;
-            admin.User.GenderId = doctorModel.Gender;
-            admin.Id = doctorModel.Id;
-            admin.User.JoinOnDate = doctorModel.JoinOnDate;
-            admin.User.Role = doctorModel.Role;
-            admin.User.UserName = doctorModel.Username;
-            admin.OutOnDate = doctorModel.OutOnDate;
-
-            await repository.SaveChangesAsync();
-        }
-
-        public async Task EditDoctorAsync(MainDoctorViewModel doctorModel, Doctor doctor)
-        {
-            doctor.User.Email = doctorModel.Email;
-            doctor.Education = doctorModel.Education;
-            doctor.User.PhoneNumber = doctorModel.PhoneNumber;
-            doctor.User.LastName = doctorModel.LastName;
-            doctor.Biography = doctorModel.Biography;
-            doctor.User.FirstName = doctorModel.FirstName;
-            doctor.User.GenderId = doctorModel.Gender;
-            doctor.Id = doctorModel.Id;
-            doctor.User.JoinOnDate = doctorModel.JoinOnDate;
-            doctor.User.Role = doctorModel.Role;
-            doctor.ProfileImageUrl = doctorModel.ProfileImageUrl;
-            doctor.SpecialtyId = doctor.SpecialtyId;
-            doctor.Representation = doctorModel.Representation;
-            doctor.User.UserName = doctorModel.Username;
-            doctor.OutOnDate = doctorModel.OutOnDate;
-            doctor.SheduleId = doctorModel.SheduleId;
-
-            await repository.SaveChangesAsync();
-        }
-
-        public async Task<MainLaborantViewModel> GetLaborantByIdToEditAsync(string laborantId)
-        {
-            var laborantById = await repository
+                return (T)Convert.ChangeType(doctor, typeof(T));
+            }
+            else if (typeof(Z).Equals(typeof(Laborant)))
+            {
+                var laborant = await repository
                 .All<Laborant>()
-                .Where(u => u.Id == laborantId)
+                .Where(u => u.Id == id)
                 .Include(u => u.User)
                 .Select(d => new MainLaborantViewModel
                 {
@@ -574,26 +528,102 @@ namespace MedicalCenter.Areas.Administrator.Services
                 })
                 .FirstOrDefaultAsync();
 
-            return laborantById;
+                return (T)Convert.ChangeType(laborant, typeof(T));
+            }
+            else
+            {
+                var admin = await repository
+                .All<Infrastructure.Data.Models.Administrator>()
+                .Where(u => u.Id == id)
+                .Include(U => U.User)
+                .Select(d => new MainAdminViewModel
+                {
+                    Email = d.User.Email,
+                    FirstName = d.User.FirstName,
+                    Gender = d.User.GenderId,
+                    Id = d.Id,
+                    LastName = d.User.LastName,
+                    PhoneNumber = d.User.PhoneNumber,
+                    Username = d.User.UserName,
+                    Role = d.User.Role,
+                    JoinOnDate = d.User.JoinOnDate,
+                    OutOnDate = d.OutOnDate,
+                })
+                .FirstOrDefaultAsync();
+
+                return (T)Convert.ChangeType(admin, typeof(T));
+
+            }
         }
 
-        public async Task EditLaborantAsync(MainLaborantViewModel laborantModel, Laborant laborant)
+        public async Task EditUserAsync<T,Z>(T userModel, Z user)
+            where T : class
+            where Z : class
         {
-            laborant.User.Email = laborantModel.Email;
-            laborant.User.PhoneNumber = laborantModel.PhoneNumber;
-            laborant.User.LastName = laborantModel.LastName;
-            laborant.User.FirstName = laborantModel.FirstName;
-            laborant.User.GenderId = laborantModel.Gender;
-            laborant.Id = laborantModel.Id;
-            laborant.User.JoinOnDate = laborantModel.JoinOnDate;
-            laborant.User.Role = laborantModel.Role;
-            laborant.User.UserName = laborantModel.Username;
-            laborant.OutOnDate = laborantModel.OutOnDate;
+            if (typeof(Z).Equals(typeof(Doctor)))
+            {
+                var doctorModel = userModel as MainDoctorViewModel;
+                var doctor = user as Doctor;
 
-            await repository.SaveChangesAsync();
+                doctor.User.Email = doctorModel.Email;
+                doctor.Education = doctorModel.Education;
+                doctor.User.PhoneNumber = doctorModel.PhoneNumber;
+                doctor.User.LastName = doctorModel.LastName;
+                doctor.Biography = doctorModel.Biography;
+                doctor.User.FirstName = doctorModel.FirstName;
+                doctor.User.GenderId = doctorModel.Gender;
+                doctor.Id = doctorModel.Id;
+                doctor.User.JoinOnDate = doctorModel.JoinOnDate;
+                doctor.User.Role = doctorModel.Role;
+                doctor.ProfileImageUrl = doctorModel.ProfileImageUrl;
+                doctor.SpecialtyId = doctor.SpecialtyId;
+                doctor.Representation = doctorModel.Representation;
+                doctor.User.UserName = doctorModel.Username;
+                doctor.OutOnDate = doctorModel.OutOnDate;
+                doctor.SheduleId = doctorModel.SheduleId;
+
+                await repository.SaveChangesAsync();
+            }
+            else if (typeof(Z).Equals(typeof(Laborant)))
+            {
+                var laborantModel = userModel as MainLaborantViewModel;
+                var laborant = user as Laborant;
+
+                laborant.User.Email = laborantModel.Email;
+                laborant.User.PhoneNumber = laborantModel.PhoneNumber;
+                laborant.User.LastName = laborantModel.LastName;
+                laborant.User.FirstName = laborantModel.FirstName;
+                laborant.User.GenderId = laborantModel.Gender;
+                laborant.Id = laborantModel.Id;
+                laborant.User.JoinOnDate = laborantModel.JoinOnDate;
+                laborant.User.Role = laborantModel.Role;
+                laborant.User.UserName = laborantModel.Username;
+                laborant.OutOnDate = laborantModel.OutOnDate;
+
+                await repository.SaveChangesAsync();
+            }
+            else
+            {
+                var adminModel = userModel as MainAdminViewModel;
+                var admin = user as Infrastructure.Data.Models.Administrator;
+
+                admin.User.Email = adminModel.Email;
+                admin.User.PhoneNumber = adminModel.PhoneNumber;
+                admin.User.LastName = adminModel.LastName;
+                admin.User.FirstName = adminModel.FirstName;
+                admin.User.GenderId = adminModel.Gender;
+                admin.Id = adminModel.Id;
+                admin.User.JoinOnDate = adminModel.JoinOnDate;
+                admin.User.Role = adminModel.Role;
+                admin.User.UserName = adminModel.Username;
+                admin.OutOnDate = adminModel.OutOnDate;
+
+                await repository.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteAsync<T>(string id)
+            where T : class
         {
             if (typeof(T).Equals(typeof(Doctor)))
             {
@@ -741,65 +771,6 @@ namespace MedicalCenter.Areas.Administrator.Services
             };
         }
 
-        public async Task<DashboardStatisticViewModel> GetStatisticsAsync()
-        {
-            var bestRatingDoctor = await repository.All<Doctor>()
-                .Include(d => d.DoctorReviews)
-                .Include(d => d.User).Include(d => d.User)
-                .OrderByDescending(x => x.DoctorReviews.Average(x => x.Rating))
-                .FirstOrDefaultAsync();
-
-            var bestExaminationDoctor = await repository.All<Doctor>()
-                .Include(d => d.DoctorExaminations)
-                .Include(d => d.User)
-                .OrderByDescending(x => x.DoctorExaminations.Count)
-                .FirstOrDefaultAsync();
-
-            var allDoctorCount = await repository.All<Doctor>()
-                .Include(u=>u.User)
-                .Where(u => !u.User.IsOutOfCompany)
-                .CountAsync();
-
-            var allDoctorOutCount = await repository.All<Doctor>()
-                .Include(u => u.User)
-                .Where(u => u.User.IsOutOfCompany)
-                .CountAsync();
-
-            var allUser = await repository.All<User>()
-                .Where(u => u.Role == nameof(User))
-                .CountAsync();
-
-            var allReview = await repository.All<Review>()
-                .CountAsync();
-
-            var allExamination = await repository.All<Examination>()
-                .Where(e => !e.IsDeleted && e.Date < DateTime.Now)
-                .CountAsync();
-
-            var allPastExamination = await repository.All<Examination>()
-                .Where(e => !e.IsDeleted && e.Date < DateTime.Now)
-                .CountAsync();
-
-            var allFutureExamination = await repository.All<Examination>()
-                .Where(e => !e.IsDeleted && e.Date > DateTime.Now)
-                .CountAsync();
-
-            return new DashboardStatisticViewModel
-            {
-                BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.User.FirstName} {bestRatingDoctor.User.LastName}",
-                BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? "0.00" : bestRatingDoctor.DoctorReviews.Average(x => x.Rating).ToString("F2"),
-                BestExaminationDoctorFullName = bestExaminationDoctor.DoctorExaminations.Count == 0 ? "Няма записани часове" : $"Д-р {bestExaminationDoctor.User.FirstName} {bestExaminationDoctor.User.LastName}",
-                BestExaminationCount = bestExaminationDoctor.DoctorExaminations.Count,
-                AllDoctorCount = allDoctorCount,
-                AllDoctorOutCount = allDoctorOutCount,
-                AllReviews = allReview,
-                AllUserCount = allUser,
-                AllExamination = allExamination,
-                AllFutureExamination = allFutureExamination,
-                AllPastExamination = allPastExamination
-            };
-        }
-
         public async Task<ShowAllExaminationViewModel> GetAllPastExamination(
             string? speciality = null,
             string? searchTermDate = null,
@@ -932,168 +903,237 @@ namespace MedicalCenter.Areas.Administrator.Services
             };
         }
 
-        public async Task<DashboardStatisticDataViewModel> GetStatisticsDataAsync()
+        public async Task<T> GetStatisticsAsync<T>()
+            where T : class
         {
-            var examinations = await repository.All<Examination>()
+            if (typeof(T).Equals(typeof(DashboardStatisticDataViewModel)))
+            {
+                var examinations = await repository.All<Examination>()
                 .Where(x => !x.IsDeleted)
                 .ToListAsync();
 
-            var sheduleDictionary = new Dictionary<string, int>()
+                var sheduleDictionary = new Dictionary<string, int>()
             {
                 {"08:00-12:00",0 },
                 {"13:00-17:00",0 }
             };
 
-            foreach (var shedule in examinations)
-            {
-                if (shedule.SheduleId == 1)
+                foreach (var shedule in examinations)
                 {
-                    sheduleDictionary["08:00-12:00"]++;
+                    if (shedule.SheduleId == 1)
+                    {
+                        sheduleDictionary["08:00-12:00"]++;
+                    }
+                    else
+                    {
+                        sheduleDictionary["13:00-17:00"]++;
+                    }
                 }
-                else
+
+                var specialitiesDictionary = new Dictionary<string, int>();
+
+                foreach (var speciality in examinations)
                 {
-                    sheduleDictionary["13:00-17:00"]++;
+                    var specialtyName = await repository.AllReadonly<Specialty>()
+                        .FirstOrDefaultAsync(x => x.Id == speciality.SpecialityId);
+
+                    if (!specialitiesDictionary.ContainsKey(specialtyName.Name))
+                    {
+                        specialitiesDictionary.Add(specialtyName.Name, 0);
+                    }
+                    specialitiesDictionary[specialtyName.Name]++;
                 }
-            }
 
-            var specialitiesDictionary = new Dictionary<string, int>();
+                var top5Specialises = specialitiesDictionary
+                    .OrderByDescending(x => x.Value)
+                    .ToDictionary(x => x.Key, x => x.Value)
+                    .Take(5);
 
-            foreach (var speciality in examinations)
-            {
-                var specialtyName = await repository.AllReadonly<Specialty>()
-                    .FirstOrDefaultAsync(x => x.Id == speciality.SpecialityId);
+                var examinationDoctors = await repository.AllReadonly<Examination>()
+                    .Where(x => !x.IsDeleted)
+                    .Include(x => x.Doctor)
+                    .ToListAsync();
 
-                if (!specialitiesDictionary.ContainsKey(specialtyName.Name))
+                var doctorExaminationDictionary = new Dictionary<string, int>();
+
+                foreach (var examination in examinationDoctors)
                 {
-                    specialitiesDictionary.Add(specialtyName.Name, 0);
+                    var specialty = await repository.AllReadonly<Specialty>()
+                        .FirstOrDefaultAsync(x => x.Id == examination.SpecialityId);
+
+                    var doctorName = $"{examination.DoctorFullName} ({specialty.Name})";
+
+                    if (!doctorExaminationDictionary.ContainsKey(doctorName))
+                    {
+                        doctorExaminationDictionary[doctorName] = 0;
+                    }
+                    doctorExaminationDictionary[doctorName]++;
                 }
-                specialitiesDictionary[specialtyName.Name]++;
-            }
 
-            var top5Specialises = specialitiesDictionary
-                .OrderByDescending(x => x.Value)
-                .ToDictionary(x => x.Key, x => x.Value)
-                .Take(5);
+                var top5DoctorExamination = doctorExaminationDictionary
+                    .OrderByDescending(x => x.Value)
+                    .ToDictionary(x => x.Key, x => x.Value)
+                    .Take(5);
 
-            var examinationDoctors = await repository.AllReadonly<Examination>()
-                .Where(x => !x.IsDeleted)
-                .Include(x => x.Doctor)
-                .ToListAsync();
+                var doctorReviews = await repository.AllReadonly<Examination>()
+                    .Where(x => !x.IsDeleted && x.IsUserReviewedExamination)
+                    .Include(x => x.Doctor)
+                    .ThenInclude(r => r.DoctorReviews)
+                    .ToListAsync();
 
-            var doctorExaminationDictionary = new Dictionary<string, int>();
+                var doctorsReview = new Dictionary<string, List<int>>();
 
-            foreach (var examination in examinationDoctors)
-            {
-                var specialty = await repository.AllReadonly<Specialty>()
-                    .FirstOrDefaultAsync(x => x.Id == examination.SpecialityId);
-
-                var doctorName = $"{examination.DoctorFullName} ({specialty.Name})";
-
-                if (!doctorExaminationDictionary.ContainsKey(doctorName))
+                foreach (var doctorReview in doctorReviews)
                 {
-                    doctorExaminationDictionary[doctorName] = 0;
+                    var doctorName = $"{doctorReview.DoctorFullName}";
+                    var review = await repository.AllReadonly<Review>()
+                        .FirstOrDefaultAsync(r => r.Id == doctorReview.ReviewId);
+
+                    if (!doctorsReview.ContainsKey(doctorName))
+                    {
+                        doctorsReview[doctorName] = new List<int>();
+                    }
+                    doctorsReview[doctorName].Add(review.Rating);
                 }
-                doctorExaminationDictionary[doctorName]++;
-            }
 
-            var top5DoctorExamination = doctorExaminationDictionary
-                .OrderByDescending(x => x.Value)
-                .ToDictionary(x => x.Key, x => x.Value)
-                .Take(5);
-
-            var doctorReviews = await repository.AllReadonly<Examination>()
-                .Where(x => !x.IsDeleted && x.IsUserReviewedExamination)
-                .Include(x => x.Doctor)
-                .ThenInclude(r => r.DoctorReviews)
-                .ToListAsync();
-
-            var doctorsReview = new Dictionary<string, List<int>>();
-
-            foreach (var doctorReview in doctorReviews)
-            {
-                var doctorName = $"{doctorReview.DoctorFullName}";
-                var review = await repository.AllReadonly<Review>()
-                    .FirstOrDefaultAsync(r => r.Id == doctorReview.ReviewId);
-
-                if (!doctorsReview.ContainsKey(doctorName))
-                {
-                    doctorsReview[doctorName] = new List<int>();
-                }
-                doctorsReview[doctorName].Add(review.Rating);
-            }
-
-            var sumRatingValue = new Dictionary<int, int>()
+                var sumRatingValue = new Dictionary<int, int>()
             {
                 {1, 0},{2, 0},{3, 0},{4, 0},{5, 0}
             };
 
-            var allReviews = await repository.AllReadonly<Review>()
-                .Where(x => x.Id != null)
-                .ToListAsync();
+                var allReviews = await repository.AllReadonly<Review>()
+                    .Where(x => x.Id != null)
+                    .ToListAsync();
 
-            long sumRating = 0;
-            long countRating = allReviews.Count;
+                long sumRating = 0;
+                long countRating = allReviews.Count;
 
 
-            foreach (var review in allReviews)
-            {
-                sumRatingValue[review.Rating]++;
-                sumRating += review.Rating;
+                foreach (var review in allReviews)
+                {
+                    sumRatingValue[review.Rating]++;
+                    sumRating += review.Rating;
+                }
+
+                var dataStatistic = new DashboardStatisticDataViewModel
+                {
+                    Shedules = sheduleDictionary,
+                    Specialties = specialitiesDictionary,
+                    Top5Specialises = top5Specialises,
+                    DoctorsExaminations = doctorExaminationDictionary,
+                    Top5DoctorExamination = top5DoctorExamination,
+                    DoctorsRating = doctorsReview,
+                    CountRaings = countRating,
+                    SumAllRaings = sumRating
+                };
+
+                return (T)Convert.ChangeType(dataStatistic, typeof(T));
             }
-
-            return new DashboardStatisticDataViewModel
+            else if (typeof(T).Equals(typeof(DashboardStatisticLabViewModel)))
             {
-                Shedules = sheduleDictionary,
-                Specialties = specialitiesDictionary,
-                Top5Specialises = top5Specialises,
-                DoctorsExaminations = doctorExaminationDictionary,
-                Top5DoctorExamination = top5DoctorExamination,
-                DoctorsRating = doctorsReview,
-                CountRaings = countRating,
-                SumAllRaings = sumRating
-            };
-        }
-
-        public async Task<DashboardStatisticAdminViewModel> GetStatisticsAdminAsync()
-        {
-            var allAdminCount = await repository.All<Infrastructure.Data.Models.Administrator>()
-                .Include(u=>u.User)
+                var allLaborantCount = await repository.All<Laborant>()
+                .Include(u => u.User)
                 .Where(u => !u.User.IsOutOfCompany)
                 .CountAsync();
 
-            var allAdminOutCount = await repository.All<Infrastructure.Data.Models.Administrator>()
-                .Include(u => u.User)
-                .Where(u => u.User.IsOutOfCompany)
-                .CountAsync();
+                var allLaborantOutCount = await repository.All<Laborant>()
+                    .Include(u => u.User)
+                    .Where(u => u.User.IsOutOfCompany)
+                    .CountAsync();
 
-            return new DashboardStatisticAdminViewModel
+                var allTestCount = await repository.All<Test>()
+                    .CountAsync();
+
+                var laborantStatistic = new DashboardStatisticLabViewModel
+                {
+                    AllLaborantCount = allLaborantCount,
+                    AllLaborantOutCount = allLaborantOutCount,
+                    AllTestCount = allTestCount
+                };
+
+                return (T)Convert.ChangeType(laborantStatistic, typeof(T));
+            }
+            else if (typeof(T).Equals(typeof(DashboardStatisticViewModel)))
             {
-                AllAdministratorCount = allAdminCount,
-                AllAdministratorOutCount = allAdminOutCount,
-            };
-        }
+                var bestRatingDoctor = await repository.All<Doctor>()
+                .Include(d => d.DoctorReviews)
+                .Include(d => d.User).Include(d => d.User)
+                .OrderByDescending(x => x.DoctorReviews.Average(x => x.Rating))
+                .FirstOrDefaultAsync();
 
-        public async Task<DashboardStatisticLabViewModel> GetStatisticsLabAsync()
-        {
-            var allLaborantCount = await repository.All<Laborant>()
-                .Include(u=>u.User)
+                var bestExaminationDoctor = await repository.All<Doctor>()
+                    .Include(d => d.DoctorExaminations)
+                    .Include(d => d.User)
+                    .OrderByDescending(x => x.DoctorExaminations.Count)
+                    .FirstOrDefaultAsync();
+
+                var allDoctorCount = await repository.All<Doctor>()
+                    .Include(u => u.User)
+                    .Where(u => !u.User.IsOutOfCompany)
+                    .CountAsync();
+
+                var allDoctorOutCount = await repository.All<Doctor>()
+                    .Include(u => u.User)
+                    .Where(u => u.User.IsOutOfCompany)
+                    .CountAsync();
+
+                var allUser = await repository.All<User>()
+                    .Where(u => u.Role == nameof(User))
+                    .CountAsync();
+
+                var allReview = await repository.All<Review>()
+                    .CountAsync();
+
+                var allExamination = await repository.All<Examination>()
+                    .Where(e => !e.IsDeleted && e.Date < DateTime.Now)
+                    .CountAsync();
+
+                var allPastExamination = await repository.All<Examination>()
+                    .Where(e => !e.IsDeleted && e.Date < DateTime.Now)
+                    .CountAsync();
+
+                var allFutureExamination = await repository.All<Examination>()
+                    .Where(e => !e.IsDeleted && e.Date > DateTime.Now)
+                    .CountAsync();
+
+                var statistic = new DashboardStatisticViewModel
+                {
+                    BestRatingDoctorFullName = bestRatingDoctor.DoctorReviews.Count == 0 ? "Няма отзиви" : $"Д-р {bestRatingDoctor.User.FirstName} {bestRatingDoctor.User.LastName}",
+                    BestDoctorRating = bestRatingDoctor.DoctorReviews.Count == 0 ? "0.00" : bestRatingDoctor.DoctorReviews.Average(x => x.Rating).ToString("F2"),
+                    BestExaminationDoctorFullName = bestExaminationDoctor.DoctorExaminations.Count == 0 ? "Няма записани часове" : $"Д-р {bestExaminationDoctor.User.FirstName} {bestExaminationDoctor.User.LastName}",
+                    BestExaminationCount = bestExaminationDoctor.DoctorExaminations.Count,
+                    AllDoctorCount = allDoctorCount,
+                    AllDoctorOutCount = allDoctorOutCount,
+                    AllReviews = allReview,
+                    AllUserCount = allUser,
+                    AllExamination = allExamination,
+                    AllFutureExamination = allFutureExamination,
+                    AllPastExamination = allPastExamination
+                };
+
+                return (T)Convert.ChangeType(statistic, typeof(T));
+            }
+            else
+            {
+                var allAdminCount = await repository.All<Infrastructure.Data.Models.Administrator>()
+                .Include(u => u.User)
                 .Where(u => !u.User.IsOutOfCompany)
                 .CountAsync();
 
-            var allLaborantOutCount = await repository.All<Laborant>()
-                .Include(u => u.User)
-                .Where(u => u.User.IsOutOfCompany)
-                .CountAsync();
+                var allAdminOutCount = await repository.All<Infrastructure.Data.Models.Administrator>()
+                    .Include(u => u.User)
+                    .Where(u => u.User.IsOutOfCompany)
+                    .CountAsync();
 
-            var allTestCount = await repository.All<Test>()
-                .CountAsync();
+                
+                var adminStatistic = new DashboardStatisticAdminViewModel
+                {
+                    AllAdministratorCount = allAdminCount,
+                    AllAdministratorOutCount = allAdminOutCount,
+                };
 
-            return new DashboardStatisticLabViewModel
-            {
-                AllLaborantCount = allLaborantCount,
-                AllLaborantOutCount = allLaborantOutCount,
-                AllTestCount = allTestCount
-            };
+                return (T)Convert.ChangeType(adminStatistic, typeof(T));
+            }
         }
 
         public async Task<ShowAllLaborantViewModel> GetAllLeftLaborantsAsync(

@@ -8,57 +8,39 @@ namespace MedicalCenter.Areas.Contracts
 {
     public interface IAdministratorService
     {
-        Task<CreateAdminViewModel> SearchAdminByEgnAsync(string egn);
+        Task<T> SearchUserByEgnAsync<T, Z>(string egn) 
+            where T : class 
+            where Z : class;
 
-        Task<CreateDoctorViewModel> SearchDoctorByEgnAsync(string egn);
+        Task<IdentityResult> CreateUserAsync<T>(T userModel)
+            where T : class;
 
-        Task<CreateLaborantViewModel> SearchLaborantByEgnAsync(string egn);
+        Task ReturnAsync<T>(string id)
+            where T : class;
 
-        Task<IdentityResult> CreateAdminAsync(CreateAdminViewModel doctorModel);
-
-        Task<IdentityResult> CreateDoctorAsync(CreateDoctorViewModel doctorModel);
-
-        Task<IdentityResult> CreateLaborantAsync(CreateLaborantViewModel laborantModel);
-
-        Task ReturnAsync<T>(string id);
-
-        Task<T> GetByEgnAsync<T>(string egn);
+        Task<T> GetByEgnAsync<T>(string egn) 
+            where T : class;
 
         Task<Infrastructure.Data.Models.Administrator> GetAdminByUserIdAsync(string id);
 
-        Task<Infrastructure.Data.Models.Administrator> GetAdminByIdAsync(string id);
+        Task<T> GetUserByIdAsync<T>(string id) 
+            where T : class;
+        
+        Task AddRoleAsync(User user, string roleName);
 
-        Task<Doctor> GetDoctorByIdAsync(string id);
+        Task<T> GetUserByIdToEditAsync<T,Z>(string id)
+            where T : class
+            where Z : class;
 
-        Task<Laborant> GetLaborantByIdAsync(string id);
+        Task EditUserAsync<T, Z>(T userModel, Z user) 
+            where T : class
+            where Z : class;
 
-        Task AddAdminRoleAsync(User administrator, string adminRole);
+        Task DeleteAsync<T>(string id)
+            where T : class;
 
-        Task AddDoctorRoleAsync(User doctor, string doctorRole);
-
-        Task AddLaborantRoleAsync(User laborant, string laborantRole);
-
-        Task<MainDoctorViewModel> GetDoctorByIdToEditAsync(string id);
-
-        Task<MainAdminViewModel> GetAdminByIdToEditAsync(string id);
-
-        Task EditAdminAsync(MainAdminViewModel doctorModel, Infrastructure.Data.Models.Administrator admin);
-
-        Task EditDoctorAsync(MainDoctorViewModel doctorModel, Doctor doctor);
-
-        Task EditLaborantAsync(MainLaborantViewModel laborantModel, Laborant laborant);
-
-        Task<MainLaborantViewModel> GetLaborantByIdToEditAsync(string id);
-
-        Task DeleteAsync<T>(string id);
-
-        Task<DashboardStatisticAdminViewModel> GetStatisticsAdminAsync();
-
-        Task<DashboardStatisticDataViewModel> GetStatisticsDataAsync();
-
-        Task<DashboardStatisticViewModel> GetStatisticsAsync();
-
-        Task<DashboardStatisticLabViewModel> GetStatisticsLabAsync();
+        Task<T> GetStatisticsAsync<T>()
+            where T : class;
 
         Task<IEnumerable<Specialty>> GetSpecialtiesAsync();
 
