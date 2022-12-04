@@ -35,12 +35,6 @@ namespace MedicalCenter.Infrastructure.Data
 
         public DbSet<Test> Tests { get; set; } = null!;
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.EnableSensitiveDataLogging();
-        //    base.OnConfiguring(optionsBuilder);
-        //}
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ExaminationConfiguration());
