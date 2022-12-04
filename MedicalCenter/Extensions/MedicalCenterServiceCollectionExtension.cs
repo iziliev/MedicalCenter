@@ -6,11 +6,15 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MedicalCenterServiceCollectionExtension
     {
+        /// <summary>
+        /// Service collection exension
+        /// </summary>
+        /// <param name="services">IServiceCollection</param>
+        /// <returns>services</returns>
         public static IServiceCollection AddAplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IRepository,Repository>();
             services.AddScoped<IGlobalService, GlobalService>();
-
             services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDoctorService, DoctorService>();

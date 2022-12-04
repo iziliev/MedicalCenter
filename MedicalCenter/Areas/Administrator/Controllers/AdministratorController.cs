@@ -25,7 +25,7 @@ namespace MedicalCenter.Areas.Administrator.Controllers
             administratorService = _administratorService;
             repository = _repository;
         }
-
+        
         [HttpGet]
         public IActionResult SearchAdministrator()
         {
