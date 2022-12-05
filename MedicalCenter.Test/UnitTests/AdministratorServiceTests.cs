@@ -28,7 +28,7 @@ namespace MedicalCenter.Test.UnitTests
             //Assert a correct id is returned
             Assert.IsNotNull(resultAdminExist);
             Assert.AreEqual(resultAdminExist.User.Role, "Administrator");
-            Assert.AreEqual(resultAdminExist.Id, "5");
+            Assert.AreEqual(resultAdminExist.Id, "1");
             Assert.AreEqual(resultAdminExist.UserId, "1");
             Assert.IsNull(resultAdminNotExist);
         }
@@ -55,7 +55,7 @@ namespace MedicalCenter.Test.UnitTests
             //Arrange
 
             //Act: invoke the service method with valid id
-            var doctor = await administratorService.GetUserByIdAsync<Doctor>("7");
+            var doctor = await administratorService.GetUserByIdAsync<Doctor>("2");
 
             //Assert
             Assert.IsNotNull(doctor);
@@ -109,7 +109,7 @@ namespace MedicalCenter.Test.UnitTests
         public async Task GetUserByIdToEditAsync_ShouldReturnCorrectType()
         {
             //Arrange
-            var doctorId = "6";
+            var doctorId = "1";
 
             //Act
             var doctor = await administratorService.GetUserByIdToEditAsync<MainDoctorViewModel, Doctor>(doctorId);
@@ -122,7 +122,7 @@ namespace MedicalCenter.Test.UnitTests
         public async Task EditUser_ShouldReturnEditedInfoForUser()
         {
             //Arrange
-            var doctorId = "6";
+            var doctorId = "1";
             
             //Act
             var doctor = await administratorService.GetUserByIdToEditAsync<MainDoctorViewModel, Doctor>(doctorId);
@@ -137,7 +137,7 @@ namespace MedicalCenter.Test.UnitTests
         public async Task DeleteAndReturnUser_ShouldDeleteAndReturnUser()
         {
             //Arrange
-            var doctorId = "6";
+            var doctorId = "2";
 
             //Act
 
@@ -170,7 +170,7 @@ namespace MedicalCenter.Test.UnitTests
             var model = await administratorService.GetStatisticsAsync<DashboardStatisticDataViewModel>();
 
             //Assert
-            Assert.AreEqual(model.CountRaings, 0);
+            Assert.AreEqual(model.CountRaings, 1);
         }
 
         [Test]
