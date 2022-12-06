@@ -2,6 +2,8 @@
 using MedicalCenter.Areas.Administrator.Services;
 using MedicalCenter.Areas.Contracts;
 using MedicalCenter.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Moq;
 
 namespace MedicalCenter.Test.UnitTests
 {
@@ -196,5 +198,42 @@ namespace MedicalCenter.Test.UnitTests
             //Arrange
             Assert.AreEqual(leftAdmins.TotalAdminsCount, 0);
         }
+
+        //[Test]
+        //public async Task CreateUserAsync_ShouldCreateUser()
+        //{
+        //    //Arrange
+
+        //    var doctorModel = new CreateDoctorViewModel
+        //    {
+        //        Biography = "R",
+        //        Education = "P",
+        //        Egn = "1001111111",
+        //        Email = "doctor3@mail.bg",
+        //        FirstName = "Doctor3",
+        //        LastName = "Doctorov3",
+        //        Username = "doctor3",
+        //        Gender = 1,
+        //        JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy"),
+        //        Password = "Doctor",
+        //        PhoneNumber = "+359885464646",
+        //        ProfileImageUrl = "https://rrrr.com",
+        //        Representation = "REEEE",
+        //        Role = "Doctor",
+        //        SheduleId = 1,
+        //        SpecialtyId = 1
+        //    };
+
+        //    //Act
+
+        //    await administratorService.CreateUserAsync(doctorModel);
+
+        //    var doctor = await administratorService.GetByEgnAsync<Doctor>("1001111111");
+
+        //    //Assert
+
+        //    Assert.NotNull(doctor);
+        //    Assert.AreEqual(doctor.Biography, "R");
+        //}
     }
 }

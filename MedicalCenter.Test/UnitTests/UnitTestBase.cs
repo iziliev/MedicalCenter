@@ -1,16 +1,21 @@
-﻿using MedicalCenter.Infrastructure.Data.Common;
+﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 using MedicalCenter.Test.Mocks;
+using Microsoft.AspNetCore.Identity;
+using Moq;
 
 namespace MedicalCenter.Test.UnitTests
 {
     public class UnitTestBase
     {
         protected IRepository data;
+        
 
         [OneTimeSetUp]
         public async Task SetUpBase()
         {
+            
             data = RepositoryMock.Instance;
 
             var speciality = new List<Specialty>()
@@ -42,7 +47,7 @@ namespace MedicalCenter.Test.UnitTests
                 new User(){Id="7",Email="pat@mail.bg",FirstName="Patient",LastName="Patientov",GenderId=1,JoinOnDate=DateTime.Now.ToString("dd.MM.yyyy"),Role="LaboratoryPatient",UserName="pat_1",LaboratoryPatientId="1"},
             };
 
-            var admin = new Administrator() { Egn = "1111111111",Id = "1",User = users[0],UserId = users[0].Id };
+            var admin = new Administrator() { Egn = "1111111111", Id = "1", User = users[0], UserId = users[0].Id };
 
             var doctors = new List<Doctor>()
             {
@@ -50,19 +55,19 @@ namespace MedicalCenter.Test.UnitTests
                 new Doctor(){ Egn = "3333333333",Biography = "D",Education= "E",Id= "2",ProfileImageUrl = "http://1",Representation = "F",SheduleId = 2,SpecialtyId = 3,User = users[2],UserId = users[2].Id }
             };
 
-            var laborant = new Laborant() { Egn = "4444444444",Id = "1",User = users[3],UserId = users[3].Id };
+            var laborant = new Laborant() { Egn = "4444444444", Id = "1", User = users[3], UserId = users[3].Id };
 
             var laboratoryPatient = new LaboratoryPatient { Egn = "8989898989", Id = "1", User = users[6], UserId = users[6].Id };
 
             var shedule = new List<Shedule>()
             {
-                new Shedule() 
-                { 
-                    Id = 1, Name ="1", Doctors = new List<Doctor>(){doctors[0]} 
+                new Shedule()
+                {
+                    Id = 1, Name ="1", Doctors = new List<Doctor>(){doctors[0]}
                 },
-                new Shedule() 
-                { 
-                    Id = 2,Name = "2", Doctors = new List<Doctor>(){ doctors[1]} 
+                new Shedule()
+                {
+                    Id = 2,Name = "2", Doctors = new List<Doctor>(){ doctors[1]}
                 }
             };
 
@@ -76,7 +81,14 @@ namespace MedicalCenter.Test.UnitTests
 
             var review = new Review()
             {
-                Id = "1",Content = "AAAAA",CreatedOn = DateTime.Now,Doctor = doctors[0],DoctorId = doctors[0].Id,Rating = 4,User = users[4],UserId = users[4].Id
+                Id = "1",
+                Content = "AAAAA",
+                CreatedOn = DateTime.Now,
+                Doctor = doctors[0],
+                DoctorId = doctors[0].Id,
+                Rating = 4,
+                User = users[4],
+                UserId = users[4].Id
             };
 
             doctors[0].DoctorReviews.Add(review);
@@ -90,7 +102,11 @@ namespace MedicalCenter.Test.UnitTests
 
             var test = new Infrastructure.Data.Models.Test()
             {
-                Id = "1", LaboratoryPatientId = laboratoryPatient.Id, LaboratoryPatient = laboratoryPatient, TestDate = DateTime.Now, UrinepH = "1.5"
+                Id = "1",
+                LaboratoryPatientId = laboratoryPatient.Id,
+                LaboratoryPatient = laboratoryPatient,
+                TestDate = DateTime.Now,
+                UrinepH = "1.5"
             };
 
             await data.AddRangeAsync(gender);
@@ -107,5 +123,7 @@ namespace MedicalCenter.Test.UnitTests
             await data.AddAsync(review);
             await data.SaveChangesAsync();
         }
+
+        
     }
 }

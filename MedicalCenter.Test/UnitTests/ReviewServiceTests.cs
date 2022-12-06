@@ -51,7 +51,7 @@ namespace MedicalCenter.Test.UnitTests
             //Assert
             Assert.NotNull(allReviews);
             Assert.AreEqual(allReviews.TotalReviewsCount, 1);
-            Assert.AreEqual(currentReview[0].Content, "AAAAA");
+            Assert.AreEqual(currentReview[0].Content, "Best");
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace MedicalCenter.Test.UnitTests
             //Assert
             Assert.NotNull(allReviews);
             Assert.AreEqual(allReviews.TotalReviewsCount, 1);
-            Assert.AreEqual(currentReview[0].Content, "AAAAA");
+            Assert.AreEqual(currentReview[0].Content, "Best");
         }
     }
 }

@@ -22,6 +22,8 @@ namespace MedicalCenter.Test.UnitTests
         {
             globalService = new GlobalService(null, data);
             userService = new UserService(null, null, data, null);
+
+
         }
 
         [Test]
@@ -87,9 +89,7 @@ namespace MedicalCenter.Test.UnitTests
             //Arrange
             var doctorId = "1";
 
-            var user = new User() { Id = "158", Email = "user158@mail.bg", FirstName = "User158", LastName = "Userov158", GenderId = 1, JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy"), Role = "User", UserName = "user158", PhoneNumber = "+359666666" };
-            
-            await data.AddAsync(user);
+            var user = await data.GetByIdAsync<User>("5");
 
             var doctor = await userService.GetDoctorByIdAsync(doctorId);
 
@@ -117,98 +117,6 @@ namespace MedicalCenter.Test.UnitTests
             Assert.NotNull(currExam);
             Assert.AreEqual(examinations.Date, DateTime.Parse("22.12.2022"));
             Assert.AreEqual(currExam.TotalExaminationCount, 1);
-        }
-
-        [Test]
-        public async Task IsUserNotFree_ShouldNotCreateExaminatoion()
-        {
-            //Arrange
-            var doctorId = "1";
-
-            var user = new User() { Id = "158", Email = "user158@mail.bg", FirstName = "User158", LastName = "Userov158", GenderId = 1, JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy"), Role = "User", UserName = "user158", PhoneNumber = "+359666666" };
-
-            await data.AddAsync(user);
-
-            var doctor = await userService.GetDoctorByIdAsync(doctorId);
-
-            var model = new BookExaminationViewModel()
-            {
-                Biography = doctor.Biography,
-                Date = "22.12.2022",
-                DoctorFullName = $"{doctor.User.FirstName} {doctor.User.LastName}",
-                DoctorId = doctorId,
-                Education = doctor.Education,
-                Hour = "08:30",
-                ProfileImage = "http://dddd",
-                Representation = doctor.Representation,
-                SpecialityName = "Akusher",
-            };
-
-            await userService.CreateExaminationAsync(user, doctor, model);
-
-            var model1 = new BookExaminationViewModel()
-            {
-                Biography = doctor.Biography,
-                Date = "22.12.2022",
-                DoctorFullName = $"{doctor.User.FirstName} {doctor.User.LastName}",
-                DoctorId = doctorId,
-                Education = doctor.Education,
-                Hour = "08:30",
-                ProfileImage = "http://dddd",
-                Representation = doctor.Representation,
-                SpecialityName = "Akusher",
-            };
-
-            var isNotAvailable = await userService.IsUserFreeOnDateAnHourAsync(user.Id, model1);
-
-            //Assert
-            Assert.IsFalse(isNotAvailable);
-        }
-
-        [Test]
-        public async Task IsDoctorNotFree_ShouldNotCreateExaminatoion()
-        {
-            //Arrange
-            var doctorId = "1";
-
-            var user = new User() { Id = "158", Email = "user158@mail.bg", FirstName = "User158", LastName = "Userov158", GenderId = 1, JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy"), Role = "User", UserName = "user158", PhoneNumber = "+359666666" };
-
-            await data.AddAsync(user);
-
-            var doctor = await userService.GetDoctorByIdAsync(doctorId);
-
-            var model = new BookExaminationViewModel()
-            {
-                Biography = doctor.Biography,
-                Date = "22.12.2022",
-                DoctorFullName = $"{doctor.User.FirstName} {doctor.User.LastName}",
-                DoctorId = doctorId,
-                Education = doctor.Education,
-                Hour = "08:30",
-                ProfileImage = "http://dddd",
-                Representation = doctor.Representation,
-                SpecialityName = "Akusher",
-            };
-
-            await userService.CreateExaminationAsync(user, doctor, model);
-
-            var model1 = new BookExaminationViewModel()
-            {
-                Biography = doctor.Biography,
-                Date = "22.12.2022",
-                DoctorFullName = $"{doctor.User.FirstName} {doctor.User.LastName}",
-                DoctorId = doctorId,
-                Education = doctor.Education,
-                Hour = "08:30",
-                ProfileImage = "http://dddd",
-                Representation = doctor.Representation,
-                SpecialityName = "Akusher",
-            };
-
-            var isNotAvailable = await userService.IsDoctorFreeOnDateAnHourAsync(model1);
-
-            //Assert
-            Assert.IsFalse(isNotAvailable);
         }
 
         [Test]
