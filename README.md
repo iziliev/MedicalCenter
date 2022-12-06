@@ -107,27 +107,31 @@ You won't get an error for missing Cloudinary Credentials - it is handled by usi
 
 ## :framed_picture: Screenshot - Admin Page
 
-![Admin-HomePage](/Screenshots/Admin/admin-homepage.PNG)
+![Admin-HomePage](https://imgur.com/FJMbHBd.png)
 
-![Admin-Panel](/Screenshots/Admin/admin-panel.PNG)
+![Admin-PanelMedical](https://imgur.com/4zJ0xfA.png)
 
 ## :framed_picture: Screenshot - Doctor Page
 
-![Doctor-HomePage](/Screenshots/Doctor/doctor-homepage.PNG)
+![Doctor-HomePage](https://imgur.com/mp63TY3.png)
 
-![Doctor-Board](/Screenshots/Doctor/doctor-board.PNG)
+![Doctor-Board](https://imgur.com/HH1zdFI.png)
 
-![Doctor-ReceiveComents](/Screenshots/Doctor/receive-doctor-comments.PNG)
+(https://imgur.com/dTvD6Dt.png)
 
-![Doctor-ShowExamination](/Screenshots/Doctor/show-all-examination.PNG)
+![Doctor-ReceiveComents](https://imgur.com/332bHPq.png)
+
+![Doctor-ShowExamination](https://imgur.com/SI2EORg.png)
 
 ## :framed_picture: Screenshot - User Page
 
-![User-Book](/Screenshots/User/book.PNG)
+![User-HomePage](https://imgur.com/yq252ei.png)
 
-![User-Feedback](/Screenshots/User/user-feedback.PNG)
+![User-AllDoctorToBook](https://imgur.com/a8pYudg.png)
 
-![User-Future-Examination](/Screenshots/User/user-future-examination.PNG)
+![User-Feedback](https://imgur.com/vja3eoX.png)
+
+![User-Future-Examination](https://imgur.com/P23RJv3.png)
 
 ## License
 
