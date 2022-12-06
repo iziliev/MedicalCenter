@@ -99,11 +99,11 @@ You won't get an error for missing Cloudinary Credentials - it is handled by usi
 
 ![MedicalCenter-HomePage](https://imgur.com/jNsQ4Yz.png)
 
-![User-Login](https://imgur.com/brRZIcY.PNG)
+![User-Login](https://imgur.com/brRZIcY.png)
 
-![User-Registration](https://imgur.com/2AULsG0.PNG)
+![User-Registration](https://imgur.com/2AULsG0.png)
 
-![User-Exteral-Registration](https://imgur.com/yB3yGIy.PNG)
+![User-Exteral-Registration](https://imgur.com/yB3yGIy.png)
 
 ## :framed_picture: Screenshot - Admin Page
 
