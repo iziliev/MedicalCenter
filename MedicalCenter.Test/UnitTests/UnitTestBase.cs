@@ -84,8 +84,8 @@ namespace MedicalCenter.Test.UnitTests
 
             var examinations = new List<Examination>()
             {
-                new Examination{Id="1",Date = DateTime.Now.AddDays(1),Doctor=doctors[0],DoctorFullName=$"{doctors[0].User.FirstName} {doctors[0].User.LastName}",DoctorId=doctors[0].Id,Hour="08:30",SheduleId=1,User = users[4],UserId=users[4].Id,UserFullName=$"{users[4].FirstName} {users[4].LastName}",SpecialityId=1, DoctorPhoneNumber=doctors[0].User.PhoneNumber,UserPhoneNumber=users[4].PhoneNumber },
-                new Examination{Id="2",Date = DateTime.Now.AddDays(-4),Doctor=doctors[0],DoctorFullName=$"{doctors[0].User.FirstName} {doctors[0].User.LastName}",DoctorId=doctors[0].Id,Hour="10:30",SheduleId=1,User = users[4],UserId=users[4].Id,UserFullName=$"{users[4].FirstName} {users[4].LastName}",SpecialityId=1,DoctorPhoneNumber=doctors[0].User.PhoneNumber,UserPhoneNumber=users[4].PhoneNumber, ReviewId="1" }
+                new Examination{Id="1",Date = DateTime.Parse("05.01.2023"),Doctor=doctors[0],DoctorFullName=$"{doctors[0].User.FirstName} {doctors[0].User.LastName}",DoctorId=doctors[0].Id,Hour="08:30",SheduleId=1,User = users[4],UserId=users[4].Id,UserFullName=$"{users[4].FirstName} {users[4].LastName}",SpecialityId=1, DoctorPhoneNumber=doctors[0].User.PhoneNumber,UserPhoneNumber=users[4].PhoneNumber },
+                new Examination{Id="2",Date = DateTime.Parse("02.11.2022"),Doctor=doctors[0],DoctorFullName=$"{doctors[0].User.FirstName} {doctors[0].User.LastName}",DoctorId=doctors[0].Id,Hour="10:30",SheduleId=1,User = users[4],UserId=users[4].Id,UserFullName=$"{users[4].FirstName} {users[4].LastName}",SpecialityId=1,DoctorPhoneNumber=doctors[0].User.PhoneNumber,UserPhoneNumber=users[4].PhoneNumber, ReviewId="1",IsUserReviewedExamination=true }
             };
 
             var test = new Infrastructure.Data.Models.Test()
