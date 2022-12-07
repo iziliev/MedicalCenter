@@ -49,7 +49,7 @@ namespace MedicalCenter.Core.Services
                 UserName = laboratoryPatientModel.Username,
                 PhoneNumber = phoneNumber,
                 Role = "LaboratoryUser",
-                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                JoinOnDate = globalService.ReturnDateToString(),
                 LaboratoryPatient = new LaboratoryPatient()
                 {
                     Egn = laboratoryPatientModel.Egn,

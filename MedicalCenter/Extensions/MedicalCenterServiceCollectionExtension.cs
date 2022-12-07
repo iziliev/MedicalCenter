@@ -21,6 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<ILaborantService, LaborantService>();
             services.AddScoped<ILaboratoryPatient, LaboratoryPatientService>();
+            services.AddScoped<IDateTimeService, DateTimeService>();
 
             return services;
         }

@@ -2,6 +2,8 @@
 using MedicalCenter.Core.Models.User;
 using MedicalCenter.Core.Services;
 using MedicalCenter.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,13 +19,12 @@ namespace MedicalCenter.Test.UnitTests
     {
         private IUserService userService;
         private IGlobalService globalService;
+
         [OneTimeSetUp]
         public async Task SetUp()
         {
-            globalService = new GlobalService(null, data);
-            userService = new UserService(null, null, data, null);
-
-
+            globalService = new GlobalService(null,data,dateTimeService);
+            userService = new UserService(null, null, data, globalService);
         }
 
         [Test]
@@ -139,7 +140,7 @@ namespace MedicalCenter.Test.UnitTests
             //Arrange
             var doctorId = "1";
 
-            var user = new User() { Id = "158", Email = "user158@mail.bg", FirstName = "User158", LastName = "Userov158", GenderId = 1, JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy"), Role = "User", UserName = "user158", PhoneNumber = "+359666666" };
+            var user = new User() { Id = "158", Email = "user158@mail.bg", FirstName = "User158", LastName = "Userov158", GenderId = 1, JoinOnDate = globalService.ReturnDateToString(), Role = "User", UserName = "user158", PhoneNumber = "+359666666" };
 
             await data.AddAsync(user);
 

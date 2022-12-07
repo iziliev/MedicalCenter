@@ -42,5 +42,7 @@ namespace MedicalCenter.Core.Contracts
         /// <returns>Collection on gender</returns>
         Task<IEnumerable<Gender>> GetGendersAsync();
 
+        string ReturnDateToString();
+
     }
 }

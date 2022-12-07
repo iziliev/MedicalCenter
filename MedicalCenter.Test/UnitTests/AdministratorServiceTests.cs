@@ -1,6 +1,8 @@
 ﻿using MedicalCenter.Areas.Administrator.Models;
 using MedicalCenter.Areas.Administrator.Services;
 using MedicalCenter.Areas.Contracts;
+using MedicalCenter.Core.Contracts;
+using MedicalCenter.Core.Services;
 using MedicalCenter.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Moq;
@@ -15,7 +17,7 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public async Task SetUp()
         {
-            administratorService = new AdministratorService(null, data, null, null);
+            administratorService = new AdministratorService(null, data, null, null,dateTimeService);
         }
 
         [Test]
@@ -234,6 +236,29 @@ namespace MedicalCenter.Test.UnitTests
 
         //    Assert.NotNull(doctor);
         //    Assert.AreEqual(doctor.Biography, "R");
+        //}
+
+        //[Test]
+        //public async Task CreateAdmin()
+        //{;
+        //    var admin = new CreateAdminViewModel()
+        //    {
+        //        Egn = "9897949596",
+        //        Email = "admin1@mail.bg",
+        //        FirstName = "Admin1",
+        //        LastName = "Adminov1",
+        //        Gender = 1,
+        //        Password = "Admin1!",
+        //        PhoneNumber = "0887454546",
+        //        Username = "admin1",
+        //    };
+
+        //    await administratorService.CreateUserAsync(admin);
+
+        //    var admins = await administratorService.GetAllCurrentAdminAsync("1");
+
+        //    Assert.AreEqual(admins.TotalAdminsCount, 1);
+
         //}
     }
 }

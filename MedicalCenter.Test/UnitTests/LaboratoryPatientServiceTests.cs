@@ -18,7 +18,7 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public async Task SetUp()
         {
-            globalService = new GlobalService(null, data);
+            globalService = new GlobalService(null, data,dateTimeService);
             laboratoryPatient = new LaboratoryPatientService(null,null,data,globalService);
         }
         

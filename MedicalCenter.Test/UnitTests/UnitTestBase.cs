@@ -1,4 +1,5 @@
 ﻿using MedicalCenter.Core.Contracts;
+using MedicalCenter.Core.Services;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
 using MedicalCenter.Test.Mocks;
@@ -10,12 +11,12 @@ namespace MedicalCenter.Test.UnitTests
     public class UnitTestBase
     {
         protected IRepository data;
-        
+        protected IDateTimeService dateTimeService;
 
         [OneTimeSetUp]
         public async Task SetUpBase()
         {
-            
+            dateTimeService = new DateTimeService();
             data = RepositoryMock.Instance;
 
             var speciality = new List<Specialty>()
@@ -34,17 +35,17 @@ namespace MedicalCenter.Test.UnitTests
 
             var users = new List<User>()
             {
-                new User(){Id="1",Email="admin@mail.bg",FirstName="Admin",LastName="Adminov",GenderId=1,JoinOnDate=DateTime.Now.ToString("dd.MM.yyyy"),Role="Administrator",UserName="admin",AdministratorId="1"},
+                new User(){Id="1",Email="admin@mail.bg",FirstName="Admin",LastName="Adminov",GenderId=1,JoinOnDate=dateTimeService.GetDate(),Role="Administrator",UserName="admin",AdministratorId="1"},
 
-                new User(){Id="2",Email="doctor1@mail.bg",FirstName="Doctor1",LastName="Doctorov1",GenderId=1,JoinOnDate=DateTime.Now.ToString("dd.MM.yyyy"),Role="Doctor",UserName="doctor1",DoctorId="1",PhoneNumber="+359999999"},
-                new User(){Id="3",Email="doctor2@mail.bg",FirstName="Doctor2",LastName="Doctorov2",GenderId=2,JoinOnDate=DateTime.Now.ToString("dd.MM.yyyy"),Role="Doctor",UserName="doctor2",DoctorId="2",PhoneNumber="+359888888"},
+                new User(){Id="2",Email="doctor1@mail.bg",FirstName="Doctor1",LastName="Doctorov1",GenderId=1,JoinOnDate=dateTimeService.GetDate(),Role="Doctor",UserName="doctor1",DoctorId="1",PhoneNumber="+359999999"},
+                new User(){Id="3",Email="doctor2@mail.bg",FirstName="Doctor2",LastName="Doctorov2",GenderId=2,JoinOnDate=dateTimeService.GetDate(),Role="Doctor",UserName="doctor2",DoctorId="2",PhoneNumber="+359888888"},
 
-                new User(){Id="4",Email="laborant@mail.bg",FirstName="Laborant",LastName="Laborantov",GenderId=1,JoinOnDate=DateTime.Now.ToString("dd.MM.yyyy"),Role="Laborant",UserName="laborant",LaborantId="1"},
+                new User(){Id="4",Email="laborant@mail.bg",FirstName="Laborant",LastName="Laborantov",GenderId=1,JoinOnDate=dateTimeService.GetDate(),Role="Laborant",UserName="laborant",LaborantId="1"},
 
-                new User(){Id="5",Email="user1@mail.bg",FirstName="User1",LastName="Userov1",GenderId=1,JoinOnDate=DateTime.Now.ToString("dd.MM.yyyy"),Role="User",UserName="user1",PhoneNumber="+359666666"},
-                new User(){Id="6",Email="user2@mail.bg",FirstName="User2",LastName="Userov2",GenderId=2,JoinOnDate=DateTime.Now.ToString("dd.MM.yyyy"),Role="User",UserName="user2",PhoneNumber="+359777777"},
+                new User(){Id="5",Email="user1@mail.bg",FirstName="User1",LastName="Userov1",GenderId=1,JoinOnDate=dateTimeService.GetDate(),Role="User",UserName="user1",PhoneNumber="+359666666"},
+                new User(){Id="6",Email="user2@mail.bg",FirstName="User2",LastName="Userov2",GenderId=2,JoinOnDate=dateTimeService.GetDate(),Role="User",UserName="user2",PhoneNumber="+359777777"},
 
-                new User(){Id="7",Email="pat@mail.bg",FirstName="Patient",LastName="Patientov",GenderId=1,JoinOnDate=DateTime.Now.ToString("dd.MM.yyyy"),Role="LaboratoryPatient",UserName="pat_1",LaboratoryPatientId="1"},
+                new User(){Id="7",Email="pat@mail.bg",FirstName="Patient",LastName="Patientov",GenderId=1,JoinOnDate=dateTimeService.GetDate(),Role="LaboratoryPatient",UserName="pat_1",LaboratoryPatientId="1"},
             };
 
             var admin = new Administrator() { Egn = "1111111111", Id = "1", User = users[0], UserId = users[0].Id };

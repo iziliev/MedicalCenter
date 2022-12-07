@@ -21,17 +21,20 @@ namespace MedicalCenter.Areas.Administrator.Services
         private readonly IRepository repository;
         private readonly IGlobalService globalService;
         private readonly SignInManager<User> signInManager;
+        private readonly IDateTimeService dateTimeService;
 
         public AdministratorService(
             UserManager<User> _userManager,
             IRepository _repository,
             IGlobalService _globalService,
-            SignInManager<User> _signInManager)
+            SignInManager<User> _signInManager,
+            IDateTimeService _dateTimeService)
         {
             userManager = _userManager;
             repository = _repository;
             globalService = _globalService;
             signInManager = _signInManager;
+            dateTimeService = _dateTimeService;
         }
 
         /// <summary>
@@ -69,7 +72,7 @@ namespace MedicalCenter.Areas.Administrator.Services
                     PhoneNumber = phoneNumber,
                     UserName = doctorModel.Username,
                     Role = "Doctor",
-                    JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                    JoinOnDate = dateTimeService.GetDate(),
                     Doctor = doctor,
                     DoctorId = doctor.Id
                 };
@@ -96,7 +99,7 @@ namespace MedicalCenter.Areas.Administrator.Services
                     PhoneNumber = phoneNumber,
                     UserName = laborantModel.Username,
                     Role = "Laborant",
-                    JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                    JoinOnDate = dateTimeService.GetDate(),
                     Laborant = laborant,
                     LaborantId = laborant.Id
                 };
@@ -123,7 +126,7 @@ namespace MedicalCenter.Areas.Administrator.Services
                     PhoneNumber = phoneNumber,
                     UserName = adminModel.Username,
                     Role = "Administrator",
-                    JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                    JoinOnDate = dateTimeService.GetDate(),
                     Administrator = administrator,
                     AdministratorId = administrator.Id
                 };
@@ -705,7 +708,7 @@ namespace MedicalCenter.Areas.Administrator.Services
                     .Include(u => u.User)
                     .FirstOrDefaultAsync();
 
-                doctor.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+                doctor.OutOnDate = dateTimeService.GetDate();
                 doctor.User.IsOutOfCompany = true;
                 await repository.SaveChangesAsync();
             }
@@ -716,7 +719,7 @@ namespace MedicalCenter.Areas.Administrator.Services
                     .Include(u => u.User)
                     .FirstOrDefaultAsync();
 
-                laborant.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+                laborant.OutOnDate = dateTimeService.GetDate();
                 laborant.User.IsOutOfCompany = true;
                 await repository.SaveChangesAsync();
             }
@@ -727,7 +730,7 @@ namespace MedicalCenter.Areas.Administrator.Services
                     .Include(u => u.User)
                     .FirstOrDefaultAsync();
 
-                administrator.OutOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+                administrator.OutOnDate = dateTimeService.GetDate();
                 administrator.User.IsOutOfCompany = true;
                 await repository.SaveChangesAsync();
             }

@@ -18,13 +18,11 @@ namespace MedicalCenter.Test.UnitTests
     {
         private IGlobalService globalService;
 
-
         [OneTimeSetUp]
         public async Task SetUp()
         {
-            globalService = new GlobalService(null,data);
+            globalService = new GlobalService(null,data,dateTimeService);
         }
-
 
         [Test]
         public void ParsePnoneNumber_ReturnPhoneNumber()
@@ -86,5 +84,17 @@ namespace MedicalCenter.Test.UnitTests
             Assert.AreEqual(shedules.Count(), 2);
         }
 
+        [Test]
+        public void ReturnCorrectDateToString()
+        {
+            //Arrange
+
+            //Act
+            var date=globalService.ReturnDateToString();
+            var dateToString = DateTime.Now.ToString("dd.MM.yyyy");
+
+            //Assert
+            Assert.AreEqual(date, dateToString);
+        }
     }
 }

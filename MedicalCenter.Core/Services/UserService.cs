@@ -22,7 +22,8 @@ namespace MedicalCenter.Core.Services
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
             IRepository _repository,
-            IGlobalService _globalService)
+            IGlobalService _globalService
+)
         {
             userManager = _userManager;
             signInManager = _signInManager;
@@ -76,7 +77,7 @@ namespace MedicalCenter.Core.Services
                 PhoneNumber = phoneNumber,
                 UserName = registerModel.Username,
                 Role = "User",
-                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+                JoinOnDate = globalService.ReturnDateToString(),
             };
 
             return await userManager.CreateAsync(user, registerModel.Password);

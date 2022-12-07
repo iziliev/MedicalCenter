@@ -249,7 +249,7 @@ namespace MedicalCenter.Controllers
                 PhoneNumber = phoneNumber,
                 UserName = registerExternalViewModel.Username,
                 Role = "User",
-                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)
+                JoinOnDate = globalService.ReturnDateToString(),
             };
 
             await userManager.CreateAsync(user);

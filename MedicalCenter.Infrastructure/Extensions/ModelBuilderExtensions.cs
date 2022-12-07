@@ -228,7 +228,7 @@ namespace MedicalCenter.Infrastructure.Extensions
                 UserName = "lab_vivanova",
                 NormalizedUserName = "LAB_VIVANOVA",
                 Role = "Laborant",
-                JoinOnDate = DateTime.UtcNow.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
+                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture),
                 LaborantId = GuidIdsConstants.LaborantGuidConstants,
             };
             user.PasswordHash = laborantHasher.HashPassword(user, "Laborant");

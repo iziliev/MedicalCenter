@@ -12,12 +12,17 @@ namespace MedicalCenter.Core.Services
     {
         private readonly UserManager<User> userManager;
         private readonly IRepository repository;
+        private readonly IDateTimeService dateTimeService;
 
-        public GlobalService(UserManager<User> _userManager,
-            IRepository _repository)
+
+        public GlobalService(
+            UserManager<User> _userManager,
+            IRepository _repository,
+            IDateTimeService _dateTimeService)
         {
             userManager = _userManager;
             repository = _repository;
+            dateTimeService = _dateTimeService;
         }
 
         public async Task AddUserRoleAsync(User user, string userRole)
@@ -49,6 +54,11 @@ namespace MedicalCenter.Core.Services
         public string ParsePnoneNumber(string phoneNumber)
         {
             return phoneNumber.Contains('+') ? phoneNumber : $"+359{phoneNumber.Remove(0, 1)}";
+        }
+
+        public string ReturnDateToString()
+        {
+            return dateTimeService.GetDate();
         }
     }
 }
