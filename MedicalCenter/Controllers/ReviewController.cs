@@ -12,15 +12,18 @@ namespace MedicalCenter.Controllers
         private readonly IReviewService reviewService;
         private readonly IGlobalService globalService;
         private readonly IRepository repository;
+        private readonly IDoctorService doctorService;
 
         public ReviewController(
             IReviewService _reviewService, 
             IGlobalService _globalService,
-            IRepository _repository)
+            IRepository _repository,
+            IDoctorService _doctorService)
         {
             reviewService = _reviewService;
             globalService = _globalService;
             repository = _repository;
+            doctorService = _doctorService;
         }
 
         [HttpGet]
@@ -75,10 +78,10 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> AllReceiveReview([FromQuery]ShowAllReceiveReviewViewModel query)
         {
-            var doctorId = User.Id();
-
+            var doctor = await doctorService.GetDoctorByIdAsync(User.Id());
+            
             var queryResult = await reviewService.GetReceiveReviewsByDoctorIdAsync(
-                doctorId,
+                doctor.Id,
                 query.SearchTerm,
                 query.CurrentPage,
                 ShowAllReceiveReviewViewModel.ReviewPerPage);

@@ -100,10 +100,10 @@ namespace MedicalCenter.Controllers
         [HttpGet]
         public async Task<IActionResult> AllDoctorExamination([FromQuery]ShowAllExaminationDoctorViewModel query)
         {
-            var doctorId = User.Id();
+            var doctor = await doctorService.GetDoctorByIdAsync(User.Id());
 
             var queryResult = await doctorService.GetAllDoctorExaminationAsync(
-                doctorId, 
+                doctor.Id, 
                 query.SearchTerm, 
                 query.CurrentPage, 
                 ShowAllExaminationDoctorViewModel.ExaminationPerPage);

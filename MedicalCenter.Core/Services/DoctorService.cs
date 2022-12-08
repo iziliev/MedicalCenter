@@ -23,6 +23,7 @@ namespace MedicalCenter.Core.Services
             int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
             int examinationPerPage = DataConstants.PagingConstants.ShowPerPageConstant)
         {
+            
             var doctorExaminationQuery = repository.AllReadonly<Examination>()
                 .Where(e => !e.IsDeleted && e.DoctorId == doctorId)
                 .Include(x => x.User)
