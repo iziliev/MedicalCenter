@@ -13,11 +13,13 @@ namespace MedicalCenter.Test.UnitTests
     public class AdministratorServiceTests : UnitTestBase
     {
         private IAdministratorService administratorService;
+        private IGlobalService globalService;
 
         [OneTimeSetUp]
         public async Task SetUp()
         {
-            administratorService = new AdministratorService(null, data, null, null,dateTimeService);
+            globalService = new GlobalService(usermanagerMock, data, dateTimeService);
+            administratorService = new AdministratorService(usermanagerMock, data, globalService, null,dateTimeService);
         }
 
         [Test]
@@ -201,64 +203,82 @@ namespace MedicalCenter.Test.UnitTests
             Assert.AreEqual(leftAdmins.TotalAdminsCount, 0);
         }
 
-        //[Test]
-        //public async Task CreateUserAsync_ShouldCreateUser()
-        //{
-        //    //Arrange
+        [Test]
+        public async Task CreateDoctorAsync_ShouldCreateDoctor()
+        {
+            //Arrange
 
-        //    var doctorModel = new CreateDoctorViewModel
-        //    {
-        //        Biography = "R",
-        //        Education = "P",
-        //        Egn = "1001111111",
-        //        Email = "doctor3@mail.bg",
-        //        FirstName = "Doctor3",
-        //        LastName = "Doctorov3",
-        //        Username = "doctor3",
-        //        Gender = 1,
-        //        JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy"),
-        //        Password = "Doctor",
-        //        PhoneNumber = "+359885464646",
-        //        ProfileImageUrl = "https://rrrr.com",
-        //        Representation = "REEEE",
-        //        Role = "Doctor",
-        //        SheduleId = 1,
-        //        SpecialtyId = 1
-        //    };
+            var doctorModel = new CreateDoctorViewModel
+            {
+                Biography = "R",
+                Education = "P",
+                Egn = "1001111111",
+                Email = "doctor3@mail.bg",
+                FirstName = "Doctor3",
+                LastName = "Doctorov3",
+                Username = "doctor3",
+                Gender = 1,
+                JoinOnDate = DateTime.Now.ToString("dd.MM.yyyy"),
+                Password = "Doctor1!",
+                PhoneNumber = "+359885464646",
+                ProfileImageUrl = "https://rrrr.com",
+                Representation = "REEEE",
+                Role = "Doctor",
+                SheduleId = 1,
+                SpecialtyId = 1
+            };
 
-        //    //Act
+            //Act
+            var result = await administratorService.CreateUserAsync(doctorModel);
 
-        //    await administratorService.CreateUserAsync(doctorModel);
+            //Assert
+            Assert.IsTrue(result.Succeeded);
+        }
 
-        //    var doctor = await administratorService.GetByEgnAsync<Doctor>("1001111111");
+        [Test]
+        public async Task CreateAdminAsync_ShouldCreateAdmin()
+        {
+            //Arrange
+            var admin = new CreateAdminViewModel()
+            {
+                Egn = "9897949596",
+                Email = "admin1@mail.bg",
+                FirstName = "Admin1",
+                LastName = "Adminov1",
+                Gender = 1,
+                Password = "Admin1!",
+                PhoneNumber = "0887454546",
+                Username = "admin1",
+            };
 
-        //    //Assert
+            //Act
+            var result = await administratorService.CreateUserAsync(admin);
 
-        //    Assert.NotNull(doctor);
-        //    Assert.AreEqual(doctor.Biography, "R");
-        //}
+            //Assert
+            Assert.IsTrue(result.Succeeded);
+        }
 
-        //[Test]
-        //public async Task CreateAdmin()
-        //{;
-        //    var admin = new CreateAdminViewModel()
-        //    {
-        //        Egn = "9897949596",
-        //        Email = "admin1@mail.bg",
-        //        FirstName = "Admin1",
-        //        LastName = "Adminov1",
-        //        Gender = 1,
-        //        Password = "Admin1!",
-        //        PhoneNumber = "0887454546",
-        //        Username = "admin1",
-        //    };
+        [Test]
+        public async Task CreateLaborantAsync_ShouldCreateLaborant()
+        {
+            //Arrange
+            var laborant = new CreateLaborantViewModel()
+            {
+                Egn = "9897949596",
+                Email = "laborant1@mail.bg",
+                FirstName = "Laborant1",
+                LastName = "Laborantov1",
+                Gender = 3,
+                Password = "Laborant1!",
+                PhoneNumber = "0887454535",
+                Username = "laborant_1",
+            };
 
-        //    await administratorService.CreateUserAsync(admin);
+            //Act
+            var result = await administratorService.CreateUserAsync(laborant);
 
-        //    var admins = await administratorService.GetAllCurrentAdminAsync("1");
-
-        //    Assert.AreEqual(admins.TotalAdminsCount, 1);
-
-        //}
+            //Assert
+            Assert.IsTrue(result.Succeeded);
+        }
     }
 }
