@@ -140,7 +140,6 @@ namespace MedicalCenter.Infrastructure.Extensions
                 .Split(",")
                 .ToArray();
 
-            var doctorCount = 1;
             var lastTel = 100;
             var guidCount = 0;
 
@@ -167,7 +166,6 @@ namespace MedicalCenter.Infrastructure.Extensions
 
                 user.PasswordHash = doctorHasher.HashPassword(user, "Doctor");
                 users.Add(user);
-                doctorCount++;
                 guidCount++;
             }
             return users;
@@ -208,6 +206,7 @@ namespace MedicalCenter.Infrastructure.Extensions
                 };
                 doctors.Add(d);
                 guidCount++;
+                doctorCount++;
             }
             return doctors;
         }
