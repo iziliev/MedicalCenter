@@ -23,8 +23,8 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public async Task SetUp()
         {
-            globalService = new GlobalService(null,data,dateTimeService);
-            userService = new UserService(null, null, data, globalService);
+            globalService = new GlobalService(usermanagerMock,data,dateTimeService);
+            userService = new UserService(usermanagerMock, null, data, globalService);
         }
 
         [Test]
@@ -208,6 +208,29 @@ namespace MedicalCenter.Test.UnitTests
             Assert.AreEqual(examinationOnDateBeforeCancel.TotalExaminationCount,2);
             Assert.AreEqual(examinationOnDateAfterCancel.TotalExaminationCount, 1);
             Assert.AreEqual(examForReview.TotalExaminationsCount, 1);
+        }
+
+        [Test]
+        public async Task RegisterUser_ShouldRegisterUser()
+        {
+            //Arrange
+            var user = new RegisterViewModel
+            {
+                ConfirmPassword = "User84!",
+                Email = "user5@mail.bg",
+                FirstName = "User5",
+                LastName = "Userov5",
+                Gender = 1,
+                Password = "User84!",
+                PhoneNumber = "+359885659878",
+                Username = "user5"
+            };
+
+            //Act
+            var result = await userService.Register(user);
+
+            //Assrt
+            Assert.IsTrue(result.Succeeded);
         }
     }
 }

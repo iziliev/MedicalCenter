@@ -1,4 +1,6 @@
-﻿namespace MedicalCenter.Areas.Administrator.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MedicalCenter.Areas.Administrator.Models
 {
     /// <summary>
     /// Statistic admin view model

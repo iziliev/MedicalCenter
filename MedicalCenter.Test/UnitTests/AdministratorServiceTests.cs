@@ -19,7 +19,7 @@ namespace MedicalCenter.Test.UnitTests
         public async Task SetUp()
         {
             globalService = new GlobalService(usermanagerMock, data, dateTimeService);
-            administratorService = new AdministratorService(usermanagerMock, data, globalService, null,dateTimeService);
+            administratorService = new AdministratorService(usermanagerMock, data, globalService, null, dateTimeService);
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace MedicalCenter.Test.UnitTests
 
             //Act: invoke the service method with valid id
             var resultAdminExist = await administratorService.GetByEgnAsync<Administrator>("1111111111");
-            var resultAdminNotExist = await administratorService.GetByEgnAsync<Administrator>("9999999999");
+            var resultAdminNotExist = await administratorService.GetByEgnAsync<Administrator>("0000000000");
 
             //Assert a correct id is returned
             Assert.IsNotNull(resultAdminExist);
@@ -129,7 +129,7 @@ namespace MedicalCenter.Test.UnitTests
         {
             //Arrange
             var doctorId = "1";
-            
+
             //Act
             var doctor = await administratorService.GetUserByIdToEditAsync<MainDoctorViewModel, Doctor>(doctorId);
             doctor.FirstName = "Doctor1Edit";
@@ -149,8 +149,8 @@ namespace MedicalCenter.Test.UnitTests
 
             await administratorService.DeleteAsync<Doctor>(doctorId);
 
-            var doctors = await administratorService.GetAllCurrentDoctorsAsync(null,null,null,1,6);
-            var leftDoctors = await administratorService.GetAllLeftDoctorsAsync(null,null,null,1,6);
+            var doctors = await administratorService.GetAllCurrentDoctorsAsync(null, null, null, 1, 6);
+            var leftDoctors = await administratorService.GetAllLeftDoctorsAsync(null, null, null, 1, 6);
 
             //Assert
             Assert.AreEqual(doctors.TotalDoctorsCount, 1);
@@ -172,7 +172,7 @@ namespace MedicalCenter.Test.UnitTests
             //Arrange
 
             //Act
-            
+
             var model = await administratorService.GetStatisticsAsync<DashboardStatisticDataViewModel>();
 
             //Assert
@@ -204,7 +204,7 @@ namespace MedicalCenter.Test.UnitTests
         }
 
         [Test]
-        public async Task CreateDoctorAsync_ShouldCreateDoctor()
+        public async Task CreateUserAsync_ShouldCreateUser()
         {
             //Arrange
 
@@ -228,17 +228,6 @@ namespace MedicalCenter.Test.UnitTests
                 SpecialtyId = 1
             };
 
-            //Act
-            var result = await administratorService.CreateUserAsync(doctorModel);
-
-            //Assert
-            Assert.IsTrue(result.Succeeded);
-        }
-
-        [Test]
-        public async Task CreateAdminAsync_ShouldCreateAdmin()
-        {
-            //Arrange
             var admin = new CreateAdminViewModel()
             {
                 Egn = "9897949596",
@@ -251,17 +240,6 @@ namespace MedicalCenter.Test.UnitTests
                 Username = "admin1",
             };
 
-            //Act
-            var result = await administratorService.CreateUserAsync(admin);
-
-            //Assert
-            Assert.IsTrue(result.Succeeded);
-        }
-
-        [Test]
-        public async Task CreateLaborantAsync_ShouldCreateLaborant()
-        {
-            //Arrange
             var laborant = new CreateLaborantViewModel()
             {
                 Egn = "9897949596",
@@ -275,10 +253,186 @@ namespace MedicalCenter.Test.UnitTests
             };
 
             //Act
-            var result = await administratorService.CreateUserAsync(laborant);
+            var createDoctorResult = await administratorService.CreateUserAsync(doctorModel);
+            var createAdminResult = await administratorService.CreateUserAsync(admin);
+            var createLaborantResult = await administratorService.CreateUserAsync(laborant);
 
             //Assert
-            Assert.IsTrue(result.Succeeded);
+            Assert.IsTrue(createDoctorResult.Succeeded);
+            Assert.IsTrue(createAdminResult.Succeeded);
+            Assert.IsTrue(createLaborantResult.Succeeded);
+        }
+
+        [Test]
+        public async Task DeleteAndReturnUserAsync_ShouldDeleteAndReturnUser()
+        {
+            //Arrange
+            var laborant = await administratorService.GetByEgnAsync<Laborant>("4444444444");
+            var laborantOutCompanyBegoreDelete = laborant.User.IsOutOfCompany;
+
+            var admin = await administratorService.GetByEgnAsync<Administrator>("1111111111");
+            var adminOutCompanyBegoreDelete = admin.User.IsOutOfCompany;
+
+            var doctor = await administratorService.GetByEgnAsync<Doctor>("2222222222");
+            var doctorOutCompanyBegoreDelete = doctor.User.IsOutOfCompany;
+
+            //Act
+            await administratorService.DeleteAsync<Laborant>(laborant.Id);
+            var laborantOutCompanyAfterDelete = laborant.User.IsOutOfCompany;
+            await administratorService.ReturnAsync<Laborant>(laborant.Id);
+            var laborantOutCompanyAfterReturn = laborant.User.IsOutOfCompany;
+
+            await administratorService.DeleteAsync<Administrator>(admin.Id);
+            var adminOutCompanyAfterDelete = admin.User.IsOutOfCompany;
+            await administratorService.ReturnAsync<Administrator>(admin.Id);
+            var adminOutCompanyAfterReturn = admin.User.IsOutOfCompany;
+
+            await administratorService.DeleteAsync<Doctor>(doctor.Id);
+            var doctorOutCompanyAfterDelete = doctor.User.IsOutOfCompany;
+            await administratorService.ReturnAsync<Doctor>(doctor.Id);
+            var doctorOutCompanyAfterReturn = doctor.User.IsOutOfCompany;
+
+            //Assert
+            Assert.IsFalse(laborantOutCompanyBegoreDelete);
+            Assert.IsTrue(laborantOutCompanyAfterDelete);
+            Assert.IsFalse(laborantOutCompanyAfterReturn);
+
+            Assert.IsFalse(adminOutCompanyBegoreDelete);
+            Assert.IsTrue(adminOutCompanyAfterDelete);
+            Assert.IsFalse(adminOutCompanyAfterReturn);
+
+            Assert.IsFalse(doctorOutCompanyBegoreDelete);
+            Assert.IsTrue(doctorOutCompanyAfterDelete);
+            Assert.IsFalse(doctorOutCompanyAfterReturn);
+        }
+
+        [Test]
+        public async Task FillGendersSpecialitiesSheduleInEditViewAsyanc_ShouldFillGendersSpecialitiesSheduleInEditView()
+        {
+            //Arrange
+            var doctorId = "1";
+
+            //Act
+            var editDoctorModel = await administratorService.GetUserByIdToEditAsync<MainDoctorViewModel, Doctor>(doctorId);
+
+            var model = await administratorService.FillGendersSpecialitiesSheduleInEditViewAsyanc(editDoctorModel);
+
+
+            //Assert
+            Assert.IsNotNull(model.Genders);
+            Assert.IsNotNull(model.Specialties);
+            Assert.IsNotNull(model.Shedules);
+        }
+
+        [Test]
+        public async Task FillGendersSpecialitiesSheduleInCreateViewAsyanc_ShouldFillFillGendersSpecialitiesSheduleInCreateView()
+        {
+            //Arrange
+            var createModel = new CreateDoctorViewModel();
+
+            //Act
+            var model = await administratorService.FillGendersSpecialitiesSheduleInCreateViewAsyanc(createModel);
+
+            //Assert
+            Assert.IsNotNull(model.Genders);
+            Assert.IsNotNull(model.Specialties);
+            Assert.IsNotNull(model.Shedules);
+        }
+
+        [Test]
+        public async Task GetAllPastExamination_ShouldReturnAllNotCanceledPastExamination()
+        {
+            //Arrange
+
+            //Act
+            var pastExam = await administratorService.GetAllPastExamination();
+
+            //Assert
+            Assert.NotNull(pastExam);
+            Assert.AreEqual(pastExam.TotalExaminationCount, 1);
+        }
+        [Test]
+        public async Task GetAllFutureExamination_ShouldReturnAllNotCanceledFutureExamination()
+        {
+            //Arrange
+
+            //Act
+            var futureExam = await administratorService.GetAllFutureExamination();
+
+            //Assert
+            Assert.NotNull(futureExam);
+            Assert.AreEqual(futureExam.TotalExaminationCount, 1);
+        }
+
+        [Test]
+        public async Task GetAllCurrentDoctor_ShouldReturnAllCurrentDoctor()
+        {
+            //Arrange
+
+            //Act
+            var doctors = await administratorService.GetAllCurrentDoctorsAsync();
+
+            //Assert
+            Assert.NotNull(doctors);
+            Assert.AreEqual(doctors.TotalDoctorsCount, 2);
+        }
+
+        [Test]
+        public async Task GetAllLeftDoctor_ShouldReturnAllLeftDoctor()
+        {
+            //Arrange
+            var doctorId = "1";
+            await administratorService.DeleteAsync<Doctor>(doctorId);
+
+            //Act
+            var doctors = await administratorService.GetAllLeftDoctorsAsync();
+            await administratorService.ReturnAsync<Doctor>(doctorId);
+            var doctorsAll = await administratorService.GetAllCurrentDoctorsAsync();
+            //Assert
+            Assert.AreEqual(doctors.TotalDoctorsCount, 1);
+            Assert.AreEqual(doctorsAll.TotalDoctorsCount, 2);
+        }
+
+        [Test]
+        public async Task GetAllCurrentLaborant_ShouldReturnAllCurrentLaborant()
+        {
+            //Arrange
+
+            //Act
+            var laborants = await administratorService.GetAllCurrentLaborantsAsync();
+
+            //Assert
+            Assert.NotNull(laborants);
+            Assert.AreEqual(laborants.TotalLaborantsCount, 1);
+        }
+
+        [Test]
+        public async Task GetAllLeftLaborants_ShouldReturnAllLeftLaborants()
+        {
+            //Arrange
+            var laborantId = "1";
+            await administratorService.DeleteAsync<Laborant>(laborantId);
+
+            //Act
+            var leftlaborants = await administratorService.GetAllLeftLaborantsAsync();
+            await administratorService.ReturnAsync<Laborant>(laborantId);
+            var leftlaborantsAll = await administratorService.GetAllLeftLaborantsAsync();
+            //Assert
+            Assert.AreEqual(leftlaborants.TotalLaborantsCount, 1);
+            Assert.AreEqual(leftlaborantsAll.TotalLaborantsCount, 0);
+        }
+
+        [Test]
+        public async Task GetAllRegisteredUsersAsync_ShouldReturnAllRegisteredUser()
+        {
+            //Arrange
+
+            //Act
+            var users = await administratorService.GetAllRegisteredUsersAsync();
+
+            //Assrt
+            Assert.NotNull(users);
+            Assert.AreEqual(users.TotalUsersCount, 2);
         }
     }
 }

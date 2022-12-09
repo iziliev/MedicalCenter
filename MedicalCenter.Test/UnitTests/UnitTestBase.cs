@@ -48,6 +48,7 @@ namespace MedicalCenter.Test.UnitTests
                 new User(){Id="6",Email="user2@mail.bg",FirstName="User2",LastName="Userov2",GenderId=2,JoinOnDate=dateTimeService.GetDate(),Role="User",UserName="user2",PhoneNumber="+359777777"},
 
                 new User(){Id="7",Email="pat@mail.bg",FirstName="Patient",LastName="Patientov",GenderId=1,JoinOnDate=dateTimeService.GetDate(),Role="LaboratoryPatient",UserName="pat_1",LaboratoryPatientId="1"},
+
             };
 
             var admin = new Administrator() { Egn = "1111111111", Id = "1", User = users[0], UserId = users[0].Id };
@@ -126,7 +127,5 @@ namespace MedicalCenter.Test.UnitTests
             await data.AddAsync(review);
             await data.SaveChangesAsync();
         }
-
-        
     }
 }
