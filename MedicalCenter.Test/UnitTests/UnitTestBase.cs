@@ -17,7 +17,8 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public async Task SetUpBase()
         {
-            usermanagerMock= UsermanagerMock.CreateUserManager();
+
+            usermanagerMock= UserManagerMock.CreateUserManager();
             dateTimeService = new DateTimeService();
             data = RepositoryMock.Instance;
 
@@ -48,14 +49,13 @@ namespace MedicalCenter.Test.UnitTests
                 new User(){Id="6",Email="user2@mail.bg",FirstName="User2",LastName="Userov2",GenderId=2,JoinOnDate=dateTimeService.GetDate(),Role="User",UserName="user2",PhoneNumber="+359777777"},
 
                 new User(){Id="7",Email="pat@mail.bg",FirstName="Patient",LastName="Patientov",GenderId=1,JoinOnDate=dateTimeService.GetDate(),Role="LaboratoryPatient",UserName="pat_1",LaboratoryPatientId="1"},
-
             };
 
             var admin = new Administrator() { Egn = "1111111111", Id = "1", User = users[0], UserId = users[0].Id };
 
             var doctors = new List<Doctor>()
             {
-                new Doctor(){ Egn = "2222222222",Biography = "A",Education= "B",Id= "1",ProfileImageUrl = "http://2",Representation = "C",SheduleId = 1,SpecialtyId = 1,User = users[1],UserId = users[1].Id },
+                new Doctor(){ Egn = "2222222222",Biography = "A",Education= "B",Id= "1",ProfileImageUrl = "http://2",Representation = "C",SheduleId = 1,SpecialtyId = 1,User = users[1],UserId = users[1].Id},
                 new Doctor(){ Egn = "3333333333",Biography = "D",Education= "E",Id= "2",ProfileImageUrl = "http://1",Representation = "F",SheduleId = 2,SpecialtyId = 3,User = users[2],UserId = users[2].Id }
             };
 
@@ -87,7 +87,7 @@ namespace MedicalCenter.Test.UnitTests
             {
                 Id = "1",
                 Content = "AAAAA",
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.Parse("08.08.2022"),
                 Doctor = doctors[0],
                 DoctorId = doctors[0].Id,
                 Rating = 4,
@@ -109,7 +109,7 @@ namespace MedicalCenter.Test.UnitTests
                 Id = "1",
                 LaboratoryPatientId = laboratoryPatient.Id,
                 LaboratoryPatient = laboratoryPatient,
-                TestDate = DateTime.Now,
+                TestDate = DateTime.Parse("08.12.2022"),
                 UrinepH = "1.5"
             };
 

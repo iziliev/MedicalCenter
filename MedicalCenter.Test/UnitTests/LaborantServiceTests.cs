@@ -17,10 +17,10 @@ namespace MedicalCenter.Test.UnitTests
         private IGlobalService globalService;
 
         [OneTimeSetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
-            globalService = new GlobalService(null,data,dateTimeService);
-            laborantService = new LaborantService(globalService,null,data);
+            globalService = new GlobalService(usermanagerMock,data,dateTimeService);
+            laborantService = new LaborantService(globalService,usermanagerMock,data);
         }
 
         [Test]
@@ -29,11 +29,16 @@ namespace MedicalCenter.Test.UnitTests
             //Arrange
 
             //Act
-            var patient = await laborantService.GetLaboratoryPatientByEgnAsync("8989898989");
+            var patient = await laborantService.SearchLaboratoryPatientByEgnAsync("8989898989");
+            var patientNot = await laborantService.SearchLaboratoryPatientByEgnAsync("1289898989");
 
             //Assert
-            Assert.IsNotNull(patient);
-            Assert.AreEqual(patient.User.FirstName, "Patient");
+            Assert.Multiple(() =>
+            {
+                Assert.That(patient, Is.Not.Null);
+                Assert.That(patient.FirstName, Is.EqualTo("Patient"));
+                Assert.That(patientNot, Is.Null);
+            });
         }
 
         [Test]
@@ -82,6 +87,55 @@ namespace MedicalCenter.Test.UnitTests
             Assert.AreEqual(patient.Tests.Count, 2);
             Assert.AreEqual(currentTest.Plt, "18.5");
 
+        }
+
+        [Test]
+        public async Task CreateLaboratoryPatientAsync_ShouldCreateTestToUser()
+        {
+            //Arrange
+            var model = new CreateLaboratoryPatientViewModel()
+            {
+                Egn = "1818181818",
+                FirstName = "Patient123",
+                Gender = 1,
+                Id = "3",
+                LastName = "Patientov123",
+                Password = "Pat123!",
+                PhoneNumber = "+359885457896",
+                Role = "LaboratoryPatient",
+                Username = "pat_1818181818"
+            };
+
+            //Act
+            var result = await laborantService.CreateLaboratoryPatientAsync(model);
+
+            //Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Succeeded, Is.True);
+            });
+        }
+
+        [Test]
+        public async Task GetAllCurrentLaboratoryPatientAsync_ReturnCurrentPatients()
+        {
+            //Arrange
+            //Act
+
+            var patients = await laborantService.GetAllCurrentLaboratoryPatientAsync();
+            var patientsEgn = await laborantService.GetAllCurrentLaboratoryPatientAsync("8989898989");
+            var patientsEgnName = await laborantService.GetAllCurrentLaboratoryPatientAsync("8989898989", "Patient");
+
+            var patientsNotExist = await laborantService.GetAllCurrentLaboratoryPatientAsync("1111198989", "Patient");
+
+            //Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(patients.TotalLaboratoryPatientCount, Is.EqualTo(1));
+                Assert.That(patientsEgn.TotalLaboratoryPatientCount, Is.EqualTo(1));
+                Assert.That(patientsEgnName.TotalLaboratoryPatientCount, Is.EqualTo(1));
+                Assert.That(patientsNotExist.TotalLaboratoryPatientCount, Is.EqualTo(0));
+            });
         }
     }
 }

@@ -15,7 +15,7 @@ namespace MedicalCenter.Test.UnitTests
         private IReviewService reviewService;
 
         [OneTimeSetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
             reviewService = new ReviewService(data);
         }
@@ -32,10 +32,18 @@ namespace MedicalCenter.Test.UnitTests
             //Act
             await reviewService.CreateReviewAsync(model);
             var allReviews = await reviewService.GetAllReviewsAsync();
+            var allReviewsSpec = await reviewService.GetAllReviewsAsync("A");
+            var allReviewsSpecName = await reviewService.GetAllReviewsAsync("A","Doctor1");
+            var allReviewsSpecNameRating = await reviewService.GetAllReviewsAsync("A", "Doctor1","2");
+
+            var allReviewsNotExist = await reviewService.GetAllReviewsAsync("A", "Doctor1","1");
 
             //Assert
-            Assert.NotNull(allReviews);
             Assert.AreEqual(allReviews.TotalReviewsCount, 2);
+            Assert.AreEqual(allReviewsSpec.TotalReviewsCount, 2);
+            Assert.AreEqual(allReviewsSpecName.TotalReviewsCount, 2);
+            Assert.AreEqual(allReviewsSpecNameRating.TotalReviewsCount, 1);
+            Assert.AreEqual(allReviewsNotExist.TotalReviewsCount, 0);
         }
 
         [Test]
@@ -45,12 +53,15 @@ namespace MedicalCenter.Test.UnitTests
             
             //Act
             var allReviews = await reviewService.GetReceiveReviewsByDoctorIdAsync("1");
+            var allReviewsName = await reviewService.GetReceiveReviewsByDoctorIdAsync("2", "08.08.2022");
+            var allReviewsNotExist = await reviewService.GetReceiveReviewsByDoctorIdAsync("5", "08.08.2022");
 
             var currentReview = allReviews.Reviews.ToList();
 
             //Assert
-            Assert.NotNull(allReviews);
             Assert.AreEqual(allReviews.TotalReviewsCount, 1);
+            Assert.AreEqual(allReviewsName.TotalReviewsCount, 0);
+            Assert.AreEqual(allReviewsNotExist.TotalReviewsCount, 0);
             Assert.AreEqual(currentReview[0].Content, "Best");
         }
 
@@ -61,13 +72,32 @@ namespace MedicalCenter.Test.UnitTests
 
             //Act
             var allReviews = await reviewService.GetAllGiveReviewsByUserAsync("5");
+            var allReviewsSpec = await reviewService.GetAllGiveReviewsByUserAsync("5","A");
+            var allReviewsDate = await reviewService.GetAllGiveReviewsByUserAsync("5","A","08.08.2022");
+            var allReviewsName = await reviewService.GetAllGiveReviewsByUserAsync("5", "A", "08.08.2022","Doctor1");
+            var allReviewsNotExist = await reviewService.GetAllGiveReviewsByUserAsync("5", "R");
 
             var currentReview = allReviews.Reviews.ToList();
 
             //Assert
-            Assert.NotNull(allReviews);
             Assert.AreEqual(allReviews.TotalReviewsCount, 1);
+            Assert.AreEqual(allReviewsSpec.TotalReviewsCount, 1);
+            Assert.AreEqual(allReviewsDate.TotalReviewsCount, 0);
+            Assert.AreEqual(allReviewsName.TotalReviewsCount, 0);
+            Assert.AreEqual(allReviewsNotExist.TotalReviewsCount, 0);
             Assert.AreEqual(currentReview[0].Content, "Best");
+        }
+
+        [Test]
+        public async Task GetAllToReviewsByUserIdAsync_ShouldReturnToReview()
+        {
+            //Arrange
+
+            //Act
+            var allReviews = await reviewService.GetAllToReviewsByUserIdAsync("5");
+
+            //Assert
+            Assert.AreEqual(allReviews.Count(), 1);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace MedicalCenter.Test.UnitTests
         private IGlobalService globalService;
 
         [OneTimeSetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
             globalService = new GlobalService(null, data,dateTimeService);
             laboratoryPatient = new LaboratoryPatientService(null,null,data,globalService);
@@ -66,10 +66,16 @@ namespace MedicalCenter.Test.UnitTests
             //Arrange
             //Act
             var results = await laboratoryPatient.GetAllResult("7");
+            var resultsDate = await laboratoryPatient.GetAllResult("7", "08.12.2022");
+            var resultsNotExist = await laboratoryPatient.GetAllResult("7", "09.12.2022");
 
             //Assert
-            Assert.NotNull(results);
-            Assert.AreEqual(results.TotalResultCount, 1);
+            Assert.Multiple(() =>
+            {
+                Assert.That(results.TotalResultCount, Is.EqualTo(1));
+                Assert.That(resultsDate.TotalResultCount, Is.EqualTo(1));
+                Assert.That(resultsNotExist.TotalResultCount, Is.EqualTo(0));
+            });
         }
     }
 }

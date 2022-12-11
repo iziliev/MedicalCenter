@@ -17,7 +17,7 @@ namespace MedicalCenter.Test.UnitTests
         private IDoctorService doctorService;
 
         [OneTimeSetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
             doctorService = new DoctorService(data);
         }
@@ -58,10 +58,16 @@ namespace MedicalCenter.Test.UnitTests
 
             //Act
             var examination = await doctorService.GetAllDoctorExaminationAsync("1");
+            var examinationIdDate = await doctorService.GetAllDoctorExaminationAsync("1", "05.01.2023");
+            var examinationNot = await doctorService.GetAllDoctorExaminationAsync("1", "08.01.2023");
 
             //Assert
-            Assert.NotNull(examination);
-            Assert.AreEqual(examination.TotalExaminationCount, 1);
+            Assert.Multiple(() =>
+            {
+                Assert.That(examination.TotalExaminationCount, Is.EqualTo(1));
+                Assert.That(examinationIdDate.TotalExaminationCount, Is.EqualTo(1));
+                Assert.That(examinationNot.TotalExaminationCount, Is.EqualTo(0));
+            });
         }
     }
 }

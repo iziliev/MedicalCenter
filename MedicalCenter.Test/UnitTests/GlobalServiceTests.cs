@@ -19,7 +19,7 @@ namespace MedicalCenter.Test.UnitTests
         private IGlobalService globalService;
 
         [OneTimeSetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
             globalService = new GlobalService(null,data,dateTimeService);
         }

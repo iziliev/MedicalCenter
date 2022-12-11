@@ -3,15 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalCenter.Test.Mocks
 {
-    public class UsermanagerMock
+    public class UserManagerMock
     {
         public static UserManager<User> CreateUserManager()
         {

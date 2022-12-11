@@ -15,7 +15,7 @@ namespace MedicalCenter.Test.UnitTests
         private static IHomeService homeService;
 
         [OneTimeSetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
             homeService = new HomeService(data);
         }

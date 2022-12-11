@@ -2,15 +2,6 @@
 using MedicalCenter.Core.Models.User;
 using MedicalCenter.Core.Services;
 using MedicalCenter.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalCenter.Test.UnitTests
 {
@@ -21,23 +12,26 @@ namespace MedicalCenter.Test.UnitTests
         private IGlobalService globalService;
 
         [OneTimeSetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
             globalService = new GlobalService(usermanagerMock,data,dateTimeService);
             userService = new UserService(usermanagerMock, null, data, globalService);
         }
-
+        
         [Test]
-        public async Task IsUserEmailExistAsync_ShouldReturnBool()
+        public async Task GetUserByUsernameAsync_ShouldReturnBool()
         {
             //Arrange
 
             //Act
             var user = await userService.GetUserByUsernameAsync("user1");
-            
+
             //Assert
-            Assert.NotNull(user);
-            Assert.AreEqual(user.Email, "user1@mail.bg");
+            Assert.Multiple(() =>
+            {
+                Assert.That(user, Is.Not.Null);
+                Assert.That("user1@mail.bg", Is.EqualTo(user.Email));
+            });
         }
 
         [Test]
@@ -51,9 +45,12 @@ namespace MedicalCenter.Test.UnitTests
             var doctorsBySpeciality = await userService.ShowDoctorOnUserAsync(null,"Doctor1");
 
             //Assert
-            Assert.NotNull(doctors);
-            Assert.AreEqual(doctors.TotalDoctorsCount, 2);
-            Assert.AreEqual(doctorsBySpeciality.TotalDoctorsCount, 1);
+            Assert.That(doctors, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(doctors.TotalDoctorsCount, Is.EqualTo(2));
+                Assert.That(doctorsBySpeciality.TotalDoctorsCount, Is.EqualTo(1));
+            });
         }
 
         [Test]
@@ -65,9 +62,12 @@ namespace MedicalCenter.Test.UnitTests
             var hours = await userService.GetDoctorWorkHoursByDoctorIdAsync("1");
 
             //Assert
-            Assert.NotNull(hours);
-            Assert.IsTrue(hours.Contains("08:00"));
-            Assert.AreEqual(hours.Count(), 2);
+            Assert.That(hours, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(hours.Contains("08:00"), Is.True);
+                Assert.That(hours.Count(), Is.EqualTo(2));
+            });
         }
 
         [Test]
@@ -80,8 +80,8 @@ namespace MedicalCenter.Test.UnitTests
             var doctor = await userService.GetDoctorByIdAsync(doctorId);
 
             //Assert
-            Assert.NotNull(doctor);
-            Assert.AreEqual(doctor.User.FirstName, "Doctor1");
+            Assert.That(doctor, Is.Not.Null);
+            Assert.That(doctor.User.FirstName, Is.EqualTo("Doctor1"));
         }
 
         [Test]
@@ -112,12 +112,15 @@ namespace MedicalCenter.Test.UnitTests
             var examinations = await userService.GetExaminationAsync(user.Id, model);
 
             var currExam = await userService.GetAllCurrentExaminationAsync(user.Id, null, "22.12.2022");
-
+            
             //Assert
-            Assert.NotNull(examinations);
-            Assert.NotNull(currExam);
-            Assert.AreEqual(examinations.Date, DateTime.Parse("22.12.2022"));
-            Assert.AreEqual(currExam.TotalExaminationCount, 1);
+            Assert.Multiple(() =>
+            {
+                Assert.That(examinations, Is.Not.Null);
+                Assert.That(currExam, Is.Not.Null);
+                Assert.That(DateTime.Parse("22.12.2022"), Is.EqualTo(examinations.Date));
+                Assert.That(currExam.TotalExaminationCount, Is.EqualTo(1));
+            });
         }
 
         [Test]
@@ -130,8 +133,8 @@ namespace MedicalCenter.Test.UnitTests
             var doctorName = await userService.ReturnDoctorNameByDoctorIdAsync(doctorId);
 
             //Assert
-            Assert.IsNotEmpty(doctorName);
-            Assert.AreEqual(doctorName, "Doctor1 Doctorov1");
+            Assert.That(doctorName, Is.Not.Empty);
+            Assert.That(doctorName, Is.EqualTo("Doctor1 Doctorov1"));
         }
 
         [Test]
@@ -205,9 +208,12 @@ namespace MedicalCenter.Test.UnitTests
             var examForReview = await userService.GetAllExaminationForReviewAsync(user.Id);
 
             //Assert
-            Assert.AreEqual(examinationOnDateBeforeCancel.TotalExaminationCount,2);
-            Assert.AreEqual(examinationOnDateAfterCancel.TotalExaminationCount, 1);
-            Assert.AreEqual(examForReview.TotalExaminationsCount, 1);
+            Assert.Multiple(() =>
+            {
+                Assert.That(examinationOnDateBeforeCancel.TotalExaminationCount, Is.EqualTo(2));
+                Assert.That(examinationOnDateAfterCancel.TotalExaminationCount, Is.EqualTo(1));
+                Assert.That(examForReview.TotalExaminationsCount, Is.EqualTo(1));
+            });
         }
 
         [Test]
@@ -230,7 +236,10 @@ namespace MedicalCenter.Test.UnitTests
             var result = await userService.Register(user);
 
             //Assrt
-            Assert.IsTrue(result.Succeeded);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Succeeded, Is.True);
+            });
         }
     }
 }

@@ -9,7 +9,7 @@ namespace MedicalCenter.Test.UnitTests
         private IApiService apiService;
 
         [OneTimeSetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
             apiService = new ApiService(data);
         }
@@ -41,7 +41,7 @@ namespace MedicalCenter.Test.UnitTests
         }
 
         [Test]
-        public async Task GetStatisticLaborant_ShouldReturnStatistic()
+        public async Task GetStatisticLaborant_ShouldReturnLaborantSattistic()
         {
             //Arrange
             //Act
