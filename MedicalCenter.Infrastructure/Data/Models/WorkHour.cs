@@ -5,7 +5,6 @@ namespace MedicalCenter.Infrastructure.Data.Models
 {
     public class WorkHour
     {
-
         [Key]
         public int Id { get; set; }
 

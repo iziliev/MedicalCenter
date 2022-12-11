@@ -59,5 +59,8 @@ namespace MedicalCenter.Core.Contracts
             string? searchTermName = null, 
             int currentPage = DataConstants.PagingConstants.CurrentPageConstant, 
             int reviewPerPage = DataConstants.PagingConstants.ShowPerPageConstant);
+
+
+        Task<IEnumerable<AllGiveReviewViewModel>> GetAllToReviewsByUserIdAsync(string userId);
     }
 }

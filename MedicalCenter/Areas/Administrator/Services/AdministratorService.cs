@@ -169,7 +169,7 @@ namespace MedicalCenter.Areas.Administrator.Services
 
                 return (T)Convert.ChangeType(existLaborant, typeof(T));
             }
-            else if (typeof(T).Equals(typeof(Doctor)))
+            else if (typeof(Z).Equals(typeof(Doctor)))
             {
                 var existDoctor = await repository.All<Doctor>()
                 .Where(d => d.Egn == egn)
@@ -1172,10 +1172,10 @@ namespace MedicalCenter.Areas.Administrator.Services
             else if (typeof(T).Equals(typeof(DashboardStatisticViewModel)))
             {
                 var bestRatingDoctor = await repository.All<Doctor>()
-                .Include(d => d.DoctorReviews)
-                .Include(d => d.User).Include(d => d.User)
-                .OrderByDescending(x => x.DoctorReviews.Average(x => x.Rating))
-                .FirstOrDefaultAsync();
+                    .Include(d => d.DoctorReviews)
+                    .Include(d => d.User)
+                    .OrderByDescending(x => x.DoctorReviews.Average(x => x.Rating))
+                    .FirstOrDefaultAsync();
 
                 var bestExaminationDoctor = await repository.All<Doctor>()
                     .Include(d => d.DoctorExaminations)

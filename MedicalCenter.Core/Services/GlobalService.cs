@@ -32,8 +32,7 @@ namespace MedicalCenter.Core.Services
 
         public async Task AddClaimAsync(User user)
         {
-            await userManager
-            .AddClaimAsync(user, new Claim(ClaimTypeConstants.FirsName, user.FirstName ?? user.Email));
+            await userManager.AddClaimAsync(user, new Claim(ClaimTypeConstants.FirsName, user.FirstName ?? user.Email));
         }
 
         public async Task<IEnumerable<Specialty>> GetSpecialtiesAsync()
