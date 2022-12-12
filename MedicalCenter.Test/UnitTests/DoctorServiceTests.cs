@@ -32,9 +32,12 @@ namespace MedicalCenter.Test.UnitTests
             var examinations = await doctorService.GetAllExaminationAsync(doctor);
 
             //Assert
-            Assert.NotNull(examinations);
-            Assert.AreEqual(examinations.Count(), 1);
-            Assert.AreEqual(doctor.User.FirstName, "Doctor1");
+            Assert.Multiple(() =>
+            {
+                Assert.That(examinations, Is.Not.Null);
+                Assert.That(examinations.Count(), Is.EqualTo(1));
+                Assert.That(doctor.User.FirstName, Is.EqualTo("Doctor1"));
+            });
         }
 
         [Test]
@@ -47,8 +50,7 @@ namespace MedicalCenter.Test.UnitTests
             var statistic = await doctorService.GetDoctorStatisticsAsync(doctor);
 
             //Assert
-            Assert.NotNull(statistic);
-            Assert.AreEqual(statistic.Rating, 4);
+            Assert.That(statistic.Rating, Is.EqualTo(4));
         }
 
         [Test]

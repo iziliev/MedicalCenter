@@ -394,9 +394,12 @@ namespace MedicalCenter.Test.UnitTests
             var createLaborantResult = await administratorService.CreateUserAsync(laborant);
 
             //Assert
-            Assert.That(createDoctorResult.Succeeded, Is.True);
-            Assert.IsTrue(createAdminResult.Succeeded);
-            Assert.IsTrue(createLaborantResult.Succeeded);
+            Assert.Multiple(() =>
+            {
+                Assert.That(createDoctorResult.Succeeded, Is.True);
+                Assert.That(createAdminResult.Succeeded, Is.True);
+                Assert.That(createLaborantResult.Succeeded, Is.True);
+            });
         }
 
         [Test]
@@ -429,17 +432,21 @@ namespace MedicalCenter.Test.UnitTests
             var doctorOutCompanyAfterReturn = doctor.User.IsOutOfCompany;
 
             //Assert
-            Assert.IsFalse(laborantOutCompanyBegoreDelete);
-            Assert.IsTrue(laborantOutCompanyAfterDelete);
-            Assert.IsFalse(laborantOutCompanyAfterReturn);
 
-            Assert.IsFalse(adminOutCompanyBegoreDelete);
-            Assert.IsTrue(adminOutCompanyAfterDelete);
-            Assert.IsFalse(adminOutCompanyAfterReturn);
+            Assert.Multiple(() =>
+            {
+                Assert.That(laborantOutCompanyBegoreDelete, Is.False);
+                Assert.That(laborantOutCompanyAfterDelete, Is.True);
+                Assert.That(laborantOutCompanyAfterReturn, Is.False);
 
-            Assert.IsFalse(doctorOutCompanyBegoreDelete);
-            Assert.IsTrue(doctorOutCompanyAfterDelete);
-            Assert.IsFalse(doctorOutCompanyAfterReturn);
+                Assert.That(adminOutCompanyBegoreDelete, Is.False);
+                Assert.That(adminOutCompanyAfterDelete, Is.True);
+                Assert.That(adminOutCompanyAfterReturn, Is.False);
+
+                Assert.That(doctorOutCompanyBegoreDelete, Is.False);
+                Assert.That(doctorOutCompanyAfterDelete, Is.True);
+                Assert.That(doctorOutCompanyAfterReturn, Is.False);
+            });
         }
 
         [Test]
@@ -453,11 +460,13 @@ namespace MedicalCenter.Test.UnitTests
 
             var model = await administratorService.FillGendersSpecialitiesSheduleInEditViewAsyanc(editDoctorModel);
 
-
             //Assert
-            Assert.IsNotNull(model.Genders);
-            Assert.IsNotNull(model.Specialties);
-            Assert.IsNotNull(model.Shedules);
+            Assert.Multiple(() =>
+            {
+                Assert.That(model.Genders, Is.Not.Null);
+                Assert.That(model.Specialties, Is.Not.Null);
+                Assert.That(model.Shedules, Is.Not.Null);
+            });
         }
 
         [Test]
@@ -470,9 +479,12 @@ namespace MedicalCenter.Test.UnitTests
             var model = await administratorService.FillGendersSpecialitiesSheduleInCreateViewAsyanc(createModel);
 
             //Assert
-            Assert.IsNotNull(model.Genders);
-            Assert.IsNotNull(model.Specialties);
-            Assert.IsNotNull(model.Shedules);
+            Assert.Multiple(() =>
+            {
+                Assert.That(model.Genders, Is.Not.Null);
+                Assert.That(model.Specialties, Is.Not.Null);
+                Assert.That(model.Shedules, Is.Not.Null);
+            });
         }
 
         [Test]

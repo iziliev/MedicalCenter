@@ -18,23 +18,20 @@ namespace MedicalCenter.Core.Services
 
         public async Task<DashboardStatisticViewModel> GetStatisticHome()
         {
-            var allFutureExamination = await repository.All<Examination>()
+            var allFutureExamination = await repository.AllReadonly<Examination>()
                 .Where(e => !e.IsDeleted && e.Date > DateTime.Now)
                 .CountAsync();
 
-            var allUsersCount = repository.AllReadonly<User>()
+            var allUsersCount = await repository.AllReadonly<User>()
                 .Where(u => u.Role == "User")
-                .ToList()
-                .Count();
+                .CountAsync();
 
-            var oldExamination = repository.AllReadonly<Examination>()
+            var oldExamination = await repository.AllReadonly<Examination>()
                 .Where(e => !e.IsDeleted && e.Date.Date < DateTime.Now.Date)
-                .ToList()
-                .Count();
+                .CountAsync();
 
-            var allTest = repository.AllReadonly<Test>()
-                .ToList()
-                .Count();
+            var allTest = await repository.AllReadonly<Test>()
+                .CountAsync();
 
             return new DashboardStatisticViewModel
             {
@@ -68,33 +65,30 @@ namespace MedicalCenter.Core.Services
             };
         }
 
-        public Task<DashboardStatisticViewModel> GetStatisticAdminLaboratory()
+        public async Task<DashboardStatisticViewModel> GetStatisticAdminLaboratory()
         {
-            var allTest = repository.AllReadonly<Test>()
-                .ToList()
-                .Count();
+            var allTest = await repository.AllReadonly<Test>()
+                .CountAsync();
 
-            return Task.FromResult(new DashboardStatisticViewModel
+            return new DashboardStatisticViewModel
             {
                 AllTest = allTest
-            });
+            };
         }
 
-        public Task<DashboardStatisticViewModel> GetStatisticLaborant()
+        public async Task<DashboardStatisticViewModel> GetStatisticLaborant()
         {
-            var allTest = repository.AllReadonly<Test>()
-                .ToList()
-                .Count();
+            var allTest = await repository.AllReadonly<Test>()
+                .CountAsync();
 
-            var allLaboratoryPatient = repository.AllReadonly<LaboratoryPatient>()
-                .ToList()
-                .Count();
+            var allLaboratoryPatient = await repository.AllReadonly<LaboratoryPatient>()
+                .CountAsync();
 
-            return Task.FromResult(new DashboardStatisticViewModel
+            return new DashboardStatisticViewModel
             {
                 AllTest = allTest,
                 AllUserCount = allLaboratoryPatient
-            });
+            };
         }
     }
 }

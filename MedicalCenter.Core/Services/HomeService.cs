@@ -2,6 +2,7 @@
 using MedicalCenter.Core.Models.Api;
 using MedicalCenter.Infrastructure.Data.Common;
 using MedicalCenter.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalCenter.Core.Services
 {
@@ -16,19 +17,16 @@ namespace MedicalCenter.Core.Services
 
         public DashboardStatisticViewModel Statistics()
         {
-            var allUsersCount = repository.All<User>()
+            var allUsersCount = repository.AllReadonly<User>()
                 .Where(u => u.Role == "User")
-                .ToList()
                 .Count();
 
-            var oldExamination = repository.All<Examination>()
+            var oldExamination = repository.AllReadonly<Examination>()
                 .Where(e => !e.IsDeleted && e.Date.Date<DateTime.Now.Date)
-                .ToList()
                 .Count();
 
-            var allExamination = repository.All<Examination>()
-                .Where(e => !e.IsDeleted && e.Date.Date>DateTime.Now.Date)
-                .ToList()
+            var allExamination = repository.AllReadonly<Examination>()
+                .Where(e => !e.IsDeleted && e.Date.Date > DateTime.Now.Date)
                 .Count();
 
             return new DashboardStatisticViewModel

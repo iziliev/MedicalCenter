@@ -13,13 +13,11 @@ namespace MedicalCenter.Test.UnitTests
     public class LaboratoryPatientServiceTests:UnitTestBase
     {
         private ILaboratoryPatient laboratoryPatient;
-        private IGlobalService globalService;
 
         [OneTimeSetUp]
         public void SetUp()
         {
-            globalService = new GlobalService(null, data,dateTimeService);
-            laboratoryPatient = new LaboratoryPatientService(null,null,data,globalService);
+            laboratoryPatient = new LaboratoryPatientService(null,data);
         }
         
         [Test]
@@ -31,8 +29,9 @@ namespace MedicalCenter.Test.UnitTests
             var isNotExist = await laboratoryPatient.IsEgnExistAsync("8089898989");
 
             //Assert
-            Assert.IsTrue(isExist);
-            Assert.IsFalse(isNotExist);
+
+            Assert.That(isExist,Is.True);
+            Assert.That(isNotExist,Is.False);
         }
 
         [Test]
@@ -42,10 +41,13 @@ namespace MedicalCenter.Test.UnitTests
             //Act
             var isExist = await laboratoryPatient.IsUsernameExistAsync("pat_1");
             var isNotExist = await laboratoryPatient.IsUsernameExistAsync("pat_8089898989");
-
+            
             //Assert
-            Assert.IsTrue(isExist);
-            Assert.IsFalse(isNotExist);
+            Assert.Multiple(() =>
+            {
+                Assert.That(isExist, Is.True);
+                Assert.That(isNotExist, Is.False);
+            });
         }
 
         [Test]
@@ -56,8 +58,11 @@ namespace MedicalCenter.Test.UnitTests
             var results = await laboratoryPatient.GetResultByIdAsync("1");
 
             //Assert
-            Assert.NotNull(results);
-            Assert.AreEqual(results.UrinepH, "1.5");
+            Assert.Multiple(() =>
+            {
+                Assert.That(results, Is.Not.Null);
+                Assert.That(results.UrinepH, Is.EqualTo("1.5"));
+            });
         }
 
         [Test]

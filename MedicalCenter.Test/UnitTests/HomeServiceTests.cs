@@ -1,11 +1,5 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Services;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalCenter.Test.UnitTests
 {
@@ -28,10 +22,14 @@ namespace MedicalCenter.Test.UnitTests
             var statistic = homeService.Statistics();
 
             //Assert
-            Assert.IsNotNull(statistic);
-            Assert.AreEqual(statistic.AllUserCount, 2);
-            Assert.AreEqual(statistic.BestExaminationCount, 1);
-            Assert.AreEqual(statistic.AllExamination, 1);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(statistic, Is.Not.Null);
+                Assert.That(statistic.AllUserCount, Is.EqualTo(2));
+                Assert.That(statistic.BestExaminationCount, Is.EqualTo(1));
+                Assert.That(statistic.AllExamination, Is.EqualTo(1));
+            });
         }
     }
 }

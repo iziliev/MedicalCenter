@@ -23,10 +23,12 @@ namespace MedicalCenter.Test.UnitTests
             var statistic = await apiService.GetStatisticHome();
 
             //Assert
-            Assert.IsNotNull(statistic);
-            Assert.AreEqual(statistic.AllFutureExamination, 1);
-            Assert.AreEqual(statistic.AllPastExamination, 1);
-            Assert.AreEqual(statistic.AllTest,1);
+            Assert.Multiple(() =>
+            {
+                Assert.That(statistic.AllFutureExamination, Is.EqualTo(1));
+                Assert.That(statistic.AllPastExamination, Is.EqualTo(1));
+                Assert.That(statistic.AllTest, Is.EqualTo(1));
+            });
         }
 
         [Test]
@@ -37,8 +39,7 @@ namespace MedicalCenter.Test.UnitTests
             var statistic = await apiService.GetStatisticAdminLaboratory();
 
             //Assert
-            Assert.IsNotNull(statistic);
-            Assert.AreEqual(statistic.AllTest, 1);
+            Assert.That(statistic.AllTest, Is.EqualTo(1));
         }
 
         [Test]
@@ -49,9 +50,11 @@ namespace MedicalCenter.Test.UnitTests
             var statistic = await apiService.GetStatisticLaborant();
 
             //Assert
-            Assert.IsNotNull(statistic);
-            Assert.AreEqual(statistic.AllTest, 1);
-            Assert.AreEqual(statistic.AllUserCount, 1);
+            Assert.Multiple(() =>
+            {
+                Assert.That(statistic.AllTest, Is.EqualTo(1));
+                Assert.That(statistic.AllUserCount, Is.EqualTo(1));
+            });
         }
 
     }

@@ -14,10 +14,10 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public void SetUp()
         {
-            globalService = new GlobalService(userManagerMock, data,dateTimeService);
+            globalService = new GlobalService(userManagerMock, data, dateTimeService);
             userService = new UserService(userManagerMock, null, data, globalService);
         }
-        
+
         [Test]
         public async Task GetUserByUsernameAsync_ShouldReturnBool()
         {
@@ -42,7 +42,7 @@ namespace MedicalCenter.Test.UnitTests
             //Act
             var doctors = await userService.ShowDoctorOnUserAsync();
             var doctorsBySpeciality = await userService.ShowDoctorOnUserAsync("A");
-            var doctorsByName = await userService.ShowDoctorOnUserAsync("A","Doctor1 Doctorov1");
+            var doctorsByName = await userService.ShowDoctorOnUserAsync("A", "Doctor1 Doctorov1");
             var doctorsByPartName = await userService.ShowDoctorOnUserAsync(null, "1");
 
             //Assert
@@ -83,8 +83,11 @@ namespace MedicalCenter.Test.UnitTests
             var doctor = await userService.GetDoctorByIdAsync(doctorId);
 
             //Assert
-            Assert.That(doctor, Is.Not.Null);
-            Assert.That(doctor.User.FirstName, Is.EqualTo("Doctor1"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(doctor, Is.Not.Null);
+                Assert.That(doctor.User.FirstName, Is.EqualTo("Doctor1"));
+            });
         }
 
         [Test]
@@ -115,7 +118,7 @@ namespace MedicalCenter.Test.UnitTests
             var examinations = await userService.GetExaminationAsync(user.Id, model);
 
             var currExam = await userService.GetAllCurrentExaminationAsync(user.Id, null, "22.12.2022");
-            
+
             //Assert
             Assert.Multiple(() =>
             {
@@ -136,8 +139,11 @@ namespace MedicalCenter.Test.UnitTests
             var doctorName = await userService.ReturnDoctorNameByDoctorIdAsync(doctorId);
 
             //Assert
-            Assert.That(doctorName, Is.Not.Empty);
-            Assert.That(doctorName, Is.EqualTo("Doctor1 Doctorov1"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(doctorName, Is.Not.Empty);
+                Assert.That(doctorName, Is.EqualTo("Doctor1 Doctorov1"));
+            });
         }
 
         [Test]
@@ -196,7 +202,7 @@ namespace MedicalCenter.Test.UnitTests
 
             await userService.CreateExaminationAsync(user, doctor, model2);
 
-            var examinationOnDateBeforeCancel = await userService.GetAllCurrentExaminationAsync(user.Id, "A", "22.12.2022","Doctor1");
+            var examinationOnDateBeforeCancel = await userService.GetAllCurrentExaminationAsync(user.Id, "A", "22.12.2022", "Doctor1");
 
             var examination = await userService.GetExaminationAsync(user.Id, model1);
 
@@ -206,9 +212,9 @@ namespace MedicalCenter.Test.UnitTests
 
             await userService.CancelUserExaminationAsync(examination.Id);
 
-            var examinationOnDateAfterCancel = await userService.GetAllCurrentExaminationAsync(user.Id, "A", "22.12.2022","Doctor1");
+            var examinationOnDateAfterCancel = await userService.GetAllCurrentExaminationAsync(user.Id, "A", "22.12.2022", "Doctor1");
 
-            var examForReview = await userService.GetAllExaminationForReviewAsync(user.Id,"A","11.11.2022","1");
+            var examForReview = await userService.GetAllExaminationForReviewAsync(user.Id, "A", "11.11.2022", "1");
 
             //Assert
             Assert.Multiple(() =>
@@ -239,10 +245,7 @@ namespace MedicalCenter.Test.UnitTests
             var result = await userService.Register(user);
 
             //Assrt
-            Assert.Multiple(() =>
-            {
-                Assert.That(result.Succeeded, Is.True);
-            });
+            Assert.That(result.Succeeded, Is.True);
         }
 
         [Test]
@@ -279,7 +282,7 @@ namespace MedicalCenter.Test.UnitTests
                 SpecialityName = "Akusher",
             };
 
-            var notFree = await userService.IsUserFreeOnDateAnHourAsync(user.Id,model);
+            var notFree = await userService.IsUserFreeOnDateAnHourAsync(user.Id, model);
             var free = await userService.IsUserFreeOnDateAnHourAsync(user.Id, modelOne);
 
             //Assert

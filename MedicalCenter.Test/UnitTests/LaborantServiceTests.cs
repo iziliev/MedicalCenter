@@ -13,7 +13,7 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public void SetUp()
         {
-            globalService = new GlobalService(userManagerMock, data,dateTimeService);
+            globalService = new GlobalService(userManagerMock, data, dateTimeService);
             laborantService = new LaborantService(globalService, userManagerMock, data);
         }
 
@@ -44,8 +44,13 @@ namespace MedicalCenter.Test.UnitTests
             var patient = await laborantService.GetLaboratoryPatientByEgnAsync("8989898989");
 
             //Assert
-            Assert.IsNotNull(patient);
-            Assert.AreEqual(patient.User.FirstName, "Patient");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(patient, Is.Not.Null);
+                Assert.That(patient.User.FirstName, Is.EqualTo("Patient"));
+            });
+
         }
 
         [Test]
@@ -57,8 +62,11 @@ namespace MedicalCenter.Test.UnitTests
             var patients = await laborantService.GetAllCurrentLaboratoryPatientAsync(null, null, 1, 6);
 
             //Assert
-            Assert.IsNotNull(patients);
-            Assert.AreEqual(patients.TotalLaboratoryPatientCount, 1);
+            Assert.Multiple(() =>
+            {
+                Assert.That(patients, Is.Not.Null);
+                Assert.That(patients.TotalLaboratoryPatientCount, Is.EqualTo(1));
+            });
         }
 
         [Test]
@@ -75,12 +83,14 @@ namespace MedicalCenter.Test.UnitTests
 
             await laborantService.UploadResultAsync(test);
 
-            var currentTest = patient.Tests.OrderByDescending(x=>x.TestDate).FirstOrDefault();
+            var currentTest = patient.Tests.OrderByDescending(x => x.TestDate).FirstOrDefault();
 
             //Assert
-            Assert.AreEqual(patient.Tests.Count, 2);
-            Assert.AreEqual(currentTest.Plt, "18.5");
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(patient.Tests.Count, Is.EqualTo(2));
+                Assert.That(currentTest.Plt, Is.EqualTo("18.5"));
+            });
         }
 
         [Test]
@@ -104,10 +114,7 @@ namespace MedicalCenter.Test.UnitTests
             var result = await laborantService.CreateLaboratoryPatientAsync(model);
 
             //Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result.Succeeded, Is.True);
-            });
+            Assert.That(result.Succeeded, Is.True);
         }
 
         [Test]

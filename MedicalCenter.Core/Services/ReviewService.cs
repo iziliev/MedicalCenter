@@ -88,8 +88,7 @@ namespace MedicalCenter.Core.Services
 
             if (string.IsNullOrEmpty(searchTermRating) == false)
             {
-                int rating;
-                var isNumber = int.TryParse(searchTermRating, out rating);
+                var isNumber = int.TryParse(searchTermRating, out int rating);
 
                 if (isNumber)
                 {
@@ -187,9 +186,7 @@ namespace MedicalCenter.Core.Services
 
             if (string.IsNullOrEmpty(searchTermDate) == false)
             {
-                var searchDate = new DateTime();
-
-                var isDateCorrect = DateTime.TryParseExact(searchTermDate, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out searchDate);
+                var isDateCorrect = DateTime.TryParseExact(searchTermDate, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime searchDate);
 
                 if (isDateCorrect)
                 {

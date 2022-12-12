@@ -11,21 +11,15 @@ namespace MedicalCenter.Core.Services
 {
     public class LaboratoryPatientService : ILaboratoryPatient
     {
-        private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly IRepository repository;
-        private readonly IGlobalService globalService;
 
         public LaboratoryPatientService(
-            UserManager<User> _userManager,
             SignInManager<User> _signInManager,
-            IRepository _repository,
-            IGlobalService _globalService)
+            IRepository _repository)
         {
-            userManager = _userManager;
             signInManager = _signInManager;
             repository = _repository;
-            globalService = _globalService;
         }
 
         public async Task<bool> IsEgnExistAsync(string egn)

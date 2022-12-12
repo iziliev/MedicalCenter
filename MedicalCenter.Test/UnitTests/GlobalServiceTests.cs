@@ -29,10 +29,13 @@ namespace MedicalCenter.Test.UnitTests
 
             //Assert
 
-            Assert.IsNotNull(parse1);
-            Assert.IsNotNull(parse2);
-            Assert.IsTrue(parse1.Equals("+359885065945"));
-            Assert.IsTrue(parse2.Equals("+359886455698"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(parse1, Is.Not.Null);
+                Assert.That(parse2, Is.Not.Null);
+                Assert.That(parse1, Is.EqualTo("+359885065945"));
+                Assert.That(parse2, Is.EqualTo("+359886455698"));
+            });
         }
 
         [Test]
@@ -44,8 +47,11 @@ namespace MedicalCenter.Test.UnitTests
             var specialities = await globalService.GetSpecialtiesAsync();
 
             //Assert
-            Assert.IsNotNull(specialities);
-            Assert.AreEqual(specialities.Count(), 3);
+            Assert.Multiple(() =>
+            {
+                Assert.That(specialities, Is.Not.Null);
+                Assert.That(specialities.Count(), Is.EqualTo(3));
+            });
         }
 
         [Test]
@@ -57,9 +63,12 @@ namespace MedicalCenter.Test.UnitTests
             var genders = await globalService.GetGendersAsync();
 
             //Assert
-            Assert.IsNotNull(genders);
-            Assert.AreEqual(genders.Count(), 3);
-            Assert.AreEqual(genders.First().Name, "M");
+            Assert.Multiple(() =>
+            {
+                Assert.That(genders, Is.Not.Null);
+                Assert.That(genders.Count(), Is.EqualTo(3));
+                Assert.That(genders.First().Name, Is.EqualTo("M"));
+            });
         }
 
         [Test]
@@ -70,8 +79,11 @@ namespace MedicalCenter.Test.UnitTests
             //Act
             var shedules = await globalService.GetShedulesAsync();
             //Assert
-            Assert.IsNotNull(shedules);
-            Assert.AreEqual(shedules.Count(), 2);
+            Assert.Multiple(() =>
+            {
+                Assert.That(shedules, Is.Not.Null);
+                Assert.That(shedules.Count(), Is.EqualTo(2));
+            });
         }
 
         [Test]
@@ -84,7 +96,7 @@ namespace MedicalCenter.Test.UnitTests
             var dateToString = DateTime.Now.ToString("dd.MM.yyyy");
 
             //Assert
-            Assert.AreEqual(date, dateToString);
+            Assert.That(date, Is.EqualTo(dateToString));
         }
     }
 }

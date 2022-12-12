@@ -39,11 +39,14 @@ namespace MedicalCenter.Test.UnitTests
             var allReviewsNotExist = await reviewService.GetAllReviewsAsync("A", "Doctor1","1");
 
             //Assert
-            Assert.AreEqual(allReviews.TotalReviewsCount, 2);
-            Assert.AreEqual(allReviewsSpec.TotalReviewsCount, 2);
-            Assert.AreEqual(allReviewsSpecName.TotalReviewsCount, 2);
-            Assert.AreEqual(allReviewsSpecNameRating.TotalReviewsCount, 1);
-            Assert.AreEqual(allReviewsNotExist.TotalReviewsCount, 0);
+            Assert.Multiple(() =>
+            {
+                Assert.That(allReviews.TotalReviewsCount, Is.EqualTo(2));
+                Assert.That(allReviewsSpec.TotalReviewsCount, Is.EqualTo(2));
+                Assert.That(allReviewsSpecName.TotalReviewsCount, Is.EqualTo(2));
+                Assert.That(allReviewsSpecNameRating.TotalReviewsCount, Is.EqualTo(1));
+                Assert.That(allReviewsNotExist.TotalReviewsCount, Is.EqualTo(0));
+            });
         }
 
         [Test]
@@ -59,10 +62,13 @@ namespace MedicalCenter.Test.UnitTests
             var currentReview = allReviews.Reviews.ToList();
 
             //Assert
-            Assert.AreEqual(allReviews.TotalReviewsCount, 1);
-            Assert.AreEqual(allReviewsName.TotalReviewsCount, 0);
-            Assert.AreEqual(allReviewsNotExist.TotalReviewsCount, 0);
-            Assert.AreEqual(currentReview[0].Content, "Best");
+            Assert.Multiple(() =>
+            {
+                Assert.That(allReviews.TotalReviewsCount, Is.EqualTo(1));
+                Assert.That(allReviewsName.TotalReviewsCount, Is.EqualTo(0));
+                Assert.That(allReviewsNotExist.TotalReviewsCount, Is.EqualTo(0));
+                Assert.That(currentReview[0].Content, Is.EqualTo("Best"));
+            });
         }
 
         [Test]
@@ -80,12 +86,15 @@ namespace MedicalCenter.Test.UnitTests
             var currentReview = allReviews.Reviews.ToList();
 
             //Assert
-            Assert.AreEqual(allReviews.TotalReviewsCount, 1);
-            Assert.AreEqual(allReviewsSpec.TotalReviewsCount, 1);
-            Assert.AreEqual(allReviewsDate.TotalReviewsCount, 0);
-            Assert.AreEqual(allReviewsName.TotalReviewsCount, 0);
-            Assert.AreEqual(allReviewsNotExist.TotalReviewsCount, 0);
-            Assert.AreEqual(currentReview[0].Content, "Best");
+            Assert.Multiple(() =>
+            {
+                Assert.That(allReviews.TotalReviewsCount, Is.EqualTo(1));
+                Assert.That(allReviewsSpec.TotalReviewsCount, Is.EqualTo(1));
+                Assert.That(allReviewsDate.TotalReviewsCount, Is.EqualTo(0));
+                Assert.That(allReviewsName.TotalReviewsCount, Is.EqualTo(0));
+                Assert.That(allReviewsNotExist.TotalReviewsCount, Is.EqualTo(0));
+                Assert.That(currentReview[0].Content, Is.EqualTo("Best"));
+            });
         }
 
         [Test]
@@ -97,7 +106,7 @@ namespace MedicalCenter.Test.UnitTests
             var allReviews = await reviewService.GetAllToReviewsByUserIdAsync("5");
 
             //Assert
-            Assert.AreEqual(allReviews.Count(), 1);
+            Assert.That(allReviews.Count(), Is.EqualTo(1));
         }
     }
 }

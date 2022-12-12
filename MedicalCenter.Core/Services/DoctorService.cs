@@ -33,8 +33,7 @@ namespace MedicalCenter.Core.Services
 
             if (string.IsNullOrEmpty(searchTerm) == false)
             {
-                DateTime searchDate;
-                var isDate = DateTime.TryParseExact(searchTerm, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out searchDate);
+                var isDate = DateTime.TryParseExact(searchTerm, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime searchDate);
 
                 if (isDate)
                 {

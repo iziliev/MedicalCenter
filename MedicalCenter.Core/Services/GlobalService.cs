@@ -14,7 +14,6 @@ namespace MedicalCenter.Core.Services
         private readonly IRepository repository;
         private readonly IDateTimeService dateTimeService;
 
-
         public GlobalService(
             UserManager<User> _userManager,
             IRepository _repository,
