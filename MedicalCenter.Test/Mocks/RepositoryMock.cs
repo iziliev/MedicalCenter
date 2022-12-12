@@ -1,11 +1,4 @@
-﻿using MedicalCenter.Infrastructure.Data;
-using MedicalCenter.Infrastructure.Data.Common;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MedicalCenter.Infrastructure.Data.Common;
 
 namespace MedicalCenter.Test.Mocks
 {
@@ -15,11 +8,7 @@ namespace MedicalCenter.Test.Mocks
         {
             get
             {
-                var dbContextOptions = new DbContextOptionsBuilder<MedicalCenterDbContext>()
-                    .UseInMemoryDatabase("MedicalCenterInMemoryDb" + DateTime.Now.Ticks.ToString())
-                    .Options;
-
-                var context = new MedicalCenterDbContext(dbContextOptions);
+                var context = DbContextMock.MockMedicalCenterDbContext;
 
                 return new Repository(context);
             }

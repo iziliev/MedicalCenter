@@ -16,8 +16,8 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public void SetUp()
         {
-            globalService = new GlobalService(usermanagerMock, data, dateTimeService);
-            administratorService = new AdministratorService(usermanagerMock, data, globalService, null, dateTimeService);
+            globalService = new GlobalService(userManagerMock, data, dateTimeService);
+            administratorService = new AdministratorService(userManagerMock, data, globalService, null, dateTimeService);
         }
 
         [Test]

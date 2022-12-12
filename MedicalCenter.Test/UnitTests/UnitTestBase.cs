@@ -12,13 +12,12 @@ namespace MedicalCenter.Test.UnitTests
     {
         protected IRepository data;
         protected IDateTimeService dateTimeService;
-        protected UserManager<User> usermanagerMock;
+        protected UserManager<User> userManagerMock;
 
         [OneTimeSetUp]
         public async Task SetUpBase()
         {
-
-            usermanagerMock= UserManagerMock.CreateUserManager();
+            userManagerMock = UserManagerMock.CreateUserManager();
             dateTimeService = new DateTimeService();
             data = RepositoryMock.Instance;
 

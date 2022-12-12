@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedicalCenter.Test.Mocks
 {
-    public class DatabaseMock
+    public class DbContextMock
     {
-        public static MedicalCenterDbContext Instance 
+        public static MedicalCenterDbContext MockMedicalCenterDbContext
         {
             get
             {
                 var dbContextOptions = new DbContextOptionsBuilder<MedicalCenterDbContext>()
-                    .UseInMemoryDatabase("MedicalCenterInMemoryDb" +DateTime.Now.Ticks.ToString())
+                    .UseInMemoryDatabase("MedicalCenterInMemoryDb" + DateTime.Now.Ticks.ToString())
                     .Options;
 
                 return new MedicalCenterDbContext(dbContextOptions);

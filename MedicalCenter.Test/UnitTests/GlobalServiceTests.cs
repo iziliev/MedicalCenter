@@ -1,15 +1,5 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Services;
-using MedicalCenter.Infrastructure.Data.Global;
-using MedicalCenter.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalCenter.Test.UnitTests
 {
@@ -21,7 +11,7 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public void SetUp()
         {
-            globalService = new GlobalService(null,data,dateTimeService);
+            globalService = new GlobalService(userManagerMock, data,dateTimeService);
         }
 
         [Test]

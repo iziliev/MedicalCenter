@@ -14,8 +14,8 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public void SetUp()
         {
-            globalService = new GlobalService(usermanagerMock,data,dateTimeService);
-            userService = new UserService(usermanagerMock, null, data, globalService);
+            globalService = new GlobalService(userManagerMock, data,dateTimeService);
+            userService = new UserService(userManagerMock, null, data, globalService);
         }
         
         [Test]
@@ -41,8 +41,9 @@ namespace MedicalCenter.Test.UnitTests
 
             //Act
             var doctors = await userService.ShowDoctorOnUserAsync();
-
-            var doctorsBySpeciality = await userService.ShowDoctorOnUserAsync(null,"Doctor1");
+            var doctorsBySpeciality = await userService.ShowDoctorOnUserAsync("A");
+            var doctorsByName = await userService.ShowDoctorOnUserAsync("A","Doctor1 Doctorov1");
+            var doctorsByPartName = await userService.ShowDoctorOnUserAsync(null, "1");
 
             //Assert
             Assert.That(doctors, Is.Not.Null);
@@ -50,6 +51,8 @@ namespace MedicalCenter.Test.UnitTests
             {
                 Assert.That(doctors.TotalDoctorsCount, Is.EqualTo(2));
                 Assert.That(doctorsBySpeciality.TotalDoctorsCount, Is.EqualTo(1));
+                Assert.That(doctorsByName.TotalDoctorsCount, Is.EqualTo(1));
+                Assert.That(doctorsByPartName.TotalDoctorsCount, Is.EqualTo(1));
             });
         }
 
@@ -193,7 +196,7 @@ namespace MedicalCenter.Test.UnitTests
 
             await userService.CreateExaminationAsync(user, doctor, model2);
 
-            var examinationOnDateBeforeCancel = await userService.GetAllCurrentExaminationAsync(user.Id, null, "22.12.2022");
+            var examinationOnDateBeforeCancel = await userService.GetAllCurrentExaminationAsync(user.Id, "A", "22.12.2022","Doctor1");
 
             var examination = await userService.GetExaminationAsync(user.Id, model1);
 
@@ -203,9 +206,9 @@ namespace MedicalCenter.Test.UnitTests
 
             await userService.CancelUserExaminationAsync(examination.Id);
 
-            var examinationOnDateAfterCancel = await userService.GetAllCurrentExaminationAsync(user.Id, null, "22.12.2022");
+            var examinationOnDateAfterCancel = await userService.GetAllCurrentExaminationAsync(user.Id, "A", "22.12.2022","Doctor1");
 
-            var examForReview = await userService.GetAllExaminationForReviewAsync(user.Id);
+            var examForReview = await userService.GetAllExaminationForReviewAsync(user.Id,"A","11.11.2022","1");
 
             //Assert
             Assert.Multiple(() =>
@@ -240,6 +243,109 @@ namespace MedicalCenter.Test.UnitTests
             {
                 Assert.That(result.Succeeded, Is.True);
             });
+        }
+
+        [Test]
+        public async Task IsUserFreeOnDateAnHourAsync_ShouldReturnBool()
+        {
+            //Arrange
+            //Act
+            var user = await userService.GetUserByUsernameAsync("user1");
+            var doctor = await userService.GetDoctorByIdAsync("1");
+
+            var model = new BookExaminationViewModel()
+            {
+                Biography = doctor.Biography,
+                Date = "05.01.2023",
+                DoctorFullName = $"{doctor.User.FirstName} {doctor.User.LastName}",
+                DoctorId = doctor.Id,
+                Education = doctor.Education,
+                Hour = "08:30",
+                ProfileImage = "http://dddd",
+                Representation = doctor.Representation,
+                SpecialityName = "Akusher",
+            };
+
+            var modelOne = new BookExaminationViewModel()
+            {
+                Biography = doctor.Biography,
+                Date = "06.01.2023",
+                DoctorFullName = $"{doctor.User.FirstName} {doctor.User.LastName}",
+                DoctorId = doctor.Id,
+                Education = doctor.Education,
+                Hour = "08:30",
+                ProfileImage = "http://dddd",
+                Representation = doctor.Representation,
+                SpecialityName = "Akusher",
+            };
+
+            var notFree = await userService.IsUserFreeOnDateAnHourAsync(user.Id,model);
+            var free = await userService.IsUserFreeOnDateAnHourAsync(user.Id, modelOne);
+
+            //Assert
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(notFree, Is.False);
+                Assert.That(free, Is.True);
+            });
+        }
+
+        [Test]
+        public async Task IsDoctorFreeOnDateAnHourAsync_ShouldReturnBool()
+        {
+            //Arrange
+            //Act
+            var user = await userService.GetUserByUsernameAsync("user2");
+            var doctor = await userService.GetDoctorByIdAsync("1");
+
+            var model = new BookExaminationViewModel()
+            {
+                Biography = doctor.Biography,
+                Date = "05.01.2023",
+                DoctorFullName = $"{doctor.User.FirstName} {doctor.User.LastName}",
+                DoctorId = doctor.Id,
+                Education = doctor.Education,
+                Hour = "08:30",
+                ProfileImage = "http://dddd",
+                Representation = doctor.Representation,
+                SpecialityName = "Akusher",
+            };
+
+            var modelOne = new BookExaminationViewModel()
+            {
+                Biography = doctor.Biography,
+                Date = "06.01.2023",
+                DoctorFullName = $"{doctor.User.FirstName} {doctor.User.LastName}",
+                DoctorId = doctor.Id,
+                Education = doctor.Education,
+                Hour = "08:30",
+                ProfileImage = "http://dddd",
+                Representation = doctor.Representation,
+                SpecialityName = "Akusher",
+            };
+
+            var notFree = await userService.IsDoctorFreeOnDateAnHourAsync(model);
+            var free = await userService.IsDoctorFreeOnDateAnHourAsync(modelOne);
+
+            //Assert
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(notFree, Is.False);
+                Assert.That(free, Is.True);
+            });
+        }
+
+        [Test]
+        public async Task FillBookViewModelAsync_ShouldReturnBookView()
+        {
+            //Arrange
+            var model = new BookExaminationViewModel();
+            //Act
+            model = await userService.FillBookViewModelAsync("2");
+            //Assert
+            Assert.That(model, Is.Not.Null);
         }
     }
 }

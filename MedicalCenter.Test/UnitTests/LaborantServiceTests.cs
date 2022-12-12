@@ -1,12 +1,6 @@
 ﻿using MedicalCenter.Core.Contracts;
 using MedicalCenter.Core.Models.Laborant;
 using MedicalCenter.Core.Services;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedicalCenter.Test.UnitTests
 {
@@ -19,8 +13,8 @@ namespace MedicalCenter.Test.UnitTests
         [OneTimeSetUp]
         public void SetUp()
         {
-            globalService = new GlobalService(usermanagerMock,data,dateTimeService);
-            laborantService = new LaborantService(globalService,usermanagerMock,data);
+            globalService = new GlobalService(userManagerMock, data,dateTimeService);
+            laborantService = new LaborantService(globalService, userManagerMock, data);
         }
 
         [Test]

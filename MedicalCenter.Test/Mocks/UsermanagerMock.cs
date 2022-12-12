@@ -10,7 +10,7 @@ namespace MedicalCenter.Test.Mocks
     {
         public static UserManager<User> CreateUserManager()
         {
-            Mock<IUserPasswordStore<User>> userPasswordStore = new Mock<IUserPasswordStore<User>>();
+            Mock <IUserPasswordStore<User>> userPasswordStore = new Mock<IUserPasswordStore<User>>();
             userPasswordStore.Setup(s => s.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(IdentityResult.Success));
 
@@ -25,14 +25,12 @@ namespace MedicalCenter.Test.Mocks
             idOptions.Password.RequireUppercase = true;
             idOptions.Password.RequiredLength = 6;
             idOptions.Password.RequiredUniqueChars = 1;
-
             idOptions.SignIn.RequireConfirmedEmail = false;
 
             // Lockout settings.
             idOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             idOptions.Lockout.MaxFailedAccessAttempts = 5;
             idOptions.Lockout.AllowedForNewUsers = true;
-
 
             options.Setup(o => o.Value).Returns(idOptions);
             var userValidators = new List<IUserValidator<User>>();
@@ -42,10 +40,12 @@ namespace MedicalCenter.Test.Mocks
             var passValidator = new PasswordValidator<User>();
             var pwdValidators = new List<IPasswordValidator<User>>();
             pwdValidators.Add(passValidator);
+
             var userManager = new UserManager<User>(userPasswordStore.Object, options.Object, new PasswordHasher<User>(),
                 null, pwdValidators, new UpperInvariantLookupNormalizer(),
                 new IdentityErrorDescriber(), null,
                 new Mock<ILogger<UserManager<User>>>().Object);
+
 
             return userManager;
         }

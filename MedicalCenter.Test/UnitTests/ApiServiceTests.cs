@@ -18,6 +18,7 @@ namespace MedicalCenter.Test.UnitTests
         public async Task GetStatisticHome_ShouldReturnStatistic()
         {
             //Arrange
+
             //Act
             var statistic = await apiService.GetStatisticHome();
 
@@ -52,5 +53,6 @@ namespace MedicalCenter.Test.UnitTests
             Assert.AreEqual(statistic.AllTest, 1);
             Assert.AreEqual(statistic.AllUserCount, 1);
         }
+
     }
 }
