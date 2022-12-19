@@ -105,7 +105,7 @@ namespace MedicalCenter.Core.Services
                 {
                     Content = d.Content,
                     CreatedOn = d.CreatedOn.ToString("dd.MM.yyyy"),
-                    DoctorFullName = $"{d.User.FirstName} {d.User.LastName}",
+                    DoctorFullName = $"{d.Doctor.User.FirstName} {d.Doctor.User.LastName}",
                     Rating = d.Rating,
                     UserFullName = $"{d.User.FirstName} {d.User.LastName}"
                 })
